@@ -1,25 +1,25 @@
 <?php
 
 /**
- * This is the model class for table "User".
+ * This is the model class for table "sControlNo".
  *
- * The followings are the available columns in table 'User':
- * @property integer $id
- * @property string $username
- * @property string $password
- * @property string $name
- * @property string $role
- * @property string $employee
+ * The followings are the available columns in table 'sControlNo':
+ * @property string $DeviceId
+ * @property string $ControlId
+ * @property integer $Year
+ * @property integer $Month
+ * @property integer $No
+ * @property string $UpdateAt
  *
  * The followings are the available model relations:
- * @property BEmployee $employee0
+ * @property OControlRunning $control
  */
-class User extends CActiveRecord
+class SControlNo extends CActiveRecord
 {
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
-	 * @return User the static model class
+	 * @return SControlNo the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
@@ -31,7 +31,7 @@ class User extends CActiveRecord
 	 */
 	public function tableName()
 	{
-		return 'User';
+		return 'sControlNo';
 	}
 
 	/**
@@ -42,13 +42,12 @@ class User extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('username', 'required'),
-			array('username', 'unique'),
-            array('password', 'required', 'on'=>'create'),
-			array('username, password, name, role, employee', 'length', 'max'=>255),
+			array('Year, Month, No', 'numerical', 'integerOnly'=>true),
+			array('DeviceId, ControlId', 'length', 'max'=>255),
+			array('UpdateAt', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, username, password, name, role, employee', 'safe', 'on'=>'search'),
+			array('DeviceId, ControlId, Year, Month, No, UpdateAt', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -60,7 +59,7 @@ class User extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'employee0' => array(self::BELONGS_TO, 'BEmployee', 'employee'),
+			'control' => array(self::BELONGS_TO, 'OControlRunning', 'ControlId'),
 		);
 	}
 
@@ -70,12 +69,12 @@ class User extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'id' => 'ID',
-			'username' => 'Username',
-			'password' => 'Password',
-			'name' => 'Name',
-			'role' => 'Role',
-			'employee' => 'Employee',
+			'DeviceId' => 'Device',
+			'ControlId' => 'Control',
+			'Year' => 'Year',
+			'Month' => 'Month',
+			'No' => 'No',
+			'UpdateAt' => 'Update At',
 		);
 	}
 
@@ -90,12 +89,12 @@ class User extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 
-		$criteria->compare('id',$this->id);
-		$criteria->compare('username',$this->username,true);
-		$criteria->compare('password',$this->password,true);
-		$criteria->compare('name',$this->name,true);
-		$criteria->compare('role',$this->role,true);
-		$criteria->compare('employee',$this->employee,true);
+		$criteria->compare('DeviceId',$this->DeviceId,true);
+		$criteria->compare('ControlId',$this->ControlId,true);
+		$criteria->compare('Year',$this->Year);
+		$criteria->compare('Month',$this->Month);
+		$criteria->compare('No',$this->No);
+		$criteria->compare('UpdateAt',$this->UpdateAt,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

@@ -1,25 +1,26 @@
 <?php
 
 /**
- * This is the model class for table "User".
+ * This is the model class for table "cStockCheckList".
  *
- * The followings are the available columns in table 'User':
+ * The followings are the available columns in table 'cStockCheckList':
  * @property integer $id
- * @property string $username
- * @property string $password
- * @property string $name
- * @property string $role
- * @property string $employee
+ * @property string $SaleId
+ * @property string $GrpLevel1Id
+ * @property string $GrpLevel2Id
+ * @property string $GrpLevel3Id
+ * @property string $ProductId
+ * @property string $UpdateAt
  *
  * The followings are the available model relations:
- * @property BEmployee $employee0
+ * @property BSaleUnit $sale
  */
-class User extends CActiveRecord
+class CStockCheckList extends CActiveRecord
 {
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
-	 * @return User the static model class
+	 * @return CStockCheckList the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
@@ -31,7 +32,7 @@ class User extends CActiveRecord
 	 */
 	public function tableName()
 	{
-		return 'User';
+		return 'cStockCheckList';
 	}
 
 	/**
@@ -42,13 +43,11 @@ class User extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('username', 'required'),
-			array('username', 'unique'),
-            array('password', 'required', 'on'=>'create'),
-			array('username, password, name, role, employee', 'length', 'max'=>255),
+			array('SaleId, GrpLevel1Id, GrpLevel2Id, GrpLevel3Id, ProductId', 'length', 'max'=>255),
+			array('UpdateAt', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, username, password, name, role, employee', 'safe', 'on'=>'search'),
+			array('id, SaleId, GrpLevel1Id, GrpLevel2Id, GrpLevel3Id, ProductId, UpdateAt', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -60,7 +59,7 @@ class User extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'employee0' => array(self::BELONGS_TO, 'BEmployee', 'employee'),
+			'sale' => array(self::BELONGS_TO, 'BSaleUnit', 'SaleId'),
 		);
 	}
 
@@ -71,11 +70,12 @@ class User extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'username' => 'Username',
-			'password' => 'Password',
-			'name' => 'Name',
-			'role' => 'Role',
-			'employee' => 'Employee',
+			'SaleId' => 'Sale',
+			'GrpLevel1Id' => 'Grp Level1',
+			'GrpLevel2Id' => 'Grp Level2',
+			'GrpLevel3Id' => 'Grp Level3',
+			'ProductId' => 'Product',
+			'UpdateAt' => 'Update At',
 		);
 	}
 
@@ -91,11 +91,12 @@ class User extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
-		$criteria->compare('username',$this->username,true);
-		$criteria->compare('password',$this->password,true);
-		$criteria->compare('name',$this->name,true);
-		$criteria->compare('role',$this->role,true);
-		$criteria->compare('employee',$this->employee,true);
+		$criteria->compare('SaleId',$this->SaleId,true);
+		$criteria->compare('GrpLevel1Id',$this->GrpLevel1Id,true);
+		$criteria->compare('GrpLevel2Id',$this->GrpLevel2Id,true);
+		$criteria->compare('GrpLevel3Id',$this->GrpLevel3Id,true);
+		$criteria->compare('ProductId',$this->ProductId,true);
+		$criteria->compare('UpdateAt',$this->UpdateAt,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

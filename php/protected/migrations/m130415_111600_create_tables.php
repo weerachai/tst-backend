@@ -5,7 +5,10 @@ class m130415_111600_create_tables extends CDbMigration
   public function safeUp()
   {
 
+    $this->reset();
+    
     $TESTING = true;
+    
     /* table prefix
      * b - table for backend data
      * s - table to be synchronized
@@ -24,13 +27,15 @@ class m130415_111600_create_tables extends CDbMigration
                              'role' => 'string',
                              'employee' => 'string'
                              ), 'ENGINE=InnoDB');
+    $this->addForeignKey("fk_User_AuthItem", "User", "role", "AuthItem", "name", "RESTRICT", "CASCADE");
+    $this->addForeignKey("fk_User_bEmployee", "User", "employee", "bEmployee", "EmployeeId", "SET NULL", "CASCADE");
 
     $pass = md5('1234');
     $this->execute("INSERT INTO User VALUES(1,'admin','$pass','Test Administrator','admin',null)");
 
     $this->createTable('AuthItem', 
                        array(
-                             'name' => 'varchar(64) not null',
+                             'name' => 'string',
                              'type' => 'integer not null',
                              'description' => 'text',
                              'bizrule' => 'text',
@@ -44,21 +49,27 @@ class m130415_111600_create_tables extends CDbMigration
 
     $this->createTable('AuthItemChild', 
                        array(
-                             'parent' => 'varchar(64) not null',
-                             'child' => 'varchar(64) not null',
+                             'parent' => 'string not null',
+                             'child' => 'string not null',
                              'PRIMARY KEY (parent, child)',
                              ), 'ENGINE=InnoDB');
+    $this->addForeignKey("fk_AuthItemChild_AuthItem1", "AuthItemChild", "parent", "AuthItem", "name", "CASCADE", "CASCADE");
+    $this->addForeignKey("fk_AuthItemChild_AuthItem2", "AuthItemChild", "child", "AuthItem", "name", "CASCADE", "CASCADE");
+
     $this->execute("INSERT INTO AuthItemChild VALUES('admin','manager')");
     $this->execute("INSERT INTO AuthItemChild VALUES('manager','user')");
     $this->execute("INSERT INTO AuthItemChild VALUES('user','updateSelf')");
 
     $this->createTable('AuthAssignment', 
                        array(
-                             'itemname' => 'varchar(64) not null',
-                             'userid' => 'varchar(64) not null',
+                             'itemname' => 'string not null',
+                             'userid' => 'integer not null',
                              'bizrule' => 'text',
                              'data' => 'text',
                              ), 'ENGINE=InnoDB');
+    $this->addForeignKey("fk_AuthAssignment_AuthItem", "AuthAssignment", "itemname", "AuthItem", "name", "RESTRICT", "CASCADE");
+    $this->addForeignKey("fk_AuthAssignment_User", "AuthAssignment", "userid", "User", "id", "CASCADE", "CASCADE");
+
     $this->execute("INSERT INTO AuthAssignment VALUES('admin','1',null,'N;')");
 
 if ($TESTING) {
@@ -97,20 +108,31 @@ if ($TESTING) {
                              'SupervisorId' => 'string',
                              'primary key (AreaId)',
                              ), 'ENGINE=InnoDB');	
+    $this->addForeignKey('fk_bSaleArea_bEmployee','bSaleArea','SupervisorId','bEmployee','EmployeeId','SET NULL','CASCADE');
+
+    $this->createTable('sDevice', // device information
+                       array(
+                             'DeviceId' => 'string',
+                             'DeviceKey' => 'string',
+                             'SaleId' => 'string',
+                             'Username' => 'string',
+                             'Password' => 'string',
+                             'primary key (DeviceId)',
+                             ), 'ENGINE=InnoDB');   
+    $this->addForeignKey('fk_sDevice_bSaleUnit','sDevice','SaleId','bSaleUnit','SaleId','SET NULL','CASCADE');
 
     $this->createTable('bSaleUnit', // sale unit information
                        array(
                              'SaleId' => 'string',
                              'SaleName' => 'string not null',
-                             'DeviceId' => 'string',
-                             'Username' => 'string',
-                             'Password' => 'string',
                              'SaleType' => 'string',
                              'EmployeeId' => 'string',
                              'AreaId' => 'string',
                              'Active' => 'string',
                              'primary key (SaleId)',
                              ), 'ENGINE=InnoDB');	
+    $this->addForeignKey('fk_bSaleUnit_bEmployee','bSaleUnit','EmployeeId','bEmployee','EmployeeId','SET NULL','CASCADE');
+    $this->addForeignKey('fk_bSaleUnit_bSaleArea','bSaleUnit','AreaId','bSaleArea','AreaId','SET NULL','CASCADE');
 
 if ($TESTING) {
     $k = 0;    
@@ -128,15 +150,15 @@ if ($TESTING) {
             $employee = sprintf("E%03d", $k);
     
             $this->execute("INSERT INTO bEmployee VALUES('$employee','นายสมมติ $k','นามสกุลสมมติ $k','ทำงาน')");
-            $this->execute("INSERT INTO bSaleUnit VALUES('$sale','หน่วยขายเหนือ $k',
-                '$device','$device','$pass','เครดิต','$employee','N$i','Y')");
+            $this->execute("INSERT INTO sDevice VALUES('$device','','$sale','$device','$pass')");
+            $this->execute("INSERT INTO bSaleUnit VALUES('$sale','หน่วยขายเหนือ $k','เครดิต','$employee','N$i','Y')");
         }
     }
 }
 
     $this->createTable('cDeviceSetting', // device setting
                        array(
-                             'DeviceId' => 'string',
+                             'SaleId' => 'string',
                              'PromotionSku' => 'string', 
                              'PromotionGroup' => 'string', 
                              'PromotionBill' => 'string',
@@ -145,10 +167,12 @@ if ($TESTING) {
                              'OverStock' => 'char', // stock limit sale - Y, N
                              'DayToClear' => 'integer', // day to clear data
                              'UpdateAt' => 'datetime',			
-                             'primary key (DeviceId)',
+                             'primary key (SaleId)',
                              ), 'ENGINE=InnoDB');	
+    $this->addForeignKey('fk_cDeviceSetting_bSaleUnit','cDeviceSetting','SaleId','bSaleUnit','SaleId','CASCADE','CASCADE');
+
 if ($TESTING) {
-    $this->execute("INSERT INTO cDeviceSetting VALUES('D001','A','M','B','AC','sku','Y',60,now())");
+    $this->execute("INSERT INTO cDeviceSetting VALUES('S001','A','M','B','AC','sku','Y',60,now())");
 }
     
     $this->createTable('oControlRunning', // control running option - mutable
@@ -181,6 +205,9 @@ if ($TESTING) {
                              'UpdateAt' => 'datetime',			
                              'primary key (DeviceId, ControlId)',
                              ), 'ENGINE=InnoDB');	
+    $this->addForeignKey('fk_sControlNo_sDevice','sControlNo','DeviceId','sDevice','DeviceId','CASCADE','CASCADE');
+    $this->addForeignKey('fk_sControlNo_oControlRunning','sControlNo','ControlId','oControlRunning','ControlId','RESTRICT','CASCADE');
+
 if ($TESTING) {
     $year = date("y");
     $month = date("m");
@@ -212,7 +239,7 @@ if ($TESTING) {
 
     $this->createTable('cSaleHistory', // generate sale history sent to device
                        array(
-                             'DeviceId' => 'string',
+                             'SaleId' => 'string',
                              'CustomerId' => 'string',
                              'ProductId' => 'string',
                              'SaleAvg' => 'string',
@@ -229,8 +256,9 @@ if ($TESTING) {
                              'M11' => 'string',
                              'M12' => 'string',
                              'UpdateAt' => 'datetime',          
-                             'primary key (DeviceId, CustomerId, ProductId)',
+                             'primary key (SaleId, CustomerId, ProductId)',
                              ), 'ENGINE=InnoDB');   
+    $this->addForeignKey('fk_cSaleHistory_bSaleUnit','cSaleHistory','SaleId','bSaleUnit','SaleId','CASCADE','CASCADE');
 
     $this->createTable('oLocation', 
                        array(
@@ -240,6 +268,7 @@ if ($TESTING) {
                              'SubDistrict' => 'string',
                              'ZipCode' => 'string',
                              'UpdateAt' => 'datetime',
+                             'primary key (LocationId)',
                              ), 'ENGINE=InnoDB');   
 
     if (FALSE && ($handle = fopen(dirname(__FILE__).'/Location.csv', "r")) !== FALSE) {
@@ -255,7 +284,6 @@ if ($TESTING) {
                              'TitleName' => 'string not null UNIQUE',
                              'UpdateAt' => 'datetime',
                              ), 'ENGINE=InnoDB');	
-    
     $this->execute("INSERT INTO oCustomerTitle VALUES(1,'บม.จ.',now())");
     $this->execute("INSERT INTO oCustomerTitle VALUES(2,'ร้าน',now())");
     
@@ -269,6 +297,11 @@ if ($TESTING) {
                              'ProductId' => 'string',
                              'UpdateAt' => 'datetime',
                              ), 'ENGINE=InnoDB');	
+    $this->addForeignKey('fk_cStockCheckList_bSaleUnit','cStockCheckList','SaleId','bSaleUnit','SaleId','CASCADE','CASCADE');
+    $this->addForeignKey('fk_cStockCheckList_oGrpLevel1','cStockCheckList','GrpLevel1Id','oGrpLevel1','GrpLevel1Id','CASCADE','CASCADE');
+    $this->addForeignKey('fk_cStockCheckList_oGrpLevel2','cStockCheckList','GrpLevel2Id','oGrpLevel2','GrpLevel2Id','CASCADE','CASCADE');
+    $this->addForeignKey('fk_cStockCheckList_oGrpLevel3','cStockCheckList','GrpLevel3Id','oGrpLevel3','GrpLevel3Id','CASCADE','CASCADE');
+    $this->addForeignKey('fk_cStockCheckList_oProduct','cStockCheckList','ProductId','oProduct','ProductId','CASCADE','CASCADE');
 
     $this->execute("INSERT INTO cStockCheckList VALUES(1,'N001','309','144',null,'',now())");
     $this->execute("INSERT INTO cStockCheckList VALUES(2,'N001','313','167',null,'0050100001',now())");
@@ -277,7 +310,7 @@ if ($TESTING) {
     
     $this->createTable('fStockCheck', 
                        array(
-                             'SaleId' => 'string',
+                             'SaleId' => 'string',                        
                              'CheckDate' => 'date',
                              'CustomerId' => 'string',
                              'ProductId' => 'string',
@@ -290,14 +323,58 @@ if ($TESTING) {
                              'BackQtyLevel3' => 'integer',
                              'BackQtyLevel4' => 'integer',
                              'UpdateAt' => 'datetime',
-                             'PRIMARY KEY (SaleId, CheckDate, CustomerId, ProductId)',
+                             'PRIMARY KEY (CheckDate, CustomerId, ProductId)',
                              ), 'ENGINE=InnoDB');	
+    $this->addForeignKey('fk_fStockCheck_bSaleUnit','fStockCheck','SaleId','bSaleUnit','SaleId','SET NULL','CASCADE');
+    $this->addForeignKey('fk_fStockCheck_sCustomer','fStockCheck','CustomerId','sCustomer','CustomerId','CASCADE','CASCADE');
+    $this->addForeignKey('fk_fStockCheck_oProduct','fStockCheck','ProductId','oProduct','ProductId','CASCADE','CASCADE');
+   
+    $this->createTable('oGrpLevel1', 
+                       array(
+                             'GrpLevel1Id' => 'string',
+                             'GrpLevel1Name' => 'string not null UNIQUE',
+                             'UpdateAt' => 'datetime',
+                             'PRIMARY KEY (GrpLevel1Id)',
+                             ), 'ENGINE=InnoDB');   
+if ($TESTING) {
+    $this->execute("INSERT INTO oGrpLevel1 VALUES('306','GUNDAM',now())");
+    $this->execute("INSERT INTO oGrpLevel1 VALUES('309','COOK',now())");
+    $this->execute("INSERT INTO oGrpLevel1 VALUES('312','NECTRA',now())");
+    $this->execute("INSERT INTO oGrpLevel1 VALUES('313','SEALECT',now())");
+}
+
+    $this->createTable('oGrpLevel2', 
+                       array(
+                             'GrpLevel1Id' => 'string not null',
+                             'GrpLevel2Id' => 'string',
+                             'GrpLevel2Name' => 'string not null',
+                             'UpdateAt' => 'datetime',
+                             'PRIMARY KEY (GrpLevel2Id)',
+                             ), 'ENGINE=InnoDB');   
     
+    $this->execute("INSERT INTO oGrpLevel2 VALUES('306','190','ข้าวโพดอบกรอบฮิโรชิกันดั้ม',now())");
+    $this->execute("INSERT INTO oGrpLevel2 VALUES('309','144','น้ำมันพืชกุ๊กขวด',now())");
+    $this->execute("INSERT INTO oGrpLevel2 VALUES('309','145','น้ำมันพืชกุ๊กปี๊ป',now())");
+    $this->execute("INSERT INTO oGrpLevel2 VALUES('312','186','ผลิตภัณฑ์ตราเน็กตร้า',now())");
+    $this->execute("INSERT INTO oGrpLevel2 VALUES('313','167','ทูน่า-ซีเล็ก',now())");
+    $this->execute("INSERT INTO oGrpLevel2 VALUES('313','168','ซีเล็กในซอสมะเขือเทศ',now())");
+    
+if ($TESTING) {
+    $this->createTable('oGrpLevel3', 
+                       array(
+                             'GrpLevel2Id' => 'string not null',
+                             'GrpLevel3Id' => 'string',
+                             'GrpLevel3Name' => 'string not null',
+                             'UpdateAt' => 'datetime',
+                             'PRIMARY KEY (GrpLevel3Id)',
+                             ), 'ENGINE=InnoDB');   
+}
+
     $this->createTable('oProduct', 
                        array(
-                             'GrpLevel1Id' => 'integer not null',
-                             'GrpLevel2Id' => 'integer',
-                             'GrpLevel3Id' => 'integer',
+                             'GrpLevel1Id' => 'string not null',
+                             'GrpLevel2Id' => 'string',
+                             'GrpLevel3Id' => 'string',
                              'ProductId' => 'string',
                              'ProductName' => 'string not null',
                              'PackLevel1' => 'string',
@@ -316,26 +393,29 @@ if ($TESTING) {
                              'UpdateAt' => 'datetime',
                              'PRIMARY KEY (ProductId)',
                              ), 'ENGINE=InnoDB');	
+    $this->addForeignKey('fk_oProduct_oGrpLevel1','oProduct','GrpLevel1Id','oGrpLevel1','GrpLevel1Id','RESTRICT','CASCADE');
+    $this->addForeignKey('fk_oProduct_oGrpLevel2','oProduct','GrpLevel2Id','oGrpLevel2','GrpLevel2Id','SET NULL','CASCADE');
+    $this->addForeignKey('fk_oProduct_oGrpLevel3','oProduct','GrpLevel3Id','oGrpLevel3','GrpLevel3Id','SET NULL','CASCADE');
 
 if ($TESTING) {
     $this->execute("INSERT INTO oProduct VALUES"
-                   . "(309,144,0,'0010100001','น้ำมันกุ๊กถั่วเหลือง 1/4 ลิตร','หีบ','','','',614.37,0,0,0,'N','Y','N',0,0,now())");
+                   . "('309','144',null,'0010100001','น้ำมันกุ๊กถั่วเหลือง 1/4 ลิตร','หีบ','','','',614.37,0,0,0,'N','Y','N',0,0,now())");
     $this->execute("INSERT INTO oProduct VALUES"
-                   . "(309,144,0,'0010200001','น้ำมันกุ๊กถั่วเหลือง 1/2 ลิตร','หีบ','','','',555.77,0,0,0,'N','Y','N',0,0,now())");
+                   . "('309','144',null,'0010200001','น้ำมันกุ๊กถั่วเหลือง 1/2 ลิตร','หีบ','','','',555.77,0,0,0,'N','Y','N',0,0,now())");
     $this->execute("INSERT INTO oProduct VALUES"
-                   . "(309,144,0,'0010300001','น้ำมันกุ๊กทานตะวัน 1/2 ลิตร','หีบ','','','',913.89,0,0,0,'N','Y','N',0,0,now())");
+                   . "('309','144',null,'0010300001','น้ำมันกุ๊กทานตะวัน 1/2 ลิตร','หีบ','','','',913.89,0,0,0,'N','Y','N',0,0,now())");
     $this->execute("INSERT INTO oProduct VALUES"
-                   . "(309,144,0,'0010400001','น้ำมันกุ๊กถั่วเหลือง 1 ลิตร','หีบ','','','',525.39,0,0,0,'N','Y','N',0,0,now())");
+                   . "('309','144',null,'0010400001','น้ำมันกุ๊กถั่วเหลือง 1 ลิตร','หีบ','','','',525.39,0,0,0,'N','Y','N',0,0,now())");
     $this->execute("INSERT INTO oProduct VALUES"
-                   . "(313,167,0,'0050100001','ซีเล็กแซนวิชน้ำมัน 185 กรัม','หีบ','','','กระป๋อง',1284,0,0,0,'N','Y','N',0,0,now())");
+                   . "('313','167',null,'0050100001','ซีเล็กแซนวิชน้ำมัน 185 กรัม','หีบ','','','กระป๋อง',1284,0,0,0,'N','Y','N',0,0,now())");
     $this->execute("INSERT INTO oProduct VALUES"
-                   . "(313,167,0,'0050100002','ซีเล็กแซนวิชน้ำเกลือ 185 กรัม','หีบ','','','กระป๋อง',1284,0,0,0,'N','Y','N',0,0,now())");
+                   . "('313','167',null,'0050100002','ซีเล็กแซนวิชน้ำเกลือ 185 กรัม','หีบ','','','กระป๋อง',1284,0,0,0,'N','Y','N',0,0,now())");
     $this->execute("INSERT INTO oProduct VALUES"
-                   . "(313,167,0,'0050100003','ซีเล็กแซนวิชน้ำมัน 185 กรัม แพ็ค 4','หีบ','กล่อง','','กระป๋อง',1284,200,0,0,'N','Y','N',0,0,now())");
+                   . "('313','167',null,'0050100003','ซีเล็กแซนวิชน้ำมัน 185 กรัม แพ็ค 4','หีบ','กล่อง','','กระป๋อง',1284,200,0,0,'N','Y','N',0,0,now())");
     $this->execute("INSERT INTO oProduct VALUES"
-                   . "(313,167,0,'0050100004','ซีเล็กแซนวิชน้ำเปล่า 185 กรัม','หีบ','กล่อง','โหล','กระป๋อง',1284,200,50,0,'N','Y','N',0,0,now())");
+                   . "('313','167',null,'0050100004','ซีเล็กแซนวิชน้ำเปล่า 185 กรัม','หีบ','กล่อง','โหล','กระป๋อง',1284,200,50,0,'N','Y','N',0,0,now())");
     $this->execute("INSERT INTO oProduct VALUES"
-                   . "(313,167,0,'0050100005','ซีเล็กแซนวิชน้ำแร่ 185 กรัม','หีบ','กล่อง','โหล','กระป๋อง',1284,200,50,5,'N','Y','N',0,0,now())");
+                   . "('313','167',null,'0050100005','ซีเล็กแซนวิชน้ำแร่ 185 กรัม','หีบ','กล่อง','โหล','กระป๋อง',1284,200,50,5,'N','Y','N',0,0,now())");
 }
 
     $this->createTable('sStock', 
@@ -349,48 +429,8 @@ if ($TESTING) {
                              'UpdateAt' => 'datetime',
                              'PRIMARY KEY (SaleId, ProductId)',
                              ), 'ENGINE=InnoDB');	
-
-    
-    $this->createTable('oGrpLevel1', 
-                       array(
-                             'GrpLevel1Id' => 'string',
-                             'GrpLevel1Name' => 'string not null UNIQUE',
-                             'UpdateAt' => 'datetime',
-                             'PRIMARY KEY (GrpLevel1Id)',
-                             ), 'ENGINE=InnoDB');	
-if ($TESTING) {
-    $this->execute("INSERT INTO oGrpLevel1 VALUES('306','GUNDAM',now())");
-    $this->execute("INSERT INTO oGrpLevel1 VALUES('309','COOK',now())");
-    $this->execute("INSERT INTO oGrpLevel1 VALUES('312','NECTRA',now())");
-    $this->execute("INSERT INTO oGrpLevel1 VALUES('313','SEALECT',now())");
-}
-
-    $this->createTable('oGrpLevel2', 
-                       array(
-                             'GrpLevel1Id' => 'string not null',
-                             'GrpLevel2Id' => 'string',
-                             'GrpLevel2Name' => 'string not null',
-                             'UpdateAt' => 'datetime',
-                             'PRIMARY KEY (GrpLevel2Id)',
-                             ), 'ENGINE=InnoDB');	
-    
-    $this->execute("INSERT INTO oGrpLevel2 VALUES('306','190','ข้าวโพดอบกรอบฮิโรชิกันดั้ม',now())");
-    $this->execute("INSERT INTO oGrpLevel2 VALUES('309','144','น้ำมันพืชกุ๊กขวด',now())");
-    $this->execute("INSERT INTO oGrpLevel2 VALUES('309','145','น้ำมันพืชกุ๊กปี๊ป',now())");
-    $this->execute("INSERT INTO oGrpLevel2 VALUES('312','186','ผลิตภัณฑ์ตราเน็กตร้า',now())");
-    $this->execute("INSERT INTO oGrpLevel2 VALUES('313','167','ทูน่า-ซีเล็ก',now())");
-    $this->execute("INSERT INTO oGrpLevel2 VALUES('313','168','ซีเล็กในซอสมะเขือเทศ',now())");
-    
-if ($TESTING) {
-    $this->createTable('oGrpLevel3', 
-                       array(
-                             'GrpLevel2Id' => 'string not null',
-                             'GrpLevel3Id' => 'string',
-                             'GrpLevel3Name' => 'string not null',
-                             'UpdateAt' => 'datetime',
-                             'PRIMARY KEY (GrpLevel3Id)',
-                             ), 'ENGINE=InnoDB');	
-}
+    $this->addForeignKey('fk_sStock_bSaleUnit','sStock','SaleId','bSaleUnit','SaleId','CASCADE','CASCADE');
+    $this->addForeignKey('fk_sStock_oProduct','sStock','ProductId','oProduct','ProductId','RESTRICT','CASCADE');
 
     $this->createTable('fProductOrder', 
                        array(
@@ -410,7 +450,9 @@ if ($TESTING) {
                              'UpdateAt' => 'datetime',
                              'PRIMARY KEY (OrderNo)',
                              ), 'ENGINE=InnoDB');	
-    
+    $this->addForeignKey('fk_fProductOrder_bSaleUnit','fProductOrder','SaleId','bSaleUnit','SaleId','SET NULL','CASCADE');
+    $this->addForeignKey('fk_fProductOrder_sCustomer','fProductOrder','CustomerId','sCustomer','CustomerId','RESTRICT','CASCADE');
+     
     $this->createTable('fOrderDetail',
                        array(
                              'OrderNo' => 'string',
@@ -429,7 +471,9 @@ if ($TESTING) {
                              'UpdateAt' => 'datetime',
                              'PRIMARY KEY (OrderNo, ProductId)',
                              ), 'ENGINE=InnoDB');	
-
+    $this->addForeignKey('fk_fOrderDetail_fProductOrder','fOrderDetail','OrderNo','fProductOrder','OrderNo','CASCADE','CASCADE');
+    $this->addForeignKey('fk_fOrderDetail_oProduct','fOrderDetail','ProductId','oProduct','ProductId','RESTRICT','CASCADE');
+ 
     $this->createTable('fProductReturn', 
                        array(
                              'ReturnNo' => 'string',
@@ -442,6 +486,8 @@ if ($TESTING) {
                              'UpdateAt' => 'datetime',
                              'PRIMARY KEY (ReturnNo)',
                              ), 'ENGINE=InnoDB');	
+    $this->addForeignKey('fk_fProductReturn_bSaleUnit','fProductReturn','SaleId','bSaleUnit','SaleId','SET NULL','CASCADE');
+    $this->addForeignKey('fk_fProductReturn_sCustomer','fProductReturn','CustomerId','sCustomer','CustomerId','RESTRICT','CASCADE');
 
     $this->createTable('fReturnDetail', 
                        array(
@@ -464,6 +510,8 @@ if ($TESTING) {
                              'UpdateAt' => 'datetime',
                              'PRIMARY KEY (ReturnNo, ProductId)',
                              ), 'ENGINE=InnoDB');	
+    $this->addForeignKey('fk_fReturnDetail_fProductReturn','fReturnDetail','ReturnNo','fProductReturn','ReturnNo','CASCADE','CASCADE');
+    $this->addForeignKey('fk_fReturnDetail_oProduct','fReturnDetail','ProductId','oProduct','ProductId','RESTRICT','CASCADE');
 
     $this->createTable('fFreeDetail', 
                        array(
@@ -476,6 +524,9 @@ if ($TESTING) {
                              'UpdateAt' => 'datetime',
                              'PRIMARY KEY (OrderNo, PromotionId, FreeProductId)',
                              ), 'ENGINE=InnoDB');	
+    $this->addForeignKey('fk_fFreeDetail_fProductOrder','fFreeDetail','OrderNo','fProductOrder','OrderNo','CASCADE','CASCADE');
+    $this->addForeignKey('fk_fFreeDetail_oPromotion','fFreeDetail','PromotionId','oPromotion','PromotionId','RESTRICT','CASCADE');
+    $this->addForeignKey('fk_fFreeDetail_oProduct','fFreeDetail','FreeProductId','oProduct','ProductId','RESTRICT','CASCADE');
 
     $this->createTable('fDiscDetail', 
                        array(
@@ -489,6 +540,9 @@ if ($TESTING) {
                              'UpdateAt' => 'datetime',
                              'PRIMARY KEY (OrderNo, PromotionId)',
                              ), 'ENGINE=InnoDB');	
+    $this->addForeignKey('fk_fDiscDetail_fProductOrder','fDiscDetail','OrderNo','fProductOrder','OrderNo','CASCADE','CASCADE');
+    $this->addForeignKey('fk_fDiscDetail_oPromotion','fDiscDetail','PromotionId','oPromotion','PromotionId','RESTRICT','CASCADE');
+
 
     $this->createTable('oPromotion', 
                        array(
@@ -600,6 +654,7 @@ if ($TESTING) {
                              'UpdateAt' => 'datetime',
                              'PRIMARY KEY (FreeGrpId, ProductId)',
                              ), 'ENGINE=InnoDB');	
+    $this->addForeignKey('fk_oFreeGrp_oProduct','oFreeGrp','ProductId','oProduct','ProductId','RESTRICT','CASCADE');
 
 if ($TESTING) {    
     $this->execute("INSERT INTO oFreeGrp VALUES('A','0050100001','กระป๋อง',now())");
@@ -616,6 +671,7 @@ if ($TESTING) {
                              'UpdateAt' => 'datetime',
                              'PRIMARY KEY (ProductGrpId, ProductId)',
                              ), 'ENGINE=InnoDB');	
+   $this->addForeignKey('fk_oProductGrp_oProduct','oProductGrp','ProductId','oProduct','ProductId','RESTRICT','CASCADE');
 
 if ($TESTING) {
     $this->execute("INSERT INTO oProductGrp VALUES('A','0050100001',now())");
@@ -641,6 +697,7 @@ if ($TESTING) {
                              'TargetPack' => 'string not null',
                              'UpdateAt' => 'datetime',
                              ), 'ENGINE=InnoDB');	
+    $this->addForeignKey('fk_cTargetSale_bSaleUnit','cTargetSale','SaleId','bSaleUnit','SaleId','CASCADE','CASCADE');
 
     $this->execute("INSERT INTO cTargetSale VALUES(1,'N001','all','',20000,0,'',now())");
     $this->execute("INSERT INTO cTargetSale VALUES(2,'N001','l1','313',10000,0,'',now())");
@@ -679,19 +736,22 @@ if ($TESTING) {
                              'UpdateAt' => 'datetime',
                              'PRIMARY KEY (CustomerId)',
                              ), 'ENGINE=InnoDB');
+    $this->addForeignKey('fk_sCustomer_bSaleUnit','sCustomer','SaleId','bSaleUnit','SaleId','SET NULL','CASCADE');
+    $this->addForeignKey('fk_sCustomer_oTrip1','sCustomer','Trip1','oTrip','TripName','RESTRICT','CASCADE');
+    $this->addForeignKey('fk_sCustomer_oTrip2','sCustomer','Trip2','oTrip','TripName','RESTRICT','CASCADE');
+    $this->addForeignKey('fk_sCustomer_oTrip3','sCustomer','Trip3','oTrip','TripName','RESTRICT','CASCADE');
 
-    //foreign key relationships
-    //		$this->addForeignKey("fk_customer_user", "Customer", "SaleId", "User", "UserId", "RESTRICT", "CASCADE");
   }		
 
   public function safeDown()
   {
-     //		$this->dropForeignKey("fk_customer_user", "Customer");
-    //		$this->truncateTable('Customer');
-    //		$this->truncateTable('User');
 
-    $connection = $this->getDbConnection();
-    $tables = $connection->getSchema()->getTableNames();
+  }
+
+  private function reset()
+  {
+    $this->execute("SET foreign_key_checks = 0");
+    $tables = $this->getDbConnection()->getSchema()->getTableNames();
     foreach ($tables as $table) {
         if (strcmp($table, 'tbl_migration') != 0)
             $this->dropTable($table);

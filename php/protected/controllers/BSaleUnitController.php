@@ -1,6 +1,6 @@
 <?php
 
-class UserController extends Controller
+class BSaleUnitController extends Controller
 {
 	/**
 	 * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
@@ -27,13 +27,17 @@ class UserController extends Controller
 	public function accessRules()
 	{
 		return array(
-			array('allow',
-				'actions'=>array('view','update'),
-                'roles'=>array('user'),
+			array('allow',  // allow all users to perform 'index' and 'view' actions
+				'actions'=>array('index','view'),
+				'users'=>array('*'),
 			),
-			array('allow',
-                'actions'=>array('index','admin','create','delete'),
-				'roles'=>array('admin'),
+			array('allow', // allow authenticated user to perform 'create' and 'update' actions
+				'actions'=>array('create','update'),
+				'users'=>array('@'),
+			),
+			array('allow', // allow admin user to perform 'admin' and 'delete' actions
+				'actions'=>array('admin','delete'),
+				'users'=>array('admin'),
 			),
 			array('deny',  // deny all users
 				'users'=>array('*'),
@@ -47,12 +51,6 @@ class UserController extends Controller
 	 */
 	public function actionView($id)
 	{
-          // check the bizrule for this user
-          if (!Yii::app()->user->checkAccess('updateSelf', $id) &&
-              !Yii::app()->user->checkAccess('admin'))
-            throw new CHttpException(403, Yii::t('application', 'You are
-not authorized to perform this action'));
-
 		$this->render('view',array(
 			'model'=>$this->loadModel($id),
 		));
@@ -64,24 +62,16 @@ not authorized to perform this action'));
 	 */
 	public function actionCreate()
 	{
-		$model=new User;
-                $model->scenario = 'create';
+		$model=new BSaleUnit;
 
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
-		if(isset($_POST['User']))
+		if(isset($_POST['BSaleUnit']))
 		{
-			$model->attributes=$_POST['User'];
-                        if (!empty($model->password))
-                          $model->password = md5($model->password);
-
-			if($model->save()) {
-                          $auth=Yii::app()->authManager;
-                          $auth->assign($model->role, $model->id);
-                          $auth->save();
-                          $this->redirect(array('view','id'=>$model->id));
-                        }
+			$model->attributes=$_POST['BSaleUnit'];
+			if($model->save())
+				$this->redirect(array('view','id'=>$model->SaleId));
 		}
 
 		$this->render('create',array(
@@ -96,39 +86,18 @@ not authorized to perform this action'));
 	 */
 	public function actionUpdate($id)
 	{
-          // check the bizrule for this user
-          if (!Yii::app()->user->checkAccess('updateSelf', $id) &&
-              !Yii::app()->user->checkAccess('admin'))
-            throw new CHttpException(403, Yii::t('application', 'You are
-not authorized to perform this action'));
-
 		$model=$this->loadModel($id);
 
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
-		if(isset($_POST['User']))
+		if(isset($_POST['BSaleUnit']))
 		{
-                  $old_role = $model->role;
-                  $old_password = $model->password;
-
-                  $model->attributes=$_POST['User'];
-                  if (!empty($model->password))
-                    $model->password = md5($model->password);
-                  else
-                    $model->password = $old_password;
-                  if($model->save()) {
-                    if (strcmp($old_role, $model->role) != 0) {
-                      $auth=Yii::app()->authManager;
-                      $auth->revoke($old_role, $model->id);
-                      $auth->assign($model->role, $model->id);
-                      $auth->save();
-                    }
-                    $this->redirect(array('view','id'=>$model->id));
-                  }
+			$model->attributes=$_POST['BSaleUnit'];
+			if($model->save())
+				$this->redirect(array('view','id'=>$model->SaleId));
 		}
 
-                $model->password = '';
 		$this->render('update',array(
 			'model'=>$model,
 		));
@@ -141,11 +110,7 @@ not authorized to perform this action'));
 	 */
 	public function actionDelete($id)
 	{
-          $model = $this->loadModel($id);
-          $auth=Yii::app()->authManager;
-          $auth->revoke($model->role, $model->id);
-          $auth->save();
-          $model->delete();
+		$this->loadModel($id)->delete();
 
 		// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
 		if(!isset($_GET['ajax']))
@@ -165,10 +130,10 @@ not authorized to perform this action'));
 	 */
 	public function actionAdmin()
 	{
-		$model=new User('search');
+		$model=new BSaleUnit('search');
 		$model->unsetAttributes();  // clear any default values
-		if(isset($_GET['User']))
-			$model->attributes=$_GET['User'];
+		if(isset($_GET['BSaleUnit']))
+			$model->attributes=$_GET['BSaleUnit'];
 
 		$this->render('admin',array(
 			'model'=>$model,
@@ -179,12 +144,12 @@ not authorized to perform this action'));
 	 * Returns the data model based on the primary key given in the GET variable.
 	 * If the data model is not found, an HTTP exception will be raised.
 	 * @param integer $id the ID of the model to be loaded
-	 * @return User the loaded model
+	 * @return BSaleUnit the loaded model
 	 * @throws CHttpException
 	 */
 	public function loadModel($id)
 	{
-		$model=User::model()->findByPk($id);
+		$model=BSaleUnit::model()->findByPk($id);
 		if($model===null)
 			throw new CHttpException(404,'The requested page does not exist.');
 		return $model;
@@ -192,11 +157,11 @@ not authorized to perform this action'));
 
 	/**
 	 * Performs the AJAX validation.
-	 * @param User $model the model to be validated
+	 * @param BSaleUnit $model the model to be validated
 	 */
 	protected function performAjaxValidation($model)
 	{
-		if(isset($_POST['ajax']) && $_POST['ajax']==='user-form')
+		if(isset($_POST['ajax']) && $_POST['ajax']==='bsale-unit-form')
 		{
 			echo CActiveForm::validate($model);
 			Yii::app()->end();

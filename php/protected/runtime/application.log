@@ -1645,3 +1645,72 @@ Stack trace:
 #11 {main}
 REQUEST_URI=/backend/php/index.php?r=user/admin
 ---
+2013/04/21 16:55:47 [error] [system.db.CDbCommand] CDbCommand::fetchAll() failed: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'backend.Employee' doesn't exist. The SQL statement executed was: SHOW FULL COLUMNS FROM `Employee`.
+in /home/tu/www/backend/php/index.php (13)
+2013/04/21 16:57:46 [error] [exception.CException] exception 'CException' with message 'BEmployeeController cannot find the requested view "index".' in /home/tu/www/backend/php/framework/web/CController.php:878
+Stack trace:
+#0 /home/tu/www/backend/php/framework/web/CController.php(782): CController->renderPartial('index', Array, true)
+#1 /home/tu/www/backend/php/protected/controllers/BEmployeeController.php(128): CController->render('index', Array)
+#2 /home/tu/www/backend/php/framework/web/actions/CInlineAction.php(49): BEmployeeController->actionIndex()
+#3 /home/tu/www/backend/php/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#4 /home/tu/www/backend/php/framework/web/filters/CFilterChain.php(133): CController->runAction(Object(CInlineAction))
+#5 /home/tu/www/backend/php/framework/web/filters/CFilter.php(40): CFilterChain->run()
+#6 /home/tu/www/backend/php/framework/web/CController.php(1145): CFilter->filter(Object(CFilterChain))
+#7 /home/tu/www/backend/php/framework/web/filters/CInlineFilter.php(58): CController->filterAccessControl(Object(CFilterChain))
+#8 /home/tu/www/backend/php/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter(Object(CFilterChain))
+#9 /home/tu/www/backend/php/framework/web/CController.php(291): CFilterChain->run()
+#10 /home/tu/www/backend/php/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#11 /home/tu/www/backend/php/framework/web/CWebApplication.php(282): CController->run('')
+#12 /home/tu/www/backend/php/framework/web/CWebApplication.php(141): CWebApplication->runController('bEmployee')
+#13 /home/tu/www/backend/php/framework/base/CApplication.php(169): CWebApplication->processRequest()
+#14 /home/tu/www/backend/php/index.php(13): CApplication->run()
+#15 {main}
+REQUEST_URI=/backend/php/index.php?r=bEmployee
+HTTP_REFERER=http://localhost/backend/php/index.php?r=gii/crud
+---
+2013/04/21 18:06:08 [error] [exception.CException] exception 'CException' with message 'SDeviceController cannot find the requested view "index".' in /home/tu/www/backend/php/framework/web/CController.php:878
+Stack trace:
+#0 /home/tu/www/backend/php/framework/web/CController.php(782): CController->renderPartial('index', Array, true)
+#1 /home/tu/www/backend/php/protected/controllers/SDeviceController.php(128): CController->render('index', Array)
+#2 /home/tu/www/backend/php/framework/web/actions/CInlineAction.php(49): SDeviceController->actionIndex()
+#3 /home/tu/www/backend/php/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#4 /home/tu/www/backend/php/framework/web/filters/CFilterChain.php(133): CController->runAction(Object(CInlineAction))
+#5 /home/tu/www/backend/php/framework/web/filters/CFilter.php(40): CFilterChain->run()
+#6 /home/tu/www/backend/php/framework/web/CController.php(1145): CFilter->filter(Object(CFilterChain))
+#7 /home/tu/www/backend/php/framework/web/filters/CInlineFilter.php(58): CController->filterAccessControl(Object(CFilterChain))
+#8 /home/tu/www/backend/php/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter(Object(CFilterChain))
+#9 /home/tu/www/backend/php/framework/web/CController.php(291): CFilterChain->run()
+#10 /home/tu/www/backend/php/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#11 /home/tu/www/backend/php/framework/web/CWebApplication.php(282): CController->run('')
+#12 /home/tu/www/backend/php/framework/web/CWebApplication.php(141): CWebApplication->runController('sDevice')
+#13 /home/tu/www/backend/php/framework/base/CApplication.php(169): CWebApplication->processRequest()
+#14 /home/tu/www/backend/php/index.php(13): CApplication->run()
+#15 {main}
+REQUEST_URI=/backend/php/index.php?r=sDevice
+HTTP_REFERER=http://localhost/backend/php/index.php?r=gii/crud
+---
+2013/04/21 18:46:16 [error] [exception.CException] exception 'CException' with message 'CDeviceSettingController cannot find the requested view "index".' in /home/tu/www/backend/php/framework/web/CController.php:878
+Stack trace:
+#0 /home/tu/www/backend/php/framework/web/CController.php(782): CController->renderPartial('index', Array, true)
+#1 /home/tu/www/backend/php/protected/controllers/CDeviceSettingController.php(128): CController->render('index', Array)
+#2 /home/tu/www/backend/php/framework/web/actions/CInlineAction.php(49): CDeviceSettingController->actionIndex()
+#3 /home/tu/www/backend/php/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#4 /home/tu/www/backend/php/framework/web/filters/CFilterChain.php(133): CController->runAction(Object(CInlineAction))
+#5 /home/tu/www/backend/php/framework/web/filters/CFilter.php(40): CFilterChain->run()
+#6 /home/tu/www/backend/php/framework/web/CController.php(1145): CFilter->filter(Object(CFilterChain))
+#7 /home/tu/www/backend/php/framework/web/filters/CInlineFilter.php(58): CController->filterAccessControl(Object(CFilterChain))
+#8 /home/tu/www/backend/php/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter(Object(CFilterChain))
+#9 /home/tu/www/backend/php/framework/web/CController.php(291): CFilterChain->run()
+#10 /home/tu/www/backend/php/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#11 /home/tu/www/backend/php/framework/web/CWebApplication.php(282): CController->run('')
+#12 /home/tu/www/backend/php/framework/web/CWebApplication.php(141): CWebApplication->runController('cDeviceSetting')
+#13 /home/tu/www/backend/php/framework/base/CApplication.php(169): CWebApplication->processRequest()
+#14 /home/tu/www/backend/php/index.php(13): CApplication->run()
+#15 {main}
+REQUEST_URI=/backend/php/index.php?r=cDeviceSetting
+HTTP_REFERER=http://localhost/backend/php/index.php?r=gii/crud
+---
+2013/04/21 18:47:24 [error] [system.db.CDbCommand] CDbCommand::fetchAll() failed: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'backend.oControlRunning' doesn't exist. The SQL statement executed was: SHOW FULL COLUMNS FROM `oControlRunning`.
+in /home/tu/www/backend/php/index.php (13)
+2013/04/21 18:47:36 [error] [system.db.CDbCommand] CDbCommand::fetchAll() failed: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'backend.oControlRunning' doesn't exist. The SQL statement executed was: SHOW FULL COLUMNS FROM `oControlRunning`.
+in /home/tu/www/backend/php/index.php (13)
