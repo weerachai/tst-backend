@@ -8,7 +8,7 @@
 
 if (!isset($OPENSHIFT_MYSQL_DB_HOST)) {
    $OPENSHIFT_MYSQL_DB_HOST = 'localhost';
-   $OPENSHIFT_MYSQL_USERNAME = 'backend';
+   $OPENSHIFT_MYSQL_USERNAME = 'root';
    $OPENSHIFT_MYSQL_PASSWORD = '1234';
 } else {
    $OPENSHIFT_MYSQL_USERNAME = 'admin5zSWR1b';
@@ -42,10 +42,11 @@ return array(
 
 	// application components
 	'components'=>array(
-		'user'=>array(
+      		'user'=>array(
 			// enable cookie-based authentication
 			'allowAutoLogin'=>true,
 		),
+                
 		// uncomment the following to enable URLs in path-format
 		/*
 		'urlManager'=>array(
@@ -71,7 +72,12 @@ return array(
 			'password' =>  $OPENSHIFT_MYSQL_PASSWORD,
 			'charset' => 'utf8',
 		),
-		
+
+                'authManager'=>array(
+                        'class'=>'CDbAuthManager',
+                        'connectionID' => 'db',
+                ),
+
 		'errorHandler'=>array(
 			// use 'site/error' action to display errors
 			'errorAction'=>'site/error',

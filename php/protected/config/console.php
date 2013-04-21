@@ -21,7 +21,7 @@ return array(
 		'db'=>array(
 			'connectionString' => 'mysql:host=localhost;dbname=backend',
 			'emulatePrepare' => true,
-			'username' => 'backend',
+			'username' => 'root',
 			'password' => '1234',
 			'charset' => 'utf8',
 		),
