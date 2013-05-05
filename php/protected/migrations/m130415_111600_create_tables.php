@@ -462,38 +462,40 @@ if ($TESTING) {
     $this->addForeignKey('fk_sStock_oProduct','sStock','ProductId','oProduct','ProductId','RESTRICT','CASCADE');
 */
 
-    $this->createTable('oPaymentType', 
+    $this->createTable('PaymentType', 
                        array(
                              'PaymentType' => 'string',
                              'UpdateAt' => 'datetime',
                              'PRIMARY KEY (PaymentType)',
                              ), 'ENGINE=InnoDB');   
 
-    $this->createTable('fBillCollection', 
+    $this->createTable('BillCollection', 
                        array(
                              'CollectionNo' => 'string',
+                             'SaleId' => 'string',
+                             'CustomerId' => 'string',
                              'CollectionDate' => 'date',
                              'CollectionAmount' => 'decimal(20,2)',
                              'PaidAmount' => 'decimal(20,2)',
-                             'Status' => 'string',
+                             'CollectionStatus' => 'string',
                              'UpdateAt' => 'datetime',
                              'PRIMARY KEY (CollectionNo)',
                              ), 'ENGINE=InnoDB');   
 
-    $this->createTable('fPayment', 
+    $this->createTable('Payment', 
                        array(
                              'CollectionNo' => 'string',
                              'PaymentId' => 'string',
                              'PaymentType' => 'string',
+                             'PaidAmount' => 'decimal(20,2)',
+                             'PaymentDate' => 'date',
                              'DocNo' => 'string',
-                             'DocDate' => 'date',
                              'DocNote' => 'string',
-                             'Amount' => 'decimal(20,2)',
                              'UpdateAt' => 'datetime',
                              'PRIMARY KEY (PaymentId)',
                              ), 'ENGINE=InnoDB');   
-    $this->addForeignKey('fk_fPayment_fBillCollection','fPayment','CollectionNo','fBillCollection','CollectionNo','CASCADE','CASCADE');
-    $this->addForeignKey('fk_fPayment_oPaymentType','fPayment','PaymentType','oPaymentType','PaymentType','RESTRICT','CASCADE');
+    $this->addForeignKey('fk_Payment_BillCollection','Payment','CollectionNo','BillCollection','CollectionNo','CASCADE','CASCADE');
+    $this->addForeignKey('fk_Payment_PaymentType','Payment','PaymentType','PaymentType','PaymentType','RESTRICT','CASCADE');
 
     $this->createTable('fOrderPayment', 
                        array(
@@ -548,18 +550,18 @@ if ($TESTING) {
     $this->addForeignKey('fk_fOrderDetail_fProductOrder','fOrderDetail','OrderNo','fProductOrder','OrderNo','CASCADE','CASCADE');
     $this->addForeignKey('fk_fOrderDetail_oProduct','fOrderDetail','ProductId','oProduct','ProductId','RESTRICT','CASCADE');
  
-    $this->createTable('sProductInvoice', 
+    $this->createTable('ProductInvoice', 
                        array(
                              'InvoiceNo' => 'string',
-                             'InvoiceDate' => 'datetime',
-                             'Total' => 'decimal(20,2)',
-                             'Vat' => 'decimal(20,2)',
-                             'Discount' => 'decimal(20,2)',
-                             'Status' => 'string',
+                             'InvoiceDate' => 'date',
+                             'DueDate' => 'date',
+                             'InvoiceAmount' => 'decimal(20,2)',
+                             'PaidAmount' => 'decimal(20,2)',
+                             'InvoiceStatus' => 'string',
                              'UpdateAt' => 'datetime',
                              'PRIMARY KEY (InvoiceNo)',
                              ), 'ENGINE=InnoDB');   
-    $this->addForeignKey('fk_sProductInvoice_fProductOrder','sProductInvoice','InvoiceNo','fProductOrder','OrderNo','CASCADE','CASCADE');
+    $this->addForeignKey('fk_ProductInvoice_ProductOrder','ProductInvoice','InvoiceNo','fProductOrder','OrderNo','CASCADE','CASCADE');
  
     $this->createTable('cInvoiceDetail',
                        array(
