@@ -1,27 +1,25 @@
 <?php
 
 /**
- * This is the model class for table "User".
+ * This is the model class for table "Device".
  *
- * The followings are the available columns in table 'User':
- * @property integer $id
- * @property string $username
- * @property string $password
- * @property string $name
- * @property string $role
- * @property string $employee
+ * The followings are the available columns in table 'Device':
+ * @property string $DeviceId
+ * @property string $DeviceKey
+ * @property string $SaleId
+ * @property string $Username
+ * @property string $Password
+ * @property string $UpdateAt
  *
  * The followings are the available model relations:
- * @property AuthAssignment[] $authAssignments
- * @property BEmployee $employee0
- * @property AuthItem $role0
+ * @property SaleUnit $sale
  */
-class User extends CActiveRecord
+class Device extends CActiveRecord
 {
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
-	 * @return User the static model class
+	 * @return Device the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
@@ -33,7 +31,7 @@ class User extends CActiveRecord
 	 */
 	public function tableName()
 	{
-		return 'User';
+		return 'Device';
 	}
 
 	/**
@@ -44,11 +42,11 @@ class User extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('username, password', 'required'),
-			array('username, password, name, role, employee', 'length', 'max'=>255),
+			array('DeviceId, DeviceKey, SaleId, Username, Password', 'length', 'max'=>255),
+			array('UpdateAt', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, username, password, name, role, employee', 'safe', 'on'=>'search'),
+			array('DeviceId, DeviceKey, SaleId, Username, Password, UpdateAt', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -60,9 +58,7 @@ class User extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'authAssignments' => array(self::HAS_MANY, 'AuthAssignment', 'userid'),
-			'employee0' => array(self::BELONGS_TO, 'BEmployee', 'employee'),
-			'role0' => array(self::BELONGS_TO, 'AuthItem', 'role'),
+			'sale' => array(self::BELONGS_TO, 'SaleUnit', 'SaleId'),
 		);
 	}
 
@@ -72,12 +68,12 @@ class User extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'id' => 'ID',
-			'username' => 'Username',
-			'password' => 'Password',
-			'name' => 'Name',
-			'role' => 'Role',
-			'employee' => 'Employee',
+			'DeviceId' => 'Device',
+			'DeviceKey' => 'Device Key',
+			'SaleId' => 'Sale',
+			'Username' => 'Username',
+			'Password' => 'Password',
+			'UpdateAt' => 'Update At',
 		);
 	}
 
@@ -92,12 +88,12 @@ class User extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 
-		$criteria->compare('id',$this->id);
-		$criteria->compare('username',$this->username,true);
-		$criteria->compare('password',$this->password,true);
-		$criteria->compare('name',$this->name,true);
-		$criteria->compare('role',$this->role,true);
-		$criteria->compare('employee',$this->employee,true);
+		$criteria->compare('DeviceId',$this->DeviceId,true);
+		$criteria->compare('DeviceKey',$this->DeviceKey,true);
+		$criteria->compare('SaleId',$this->SaleId,true);
+		$criteria->compare('Username',$this->Username,true);
+		$criteria->compare('Password',$this->Password,true);
+		$criteria->compare('UpdateAt',$this->UpdateAt,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

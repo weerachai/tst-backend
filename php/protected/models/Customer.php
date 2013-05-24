@@ -5,7 +5,6 @@
  *
  * The followings are the available columns in table 'Customer':
  * @property string $CustomerId
- * @property string $DeviceId
  * @property string $SaleId
  * @property string $Title
  * @property string $CustomerName
@@ -33,6 +32,10 @@
  * @property string $ReturnCheck
  * @property string $NewFlag
  * @property string $UpdateAt
+ *
+ * The followings are the available model relations:
+ * @property SaleUnit $sale
+ * @property ProductOrder[] $productOrders
  */
 class Customer extends CActiveRecord
 {
@@ -62,14 +65,14 @@ class Customer extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('CustomerId, DeviceId, SaleId, Title, CustomerName, Type, Province, District, SubDistrict, ZipCode, CreditTerm, CreditLimit, OverCreditType, Due, PoseCheck, ReturnCheck, NewFlag', 'required'),
 			array('CreditTerm', 'numerical', 'integerOnly'=>true),
-			array('CustomerId, DeviceId, SaleId, Title, CustomerName, Type, Trip1, Trip2, Trip3, Province, District, SubDistrict, ZipCode, AddrNo, Moo, Village, Soi, Road, Phone, ContactPerson, Promotion, OverCreditType, NewFlag', 'length', 'max'=>255),
+			array('CustomerId, SaleId, Title, CustomerName, Type, Trip1, Trip2, Trip3, Province, District, SubDistrict, ZipCode, AddrNo, Moo, Village, Soi, Road, Phone, ContactPerson, Promotion, OverCreditType', 'length', 'max'=>255),
 			array('CreditLimit, Due, PoseCheck, ReturnCheck', 'length', 'max'=>20),
+			array('NewFlag', 'length', 'max'=>1),
 			array('UpdateAt', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('CustomerId, DeviceId, SaleId, Title, CustomerName, Type, Trip1, Trip2, Trip3, Province, District, SubDistrict, ZipCode, AddrNo, Moo, Village, Soi, Road, Phone, ContactPerson, Promotion, CreditTerm, CreditLimit, OverCreditType, Due, PoseCheck, ReturnCheck, NewFlag, UpdateAt', 'safe', 'on'=>'search'),
+			array('CustomerId, SaleId, Title, CustomerName, Type, Trip1, Trip2, Trip3, Province, District, SubDistrict, ZipCode, AddrNo, Moo, Village, Soi, Road, Phone, ContactPerson, Promotion, CreditTerm, CreditLimit, OverCreditType, Due, PoseCheck, ReturnCheck, NewFlag, UpdateAt', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -81,6 +84,8 @@ class Customer extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+			'sale' => array(self::BELONGS_TO, 'SaleUnit', 'SaleId'),
+			'productOrders' => array(self::HAS_MANY, 'ProductOrder', 'CustomerId'),
 		);
 	}
 
@@ -91,7 +96,6 @@ class Customer extends CActiveRecord
 	{
 		return array(
 			'CustomerId' => 'Customer',
-			'DeviceId' => 'Device',
 			'SaleId' => 'Sale',
 			'Title' => 'Title',
 			'CustomerName' => 'Customer Name',
@@ -134,7 +138,6 @@ class Customer extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('CustomerId',$this->CustomerId,true);
-		$criteria->compare('DeviceId',$this->DeviceId,true);
 		$criteria->compare('SaleId',$this->SaleId,true);
 		$criteria->compare('Title',$this->Title,true);
 		$criteria->compare('CustomerName',$this->CustomerName,true);

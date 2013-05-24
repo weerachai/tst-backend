@@ -8,6 +8,10 @@ return array(
 
 	// preloading 'log' component
 	'preload'=>array('log'),
+	
+	'import'=>array(
+		'application.helpers.*',
+	),
 
 	// application components
 	'components'=>array(
