@@ -6,13 +6,14 @@
 // This is the main Web application configuration. Any writable
 // CWebApplication properties can be configured here.
 
-if (!isset($OPENSHIFT_MYSQL_DB_HOST)) {
+$OPENSHIFT_MYSQL_DB_HOST = getenv("OPENSHIFT_MYSQL_DB_HOST");
+if (empty($OPENSHIFT_MYSQL_DB_HOST)) {
    $OPENSHIFT_MYSQL_DB_HOST = 'localhost';
    $OPENSHIFT_MYSQL_USERNAME = 'root';
    $OPENSHIFT_MYSQL_PASSWORD = '1234';
 } else {
-   $OPENSHIFT_MYSQL_USERNAME = 'adminTbebzg2';
-   $OPENSHIFT_MYSQL_PASSWORD = 'lKkp4SIWiue9';
+   $OPENSHIFT_MYSQL_USERNAME = getenv("OPENSHIFT_MYSQL_USERNAME");
+   $OPENSHIFT_MYSQL_PASSWORD = getenv("OPENSHIFT_MYSQL_PASSWORD");
 }
 
 return array(
