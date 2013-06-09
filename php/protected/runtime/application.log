@@ -6018,3 +6018,324 @@ in /home/tu/www/backend/php/index.php (13)
 2013/06/08 16:29:04 [warning] [application] Failed to set unsafe attribute "SyncFlag" of "DiscDetail".
 in /home/tu/www/backend/php/protected/controllers/SyncController.php (104)
 in /home/tu/www/backend/php/index.php (13)
+2013/06/09 18:24:54 [error] [php] include(BillCollection.php): failed to open stream: No such file or directory (/home/tu/www/backend/php/framework/YiiBase.php:421)
+Stack trace:
+#0 /home/tu/www/backend/php/protected/controllers/SyncController.php(124): spl_autoload_call()
+#1 /home/tu/www/backend/php/framework/web/actions/CInlineAction.php(49): SyncController->actionSync()
+#2 /home/tu/www/backend/php/framework/web/CController.php(308): CInlineAction->runWithParams()
+#3 /home/tu/www/backend/php/framework/web/CController.php(286): SyncController->runAction()
+#4 /home/tu/www/backend/php/framework/web/CController.php(265): SyncController->runActionWithFilters()
+#5 /home/tu/www/backend/php/framework/web/CWebApplication.php(282): SyncController->run()
+#6 /home/tu/www/backend/php/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#7 /home/tu/www/backend/php/framework/base/CApplication.php(169): CWebApplication->processRequest()
+#8 /home/tu/www/backend/php/index.php(13): CWebApplication->run()
+REQUEST_URI=/backend/php/index.php/sync/sync
+in /home/tu/www/backend/php/protected/controllers/SyncController.php (124)
+in /home/tu/www/backend/php/index.php (13)
+2013/06/09 18:24:54 [error] [php] include(BillCollection.php): failed to open stream: No such file or directory (/home/tu/www/backend/php/framework/YiiBase.php:421)
+Stack trace:
+#0 /home/tu/www/backend/php/protected/controllers/SyncController.php(124): spl_autoload_call()
+#1 /home/tu/www/backend/php/framework/web/actions/CInlineAction.php(49): SyncController->actionSync()
+#2 /home/tu/www/backend/php/framework/web/CController.php(308): CInlineAction->runWithParams()
+#3 /home/tu/www/backend/php/framework/web/CController.php(286): SyncController->runAction()
+#4 /home/tu/www/backend/php/framework/web/CController.php(265): SyncController->runActionWithFilters()
+#5 /home/tu/www/backend/php/framework/web/CWebApplication.php(282): SyncController->run()
+#6 /home/tu/www/backend/php/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#7 /home/tu/www/backend/php/framework/base/CApplication.php(169): CWebApplication->processRequest()
+#8 /home/tu/www/backend/php/index.php(13): CWebApplication->run()
+REQUEST_URI=/backend/php/index.php/sync/sync
+in /home/tu/www/backend/php/protected/controllers/SyncController.php (124)
+in /home/tu/www/backend/php/index.php (13)
+2013/06/09 18:24:55 [error] [php] include(BillCollection.php): failed to open stream: No such file or directory (/home/tu/www/backend/php/framework/YiiBase.php:421)
+Stack trace:
+#0 /home/tu/www/backend/php/protected/controllers/SyncController.php(124): spl_autoload_call()
+#1 /home/tu/www/backend/php/framework/web/actions/CInlineAction.php(49): SyncController->actionSync()
+#2 /home/tu/www/backend/php/framework/web/CController.php(308): CInlineAction->runWithParams()
+#3 /home/tu/www/backend/php/framework/web/CController.php(286): SyncController->runAction()
+#4 /home/tu/www/backend/php/framework/web/CController.php(265): SyncController->runActionWithFilters()
+#5 /home/tu/www/backend/php/framework/web/CWebApplication.php(282): SyncController->run()
+#6 /home/tu/www/backend/php/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#7 /home/tu/www/backend/php/framework/base/CApplication.php(169): CWebApplication->processRequest()
+#8 /home/tu/www/backend/php/index.php(13): CWebApplication->run()
+REQUEST_URI=/backend/php/index.php/sync/sync
+in /home/tu/www/backend/php/protected/controllers/SyncController.php (124)
+in /home/tu/www/backend/php/index.php (13)
+2013/06/09 18:25:27 [error] [system.db.CDbCommand] CDbCommand::fetchAll() failed: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'backend.fPayment' doesn't exist. The SQL statement executed was: SHOW FULL COLUMNS FROM `fPayment`.
+in /home/tu/www/backend/php/index.php (13)
+2013/06/09 18:25:27 [error] [system.db.CDbCommand] CDbCommand::fetchAll() failed: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'backend.fProductOrder' doesn't exist. The SQL statement executed was: SHOW FULL COLUMNS FROM `fProductOrder`.
+in /home/tu/www/backend/php/index.php (13)
+2013/06/09 18:25:29 [error] [system.db.CDbCommand] CDbCommand::fetchAll() failed: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'backend.fPayment' doesn't exist. The SQL statement executed was: SHOW FULL COLUMNS FROM `fPayment`.
+in /home/tu/www/backend/php/index.php (13)
+2013/06/09 18:25:29 [error] [system.db.CDbCommand] CDbCommand::fetchAll() failed: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'backend.fProductOrder' doesn't exist. The SQL statement executed was: SHOW FULL COLUMNS FROM `fProductOrder`.
+in /home/tu/www/backend/php/index.php (13)
+2013/06/09 18:34:31 [error] [php] include(BillCollection.php): failed to open stream: No such file or directory (/home/tu/www/backend/php/framework/YiiBase.php:421)
+Stack trace:
+#0 /home/tu/www/backend/php/protected/controllers/SyncController.php(124): spl_autoload_call()
+#1 /home/tu/www/backend/php/framework/web/actions/CInlineAction.php(49): SyncController->actionSync()
+#2 /home/tu/www/backend/php/framework/web/CController.php(308): CInlineAction->runWithParams()
+#3 /home/tu/www/backend/php/framework/web/CController.php(286): SyncController->runAction()
+#4 /home/tu/www/backend/php/framework/web/CController.php(265): SyncController->runActionWithFilters()
+#5 /home/tu/www/backend/php/framework/web/CWebApplication.php(282): SyncController->run()
+#6 /home/tu/www/backend/php/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#7 /home/tu/www/backend/php/framework/base/CApplication.php(169): CWebApplication->processRequest()
+#8 /home/tu/www/backend/php/index.php(13): CWebApplication->run()
+REQUEST_URI=/backend/php/index.php/sync/sync
+in /home/tu/www/backend/php/protected/controllers/SyncController.php (124)
+in /home/tu/www/backend/php/index.php (13)
+2013/06/09 18:34:31 [error] [php] include(BillCollection.php): failed to open stream: No such file or directory (/home/tu/www/backend/php/framework/YiiBase.php:421)
+Stack trace:
+#0 /home/tu/www/backend/php/protected/controllers/SyncController.php(124): spl_autoload_call()
+#1 /home/tu/www/backend/php/framework/web/actions/CInlineAction.php(49): SyncController->actionSync()
+#2 /home/tu/www/backend/php/framework/web/CController.php(308): CInlineAction->runWithParams()
+#3 /home/tu/www/backend/php/framework/web/CController.php(286): SyncController->runAction()
+#4 /home/tu/www/backend/php/framework/web/CController.php(265): SyncController->runActionWithFilters()
+#5 /home/tu/www/backend/php/framework/web/CWebApplication.php(282): SyncController->run()
+#6 /home/tu/www/backend/php/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#7 /home/tu/www/backend/php/framework/base/CApplication.php(169): CWebApplication->processRequest()
+#8 /home/tu/www/backend/php/index.php(13): CWebApplication->run()
+REQUEST_URI=/backend/php/index.php/sync/sync
+in /home/tu/www/backend/php/protected/controllers/SyncController.php (124)
+in /home/tu/www/backend/php/index.php (13)
+2013/06/09 18:34:31 [error] [php] include(BillCollection.php): failed to open stream: No such file or directory (/home/tu/www/backend/php/framework/YiiBase.php:421)
+Stack trace:
+#0 /home/tu/www/backend/php/protected/controllers/SyncController.php(124): spl_autoload_call()
+#1 /home/tu/www/backend/php/framework/web/actions/CInlineAction.php(49): SyncController->actionSync()
+#2 /home/tu/www/backend/php/framework/web/CController.php(308): CInlineAction->runWithParams()
+#3 /home/tu/www/backend/php/framework/web/CController.php(286): SyncController->runAction()
+#4 /home/tu/www/backend/php/framework/web/CController.php(265): SyncController->runActionWithFilters()
+#5 /home/tu/www/backend/php/framework/web/CWebApplication.php(282): SyncController->run()
+#6 /home/tu/www/backend/php/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#7 /home/tu/www/backend/php/framework/base/CApplication.php(169): CWebApplication->processRequest()
+#8 /home/tu/www/backend/php/index.php(13): CWebApplication->run()
+REQUEST_URI=/backend/php/index.php/sync/sync
+in /home/tu/www/backend/php/protected/controllers/SyncController.php (124)
+in /home/tu/www/backend/php/index.php (13)
+2013/06/09 18:34:37 [error] [php] include(BillCollection.php): failed to open stream: No such file or directory (/home/tu/www/backend/php/framework/YiiBase.php:421)
+Stack trace:
+#0 /home/tu/www/backend/php/protected/controllers/SyncController.php(124): spl_autoload_call()
+#1 /home/tu/www/backend/php/framework/web/actions/CInlineAction.php(49): SyncController->actionSync()
+#2 /home/tu/www/backend/php/framework/web/CController.php(308): CInlineAction->runWithParams()
+#3 /home/tu/www/backend/php/framework/web/CController.php(286): SyncController->runAction()
+#4 /home/tu/www/backend/php/framework/web/CController.php(265): SyncController->runActionWithFilters()
+#5 /home/tu/www/backend/php/framework/web/CWebApplication.php(282): SyncController->run()
+#6 /home/tu/www/backend/php/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#7 /home/tu/www/backend/php/framework/base/CApplication.php(169): CWebApplication->processRequest()
+#8 /home/tu/www/backend/php/index.php(13): CWebApplication->run()
+REQUEST_URI=/backend/php/index.php/sync/sync
+in /home/tu/www/backend/php/protected/controllers/SyncController.php (124)
+in /home/tu/www/backend/php/index.php (13)
+2013/06/09 18:34:37 [error] [php] include(BillCollection.php): failed to open stream: No such file or directory (/home/tu/www/backend/php/framework/YiiBase.php:421)
+Stack trace:
+#0 /home/tu/www/backend/php/protected/controllers/SyncController.php(124): spl_autoload_call()
+#1 /home/tu/www/backend/php/framework/web/actions/CInlineAction.php(49): SyncController->actionSync()
+#2 /home/tu/www/backend/php/framework/web/CController.php(308): CInlineAction->runWithParams()
+#3 /home/tu/www/backend/php/framework/web/CController.php(286): SyncController->runAction()
+#4 /home/tu/www/backend/php/framework/web/CController.php(265): SyncController->runActionWithFilters()
+#5 /home/tu/www/backend/php/framework/web/CWebApplication.php(282): SyncController->run()
+#6 /home/tu/www/backend/php/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#7 /home/tu/www/backend/php/framework/base/CApplication.php(169): CWebApplication->processRequest()
+#8 /home/tu/www/backend/php/index.php(13): CWebApplication->run()
+REQUEST_URI=/backend/php/index.php/sync/sync
+in /home/tu/www/backend/php/protected/controllers/SyncController.php (124)
+in /home/tu/www/backend/php/index.php (13)
+2013/06/09 18:34:37 [error] [php] include(BillCollection.php): failed to open stream: No such file or directory (/home/tu/www/backend/php/framework/YiiBase.php:421)
+Stack trace:
+#0 /home/tu/www/backend/php/protected/controllers/SyncController.php(124): spl_autoload_call()
+#1 /home/tu/www/backend/php/framework/web/actions/CInlineAction.php(49): SyncController->actionSync()
+#2 /home/tu/www/backend/php/framework/web/CController.php(308): CInlineAction->runWithParams()
+#3 /home/tu/www/backend/php/framework/web/CController.php(286): SyncController->runAction()
+#4 /home/tu/www/backend/php/framework/web/CController.php(265): SyncController->runActionWithFilters()
+#5 /home/tu/www/backend/php/framework/web/CWebApplication.php(282): SyncController->run()
+#6 /home/tu/www/backend/php/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#7 /home/tu/www/backend/php/framework/base/CApplication.php(169): CWebApplication->processRequest()
+#8 /home/tu/www/backend/php/index.php(13): CWebApplication->run()
+REQUEST_URI=/backend/php/index.php/sync/sync
+in /home/tu/www/backend/php/protected/controllers/SyncController.php (124)
+in /home/tu/www/backend/php/index.php (13)
+2013/06/09 18:34:46 [error] [system.db.CDbCommand] CDbCommand::fetchAll() failed: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'backend.fPayment' doesn't exist. The SQL statement executed was: SHOW FULL COLUMNS FROM `fPayment`.
+in /home/tu/www/backend/php/index.php (13)
+2013/06/09 18:34:46 [error] [system.db.CDbCommand] CDbCommand::fetchAll() failed: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'backend.fProductOrder' doesn't exist. The SQL statement executed was: SHOW FULL COLUMNS FROM `fProductOrder`.
+in /home/tu/www/backend/php/index.php (13)
+2013/06/09 18:34:48 [error] [system.db.CDbCommand] CDbCommand::fetchAll() failed: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'backend.fPayment' doesn't exist. The SQL statement executed was: SHOW FULL COLUMNS FROM `fPayment`.
+in /home/tu/www/backend/php/index.php (13)
+2013/06/09 18:34:48 [error] [system.db.CDbCommand] CDbCommand::fetchAll() failed: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'backend.fProductOrder' doesn't exist. The SQL statement executed was: SHOW FULL COLUMNS FROM `fProductOrder`.
+in /home/tu/www/backend/php/index.php (13)
+2013/06/09 19:15:46 [error] [system.db.CDbCommand] CDbCommand::() failed: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'backend.PaymentTyep' doesn't exist. The SQL statement executed was: SHOW CREATE TABLE PaymentTyep.
+in /home/tu/www/backend/php/protected/controllers/ExportController.php (23)
+in /home/tu/www/backend/php/index.php (13)
+2013/06/09 19:15:46 [error] [exception.CDbException] exception 'CDbException' with message 'CDbCommand failed to execute the SQL statement: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'backend.PaymentTyep' doesn't exist. The SQL statement executed was: SHOW CREATE TABLE PaymentTyep' in /home/tu/www/backend/php/framework/db/CDbCommand.php:541
+Stack trace:
+#0 /home/tu/www/backend/php/framework/db/CDbCommand.php(376): CDbCommand->queryInternal('', 0, Array)
+#1 /home/tu/www/backend/php/protected/controllers/ExportController.php(23): CDbCommand->query()
+#2 /home/tu/www/backend/php/framework/web/actions/CInlineAction.php(49): ExportController->actionSql()
+#3 /home/tu/www/backend/php/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#4 /home/tu/www/backend/php/framework/web/CController.php(286): CController->runAction(Object(CInlineAction))
+#5 /home/tu/www/backend/php/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#6 /home/tu/www/backend/php/framework/web/CWebApplication.php(282): CController->run('sql')
+#7 /home/tu/www/backend/php/framework/web/CWebApplication.php(141): CWebApplication->runController('export/sql')
+#8 /home/tu/www/backend/php/framework/base/CApplication.php(169): CWebApplication->processRequest()
+#9 /home/tu/www/backend/php/index.php(13): CApplication->run()
+#10 {main}
+REQUEST_URI=/backend/php/index.php/export/sql?table=PaymentTyep
+---
+2013/06/09 19:15:50 [error] [system.db.CDbCommand] CDbCommand::() failed: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'backend.PaymentTyp' doesn't exist. The SQL statement executed was: SHOW CREATE TABLE PaymentTyp.
+in /home/tu/www/backend/php/protected/controllers/ExportController.php (23)
+in /home/tu/www/backend/php/index.php (13)
+2013/06/09 19:15:50 [error] [exception.CDbException] exception 'CDbException' with message 'CDbCommand failed to execute the SQL statement: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'backend.PaymentTyp' doesn't exist. The SQL statement executed was: SHOW CREATE TABLE PaymentTyp' in /home/tu/www/backend/php/framework/db/CDbCommand.php:541
+Stack trace:
+#0 /home/tu/www/backend/php/framework/db/CDbCommand.php(376): CDbCommand->queryInternal('', 0, Array)
+#1 /home/tu/www/backend/php/protected/controllers/ExportController.php(23): CDbCommand->query()
+#2 /home/tu/www/backend/php/framework/web/actions/CInlineAction.php(49): ExportController->actionSql()
+#3 /home/tu/www/backend/php/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#4 /home/tu/www/backend/php/framework/web/CController.php(286): CController->runAction(Object(CInlineAction))
+#5 /home/tu/www/backend/php/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#6 /home/tu/www/backend/php/framework/web/CWebApplication.php(282): CController->run('sql')
+#7 /home/tu/www/backend/php/framework/web/CWebApplication.php(141): CWebApplication->runController('export/sql')
+#8 /home/tu/www/backend/php/framework/base/CApplication.php(169): CWebApplication->processRequest()
+#9 /home/tu/www/backend/php/index.php(13): CApplication->run()
+#10 {main}
+REQUEST_URI=/backend/php/index.php/export/sql?table=PaymentTyp
+---
+2013/06/09 19:20:33 [error] [system.db.CDbCommand] CDbCommand::fetchAll() failed: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'backend.fPayment' doesn't exist. The SQL statement executed was: SHOW FULL COLUMNS FROM `fPayment`.
+in /home/tu/www/backend/php/index.php (13)
+2013/06/09 19:20:33 [error] [system.db.CDbCommand] CDbCommand::fetchAll() failed: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'backend.fProductOrder' doesn't exist. The SQL statement executed was: SHOW FULL COLUMNS FROM `fProductOrder`.
+in /home/tu/www/backend/php/index.php (13)
+2013/06/09 19:20:35 [error] [system.db.CDbCommand] CDbCommand::fetchAll() failed: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'backend.fPayment' doesn't exist. The SQL statement executed was: SHOW FULL COLUMNS FROM `fPayment`.
+in /home/tu/www/backend/php/index.php (13)
+2013/06/09 19:20:35 [error] [system.db.CDbCommand] CDbCommand::fetchAll() failed: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'backend.fProductOrder' doesn't exist. The SQL statement executed was: SHOW FULL COLUMNS FROM `fProductOrder`.
+in /home/tu/www/backend/php/index.php (13)
+2013/06/09 21:21:50 [warning] [application] Failed to set unsafe attribute "SyncFlag" of "ControlNo".
+in /home/tu/www/backend/php/protected/controllers/SyncController.php (104)
+in /home/tu/www/backend/php/index.php (13)
+2013/06/09 21:21:51 [warning] [application] Failed to set unsafe attribute "SyncFlag" of "ControlNo".
+in /home/tu/www/backend/php/protected/controllers/SyncController.php (104)
+in /home/tu/www/backend/php/index.php (13)
+2013/06/09 21:21:51 [warning] [application] Failed to set unsafe attribute "SyncFlag" of "ProductOrder".
+in /home/tu/www/backend/php/protected/controllers/SyncController.php (104)
+in /home/tu/www/backend/php/index.php (13)
+2013/06/09 21:21:51 [warning] [application] Failed to set unsafe attribute "SyncFlag" of "ProductOrder".
+in /home/tu/www/backend/php/protected/controllers/SyncController.php (104)
+in /home/tu/www/backend/php/index.php (13)
+2013/06/09 21:21:51 [warning] [application] Failed to set unsafe attribute "SyncFlag" of "ProductOrder".
+in /home/tu/www/backend/php/protected/controllers/SyncController.php (104)
+in /home/tu/www/backend/php/index.php (13)
+2013/06/09 21:21:51 [warning] [application] Failed to set unsafe attribute "SyncFlag" of "ProductInvoice".
+in /home/tu/www/backend/php/protected/controllers/SyncController.php (104)
+in /home/tu/www/backend/php/index.php (13)
+2013/06/09 21:21:51 [warning] [application] Failed to set unsafe attribute "SyncFlag" of "ProductInvoice".
+in /home/tu/www/backend/php/protected/controllers/SyncController.php (104)
+in /home/tu/www/backend/php/index.php (13)
+2013/06/09 21:21:52 [warning] [application] Failed to set unsafe attribute "SyncFlag" of "InvoiceDetail".
+in /home/tu/www/backend/php/protected/controllers/SyncController.php (104)
+in /home/tu/www/backend/php/index.php (13)
+2013/06/09 21:21:52 [warning] [application] Failed to set unsafe attribute "SyncFlag" of "InvoiceDetail".
+in /home/tu/www/backend/php/protected/controllers/SyncController.php (104)
+in /home/tu/www/backend/php/index.php (13)
+2013/06/09 21:21:52 [warning] [application] Failed to set unsafe attribute "SyncFlag" of "OrderDetail".
+in /home/tu/www/backend/php/protected/controllers/SyncController.php (104)
+in /home/tu/www/backend/php/index.php (13)
+2013/06/09 21:21:52 [warning] [application] Failed to set unsafe attribute "SyncFlag" of "OrderDetail".
+in /home/tu/www/backend/php/protected/controllers/SyncController.php (104)
+in /home/tu/www/backend/php/index.php (13)
+2013/06/09 21:21:52 [warning] [application] Failed to set unsafe attribute "SyncFlag" of "FreeDetail".
+in /home/tu/www/backend/php/protected/controllers/SyncController.php (104)
+in /home/tu/www/backend/php/index.php (13)
+2013/06/09 21:21:52 [warning] [application] Failed to set unsafe attribute "SyncFlag" of "DiscDetail".
+in /home/tu/www/backend/php/protected/controllers/SyncController.php (104)
+in /home/tu/www/backend/php/index.php (13)
+2013/06/09 21:30:45 [warning] [application] Failed to set unsafe attribute "SyncFlag" of "ProductOrder".
+in /home/tu/www/backend/php/protected/controllers/SyncController.php (104)
+in /home/tu/www/backend/php/index.php (13)
+2013/06/09 23:00:22 [warning] [application] Failed to set unsafe attribute "SyncFlag" of "ControlNo".
+in /home/tu/www/backend/php/protected/controllers/SyncController.php (104)
+in /home/tu/www/backend/php/index.php (13)
+2013/06/09 23:00:23 [warning] [application] Failed to set unsafe attribute "SyncFlag" of "ControlNo".
+in /home/tu/www/backend/php/protected/controllers/SyncController.php (104)
+in /home/tu/www/backend/php/index.php (13)
+2013/06/09 23:00:23 [warning] [application] Failed to set unsafe attribute "SyncFlag" of "ControlNo".
+in /home/tu/www/backend/php/protected/controllers/SyncController.php (104)
+in /home/tu/www/backend/php/index.php (13)
+2013/06/09 23:00:24 [warning] [application] Failed to set unsafe attribute "SyncFlag" of "ControlNo".
+in /home/tu/www/backend/php/protected/controllers/SyncController.php (104)
+in /home/tu/www/backend/php/index.php (13)
+2013/06/09 23:00:24 [warning] [application] Failed to set unsafe attribute "SyncFlag" of "ProductOrder".
+in /home/tu/www/backend/php/protected/controllers/SyncController.php (104)
+in /home/tu/www/backend/php/index.php (13)
+2013/06/09 23:00:25 [warning] [application] Failed to set unsafe attribute "SyncFlag" of "ProductOrder".
+in /home/tu/www/backend/php/protected/controllers/SyncController.php (104)
+in /home/tu/www/backend/php/index.php (13)
+2013/06/09 23:00:25 [warning] [application] Failed to set unsafe attribute "SyncFlag" of "ProductOrder".
+in /home/tu/www/backend/php/protected/controllers/SyncController.php (104)
+in /home/tu/www/backend/php/index.php (13)
+2013/06/09 23:00:25 [warning] [application] Failed to set unsafe attribute "SyncFlag" of "ProductOrder".
+in /home/tu/www/backend/php/protected/controllers/SyncController.php (104)
+in /home/tu/www/backend/php/index.php (13)
+2013/06/09 23:00:25 [warning] [application] Failed to set unsafe attribute "SyncFlag" of "StockCheck".
+in /home/tu/www/backend/php/protected/controllers/SyncController.php (104)
+in /home/tu/www/backend/php/index.php (13)
+2013/06/09 23:00:25 [warning] [application] Failed to set unsafe attribute "CheckDate" of "StockCheck".
+in /home/tu/www/backend/php/protected/controllers/SyncController.php (104)
+in /home/tu/www/backend/php/index.php (13)
+2013/06/09 23:00:26 [warning] [application] Failed to set unsafe attribute "SyncFlag" of "ProductReturn".
+in /home/tu/www/backend/php/protected/controllers/SyncController.php (104)
+in /home/tu/www/backend/php/index.php (13)
+2013/06/09 23:00:26 [warning] [application] Failed to set unsafe attribute "SyncFlag" of "ReturnDetail".
+in /home/tu/www/backend/php/protected/controllers/SyncController.php (104)
+in /home/tu/www/backend/php/index.php (13)
+2013/06/09 23:28:40 [warning] [application] Failed to set unsafe attribute "SyncFlag" of "ControlNo".
+in /home/tu/www/backend/php/protected/controllers/SyncController.php (104)
+in /home/tu/www/backend/php/index.php (13)
+2013/06/09 23:28:40 [warning] [application] Failed to set unsafe attribute "SyncFlag" of "ControlNo".
+in /home/tu/www/backend/php/protected/controllers/SyncController.php (104)
+in /home/tu/www/backend/php/index.php (13)
+2013/06/09 23:28:40 [warning] [application] Failed to set unsafe attribute "SyncFlag" of "ControlNo".
+in /home/tu/www/backend/php/protected/controllers/SyncController.php (104)
+in /home/tu/www/backend/php/index.php (13)
+2013/06/09 23:28:40 [warning] [application] Failed to set unsafe attribute "SyncFlag" of "ProductOrder".
+in /home/tu/www/backend/php/protected/controllers/SyncController.php (104)
+in /home/tu/www/backend/php/index.php (13)
+2013/06/09 23:28:41 [warning] [application] Failed to set unsafe attribute "SyncFlag" of "ProductOrder".
+in /home/tu/www/backend/php/protected/controllers/SyncController.php (104)
+in /home/tu/www/backend/php/index.php (13)
+2013/06/09 23:28:41 [warning] [application] Failed to set unsafe attribute "SyncFlag" of "ProductOrder".
+in /home/tu/www/backend/php/protected/controllers/SyncController.php (104)
+in /home/tu/www/backend/php/index.php (13)
+2013/06/09 23:28:41 [warning] [application] Failed to set unsafe attribute "SyncFlag" of "ProductOrder".
+in /home/tu/www/backend/php/protected/controllers/SyncController.php (104)
+in /home/tu/www/backend/php/index.php (13)
+2013/06/09 23:28:41 [warning] [application] Failed to set unsafe attribute "SyncFlag" of "ProductReturn".
+in /home/tu/www/backend/php/protected/controllers/SyncController.php (104)
+in /home/tu/www/backend/php/index.php (13)
+2013/06/09 23:28:41 [warning] [application] Failed to set unsafe attribute "SyncFlag" of "ProductReturn".
+in /home/tu/www/backend/php/protected/controllers/SyncController.php (104)
+in /home/tu/www/backend/php/index.php (13)
+2013/06/09 23:28:41 [warning] [application] Failed to set unsafe attribute "SyncFlag" of "ReturnDetail".
+in /home/tu/www/backend/php/protected/controllers/SyncController.php (104)
+in /home/tu/www/backend/php/index.php (13)
+2013/06/09 23:53:10 [warning] [application] Failed to set unsafe attribute "SyncFlag" of "ControlNo".
+in /home/tu/www/backend/php/protected/controllers/SyncController.php (104)
+in /home/tu/www/backend/php/index.php (13)
+2013/06/09 23:53:10 [warning] [application] Failed to set unsafe attribute "SyncFlag" of "ControlNo".
+in /home/tu/www/backend/php/protected/controllers/SyncController.php (104)
+in /home/tu/www/backend/php/index.php (13)
+2013/06/09 23:53:10 [warning] [application] Failed to set unsafe attribute "SyncFlag" of "ControlNo".
+in /home/tu/www/backend/php/protected/controllers/SyncController.php (104)
+in /home/tu/www/backend/php/index.php (13)
+2013/06/09 23:53:10 [warning] [application] Failed to set unsafe attribute "SyncFlag" of "ProductOrder".
+in /home/tu/www/backend/php/protected/controllers/SyncController.php (104)
+in /home/tu/www/backend/php/index.php (13)
+2013/06/09 23:57:51 [warning] [application] Failed to set unsafe attribute "SyncFlag" of "ControlNo".
+in /home/tu/www/backend/php/protected/controllers/SyncController.php (104)
+in /home/tu/www/backend/php/index.php (13)
+2013/06/09 23:57:52 [warning] [application] Failed to set unsafe attribute "SyncFlag" of "ControlNo".
+in /home/tu/www/backend/php/protected/controllers/SyncController.php (104)
+in /home/tu/www/backend/php/index.php (13)
+2013/06/09 23:57:52 [warning] [application] Failed to set unsafe attribute "SyncFlag" of "ProductOrder".
+in /home/tu/www/backend/php/protected/controllers/SyncController.php (104)
+in /home/tu/www/backend/php/index.php (13)
+2013/06/09 23:57:52 [warning] [application] Failed to set unsafe attribute "SyncFlag" of "ProductOrder".
+in /home/tu/www/backend/php/protected/controllers/SyncController.php (104)
+in /home/tu/www/backend/php/index.php (13)
+2013/06/09 23:57:52 [warning] [application] Failed to set unsafe attribute "SyncFlag" of "OrderDetail".
+in /home/tu/www/backend/php/protected/controllers/SyncController.php (104)
+in /home/tu/www/backend/php/index.php (13)
