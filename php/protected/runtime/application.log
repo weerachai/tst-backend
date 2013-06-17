@@ -6420,3 +6420,168 @@ in /home/tu/www/backend/php/index.php (13)
 2013/06/10 02:30:17 [warning] [application] Failed to set unsafe attribute "SyncFlag" of "DiscDetail".
 in /home/tu/www/backend/php/protected/controllers/SyncController.php (104)
 in /home/tu/www/backend/php/index.php (13)
+2013/06/17 11:05:04 [warning] [application] Failed to set unsafe attribute "SyncFlag" of "ControlNo".
+in /home/tu/www/backend/php/protected/controllers/SyncController.php (104)
+in /home/tu/www/backend/php/index.php (13)
+2013/06/17 11:05:05 [warning] [application] Failed to set unsafe attribute "SyncFlag" of "ControlNo".
+in /home/tu/www/backend/php/protected/controllers/SyncController.php (104)
+in /home/tu/www/backend/php/index.php (13)
+2013/06/17 12:49:40 [warning] [application] Failed to set unsafe attribute "SyncFlag" of "ControlNo".
+in /home/tu/www/backend/php/protected/controllers/SyncController.php (104)
+in /home/tu/www/backend/php/index.php (13)
+2013/06/17 12:49:40 [warning] [application] Failed to set unsafe attribute "SyncFlag" of "ControlNo".
+in /home/tu/www/backend/php/protected/controllers/SyncController.php (104)
+in /home/tu/www/backend/php/index.php (13)
+2013/06/17 12:49:40 [warning] [application] Failed to set unsafe attribute "SyncFlag" of "ControlNo".
+in /home/tu/www/backend/php/protected/controllers/SyncController.php (104)
+in /home/tu/www/backend/php/index.php (13)
+2013/06/17 12:49:40 [warning] [application] Failed to set unsafe attribute "SyncFlag" of "StockCheck".
+in /home/tu/www/backend/php/protected/controllers/SyncController.php (104)
+in /home/tu/www/backend/php/index.php (13)
+2013/06/17 12:49:40 [warning] [application] Failed to set unsafe attribute "CheckDate" of "StockCheck".
+in /home/tu/www/backend/php/protected/controllers/SyncController.php (104)
+in /home/tu/www/backend/php/index.php (13)
+2013/06/17 12:49:41 [warning] [application] Failed to set unsafe attribute "SyncFlag" of "StockCheck".
+in /home/tu/www/backend/php/protected/controllers/SyncController.php (104)
+in /home/tu/www/backend/php/index.php (13)
+2013/06/17 12:49:41 [warning] [application] Failed to set unsafe attribute "CheckDate" of "StockCheck".
+in /home/tu/www/backend/php/protected/controllers/SyncController.php (104)
+in /home/tu/www/backend/php/index.php (13)
+2013/06/17 12:49:41 [warning] [application] Failed to set unsafe attribute "SyncFlag" of "StockCheck".
+in /home/tu/www/backend/php/protected/controllers/SyncController.php (104)
+in /home/tu/www/backend/php/index.php (13)
+2013/06/17 12:49:41 [warning] [application] Failed to set unsafe attribute "CheckDate" of "StockCheck".
+in /home/tu/www/backend/php/protected/controllers/SyncController.php (104)
+in /home/tu/www/backend/php/index.php (13)
+2013/06/17 12:49:41 [warning] [application] Failed to set unsafe attribute "SyncFlag" of "StockCheck".
+in /home/tu/www/backend/php/protected/controllers/SyncController.php (104)
+in /home/tu/www/backend/php/index.php (13)
+2013/06/17 12:49:41 [warning] [application] Failed to set unsafe attribute "CheckDate" of "StockCheck".
+in /home/tu/www/backend/php/protected/controllers/SyncController.php (104)
+in /home/tu/www/backend/php/index.php (13)
+2013/06/17 12:49:41 [warning] [application] Failed to set unsafe attribute "SyncFlag" of "ProductReturn".
+in /home/tu/www/backend/php/protected/controllers/SyncController.php (104)
+in /home/tu/www/backend/php/index.php (13)
+2013/06/17 12:49:41 [warning] [application] Failed to set unsafe attribute "SyncFlag" of "ReturnDetail".
+in /home/tu/www/backend/php/protected/controllers/SyncController.php (104)
+in /home/tu/www/backend/php/index.php (13)
+2013/06/17 12:49:41 [warning] [application] Failed to set unsafe attribute "SyncFlag" of "ReturnDetail".
+in /home/tu/www/backend/php/protected/controllers/SyncController.php (104)
+in /home/tu/www/backend/php/index.php (13)
+2013/06/17 12:49:42 [warning] [application] Failed to set unsafe attribute "SyncFlag" of "ReturnDetail".
+in /home/tu/www/backend/php/protected/controllers/SyncController.php (104)
+in /home/tu/www/backend/php/index.php (13)
+2013/06/17 12:52:34 [warning] [application] Failed to set unsafe attribute "SyncFlag" of "ControlNo".
+in /home/tu/www/backend/php/protected/controllers/SyncController.php (104)
+in /home/tu/www/backend/php/index.php (13)
+2013/06/17 12:52:34 [warning] [application] Failed to set unsafe attribute "SyncFlag" of "ProductReturn".
+in /home/tu/www/backend/php/protected/controllers/SyncController.php (104)
+in /home/tu/www/backend/php/index.php (13)
+2013/06/17 12:52:34 [warning] [application] Failed to set unsafe attribute "SyncFlag" of "ProductReturn".
+in /home/tu/www/backend/php/protected/controllers/SyncController.php (104)
+in /home/tu/www/backend/php/index.php (13)
+2013/06/17 12:52:34 [warning] [application] Failed to set unsafe attribute "SyncFlag" of "ReturnDetail".
+in /home/tu/www/backend/php/protected/controllers/SyncController.php (104)
+in /home/tu/www/backend/php/index.php (13)
+2013/06/17 14:06:03 [warning] [application] Failed to set unsafe attribute "SyncFlag" of "ControlNo".
+in /home/tu/www/backend/php/protected/controllers/SyncController.php (104)
+in /home/tu/www/backend/php/index.php (13)
+2013/06/17 14:06:04 [warning] [application] Failed to set unsafe attribute "SyncFlag" of "ControlNo".
+in /home/tu/www/backend/php/protected/controllers/SyncController.php (104)
+in /home/tu/www/backend/php/index.php (13)
+2013/06/17 14:06:04 [warning] [application] Failed to set unsafe attribute "SyncFlag" of "ControlNo".
+in /home/tu/www/backend/php/protected/controllers/SyncController.php (104)
+in /home/tu/www/backend/php/index.php (13)
+2013/06/17 14:06:04 [warning] [application] Failed to set unsafe attribute "SyncFlag" of "ControlNo".
+in /home/tu/www/backend/php/protected/controllers/SyncController.php (104)
+in /home/tu/www/backend/php/index.php (13)
+2013/06/17 14:06:04 [warning] [application] Failed to set unsafe attribute "SyncFlag" of "Customer".
+in /home/tu/www/backend/php/protected/controllers/SyncController.php (104)
+in /home/tu/www/backend/php/index.php (13)
+2013/06/17 14:06:04 [warning] [application] Failed to set unsafe attribute "SyncFlag" of "Customer".
+in /home/tu/www/backend/php/protected/controllers/SyncController.php (104)
+in /home/tu/www/backend/php/index.php (13)
+2013/06/17 14:06:04 [warning] [application] Failed to set unsafe attribute "SyncFlag" of "Customer".
+in /home/tu/www/backend/php/protected/controllers/SyncController.php (104)
+in /home/tu/www/backend/php/index.php (13)
+2013/06/17 14:06:05 [warning] [application] Failed to set unsafe attribute "SyncFlag" of "Stock".
+in /home/tu/www/backend/php/protected/controllers/SyncController.php (104)
+in /home/tu/www/backend/php/index.php (13)
+2013/06/17 14:06:05 [warning] [application] Failed to set unsafe attribute "SyncFlag" of "ProductOrder".
+in /home/tu/www/backend/php/protected/controllers/SyncController.php (104)
+in /home/tu/www/backend/php/index.php (13)
+2013/06/17 14:06:05 [warning] [application] Failed to set unsafe attribute "SyncFlag" of "ProductOrder".
+in /home/tu/www/backend/php/protected/controllers/SyncController.php (104)
+in /home/tu/www/backend/php/index.php (13)
+2013/06/17 14:06:05 [warning] [application] Failed to set unsafe attribute "SyncFlag" of "ProductOrder".
+in /home/tu/www/backend/php/protected/controllers/SyncController.php (104)
+in /home/tu/www/backend/php/index.php (13)
+2013/06/17 14:06:05 [warning] [application] Failed to set unsafe attribute "SyncFlag" of "ProductInvoice".
+in /home/tu/www/backend/php/protected/controllers/SyncController.php (104)
+in /home/tu/www/backend/php/index.php (13)
+2013/06/17 14:06:05 [warning] [application] Failed to set unsafe attribute "SyncFlag" of "InvoiceDetail".
+in /home/tu/www/backend/php/protected/controllers/SyncController.php (104)
+in /home/tu/www/backend/php/index.php (13)
+2013/06/17 14:06:05 [warning] [application] Failed to set unsafe attribute "SyncFlag" of "OrderDetail".
+in /home/tu/www/backend/php/protected/controllers/SyncController.php (104)
+in /home/tu/www/backend/php/index.php (13)
+2013/06/17 14:06:06 [warning] [application] Failed to set unsafe attribute "SyncFlag" of "ProductReturn".
+in /home/tu/www/backend/php/protected/controllers/SyncController.php (104)
+in /home/tu/www/backend/php/index.php (13)
+2013/06/17 14:09:30 [warning] [application] Failed to set unsafe attribute "SyncFlag" of "ControlNo".
+in /home/tu/www/backend/php/protected/controllers/SyncController.php (104)
+in /home/tu/www/backend/php/index.php (13)
+2013/06/17 14:09:30 [warning] [application] Failed to set unsafe attribute "SyncFlag" of "ProductReturn".
+in /home/tu/www/backend/php/protected/controllers/SyncController.php (104)
+in /home/tu/www/backend/php/index.php (13)
+2013/06/17 14:09:30 [warning] [application] Failed to set unsafe attribute "SyncFlag" of "ReturnDetail".
+in /home/tu/www/backend/php/protected/controllers/SyncController.php (104)
+in /home/tu/www/backend/php/index.php (13)
+2013/06/17 14:10:56 [warning] [application] Failed to set unsafe attribute "SyncFlag" of "ControlNo".
+in /home/tu/www/backend/php/protected/controllers/SyncController.php (104)
+in /home/tu/www/backend/php/index.php (13)
+2013/06/17 14:10:56 [warning] [application] Failed to set unsafe attribute "SyncFlag" of "ControlNo".
+in /home/tu/www/backend/php/protected/controllers/SyncController.php (104)
+in /home/tu/www/backend/php/index.php (13)
+2013/06/17 14:10:57 [warning] [application] Failed to set unsafe attribute "SyncFlag" of "Stock".
+in /home/tu/www/backend/php/protected/controllers/SyncController.php (104)
+in /home/tu/www/backend/php/index.php (13)
+2013/06/17 14:10:57 [warning] [application] Failed to set unsafe attribute "SyncFlag" of "ProductOrder".
+in /home/tu/www/backend/php/protected/controllers/SyncController.php (104)
+in /home/tu/www/backend/php/index.php (13)
+2013/06/17 14:10:57 [warning] [application] Failed to set unsafe attribute "SyncFlag" of "ProductInvoice".
+in /home/tu/www/backend/php/protected/controllers/SyncController.php (104)
+in /home/tu/www/backend/php/index.php (13)
+2013/06/17 14:10:57 [warning] [application] Failed to set unsafe attribute "SyncFlag" of "InvoiceDetail".
+in /home/tu/www/backend/php/protected/controllers/SyncController.php (104)
+in /home/tu/www/backend/php/index.php (13)
+2013/06/17 14:10:57 [warning] [application] Failed to set unsafe attribute "SyncFlag" of "OrderDetail".
+in /home/tu/www/backend/php/protected/controllers/SyncController.php (104)
+in /home/tu/www/backend/php/index.php (13)
+2013/06/17 14:10:58 [warning] [application] Failed to set unsafe attribute "SyncFlag" of "FreeDetail".
+in /home/tu/www/backend/php/protected/controllers/SyncController.php (104)
+in /home/tu/www/backend/php/index.php (13)
+2013/06/17 14:10:58 [warning] [application] Failed to set unsafe attribute "SyncFlag" of "DiscDetail".
+in /home/tu/www/backend/php/protected/controllers/SyncController.php (104)
+in /home/tu/www/backend/php/index.php (13)
+2013/06/17 14:10:58 [warning] [application] Failed to set unsafe attribute "SyncFlag" of "DiscDetail".
+in /home/tu/www/backend/php/protected/controllers/SyncController.php (104)
+in /home/tu/www/backend/php/index.php (13)
+2013/06/17 14:10:58 [warning] [application] Failed to set unsafe attribute "SyncFlag" of "DiscDetail".
+in /home/tu/www/backend/php/protected/controllers/SyncController.php (104)
+in /home/tu/www/backend/php/index.php (13)
+2013/06/17 14:10:58 [warning] [application] Failed to set unsafe attribute "SyncFlag" of "ProductReturn".
+in /home/tu/www/backend/php/protected/controllers/SyncController.php (104)
+in /home/tu/www/backend/php/index.php (13)
+2013/06/17 14:15:26 [warning] [application] Failed to set unsafe attribute "SyncFlag" of "ControlNo".
+in /home/tu/www/backend/php/protected/controllers/SyncController.php (104)
+in /home/tu/www/backend/php/index.php (13)
+2013/06/17 14:15:26 [warning] [application] Failed to set unsafe attribute "SyncFlag" of "ProductOrder".
+in /home/tu/www/backend/php/protected/controllers/SyncController.php (104)
+in /home/tu/www/backend/php/index.php (13)
+2013/06/17 14:15:26 [warning] [application] Failed to set unsafe attribute "SyncFlag" of "ProductReturn".
+in /home/tu/www/backend/php/protected/controllers/SyncController.php (104)
+in /home/tu/www/backend/php/index.php (13)
+2013/06/17 14:15:26 [warning] [application] Failed to set unsafe attribute "SyncFlag" of "ReturnDetail".
+in /home/tu/www/backend/php/protected/controllers/SyncController.php (104)
+in /home/tu/www/backend/php/index.php (13)
