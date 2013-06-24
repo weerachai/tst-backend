@@ -8,9 +8,6 @@
  * @property string $GrpLevel3Id
  * @property string $GrpLevel3Name
  * @property string $UpdateAt
- *
- * The followings are the available model relations:
- * @property Product[] $products
  */
 class GrpLevel3 extends CActiveRecord
 {
@@ -57,7 +54,6 @@ class GrpLevel3 extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'products' => array(self::HAS_MANY, 'Product', 'GrpLevel3Id'),
 		);
 	}
 

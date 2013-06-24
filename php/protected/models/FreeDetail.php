@@ -11,11 +11,6 @@
  * @property string $FreePrice
  * @property integer $FreeQty
  * @property string $UpdateAt
- *
- * The followings are the available model relations:
- * @property Product $freeProduct
- * @property ProductOrder $orderNo
- * @property Promotion $promotion
  */
 class FreeDetail extends CActiveRecord
 {
@@ -63,9 +58,6 @@ class FreeDetail extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'freeProduct' => array(self::BELONGS_TO, 'Product', 'FreeProductId'),
-			'orderNo' => array(self::BELONGS_TO, 'ProductOrder', 'OrderNo'),
-			'promotion' => array(self::BELONGS_TO, 'Promotion', 'PromotionId'),
 		);
 	}
 

@@ -5,7 +5,7 @@
  *
  * The followings are the available columns in table 'StockCheck':
  * @property string $SaleId
- * @property string $CheckDate
+ * @property string $StockCheckDate
  * @property string $CustomerId
  * @property string $ProductId
  * @property integer $FrontQtyLevel1
@@ -21,11 +21,6 @@
  * @property integer $BuyQtyLevel3
  * @property integer $BuyQtyLevel4
  * @property string $UpdateAt
- *
- * The followings are the available model relations:
- * @property Product $product
- * @property Customer $customer
- * @property SaleUnit $sale
  */
 class StockCheck extends CActiveRecord
 {
@@ -56,11 +51,11 @@ class StockCheck extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('FrontQtyLevel1, FrontQtyLevel2, FrontQtyLevel3, FrontQtyLevel4, BackQtyLevel1, BackQtyLevel2, BackQtyLevel3, BackQtyLevel4, BuyQtyLevel1, BuyQtyLevel2, BuyQtyLevel3, BuyQtyLevel4', 'numerical', 'integerOnly'=>true),
-			array('SaleId, CustomerId, ProductId', 'length', 'max'=>255),
+			array('SaleId, StockCheckDate, CustomerId, ProductId', 'length', 'max'=>255),
 			array('UpdateAt', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('SaleId, CheckDate, CustomerId, ProductId, FrontQtyLevel1, FrontQtyLevel2, FrontQtyLevel3, FrontQtyLevel4, BackQtyLevel1, BackQtyLevel2, BackQtyLevel3, BackQtyLevel4, BuyQtyLevel1, BuyQtyLevel2, BuyQtyLevel3, BuyQtyLevel4, UpdateAt', 'safe', 'on'=>'search'),
+			array('SaleId, StockCheckDate, CustomerId, ProductId, FrontQtyLevel1, FrontQtyLevel2, FrontQtyLevel3, FrontQtyLevel4, BackQtyLevel1, BackQtyLevel2, BackQtyLevel3, BackQtyLevel4, BuyQtyLevel1, BuyQtyLevel2, BuyQtyLevel3, BuyQtyLevel4, UpdateAt', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -72,9 +67,6 @@ class StockCheck extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'product' => array(self::BELONGS_TO, 'Product', 'ProductId'),
-			'customer' => array(self::BELONGS_TO, 'Customer', 'CustomerId'),
-			'sale' => array(self::BELONGS_TO, 'SaleUnit', 'SaleId'),
 		);
 	}
 
@@ -85,7 +77,7 @@ class StockCheck extends CActiveRecord
 	{
 		return array(
 			'SaleId' => 'Sale',
-			'CheckDate' => 'Check Date',
+			'StockCheckDate' => 'Stock Check Date',
 			'CustomerId' => 'Customer',
 			'ProductId' => 'Product',
 			'FrontQtyLevel1' => 'Front Qty Level1',
@@ -116,7 +108,7 @@ class StockCheck extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('SaleId',$this->SaleId,true);
-		$criteria->compare('CheckDate',$this->CheckDate,true);
+		$criteria->compare('StockCheckDate',$this->StockCheckDate,true);
 		$criteria->compare('CustomerId',$this->CustomerId,true);
 		$criteria->compare('ProductId',$this->ProductId,true);
 		$criteria->compare('FrontQtyLevel1',$this->FrontQtyLevel1);

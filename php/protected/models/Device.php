@@ -10,9 +10,6 @@
  * @property string $Username
  * @property string $Password
  * @property string $UpdateAt
- *
- * The followings are the available model relations:
- * @property SaleUnit $sale
  */
 class Device extends CActiveRecord
 {
@@ -58,7 +55,6 @@ class Device extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'sale' => array(self::BELONGS_TO, 'SaleUnit', 'SaleId'),
 		);
 	}
 

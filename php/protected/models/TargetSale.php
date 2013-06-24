@@ -11,9 +11,6 @@
  * @property integer $TargetQty
  * @property string $TargetPack
  * @property string $UpdateAt
- *
- * The followings are the available model relations:
- * @property SaleUnit $sale
  */
 class TargetSale extends CActiveRecord
 {
@@ -61,7 +58,6 @@ class TargetSale extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'sale' => array(self::BELONGS_TO, 'SaleUnit', 'SaleId'),
 		);
 	}
 

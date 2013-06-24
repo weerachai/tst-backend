@@ -7,10 +7,6 @@
  * @property string $ControlId
  * @property string $ControlName
  * @property string $Prefix
- * @property string $UpdateAt
- *
- * The followings are the available model relations:
- * @property SaleUnit[] $saleUnits
  */
 class ControlRunning extends CActiveRecord
 {
@@ -42,10 +38,9 @@ class ControlRunning extends CActiveRecord
 		return array(
 			array('ControlName, Prefix', 'required'),
 			array('ControlId, ControlName, Prefix', 'length', 'max'=>255),
-			array('UpdateAt', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('ControlId, ControlName, Prefix, UpdateAt', 'safe', 'on'=>'search'),
+			array('ControlId, ControlName, Prefix', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -57,7 +52,6 @@ class ControlRunning extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'saleUnits' => array(self::MANY_MANY, 'SaleUnit', 'ControlNo(ControlId, SaleId)'),
 		);
 	}
 
@@ -70,7 +64,6 @@ class ControlRunning extends CActiveRecord
 			'ControlId' => 'Control',
 			'ControlName' => 'Control Name',
 			'Prefix' => 'Prefix',
-			'UpdateAt' => 'Update At',
 		);
 	}
 
@@ -88,7 +81,6 @@ class ControlRunning extends CActiveRecord
 		$criteria->compare('ControlId',$this->ControlId,true);
 		$criteria->compare('ControlName',$this->ControlName,true);
 		$criteria->compare('Prefix',$this->Prefix,true);
-		$criteria->compare('UpdateAt',$this->UpdateAt,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

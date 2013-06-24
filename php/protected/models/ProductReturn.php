@@ -12,11 +12,6 @@
  * @property string $Vat
  * @property string $Status
  * @property string $UpdateAt
- *
- * The followings are the available model relations:
- * @property Customer $customer
- * @property SaleUnit $sale
- * @property Product[] $products
  */
 class ProductReturn extends CActiveRecord
 {
@@ -63,9 +58,6 @@ class ProductReturn extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'customer' => array(self::BELONGS_TO, 'Customer', 'CustomerId'),
-			'sale' => array(self::BELONGS_TO, 'SaleUnit', 'SaleId'),
-			'products' => array(self::MANY_MANY, 'Product', 'ReturnDetail(ReturnNo, ProductId)'),
 		);
 	}
 

@@ -10,11 +10,6 @@
  * @property string $name
  * @property string $role
  * @property string $employee
- *
- * The followings are the available model relations:
- * @property AuthAssignment[] $authAssignments
- * @property BEmployee $employee0
- * @property AuthItem $role0
  */
 class User extends CActiveRecord
 {
@@ -60,9 +55,6 @@ class User extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'authAssignments' => array(self::HAS_MANY, 'AuthAssignment', 'userid'),
-			'employee0' => array(self::BELONGS_TO, 'BEmployee', 'employee'),
-			'role0' => array(self::BELONGS_TO, 'AuthItem', 'role'),
 		);
 	}
 

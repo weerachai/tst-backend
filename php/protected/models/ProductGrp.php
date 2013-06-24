@@ -7,9 +7,6 @@
  * @property string $ProductGrpId
  * @property string $ProductId
  * @property string $UpdateAt
- *
- * The followings are the available model relations:
- * @property Product $product
  */
 class ProductGrp extends CActiveRecord
 {
@@ -56,7 +53,6 @@ class ProductGrp extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'product' => array(self::BELONGS_TO, 'Product', 'ProductId'),
 		);
 	}
 

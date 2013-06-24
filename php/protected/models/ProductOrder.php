@@ -19,14 +19,6 @@
  * @property string $Status
  * @property string $Remark
  * @property string $UpdateAt
- *
- * The followings are the available model relations:
- * @property Promotion[] $promotions
- * @property FreeDetail[] $freeDetails
- * @property Product[] $products
- * @property ProductInvoice[] $productInvoices
- * @property Customer $customer
- * @property SaleUnit $sale
  */
 class ProductOrder extends CActiveRecord
 {
@@ -73,12 +65,6 @@ class ProductOrder extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'promotions' => array(self::MANY_MANY, 'Promotion', 'DiscDetail(OrderNo, PromotionId)'),
-			'freeDetails' => array(self::HAS_MANY, 'FreeDetail', 'OrderNo'),
-			'products' => array(self::MANY_MANY, 'Product', 'OrderDetail(OrderNo, ProductId)'),
-			'productInvoices' => array(self::HAS_MANY, 'ProductInvoice', 'OrderNo'),
-			'customer' => array(self::BELONGS_TO, 'Customer', 'CustomerId'),
-			'sale' => array(self::BELONGS_TO, 'SaleUnit', 'SaleId'),
 		);
 	}
 
