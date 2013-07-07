@@ -8,6 +8,9 @@
  * @property string $InvoiceNo
  * @property string $Amount
  * @property string $UpdateAt
+ *
+ * The followings are the available model relations:
+ * @property Payment $payment
  */
 class InvoicePayment extends CActiveRecord
 {
@@ -54,6 +57,7 @@ class InvoicePayment extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+			'payment' => array(self::BELONGS_TO, 'Payment', 'PaymentId'),
 		);
 	}
 

@@ -24,6 +24,7 @@ class SyncController extends Controller
 	public function actionSave() 
 	{
 		$params = $_POST;
+		file_put_contents("/home/tu/www/backend/php/protected/log.txt", print_r($params,true), LOCK_EX);
 		$jsonHelper = new JSONHelper($params);
 		$jsonHelper->assertRequiredParams(array("Table"));
 		$device = $jsonHelper->login();		
@@ -59,17 +60,82 @@ class SyncController extends Controller
 		$jsonHelper->assertTrue(($schema = Yii::app()->db->schema->getTable($table)) != null,"Table '$table' does not exist.");
 		$updateAt = $params['UpdateAt'];
 		$saleId = $device->SaleId;
-		if ($schema->getColumn("SaleId") == null)
+		if ($schema->getColumn("SaleId") == null) 
 			$models = $table::model()->findAll(
 				array("condition"=>"UpdateAt > '$updateAt'"));
 		else 
 			$models = $table::model()->findAll(
 				array("condition"=>"UpdateAt > '$updateAt' AND SaleId = '$saleId'"));
 		$rows = array();
+		$rows1 = array();
+		$rows2 = array();
+		$rows3 = array();
 		foreach($models as $model){
 			$rows[] = $model->attributes;
+			if ($table == 'ProductOrder') {
+				foreach($model->orderDetails as $m)
+					$rows1[] = $m->attributes;
+				foreach($model->freeDetails as $m)
+					$rows2[] = $m->attributes;
+				foreach($model->discDetails as $m)
+					$rows3[] = $m->attributes;
+			} elseif ($table == 'ProductInvoice') {
+				foreach($model->invoiceDetails as $m)
+					$rows1[] = $m->attributes;
+			} elseif ($table == 'ProductReturn') {
+				foreach($model->returnDetails as $m)
+					$rows1[] = $m->attributes;
+			} elseif ($table == 'BillCollection') {
+				foreach($model->payments as $m) {
+					$rows1[] = $m->attributes;
+					foreach ($m->invoicePayments as $p)
+						$rows2[] = $p->attributes;
+				}
+			} elseif ($table == 'ProductExchange') {
+				foreach($model->exchangeInDetails as $m)
+					$rows1[] = $m->attributes;
+				foreach($model->exchangeOutDetails as $m)
+					$rows2[] = $m->attributes;
+			} elseif ($table == 'StockRequest') {
+				foreach($model->requestDetails as $m)
+					$rows1[] = $m->attributes;
+			} elseif ($table == 'StockDeliver') {
+				foreach($model->deliverDetails as $m)
+					$rows1[] = $m->attributes;
+			} elseif ($table == 'StockReceive') {
+				foreach($model->receiveDetails as $m)
+					$rows1[] = $m->attributes;
+			} elseif ($table == 'StockTransfer') {
+				foreach($model->transferDetails as $m)
+					$rows1[] = $m->attributes;
+			}
+
 		}
 		$jsonHelper->setDataRow($table,$rows);
+		if ($table == 'ProductOrder') {
+			$jsonHelper->setDataRow("OrderDetail",$rows1);
+			$jsonHelper->setDataRow("FreeDetail",$rows2);
+			$jsonHelper->setDataRow("DiscDetail",$rows3);
+		} elseif ($table == 'ProductInvoice') {
+			$jsonHelper->setDataRow("InvoiceDetail",$rows1);
+		} elseif ($table == 'ProductReturn') {
+			$jsonHelper->setDataRow("ReturnDetail",$rows1);
+		} elseif ($table == 'BillCollection') {
+			$jsonHelper->setDataRow("Payment",$rows1);
+			$jsonHelper->setDataRow("InvoicePayment",$rows2);
+		} elseif ($table == 'ProductExchange') {
+			$jsonHelper->setDataRow("ExchangeInDetail",$rows1);
+			$jsonHelper->setDataRow("ExchangeOutDetail",$rows2);
+		} elseif ($table == 'StockRequest') {
+			$jsonHelper->setDataRow("RequestDetail",$rows1);
+		} elseif ($table == 'StockDeliver') {
+			$jsonHelper->setDataRow("DeliverDetail",$rows1);
+		} elseif ($table == 'StockReceive') {
+			$jsonHelper->setDataRow("ReceiveDetail",$rows1);
+		} elseif ($table == 'StockTransfer') {
+			$jsonHelper->setDataRow("TransferDetail",$rows1);
+		}
+
 		$jsonHelper->end("Updated successfully.");
 	}
 

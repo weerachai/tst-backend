@@ -1,0 +1,24 @@
+Array
+(
+    [Username] => D002
+    [Password] => 1a3b0cc7ede95099129197b513be8bee
+    [DeviceKey] => 358718676788243
+    [Table] => RequestDetail
+    [params] => Array
+        (
+            [id] => 2
+            [SyncFlag] => N
+            [RequestNo] => RQD00213070001
+            [ProductId] => 0050100001
+            [QtyLevel1] => 4
+            [QtyLevel2] => 0
+            [QtyLevel3] => 0
+            [QtyLevel4] => 0
+            [PriceLevel1] => 1284
+            [PriceLevel2] => 0
+            [PriceLevel3] => 0
+            [PriceLevel4] => 0
+            [UpdateAt] => 2013-07-07 07:45:52
+        )
+
+)

@@ -12,6 +12,9 @@
  * @property integer $DiscPer3
  * @property string $DiscTotal
  * @property string $UpdateAt
+ *
+ * The followings are the available model relations:
+ * @property ProductOrder $orderNo
  */
 class DiscDetail extends CActiveRecord
 {
@@ -59,6 +62,7 @@ class DiscDetail extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+			'orderNo' => array(self::BELONGS_TO, 'ProductOrder', 'OrderNo'),
 		);
 	}
 

@@ -21,6 +21,9 @@
  * @property string $PriceLevel3
  * @property string $PriceLevel4
  * @property string $UpdateAt
+ *
+ * The followings are the available model relations:
+ * @property ProductReturn $returnNo
  */
 class ReturnDetail extends CActiveRecord
 {
@@ -68,6 +71,7 @@ class ReturnDetail extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+			'returnNo' => array(self::BELONGS_TO, 'ProductReturn', 'ReturnNo'),
 		);
 	}
 

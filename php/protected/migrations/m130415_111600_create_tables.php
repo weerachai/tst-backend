@@ -84,8 +84,8 @@ if ($TESTING) {
     $this->createTable('Config', // backend config information
                        array(
                              'DayToClear' => 'integer not null',
-                             'SaleDiffPercent' => 'integer',
-                             'StockDiffPercent' => 'integer',
+                             'SaleDiffPercent' => 'integer DEFAULT 0',
+                             'StockDiffPercent' => 'integer DEFAULT 0',
                              'UpdateAt' => 'datetime',
                              ), 'ENGINE=InnoDB');
     $this->execute("INSERT INTO Config VALUES(60,0,0,now())");
@@ -177,7 +177,7 @@ if ($TESTING) {
                              'PromotionAccu' => 'string', 
                              'Vat' => 'string', // vat calculation method - bill,sku
                              'OverStock' => 'char', // stock limit sale - Y, N
-                             'DayToClear' => 'integer', // day to clear data
+                             'DayToClear' => 'integer DEFAULT 0', // day to clear data
                              'UpdateAt' => 'datetime',			
                              'primary key (SaleId)',
                              ), 'ENGINE=InnoDB');	
@@ -209,6 +209,7 @@ if ($TESTING) {
     $this->execute("INSERT INTO ControlRunning VALUES('C08','รหัสร้านค้า','CU')");
     $this->execute("INSERT INTO ControlRunning VALUES('C09','Bill Collection','BC')");
     $this->execute("INSERT INTO ControlRunning VALUES('C10','Payment','PM')");
+    $this->execute("INSERT INTO ControlRunning VALUES('C11','โอนสินค้า','TX')");
 }
 
     // fixed option tables
@@ -216,9 +217,9 @@ if ($TESTING) {
                        array(
                              'SaleId' => 'string',
                              'ControlId' => 'string',
-                             'Year' => 'integer',
-                             'Month' => 'integer',
-                             'No' => 'integer',
+                             'Year' => 'integer DEFAULT 0',
+                             'Month' => 'integer DEFAULT 0',
+                             'No' => 'integer DEFAULT 0',
                              'UpdateAt' => 'datetime',			
                              'primary key (SaleId, ControlId)',
                              ), 'ENGINE=InnoDB');	
@@ -238,6 +239,7 @@ if ($TESTING) {
     $this->execute("INSERT INTO ControlNo VALUES('N001','C08',$year,$month,1,now())");
     $this->execute("INSERT INTO ControlNo VALUES('N001','C09',$year,$month,1,now())");
     $this->execute("INSERT INTO ControlNo VALUES('N001','C10',$year,$month,1,now())");
+    $this->execute("INSERT INTO ControlNo VALUES('N001','C11',$year,$month,1,now())");
 
     $this->execute("INSERT INTO ControlNo VALUES('N002','C01',$year,$month,1,now())");
     $this->execute("INSERT INTO ControlNo VALUES('N002','C02',$year,$month,1,now())");
@@ -249,6 +251,7 @@ if ($TESTING) {
     $this->execute("INSERT INTO ControlNo VALUES('N002','C08',$year,$month,1,now())");
     $this->execute("INSERT INTO ControlNo VALUES('N002','C09',$year,$month,1,now())");
     $this->execute("INSERT INTO ControlNo VALUES('N002','C10',$year,$month,1,now())");
+    $this->execute("INSERT INTO ControlNo VALUES('N002','C11',$year,$month,1,now())");
 
     $this->execute("INSERT INTO ControlNo VALUES('N003','C01',$year,$month,1,now())");
     $this->execute("INSERT INTO ControlNo VALUES('N003','C02',$year,$month,1,now())");
@@ -260,6 +263,7 @@ if ($TESTING) {
     $this->execute("INSERT INTO ControlNo VALUES('N003','C08',$year,$month,1,now())");
     $this->execute("INSERT INTO ControlNo VALUES('N003','C09',$year,$month,1,now())");
     $this->execute("INSERT INTO ControlNo VALUES('N003','C10',$year,$month,1,now())");
+    $this->execute("INSERT INTO ControlNo VALUES('N003','C11',$year,$month,1,now())");
 }
 
     // fixed option tables
@@ -362,18 +366,18 @@ if ($TESTING) {
                              'StockCheckDate' => 'string',
                              'CustomerId' => 'string',
                              'ProductId' => 'string',
-                             'FrontQtyLevel1' => 'integer',
-                             'FrontQtyLevel2' => 'integer',
-                             'FrontQtyLevel3' => 'integer',
-                             'FrontQtyLevel4' => 'integer',
-                             'BackQtyLevel1' => 'integer',
-                             'BackQtyLevel2' => 'integer',
-                             'BackQtyLevel3' => 'integer',
-                             'BackQtyLevel4' => 'integer',
-                             'BuyQtyLevel1' => 'integer',
-                             'BuyQtyLevel2' => 'integer',
-                             'BuyQtyLevel3' => 'integer',
-                             'BuyQtyLevel4' => 'integer',
+                             'FrontQtyLevel1' => 'integer DEFAULT 0',
+                             'FrontQtyLevel2' => 'integer DEFAULT 0',
+                             'FrontQtyLevel3' => 'integer DEFAULT 0',
+                             'FrontQtyLevel4' => 'integer DEFAULT 0',
+                             'BackQtyLevel1' => 'integer DEFAULT 0',
+                             'BackQtyLevel2' => 'integer DEFAULT 0',
+                             'BackQtyLevel3' => 'integer DEFAULT 0',
+                             'BackQtyLevel4' => 'integer DEFAULT 0',
+                             'BuyQtyLevel1' => 'integer DEFAULT 0',
+                             'BuyQtyLevel2' => 'integer DEFAULT 0',
+                             'BuyQtyLevel3' => 'integer DEFAULT 0',
+                             'BuyQtyLevel4' => 'integer DEFAULT 0',
                              'UpdateAt' => 'datetime',
                              'PRIMARY KEY (StockCheckDate, CustomerId, ProductId)',
                              ), 'ENGINE=InnoDB');	
@@ -440,10 +444,10 @@ if ($TESTING) {
                              'PriceLevel2' => 'decimal(10,2)',
                              'PriceLevel3' => 'decimal(10,2)',
                              'PriceLevel4' => 'decimal(10,2)',
-                             'WeightLevel1' => 'integer',
-                             'WeightLevel2' => 'integer',
-                             'WeightLevel3' => 'integer',
-                             'WeightLevel4' => 'integer',
+                             'WeightLevel1' => 'integer DEFAULT 0',
+                             'WeightLevel2' => 'integer DEFAULT 0',
+                             'WeightLevel3' => 'integer DEFAULT 0',
+                             'WeightLevel4' => 'integer DEFAULT 0',
                              'FreeFlag' => 'char',
                              'VatFlag' => 'char',
                              'ShipFlag' => 'char',
@@ -481,10 +485,46 @@ if ($TESTING) {
                        array(
                              'SaleId' => 'string',
                              'ProductId' => 'string',
-                             'QtyLevel1' => 'integer',
-                             'QtyLevel2' => 'integer',
-                             'QtyLevel3' => 'integer',
-                             'QtyLevel4' => 'integer',
+                             'StartQtyLevel1' => 'integer DEFAULT 0',
+                             'StartQtyLevel2' => 'integer DEFAULT 0',
+                             'StartQtyLevel3' => 'integer DEFAULT 0',
+                             'StartQtyLevel4' => 'integer DEFAULT 0',
+                             'CurrentQtyLevel1' => 'integer DEFAULT 0',
+                             'CurrentQtyLevel2' => 'integer DEFAULT 0',
+                             'CurrentQtyLevel3' => 'integer DEFAULT 0',
+                             'CurrentQtyLevel4' => 'integer DEFAULT 0',
+                             'BadQtyLevel1' => 'integer DEFAULT 0',
+                             'BadQtyLevel2' => 'integer DEFAULT 0',
+                             'BadQtyLevel3' => 'integer DEFAULT 0',
+                             'BadQtyLevel4' => 'integer DEFAULT 0',
+                             'MidInQtyLevel1' => 'integer DEFAULT 0',
+                             'MidInQtyLevel2' => 'integer DEFAULT 0',
+                             'MidInQtyLevel3' => 'integer DEFAULT 0',
+                             'MidInQtyLevel4' => 'integer DEFAULT 0',
+                             'ReturnQtyLevel1' => 'integer DEFAULT 0',
+                             'ReturnQtyLevel2' => 'integer DEFAULT 0',
+                             'ReturnQtyLevel3' => 'integer DEFAULT 0',
+                             'ReturnQtyLevel4' => 'integer DEFAULT 0',
+                             'ReplaceQtyLevel1' => 'integer DEFAULT 0',
+                             'ReplaceQtyLevel2' => 'integer DEFAULT 0',
+                             'ReplaceQtyLevel3' => 'integer DEFAULT 0',
+                             'ReplaceQtyLevel4' => 'integer DEFAULT 0',
+                             'SaleQtyLevel1' => 'integer DEFAULT 0',
+                             'SaleQtyLevel2' => 'integer DEFAULT 0',
+                             'SaleQtyLevel3' => 'integer DEFAULT 0',
+                             'SaleQtyLevel4' => 'integer DEFAULT 0',
+                             'FreeQtyLevel1' => 'integer DEFAULT 0',
+                             'FreeQtyLevel2' => 'integer DEFAULT 0',
+                             'FreeQtyLevel3' => 'integer DEFAULT 0',
+                             'FreeQtyLevel4' => 'integer DEFAULT 0',
+                             'MidOutQtyLevel1' => 'integer DEFAULT 0',
+                             'MidOutQtyLevel2' => 'integer DEFAULT 0',
+                             'MidOutQtyLevel3' => 'integer DEFAULT 0',
+                             'MidOutQtyLevel4' => 'integer DEFAULT 0',
+                             'EndQtyLevel1' => 'integer DEFAULT 0',
+                             'EndQtyLevel2' => 'integer DEFAULT 0',
+                             'EndQtyLevel3' => 'integer DEFAULT 0',
+                             'EndQtyLevel4' => 'integer DEFAULT 0',
                              'UpdateAt' => 'datetime',
                              'PRIMARY KEY (SaleId, ProductId)',
                              ), 'ENGINE=InnoDB');	
@@ -492,42 +532,204 @@ if ($TESTING) {
 //    $this->addForeignKey('fk_Stock_Product','Stock','ProductId','Product','ProductId','RESTRICT','CASCADE');
 
 if ($TESTING) {
-    $this->execute("INSERT INTO Stock VALUES('N002','0010100001',10,20,20,20,now())");
-    $this->execute("INSERT INTO Stock VALUES('N002','0010200001',20,10,20,20,now())");
-    $this->execute("INSERT INTO Stock VALUES('N002','0010300001',10,0,20,20,now())");
-    $this->execute("INSERT INTO Stock VALUES('N002','0010400001',20,10,20,20,now())");
-    $this->execute("INSERT INTO Stock VALUES('N002','0050100001',10,20,20,20,now())");
-    $this->execute("INSERT INTO Stock VALUES('N002','0050100002',20,30,20,20,now())");
-    $this->execute("INSERT INTO Stock VALUES('N002','0050100003',10,0,20,20,now())");
-    $this->execute("INSERT INTO Stock VALUES('N002','0050100004',20,20,20,20,now())");
-    $this->execute("INSERT INTO Stock VALUES('N002','0050100005',10,20,20,20,now())");
+    $this->execute("INSERT INTO Stock(SaleId,ProductId,StartQtyLevel1,StartQtyLevel2,StartQtyLevel3,StartQtyLevel4,CurrentQtyLevel1,CurrentQtyLevel2,CurrentQtyLevel3,CurrentQtyLevel4,UpdateAt) VALUES('N002','0010100001',10,20,20,20,10,20,20,20,now())");
+    $this->execute("INSERT INTO Stock(SaleId,ProductId,StartQtyLevel1,StartQtyLevel2,StartQtyLevel3,StartQtyLevel4,CurrentQtyLevel1,CurrentQtyLevel2,CurrentQtyLevel3,CurrentQtyLevel4,UpdateAt) VALUES('N002','0010200001',20,10,20,20,20,10,20,20,now())");
+    $this->execute("INSERT INTO Stock(SaleId,ProductId,StartQtyLevel1,StartQtyLevel2,StartQtyLevel3,StartQtyLevel4,CurrentQtyLevel1,CurrentQtyLevel2,CurrentQtyLevel3,CurrentQtyLevel4,UpdateAt) VALUES('N002','0010300001',10,0,20,20,10,0,20,20,now())");
+    $this->execute("INSERT INTO Stock(SaleId,ProductId,StartQtyLevel1,StartQtyLevel2,StartQtyLevel3,StartQtyLevel4,CurrentQtyLevel1,CurrentQtyLevel2,CurrentQtyLevel3,CurrentQtyLevel4,UpdateAt) VALUES('N002','0010400001',20,10,20,20,20,10,20,20,now())");
+    $this->execute("INSERT INTO Stock(SaleId,ProductId,StartQtyLevel1,StartQtyLevel2,StartQtyLevel3,StartQtyLevel4,CurrentQtyLevel1,CurrentQtyLevel2,CurrentQtyLevel3,CurrentQtyLevel4,UpdateAt) VALUES('N002','0050100001',10,20,20,20,10,20,20,20,now())");
+    $this->execute("INSERT INTO Stock(SaleId,ProductId,StartQtyLevel1,StartQtyLevel2,StartQtyLevel3,StartQtyLevel4,CurrentQtyLevel1,CurrentQtyLevel2,CurrentQtyLevel3,CurrentQtyLevel4,UpdateAt) VALUES('N002','0050100002',20,30,20,20,20,30,20,20,now())");
+    $this->execute("INSERT INTO Stock(SaleId,ProductId,StartQtyLevel1,StartQtyLevel2,StartQtyLevel3,StartQtyLevel4,CurrentQtyLevel1,CurrentQtyLevel2,CurrentQtyLevel3,CurrentQtyLevel4,UpdateAt) VALUES('N002','0050100003',10,0,20,20,10,0,20,20,now())");
+    $this->execute("INSERT INTO Stock(SaleId,ProductId,StartQtyLevel1,StartQtyLevel2,StartQtyLevel3,StartQtyLevel4,CurrentQtyLevel1,CurrentQtyLevel2,CurrentQtyLevel3,CurrentQtyLevel4,UpdateAt) VALUES('N002','0050100004',20,20,20,20,20,20,20,20,now())");
+    $this->execute("INSERT INTO Stock(SaleId,ProductId,StartQtyLevel1,StartQtyLevel2,StartQtyLevel3,StartQtyLevel4,CurrentQtyLevel1,CurrentQtyLevel2,CurrentQtyLevel3,CurrentQtyLevel4,UpdateAt) VALUES('N002','0050100005',10,20,20,20,10,20,20,20,now())");
 
-    $this->execute("INSERT INTO Stock VALUES('N003','0010100001',10,20,20,20,now())");
-    $this->execute("INSERT INTO Stock VALUES('N003','0010200001',20,10,20,20,now())");
-    $this->execute("INSERT INTO Stock VALUES('N003','0010300001',10,0,20,20,now())");
-    $this->execute("INSERT INTO Stock VALUES('N003','0010400001',20,10,20,20,now())");
-    $this->execute("INSERT INTO Stock VALUES('N003','0050100001',10,20,20,20,now())");
-    $this->execute("INSERT INTO Stock VALUES('N003','0050100002',20,30,20,20,now())");
-    $this->execute("INSERT INTO Stock VALUES('N003','0050100003',10,0,20,20,now())");
-    $this->execute("INSERT INTO Stock VALUES('N003','0050100004',20,20,20,20,now())");
-    $this->execute("INSERT INTO Stock VALUES('N003','0050100005',10,20,20,20,now())");
+    $this->execute("INSERT INTO Stock(SaleId,ProductId,StartQtyLevel1,StartQtyLevel2,StartQtyLevel3,StartQtyLevel4,CurrentQtyLevel1,CurrentQtyLevel2,CurrentQtyLevel3,CurrentQtyLevel4,UpdateAt) VALUES('N003','0010100001',10,20,20,20,10,20,20,20,now())");
+    $this->execute("INSERT INTO Stock(SaleId,ProductId,StartQtyLevel1,StartQtyLevel2,StartQtyLevel3,StartQtyLevel4,CurrentQtyLevel1,CurrentQtyLevel2,CurrentQtyLevel3,CurrentQtyLevel4,UpdateAt) VALUES('N003','0010200001',20,10,20,20,20,10,20,20,now())");
+    $this->execute("INSERT INTO Stock(SaleId,ProductId,StartQtyLevel1,StartQtyLevel2,StartQtyLevel3,StartQtyLevel4,CurrentQtyLevel1,CurrentQtyLevel2,CurrentQtyLevel3,CurrentQtyLevel4,UpdateAt) VALUES('N003','0010300001',10,0,20,20,10,0,20,20,now())");
+    $this->execute("INSERT INTO Stock(SaleId,ProductId,StartQtyLevel1,StartQtyLevel2,StartQtyLevel3,StartQtyLevel4,CurrentQtyLevel1,CurrentQtyLevel2,CurrentQtyLevel3,CurrentQtyLevel4,UpdateAt) VALUES('N003','0010400001',20,10,20,20,20,10,20,20,now())");
+    $this->execute("INSERT INTO Stock(SaleId,ProductId,StartQtyLevel1,StartQtyLevel2,StartQtyLevel3,StartQtyLevel4,CurrentQtyLevel1,CurrentQtyLevel2,CurrentQtyLevel3,CurrentQtyLevel4,UpdateAt) VALUES('N003','0050100001',10,20,20,20,10,20,20,20,now())");
+    $this->execute("INSERT INTO Stock(SaleId,ProductId,StartQtyLevel1,StartQtyLevel2,StartQtyLevel3,StartQtyLevel4,CurrentQtyLevel1,CurrentQtyLevel2,CurrentQtyLevel3,CurrentQtyLevel4,UpdateAt) VALUES('N003','0050100002',20,30,20,20,20,30,20,20,now())");
+    $this->execute("INSERT INTO Stock(SaleId,ProductId,StartQtyLevel1,StartQtyLevel2,StartQtyLevel3,StartQtyLevel4,CurrentQtyLevel1,CurrentQtyLevel2,CurrentQtyLevel3,CurrentQtyLevel4,UpdateAt) VALUES('N003','0050100003',10,0,20,20,10,0,20,20,now())");
+    $this->execute("INSERT INTO Stock(SaleId,ProductId,StartQtyLevel1,StartQtyLevel2,StartQtyLevel3,StartQtyLevel4,CurrentQtyLevel1,CurrentQtyLevel2,CurrentQtyLevel3,CurrentQtyLevel4,UpdateAt) VALUES('N003','0050100004',20,20,20,20,20,20,20,20,now())");
+    $this->execute("INSERT INTO Stock(SaleId,ProductId,StartQtyLevel1,StartQtyLevel2,StartQtyLevel3,StartQtyLevel4,CurrentQtyLevel1,CurrentQtyLevel2,CurrentQtyLevel3,CurrentQtyLevel4,UpdateAt) VALUES('N003','0050100005',10,20,20,20,10,20,20,20,now())");
 }
 
-/*
-    $this->createTable('fStockRequest', 
+    $this->createTable('Warehouse', 
+                       array(
+                             'WarehouseId' => 'string',
+                             'WarehouseName' => 'string',
+                             'WarehouseType' => 'string',
+                             'UpdateAt' => 'datetime',
+                             'PRIMARY KEY (WarehouseId)',
+                             ), 'ENGINE=InnoDB');   
+if ($TESTING) {
+    $this->execute("INSERT INTO Warehouse VALUES('W1','คลัง 1','คลังใหญ่',now())");
+    $this->execute("INSERT INTO Warehouse VALUES('W2','คลัง 2','คลังใหญ่',now())");
+    $this->execute("INSERT INTO Warehouse VALUES('W3','คลัง 3','คลังใหญ่',now())");
+    $this->execute("INSERT INTO Warehouse VALUES('C1','หน่วยรถ 1','คลังรถ',now())");
+    $this->execute("INSERT INTO Warehouse VALUES('C2','หน่วยรถ 2','คลังรถ',now())");
+    $this->execute("INSERT INTO Warehouse VALUES('C3','หน่วยรถ 3','คลังรถ',now())");
+}
+
+    $this->createTable('StockRequest', 
+                       array(
+                             'RequestNo' => 'string',
+                             'SaleId' => 'string',
+                             'WarehouseId' => 'string',
+                             'WarehouseName' => 'string',
+                             'WarehouseType' => 'string',
+                             'RequestDate' => 'date',
+                             'Total' => 'decimal(10,2) DEFAULT 0',
+                             'Status' => 'string',
+                             'UpdateAt' => 'datetime',
+                             'PRIMARY KEY (RequestNo)',
+                             ), 'ENGINE=InnoDB');   
+
+    $this->createTable('RequestDetail', 
+                       array(
+                             'RequestNo' => 'string',
+                             'ProductId' => 'string',
+                             'QtyLevel1' => 'integer DEFAULT 0',
+                             'QtyLevel2' => 'integer DEFAULT 0',
+                             'QtyLevel3' => 'integer DEFAULT 0',
+                             'QtyLevel4' => 'integer DEFAULT 0',
+                             'PriceLevel1' => 'decimal(10,2) DEFAULT 0',
+                             'PriceLevel2' => 'decimal(10,2) DEFAULT 0',
+                             'PriceLevel3' => 'decimal(10,2) DEFAULT 0',
+                             'PriceLevel4' => 'decimal(10,2) DEFAULT 0',
+                             'UpdateAt' => 'datetime',
+                             'PRIMARY KEY (RequestNo, ProductId)',
+                             ), 'ENGINE=InnoDB');   
+    $this->addForeignKey('fk_RequestDetail_StockRequest','RequestDetail','RequestNo','StockRequest','RequestNo','CASCADE','CASCADE');
+//    $this->addForeignKey('fk_sStock_bSaleUnit','sStock','SaleId','bSaleUnit','SaleId','CASCADE','CASCADE');
+//    $this->addForeignKey('fk_sStock_oProduct','sStock','ProductId','oProduct','ProductId','RESTRICT','CASCADE');
+
+    $this->createTable('StockDeliver', 
+                       array(
+                             'RequestNo' => 'string',
+                             'DeliverNo' => 'string',
+                             'SaleId' => 'string',
+                             'DeliverDate' => 'date',
+                             'Total' => 'decimal(10,2) DEFAULT 0',
+                             'Status' => 'string',
+                             'UpdateAt' => 'datetime',
+                             'PRIMARY KEY (DeliverNo)',
+                             ), 'ENGINE=InnoDB');   
+
+    $this->createTable('DeliverDetail', 
+                       array(
+                             'DeliverNo' => 'string',
+                             'ProductId' => 'string',
+                             'QtyLevel1' => 'integer DEFAULT 0',
+                             'QtyLevel2' => 'integer DEFAULT 0',
+                             'QtyLevel3' => 'integer DEFAULT 0',
+                             'QtyLevel4' => 'integer DEFAULT 0',
+                             'PriceLevel1' => 'decimal(10,2) DEFAULT 0',
+                             'PriceLevel2' => 'decimal(10,2) DEFAULT 0',
+                             'PriceLevel3' => 'decimal(10,2) DEFAULT 0',
+                             'PriceLevel4' => 'decimal(10,2) DEFAULT 0',
+                             'UpdateAt' => 'datetime',
+                             'PRIMARY KEY (DeliverNo, ProductId)',
+                             ), 'ENGINE=InnoDB');   
+    $this->addForeignKey('fk_DeliverDetail_StockRequest','DeliverDetail','DeliverNo','StockDeliver','DeliverNo','CASCADE','CASCADE');
+//    $this->addForeignKey('fk_sStock_bSaleUnit','sStock','SaleId','bSaleUnit','SaleId','CASCADE','CASCADE');
+//    $this->addForeignKey('fk_sStock_oProduct','sStock','ProductId','oProduct','ProductId','RESTRICT','CASCADE');
+
+    $this->createTable('StockReceive', 
+                       array(
+                             'RequestNo' => 'string',
+                             'DeliverNo' => 'string',
+                             'ReceiveNo' => 'string',
+                             'SaleId' => 'string',
+                             'ReceiveDate' => 'date',
+                             'Total' => 'decimal(10,2) DEFAULT 0',
+                             'Status' => 'string',
+                             'UpdateAt' => 'datetime',
+                             'PRIMARY KEY (ReceiveNo)',
+                             ), 'ENGINE=InnoDB');   
+
+    $this->createTable('ReceiveDetail', 
+                       array(
+                             'ReceiveNo' => 'string',
+                             'ProductId' => 'string',
+                             'QtyLevel1' => 'integer DEFAULT 0',
+                             'QtyLevel2' => 'integer DEFAULT 0',
+                             'QtyLevel3' => 'integer DEFAULT 0',
+                             'QtyLevel4' => 'integer DEFAULT 0',
+                             'PriceLevel1' => 'decimal(10,2) DEFAULT 0',
+                             'PriceLevel2' => 'decimal(10,2) DEFAULT 0',
+                             'PriceLevel3' => 'decimal(10,2) DEFAULT 0',
+                             'PriceLevel4' => 'decimal(10,2) DEFAULT 0',
+                             'UpdateAt' => 'datetime',
+                             'PRIMARY KEY (ReceiveNo, ProductId)',
+                             ), 'ENGINE=InnoDB');   
+    $this->addForeignKey('fk_ReceiveDetail_StockRequest','ReceiveDetail','ReceiveNo','StockReceive','ReceiveNo','CASCADE','CASCADE');
+//    $this->addForeignKey('fk_sStock_bSaleUnit','sStock','SaleId','bSaleUnit','SaleId','CASCADE','CASCADE');
+//    $this->addForeignKey('fk_sStock_oProduct','sStock','ProductId','oProduct','ProductId','RESTRICT','CASCADE');
+
+    $this->createTable('StockTransfer', 
+                       array(
+                             'TransferNo' => 'string',
+                             'SaleId' => 'string',
+                             'WarehouseId' => 'string',
+                             'WarehouseName' => 'string',
+                             'WarehouseType' => 'string',
+                             'TransferDate' => 'date',
+                             'Total' => 'decimal(10,2) DEFAULT 0',
+                             'Status' => 'string',
+                             'UpdateAt' => 'datetime',
+                             'PRIMARY KEY (TransferNo)',
+                             ), 'ENGINE=InnoDB');   
+
+    $this->createTable('TransferDetail', 
+                       array(
+                             'TransferNo' => 'string',
+                             'ProductId' => 'string',
+                             'QtyLevel1' => 'integer DEFAULT 0',
+                             'QtyLevel2' => 'integer DEFAULT 0',
+                             'QtyLevel3' => 'integer DEFAULT 0',
+                             'QtyLevel4' => 'integer DEFAULT 0',
+                             'PriceLevel1' => 'decimal(10,2) DEFAULT 0',
+                             'PriceLevel2' => 'decimal(10,2) DEFAULT 0',
+                             'PriceLevel3' => 'decimal(10,2) DEFAULT 0',
+                             'PriceLevel4' => 'decimal(10,2) DEFAULT 0',
+                             'UpdateAt' => 'datetime',
+                             'PRIMARY KEY (TransferNo, ProductId)',
+                             ), 'ENGINE=InnoDB');   
+    $this->addForeignKey('fk_TransferDetail_StockRequest','TransferDetail','TransferNo','StockTransfer','TransferNo','CASCADE','CASCADE');
+//    $this->addForeignKey('fk_sStock_bSaleUnit','sStock','SaleId','bSaleUnit','SaleId','CASCADE','CASCADE');
+//    $this->addForeignKey('fk_sStock_oProduct','sStock','ProductId','oProduct','ProductId','RESTRICT','CASCADE');
+
+
+    // sync option tables
+    $this->createTable('BankAccount', 
+                       array(
+                             'Bank' => 'string',
+                             'Branch' => 'string',
+                             'AccountNo' => 'string',
+                             'UpdateAt' => 'datetime',
+                             'PRIMARY KEY (Bank,Branch,AccountNo)',
+                             ), 'ENGINE=InnoDB');   
+
+    $this->execute("INSERT INTO BankAccount VALUES('กรุงเทพ','รังสิต','111-111111-1',now())");
+    $this->execute("INSERT INTO BankAccount VALUES('ไทยพาณิชย์','รังสิต','222-222222-2',now())");
+    $this->execute("INSERT INTO BankAccount VALUES('กสิกร','รังสิต','333-333333-3',now())");
+    $this->execute("INSERT INTO BankAccount VALUES('ทหารไทย','รังสิต','444-444444-4',now())");
+
+    $this->createTable('MoneyTransfer', 
                        array(
                              'SaleId' => 'string',
-                             'ProductId' => 'string',
-                             'QtyLevel1' => 'integer',
-                             'QtyLevel2' => 'integer',
-                             'QtyLevel3' => 'integer',
-                             'QtyLevel4' => 'integer',
+                             'TransferDate' => 'date',
+                             'StartDate' => 'date',
+                             'EndDate' => 'date',
+                             'Amount' => 'decimal(20,2) DEFAULT 0',
+                             'Bank' => 'string',
+                             'Branch' => 'string',
+                             'AccountNo' => 'string',
+                             'Status' => 'string',
                              'UpdateAt' => 'datetime',
-                             'PRIMARY KEY (SaleId, ProductId)',
+                             'PRIMARY KEY (SaleId,EndDate)',
                              ), 'ENGINE=InnoDB');   
-    $this->addForeignKey('fk_sStock_bSaleUnit','sStock','SaleId','bSaleUnit','SaleId','CASCADE','CASCADE');
-    $this->addForeignKey('fk_sStock_oProduct','sStock','ProductId','oProduct','ProductId','RESTRICT','CASCADE');
-*/
+
 
     // sync option tables
     $this->createTable('PaymentType', 
@@ -540,6 +742,7 @@ if ($TESTING) {
     $this->execute("INSERT INTO PaymentType VALUES('เช็ค',now())");
     $this->execute("INSERT INTO PaymentType VALUES('เงินสด',now())");
     $this->execute("INSERT INTO PaymentType VALUES('โอนเงินสด',now())");
+    $this->execute("INSERT INTO PaymentType VALUES('CN',now())");
 
     $this->createTable('BillCollection', 
                        array(
@@ -547,8 +750,8 @@ if ($TESTING) {
                              'SaleId' => 'string',
                              'CustomerId' => 'string',
                              'CollectionDate' => 'date',
-                             'CollectionAmount' => 'decimal(20,2)',
-                             'PaidAmount' => 'decimal(20,2)',
+                             'CollectionAmount' => 'decimal(20,2) DEFAULT 0',
+                             'PaidAmount' => 'decimal(20,2) DEFAULT 0',
                              'Status' => 'string',
                              'UpdateAt' => 'datetime',
                              'PRIMARY KEY (CollectionNo)',
@@ -561,25 +764,27 @@ if ($TESTING) {
                              'CollectionNo' => 'string',
                              'PaymentId' => 'string',
                              'PaymentType' => 'string',
-                             'PaymentDate' => 'date',
-                             'PaidAmount' => 'decimal(20,2)',
+                             'PaidAmount' => 'decimal(20,2) DEFAULT 0',
                              'DocNo' => 'string',
-                             'DocNote' => 'string',
+                             'DocDate' => 'string',
+                             'Bank' => 'string',
+                             'Branch' => 'string',
+                             'AccountNo' => 'string',
                              'UpdateAt' => 'datetime',
                              'PRIMARY KEY (PaymentId)',
                              ), 'ENGINE=InnoDB');   
-//    $this->addForeignKey('fk_Payment_BillCollection','Payment','CollectionNo','BillCollection','CollectionNo','CASCADE','CASCADE');
+    $this->addForeignKey('fk_Payment_BillCollection','Payment','CollectionNo','BillCollection','CollectionNo','CASCADE','CASCADE');
 //    $this->addForeignKey('fk_Payment_PaymentType','Payment','PaymentType','PaymentType','PaymentType','RESTRICT','CASCADE');
 
     $this->createTable('InvoicePayment', 
                        array(
                              'PaymentId' => 'string',
                              'InvoiceNo' => 'string',
-                             'Amount' => 'decimal(20,2)',
+                             'Amount' => 'decimal(20,2) DEFAULT 0',
                              'UpdateAt' => 'datetime',
                              'PRIMARY KEY (PaymentId,InvoiceNo)',
                              ), 'ENGINE=InnoDB');   
-//    $this->addForeignKey('fk_InvoicePayment_Payment','InvoicePayment','PaymentId','Payment','PaymentId','CASCADE','CASCADE');
+    $this->addForeignKey('fk_InvoicePayment_Payment','InvoicePayment','PaymentId','Payment','PaymentId','CASCADE','CASCADE');
 //    $this->addForeignKey('fk_InvoicePayment_ProductInvoice','InvoicePayment','InvoiceNo','ProductInvoice','InvoiceNo','CASCADE','CASCADE');
   
     $this->createTable('ProductOrder', 
@@ -589,10 +794,10 @@ if ($TESTING) {
                              'SaleId' => 'string',
                              'CustomerId' => 'string',
                              'OrderDate' => 'date',
-                             'Total' => 'decimal(20,2)',
-                             'Vat' => 'decimal(20,2)',
-                             'Discount' => 'decimal(20,2)',
-                             'Shipping' => 'decimal(20,2)',
+                             'Total' => 'decimal(20,2) DEFAULT 0',
+                             'Vat' => 'decimal(20,2) DEFAULT 0',
+                             'Discount' => 'decimal(20,2) DEFAULT 0',
+                             'Shipping' => 'decimal(20,2) DEFAULT 0',
                              'DeliverDate' => 'date',
                              'DeliverAddress' => 'text',
                              'PaymentType' => 'string',
@@ -608,10 +813,10 @@ if ($TESTING) {
                        array(
                              'OrderNo' => 'string',
                              'ProductId' => 'string',
-                             'BuyLevel1' => 'integer',
-                             'BuyLevel2' => 'integer',
-                             'BuyLevel3' => 'integer',
-                             'BuyLevel4' => 'integer',
+                             'BuyLevel1' => 'integer DEFAULT 0',
+                             'BuyLevel2' => 'integer DEFAULT 0',
+                             'BuyLevel3' => 'integer DEFAULT 0',
+                             'BuyLevel4' => 'integer DEFAULT 0',
                              'PriceLevel1' => 'decimal(10,2)',
                              'PriceLevel2' => 'decimal(10,2)',
                              'PriceLevel3' => 'decimal(10,2)',
@@ -622,17 +827,18 @@ if ($TESTING) {
                              'UpdateAt' => 'datetime',
                              'PRIMARY KEY (OrderNo, ProductId)',
                              ), 'ENGINE=InnoDB');   
-//    $this->addForeignKey('fk_OrderDetail_ProductOrder','OrderDetail','OrderNo','ProductOrder','OrderNo','CASCADE','CASCADE');
+    $this->addForeignKey('fk_OrderDetail_ProductOrder','OrderDetail','OrderNo','ProductOrder','OrderNo','CASCADE','CASCADE');
 //    $this->addForeignKey('fk_OrderDetail_Product','OrderDetail','ProductId','Product','ProductId','RESTRICT','CASCADE');
  
     $this->createTable('ProductInvoice', 
                        array(
                              'InvoiceNo' => 'string',
                              'OrderNo' => 'string',
+                             'SaleId' => 'string',
                              'InvoiceDate' => 'date',
                              'DueDate' => 'date',
-                             'Total' => 'decimal(20,2)',
-                             'Paid' => 'decimal(20,2)',
+                             'Total' => 'decimal(20,2) DEFAULT 0',
+                             'Paid' => 'decimal(20,2) DEFAULT 0',
                              'Status' => 'string',
                              'UpdateAt' => 'datetime',
                              'PRIMARY KEY (InvoiceNo)',
@@ -643,15 +849,15 @@ if ($TESTING) {
                        array(
                              'InvoiceNo' => 'string',
                              'ProductId' => 'string',
-                             'QtyLevel1' => 'integer',
-                             'QtyLevel2' => 'integer',
-                             'QtyLevel3' => 'integer',
-                             'QtyLevel4' => 'integer',
+                             'QtyLevel1' => 'integer DEFAULT 0',
+                             'QtyLevel2' => 'integer DEFAULT 0',
+                             'QtyLevel3' => 'integer DEFAULT 0',
+                             'QtyLevel4' => 'integer DEFAULT 0',
                              'Status' => 'string',
                              'UpdateAt' => 'datetime',
                              'PRIMARY KEY (InvoiceNo, ProductId)',
                              ), 'ENGINE=InnoDB');   
-//    $this->addForeignKey('fk_InvoiceDetail_ProductInvoice','InvoiceDetail','InvoiceNo','ProductInvoice','InvoiceNo','CASCADE','CASCADE');
+    $this->addForeignKey('fk_InvoiceDetail_ProductInvoice','InvoiceDetail','InvoiceNo','ProductInvoice','InvoiceNo','CASCADE','CASCADE');
 //   $this->addForeignKey('fk_InvoiceDetail_Product','InvoiceDetail','ProductId','Product','ProductId','RESTRICT','CASCADE');
  
     $this->createTable('ProductReturn', 
@@ -660,8 +866,8 @@ if ($TESTING) {
                              'SaleId' => 'string',
                              'CustomerId' => 'string',
                              'ReturnDate' => 'date',
-                             'Total' => 'decimal(20,2)',
-                             'Vat' => 'decimal(20,2)',
+                             'Total' => 'decimal(20,2) DEFAULT 0',
+                             'Vat' => 'decimal(20,2) DEFAULT 0',
                              'Status' => 'string',
                              'UpdateAt' => 'datetime',
                              'PRIMARY KEY (ReturnNo)',
@@ -679,10 +885,10 @@ if ($TESTING) {
                              'OrderNo' => 'string',
                              'Reason' => 'string',
                              'Condition' => 'string',
-                             'QtyLevel1' => 'integer',
-                             'QtyLevel2' => 'integer',
-                             'QtyLevel3' => 'integer',
-                             'QtyLevel4' => 'integer',
+                             'QtyLevel1' => 'integer DEFAULT 0',
+                             'QtyLevel2' => 'integer DEFAULT 0',
+                             'QtyLevel3' => 'integer DEFAULT 0',
+                             'QtyLevel4' => 'integer DEFAULT 0',
                              'PriceLevel1' => 'decimal(10,2)',
                              'PriceLevel2' => 'decimal(10,2)',
                              'PriceLevel3' => 'decimal(10,2)',
@@ -690,7 +896,7 @@ if ($TESTING) {
                              'UpdateAt' => 'datetime',
                              'PRIMARY KEY (ReturnNo, ProductId)',
                              ), 'ENGINE=InnoDB');	
-//    $this->addForeignKey('fk_ReturnDetail_ProductReturn','ReturnDetail','ReturnNo','ProductReturn','ReturnNo','CASCADE','CASCADE');
+    $this->addForeignKey('fk_ReturnDetail_ProductReturn','ReturnDetail','ReturnNo','ProductReturn','ReturnNo','CASCADE','CASCADE');
 //    $this->addForeignKey('fk_ReturnDetail_Product','ReturnDetail','ProductId','Product','ProductId','RESTRICT','CASCADE');
 
     $this->createTable('FreeDetail', 
@@ -700,11 +906,11 @@ if ($TESTING) {
                              'FreeProductId' => 'string',
                              'FreePack' => 'string',
                              'FreePrice' => 'decimal(10,2)',
-                             'FreeQty' => 'integer',
+                             'FreeQty' => 'integer DEFAULT 0',
                              'UpdateAt' => 'datetime',
                              'PRIMARY KEY (OrderNo, PromotionId, FreeProductId)',
                              ), 'ENGINE=InnoDB');	
-//    $this->addForeignKey('fk_FreeDetail_ProductOrder','FreeDetail','OrderNo','ProductOrder','OrderNo','CASCADE','CASCADE');
+    $this->addForeignKey('fk_FreeDetail_ProductOrder','FreeDetail','OrderNo','ProductOrder','OrderNo','CASCADE','CASCADE');
 //    $this->addForeignKey('fk_FreeDetail_Promotion','FreeDetail','PromotionId','Promotion','PromotionId','RESTRICT','CASCADE');
 //    $this->addForeignKey('fk_FreeDetail_Product','FreeDetail','FreeProductId','Product','ProductId','RESTRICT','CASCADE');
 
@@ -712,15 +918,15 @@ if ($TESTING) {
                        array(
                              'OrderNo' => 'string',
                              'PromotionId' => 'string',
-                             'DiscBaht' => 'decimal(20,2)',
-                             'DiscPer1' => 'integer',
-                             'DiscPer2' => 'integer',
-                             'DiscPer3' => 'integer',
-                             'DiscTotal' => 'decimal(20,2)',
+                             'DiscBaht' => 'decimal(20,2) DEFAULT 0',
+                             'DiscPer1' => 'integer DEFAULT 0',
+                             'DiscPer2' => 'integer DEFAULT 0',
+                             'DiscPer3' => 'integer DEFAULT 0',
+                             'DiscTotal' => 'decimal(20,2) DEFAULT 0',
                              'UpdateAt' => 'datetime',
                              'PRIMARY KEY (OrderNo, PromotionId)',
                              ), 'ENGINE=InnoDB');	
-//    $this->addForeignKey('fk_DiscDetail_ProductOrder','DiscDetail','OrderNo','ProductOrder','OrderNo','CASCADE','CASCADE');
+    $this->addForeignKey('fk_DiscDetail_ProductOrder','DiscDetail','OrderNo','ProductOrder','OrderNo','CASCADE','CASCADE');
 //    $this->addForeignKey('fk_DiscDetail_Promotion','DiscDetail','PromotionId','Promotion','PromotionId','RESTRICT','CASCADE');
 
     // sync option tables
@@ -732,23 +938,23 @@ if ($TESTING) {
                              'EndDate' => 'date',
                              'PromotionType' => 'string',
                              'ProductOrGrpId' => 'string',
-                             'MinAmount' => 'integer',
-                             'MinSku' => 'integer',
-                             'MinQty' => 'integer',
+                             'MinAmount' => 'integer DEFAULT 0',
+                             'MinSku' => 'integer DEFAULT 0',
+                             'MinQty' => 'integer DEFAULT 0',
                              'Pack' => 'string',
-                             'DiscBaht' => 'integer',
-                             'DiscPerAmount' => 'integer',
-                             'DiscPerQty' => 'integer',
-                             'DiscPer1' => 'integer',
-                             'DiscPer2' => 'integer',
-                             'DiscPer3' => 'integer',
+                             'DiscBaht' => 'integer DEFAULT 0',
+                             'DiscPerAmount' => 'integer DEFAULT 0',
+                             'DiscPerQty' => 'integer DEFAULT 0',
+                             'DiscPer1' => 'integer DEFAULT 0',
+                             'DiscPer2' => 'integer DEFAULT 0',
+                             'DiscPer3' => 'integer DEFAULT 0',
                              'FreeType' => 'string',
                              'FreeProductOrGrpId' => 'string',
-                             'FreeQty' => 'integer',
+                             'FreeQty' => 'integer DEFAULT 0',
                              'FreePack' => 'string',
-                             'FreePerAmount' => 'integer',
-                             'FreePerQty' => 'integer',
-                             'FreeBaht' => 'integer',
+                             'FreePerAmount' => 'integer DEFAULT 0',
+                             'FreePerQty' => 'integer DEFAULT 0',
+                             'FreeBaht' => 'integer DEFAULT 0',
                              'Formula' => 'string',
                              'UpdateAt' => 'datetime',
                              'PRIMARY KEY (PromotionId)',
@@ -873,8 +1079,8 @@ if ($TESTING) {
                              'SaleId' => 'string',
                              'Level' => 'string',
                              'ProductOrGrpId' => 'string',
-                             'TargetAmount' => 'integer',
-                             'TargetQty' => 'integer',
+                             'TargetAmount' => 'integer DEFAULT 0',
+                             'TargetQty' => 'integer DEFAULT 0',
                              'TargetPack' => 'string not null',
                              'UpdateAt' => 'datetime',
                              ), 'ENGINE=InnoDB');	
@@ -898,6 +1104,56 @@ if ($TESTING) {
     $this->execute("INSERT INTO TargetSale VALUES('N003','sku','0050100001',5000,0,'',now())");
     $this->execute("INSERT INTO TargetSale VALUES('N003','sku','0050100002',0,10,'หีบ',now())");
 }
+
+    $this->createTable('ProductExchange', 
+                       array(
+                             'ExchangeNo' => 'string',
+                             'SaleId' => 'string',
+                             'CustomerId' => 'string',
+                             'ExchangeDate' => 'date',
+                             'InTotal' => 'decimal(20,2) DEFAULT 0',
+                             'OutTotal' => 'decimal(20,2) DEFAULT 0',
+                             'Status' => 'string',
+                             'UpdateAt' => 'datetime',
+                             'PRIMARY KEY (ExchangeNo)',
+                             ), 'ENGINE=InnoDB');   
+//    $this->addForeignKey('fk_ProductOrder_SaleUnit','ProductOrder','SaleId','SaleUnit','SaleId','SET NULL','CASCADE');
+//    $this->addForeignKey('fk_ProductOrder_Customer','ProductOrder','CustomerId','Customer','CustomerId','RESTRICT','CASCADE');
+
+    $this->createTable('ExchangeInDetail',
+                       array(
+                             'ExchangeNo' => 'string',
+                             'ProductId' => 'string',
+                             'QtyLevel1' => 'integer DEFAULT 0',
+                             'QtyLevel2' => 'integer DEFAULT 0',
+                             'QtyLevel3' => 'integer DEFAULT 0',
+                             'QtyLevel4' => 'integer DEFAULT 0',
+                             'PriceLevel1' => 'decimal(10,2)',
+                             'PriceLevel2' => 'decimal(10,2)',
+                             'PriceLevel3' => 'decimal(10,2)',
+                             'PriceLevel4' => 'decimal(10,2)',
+                             'UpdateAt' => 'datetime',
+                             'PRIMARY KEY (ExchangeNo, ProductId)',
+                             ), 'ENGINE=InnoDB');   
+    $this->addForeignKey('fk_ExchangeInDetail_ProductOrder','ExchangeInDetail','ExchangeNo','ProductExchange','ExchangeNo','CASCADE','CASCADE');
+
+    $this->createTable('ExchangeOutDetail',
+                       array(
+                             'ExchangeNo' => 'string',
+                             'ProductId' => 'string',
+                             'QtyLevel1' => 'integer DEFAULT 0',
+                             'QtyLevel2' => 'integer DEFAULT 0',
+                             'QtyLevel3' => 'integer DEFAULT 0',
+                             'QtyLevel4' => 'integer DEFAULT 0',
+                             'PriceLevel1' => 'decimal(10,2)',
+                             'PriceLevel2' => 'decimal(10,2)',
+                             'PriceLevel3' => 'decimal(10,2)',
+                             'PriceLevel4' => 'decimal(10,2)',
+                             'UpdateAt' => 'datetime',
+                             'PRIMARY KEY (ExchangeNo, ProductId)',
+                             ), 'ENGINE=InnoDB');   
+    $this->addForeignKey('fk_ExchangeOutDetail_ProductOrder','ExchangeOutDetail','ExchangeNo','ProductExchange','ExchangeNo','CASCADE','CASCADE');
+
     // Synch Table
     $this->createTable('Customer', 
                        array(
@@ -921,12 +1177,12 @@ if ($TESTING) {
                              'Phone' => 'string',
                              'ContactPerson' => 'string',
                              'Promotion' => 'string',
-                             'CreditTerm' => 'integer',
-                             'CreditLimit' => 'decimal(20,2)',
+                             'CreditTerm' => 'integer DEFAULT 0',
+                             'CreditLimit' => 'decimal(20,2) DEFAULT 0',
                              'OverCreditType' => 'string',
-                             'Due' => 'decimal(20,2)',
-                             'PoseCheck' => 'decimal(20,2)',
-                             'ReturnCheck' => 'decimal(20,2)',
+                             'Due' => 'decimal(20,2) DEFAULT 0',
+                             'PoseCheck' => 'decimal(20,2) DEFAULT 0',
+                             'ReturnCheck' => 'decimal(20,2) DEFAULT 0',
                              'NewFlag' => 'char',
                              'UpdateAt' => 'datetime',
                              'PRIMARY KEY (CustomerId)',

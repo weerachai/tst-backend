@@ -6,12 +6,16 @@
  * The followings are the available columns in table 'ProductInvoice':
  * @property string $InvoiceNo
  * @property string $OrderNo
+ * @property string $SaleId
  * @property string $InvoiceDate
  * @property string $DueDate
  * @property string $Total
  * @property string $Paid
  * @property string $Status
  * @property string $UpdateAt
+ *
+ * The followings are the available model relations:
+ * @property InvoiceDetail[] $invoiceDetails
  */
 class ProductInvoice extends CActiveRecord
 {
@@ -41,12 +45,12 @@ class ProductInvoice extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('InvoiceNo, OrderNo, Status', 'length', 'max'=>255),
+			array('InvoiceNo, OrderNo, SaleId, Status', 'length', 'max'=>255),
 			array('Total, Paid', 'length', 'max'=>20),
 			array('InvoiceDate, DueDate, UpdateAt', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('InvoiceNo, OrderNo, InvoiceDate, DueDate, Total, Paid, Status, UpdateAt', 'safe', 'on'=>'search'),
+			array('InvoiceNo, OrderNo, SaleId, InvoiceDate, DueDate, Total, Paid, Status, UpdateAt', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -58,6 +62,7 @@ class ProductInvoice extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+			'invoiceDetails' => array(self::HAS_MANY, 'InvoiceDetail', 'InvoiceNo'),
 		);
 	}
 
@@ -69,6 +74,7 @@ class ProductInvoice extends CActiveRecord
 		return array(
 			'InvoiceNo' => 'Invoice No',
 			'OrderNo' => 'Order No',
+			'SaleId' => 'Sale',
 			'InvoiceDate' => 'Invoice Date',
 			'DueDate' => 'Due Date',
 			'Total' => 'Total',
@@ -91,6 +97,7 @@ class ProductInvoice extends CActiveRecord
 
 		$criteria->compare('InvoiceNo',$this->InvoiceNo,true);
 		$criteria->compare('OrderNo',$this->OrderNo,true);
+		$criteria->compare('SaleId',$this->SaleId,true);
 		$criteria->compare('InvoiceDate',$this->InvoiceDate,true);
 		$criteria->compare('DueDate',$this->DueDate,true);
 		$criteria->compare('Total',$this->Total,true);

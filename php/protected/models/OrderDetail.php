@@ -18,6 +18,9 @@
  * @property string $PromotionAccuType
  * @property string $OrderNoUsed
  * @property string $UpdateAt
+ *
+ * The followings are the available model relations:
+ * @property ProductOrder $orderNo
  */
 class OrderDetail extends CActiveRecord
 {
@@ -65,6 +68,7 @@ class OrderDetail extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+			'orderNo' => array(self::BELONGS_TO, 'ProductOrder', 'OrderNo'),
 		);
 	}
 

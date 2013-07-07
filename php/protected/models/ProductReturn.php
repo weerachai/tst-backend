@@ -12,6 +12,9 @@
  * @property string $Vat
  * @property string $Status
  * @property string $UpdateAt
+ *
+ * The followings are the available model relations:
+ * @property ReturnDetail[] $returnDetails
  */
 class ProductReturn extends CActiveRecord
 {
@@ -58,6 +61,7 @@ class ProductReturn extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+			'returnDetails' => array(self::HAS_MANY, 'ReturnDetail', 'ReturnNo'),
 		);
 	}
 
