@@ -7,6 +7,9 @@
  * @property string $RequestNo
  * @property string $DeliverNo
  * @property string $SaleId
+ * @property string $WarehouseId
+ * @property string $WarehouseName
+ * @property string $WarehouseType
  * @property string $DeliverDate
  * @property string $Total
  * @property string $Status
@@ -43,12 +46,12 @@ class StockDeliver extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('RequestNo, DeliverNo, SaleId, Status', 'length', 'max'=>255),
+			array('RequestNo, DeliverNo, SaleId, WarehouseId, WarehouseName, WarehouseType, Status', 'length', 'max'=>255),
 			array('Total', 'length', 'max'=>10),
 			array('DeliverDate, UpdateAt', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('RequestNo, DeliverNo, SaleId, DeliverDate, Total, Status, UpdateAt', 'safe', 'on'=>'search'),
+			array('RequestNo, DeliverNo, SaleId, WarehouseId, WarehouseName, WarehouseType, DeliverDate, Total, Status, UpdateAt', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -73,6 +76,9 @@ class StockDeliver extends CActiveRecord
 			'RequestNo' => 'Request No',
 			'DeliverNo' => 'Deliver No',
 			'SaleId' => 'Sale',
+			'WarehouseId' => 'Warehouse',
+			'WarehouseName' => 'Warehouse Name',
+			'WarehouseType' => 'Warehouse Type',
 			'DeliverDate' => 'Deliver Date',
 			'Total' => 'Total',
 			'Status' => 'Status',
@@ -94,6 +100,9 @@ class StockDeliver extends CActiveRecord
 		$criteria->compare('RequestNo',$this->RequestNo,true);
 		$criteria->compare('DeliverNo',$this->DeliverNo,true);
 		$criteria->compare('SaleId',$this->SaleId,true);
+		$criteria->compare('WarehouseId',$this->WarehouseId,true);
+		$criteria->compare('WarehouseName',$this->WarehouseName,true);
+		$criteria->compare('WarehouseType',$this->WarehouseType,true);
 		$criteria->compare('DeliverDate',$this->DeliverDate,true);
 		$criteria->compare('Total',$this->Total,true);
 		$criteria->compare('Status',$this->Status,true);

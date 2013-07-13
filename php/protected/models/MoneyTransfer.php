@@ -45,7 +45,7 @@ class MoneyTransfer extends CActiveRecord
 		return array(
 			array('SaleId, Bank, Branch, AccountNo, Status', 'length', 'max'=>255),
 			array('Amount', 'length', 'max'=>20),
-			array('TransferDate, StartDate, UpdateAt', 'safe'),
+			array('TransferDate, StartDate, EndDate, UpdateAt', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('SaleId, TransferDate, StartDate, EndDate, Amount, Bank, Branch, AccountNo, Status, UpdateAt', 'safe', 'on'=>'search'),
