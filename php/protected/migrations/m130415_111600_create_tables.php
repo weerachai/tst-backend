@@ -102,6 +102,7 @@ if ($TESTING) {
                              ), 'ENGINE=InnoDB');	
 
     // backend only table
+    // check
     $this->createTable('SaleArea', // sale area information
                        array(
                              'AreaId' => 'string not null',
@@ -116,6 +117,7 @@ if ($TESTING) {
 
 
     // backend only table
+    // check
     $this->createTable('SaleUnit', // sale unit information
                        array(
                              'SaleId' => 'string not null',
@@ -129,7 +131,8 @@ if ($TESTING) {
     //$this->addForeignKey('fk_SaleUnit_Employee','SaleUnit','EmployeeId','Employee','EmployeeId','SET NULL','CASCADE');
     //$this->addForeignKey('fk_SaleUnit_SaleArea','SaleUnit','AreaId','SaleArea','AreaId','SET NULL','CASCADE');
 
-    // synch table
+    // device-backend auth table
+    // check
     $this->createTable('Device', // device information
                        array(
                              'DeviceId' => 'string not null',
@@ -167,7 +170,8 @@ if ($TESTING) {
     }
 }
 
-    // synch table
+    // upload table
+    // to be added
     $this->createTable('DeviceSetting', // device setting
                        array(
                              'SaleId' => 'string not null',
@@ -190,7 +194,8 @@ if ($TESTING) {
     $this->execute("INSERT INTO DeviceSetting VALUES('N003','หน่วยรถ','A','M','B','AC','sku','N',60,now())");
 }
     
-    // synch table
+    // fixed option tables
+    // check
     $this->createTable('ControlRunning', // control running option - mutable
                        array(
                              'ControlId' => 'string',
@@ -213,14 +218,15 @@ if ($TESTING) {
     $this->execute("INSERT INTO ControlRunning VALUES('C11','โอนสินค้า','TX')");
 }
 
-    // fixed option tables
+    // synch table
+    // check
     $this->createTable('ControlNo', // control number for each device 
                        array(
-                             'SaleId' => 'string',
-                             'ControlId' => 'string',
-                             'Year' => 'integer DEFAULT 0',
-                             'Month' => 'integer DEFAULT 0',
-                             'No' => 'integer DEFAULT 0',
+                             'SaleId' => 'string not null',
+                             'ControlId' => 'string not null',
+                             'Year' => 'integer not null',
+                             'Month' => 'integer not null',
+                             'No' => 'integer not null',
                              'UpdateAt' => 'datetime',			
                              'primary key (SaleId, ControlId)',
                              ), 'ENGINE=InnoDB');	
@@ -267,7 +273,8 @@ if ($TESTING) {
     $this->execute("INSERT INTO ControlNo VALUES('N003','C11',$year,$month,1,now())");
 }
 
-    // fixed option tables
+    // fixed option table
+    // check
     $this->createTable('Trip', // trip option - fixed
                        array(
                              'TripId' => 'pk',
@@ -284,6 +291,8 @@ if ($TESTING) {
     for ($i = 1; $i <= 31; $i++)
       $this->execute("INSERT INTO Trip(TripName) VALUES('วันที่ $i')");
 
+    // report upload
+    // check
     $this->createTable('SaleHistory', // generate sale history sent to device
                        array(
                              'SaleId' => 'string',
@@ -307,8 +316,10 @@ if ($TESTING) {
                              ), 'ENGINE=InnoDB');   
     //$this->addForeignKey('fk_SaleHistory_SaleUnit','SaleHistory','SaleId','SaleUnit','SaleId','CASCADE','CASCADE');
 
-    // fixed option tables
-/*    $this->createTable('Location', 
+    // fixed option table
+    // check
+if (false) {
+    $this->createTable('Location', 
                        array(
                              'LocationId' => 'string',
                              'Province' => 'string',
@@ -318,14 +329,15 @@ if ($TESTING) {
                              'primary key (LocationId)',
                              ), 'ENGINE=InnoDB');   
 
-    if (TRUE && ($handle = fopen(dirname(__FILE__).'/Location.csv', "r")) !== FALSE) {
+    if (($handle = fopen(dirname(__FILE__).'/Location.csv', "r")) !== FALSE) {
         while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
             $this->execute("INSERT INTO Location VALUES('$data[0]','$data[1]','$data[2]','$data[3]','$data[4]')");
         }
         fclose($handle);
     }
- */       
-    // sync option tables
+}       
+    // upload options
+    // check
     $this->createTable('CustomerTitle', 
                        array(
                              'CustomerTitle' => 'string not null',
@@ -335,6 +347,7 @@ if ($TESTING) {
     $this->execute("INSERT INTO CustomerTitle VALUES('บมจ.',now())");
     $this->execute("INSERT INTO CustomerTitle VALUES('ร้าน',now())");
     
+    // sale upload options
     $this->createTable('StockCheckList', 
                        array(
                              'SaleId' => 'string',
@@ -361,10 +374,13 @@ if ($TESTING) {
     $this->execute("INSERT INTO StockCheckList VALUES('N003','313','167',null,'0050100001',now())");
 }
 
+    // transaction
+    // check
     $this->createTable('StockCheck', 
                        array(
                              'SaleId' => 'string',                        
-                             'StockCheckDate' => 'string',
+                             'Month' => 'int not null',
+                             'Year' => 'int not null',
                              'CustomerId' => 'string',
                              'ProductId' => 'string',
                              'FrontQtyLevel1' => 'integer DEFAULT 0',
@@ -380,7 +396,7 @@ if ($TESTING) {
                              'BuyQtyLevel3' => 'integer DEFAULT 0',
                              'BuyQtyLevel4' => 'integer DEFAULT 0',
                              'UpdateAt' => 'datetime',
-                             'PRIMARY KEY (StockCheckDate, CustomerId, ProductId)',
+                             'PRIMARY KEY (Month, Year, CustomerId, ProductId)',
                              ), 'ENGINE=InnoDB');	
     //$this->addForeignKey('fk_StockCheck_SaleUnit','StockCheck','SaleId','SaleUnit','SaleId','SET NULL','CASCADE');
     //$this->addForeignKey('fk_StockCheck_Customer','StockCheck','CustomerId','Customer','CustomerId','CASCADE','CASCADE');
@@ -554,11 +570,13 @@ if ($TESTING) {
     $this->execute("INSERT INTO Stock(SaleId,ProductId,StartQtyLevel1,StartQtyLevel2,StartQtyLevel3,StartQtyLevel4,CurrentQtyLevel1,CurrentQtyLevel2,CurrentQtyLevel3,CurrentQtyLevel4,UpdateAt) VALUES('N003','0050100005',10,20,20,20,10,20,20,20,now())");
 }
 
+    // upload options
+    // check
     $this->createTable('Warehouse', 
                        array(
-                             'WarehouseId' => 'string',
-                             'WarehouseName' => 'string',
-                             'WarehouseType' => 'string',
+                             'WarehouseId' => 'string not null',
+                             'WarehouseName' => 'string not null',
+                             'WarehouseType' => 'string not null',
                              'UpdateAt' => 'datetime',
                              'PRIMARY KEY (WarehouseId)',
                              ), 'ENGINE=InnoDB');   
@@ -571,6 +589,8 @@ if ($TESTING) {
     $this->execute("INSERT INTO Warehouse VALUES('C3','หน่วยรถ 3','คลังรถ',now())");
 }
 
+    // transaction
+    // check
     $this->createTable('StockRequest', 
                        array(
                              'RequestNo' => 'string',
@@ -585,6 +605,8 @@ if ($TESTING) {
                              'PRIMARY KEY (RequestNo)',
                              ), 'ENGINE=InnoDB');   
 
+    // transaction
+    // check
     $this->createTable('RequestDetail', 
                        array(
                              'RequestNo' => 'string',
@@ -600,10 +622,12 @@ if ($TESTING) {
                              'UpdateAt' => 'datetime',
                              'PRIMARY KEY (RequestNo, ProductId)',
                              ), 'ENGINE=InnoDB');   
-    //$this->addForeignKey('fk_RequestDetail_StockRequest','RequestDetail','RequestNo','StockRequest','RequestNo','CASCADE','CASCADE');
+    $this->addForeignKey('fk_RequestDetail_StockRequest','RequestDetail','RequestNo','StockRequest','RequestNo','CASCADE','CASCADE');
     //$this->addForeignKey('fk_sStock_bSaleUnit','sStock','SaleId','bSaleUnit','SaleId','CASCADE','CASCADE');
     //$this->addForeignKey('fk_sStock_oProduct','sStock','ProductId','oProduct','ProductId','RESTRICT','CASCADE');
 
+    // transaction
+    // check
     $this->createTable('StockDeliver', 
                        array(
                              'RequestNo' => 'string',
@@ -619,6 +643,8 @@ if ($TESTING) {
                              'PRIMARY KEY (DeliverNo)',
                              ), 'ENGINE=InnoDB');   
 
+    // transaction
+    // check
     $this->createTable('DeliverDetail', 
                        array(
                              'DeliverNo' => 'string',
@@ -634,10 +660,12 @@ if ($TESTING) {
                              'UpdateAt' => 'datetime',
                              'PRIMARY KEY (DeliverNo, ProductId)',
                              ), 'ENGINE=InnoDB');   
-//('fk_DeliverDetail_StockRequest','DeliverDetail','DeliverNo','StockDeliver','DeliverNo','CASCADE','CASCADE');
+    $this->addForeignKey('fk_DeliverDetail_StockRequest','DeliverDetail','DeliverNo','StockDeliver','DeliverNo','CASCADE','CASCADE');
     //$this->addForeignKey('fk_sStock_bSaleUnit','sStock','SaleId','bSaleUnit','SaleId','CASCADE','CASCADE');
     //$this->addForeignKey('fk_sStock_oProduct','sStock','ProductId','oProduct','ProductId','RESTRICT','CASCADE');
 
+    // transaction
+    // check
     $this->createTable('StockReceive', 
                        array(
                              'RequestNo' => 'string',
@@ -651,6 +679,8 @@ if ($TESTING) {
                              'PRIMARY KEY (ReceiveNo)',
                              ), 'ENGINE=InnoDB');   
 
+    // transaction
+    // check
     $this->createTable('ReceiveDetail', 
                        array(
                              'ReceiveNo' => 'string',
@@ -666,10 +696,12 @@ if ($TESTING) {
                              'UpdateAt' => 'datetime',
                              'PRIMARY KEY (ReceiveNo, ProductId)',
                              ), 'ENGINE=InnoDB');   
-//('fk_ReceiveDetail_StockRequest','ReceiveDetail','ReceiveNo','StockReceive','ReceiveNo','CASCADE','CASCADE');
+    $this->addForeignKey('fk_ReceiveDetail_StockRequest','ReceiveDetail','ReceiveNo','StockReceive','ReceiveNo','CASCADE','CASCADE');
     //$this->addForeignKey('fk_sStock_bSaleUnit','sStock','SaleId','bSaleUnit','SaleId','CASCADE','CASCADE');
     //$this->addForeignKey('fk_sStock_oProduct','sStock','ProductId','oProduct','ProductId','RESTRICT','CASCADE');
 
+    // transaction
+    // check
     $this->createTable('StockTransfer', 
                        array(
                              'TransferNo' => 'string',
@@ -684,6 +716,8 @@ if ($TESTING) {
                              'PRIMARY KEY (TransferNo)',
                              ), 'ENGINE=InnoDB');   
 
+    // transaction
+    // check
     $this->createTable('TransferDetail', 
                        array(
                              'TransferNo' => 'string',
@@ -699,26 +733,31 @@ if ($TESTING) {
                              'UpdateAt' => 'datetime',
                              'PRIMARY KEY (TransferNo, ProductId)',
                              ), 'ENGINE=InnoDB');   
-    //$this->addForeignKey('fk_TransferDetail_StockRequest','TransferDetail','TransferNo','StockTransfer','TransferNo','CASCADE','CASCADE');
+    $this->addForeignKey('fk_TransferDetail_StockRequest','TransferDetail','TransferNo','StockTransfer','TransferNo','CASCADE','CASCADE');
     //$this->addForeignKey('fk_sStock_bSaleUnit','sStock','SaleId','bSaleUnit','SaleId','CASCADE','CASCADE');
     //$this->addForeignKey('fk_sStock_oProduct','sStock','ProductId','oProduct','ProductId','RESTRICT','CASCADE');
 
 
-    // sync option tables
+    // upload options
+    // check
     $this->createTable('BankAccount', 
                        array(
-                             'Bank' => 'string',
-                             'Branch' => 'string',
-                             'AccountNo' => 'string',
+                             'BankId' => 'pk',
+                             'Bank' => 'string not null',
+                             'Branch' => 'string not null',
+                             'AccountNo' => 'string not null',
                              'UpdateAt' => 'datetime',
-                             'PRIMARY KEY (Bank,Branch,AccountNo)',
                              ), 'ENGINE=InnoDB');   
 
-    $this->execute("INSERT INTO BankAccount VALUES('กรุงเทพ','รังสิต','111-111111-1',now())");
-    $this->execute("INSERT INTO BankAccount VALUES('ไทยพาณิชย์','รังสิต','222-222222-2',now())");
-    $this->execute("INSERT INTO BankAccount VALUES('กสิกร','รังสิต','333-333333-3',now())");
-    $this->execute("INSERT INTO BankAccount VALUES('ทหารไทย','รังสิต','444-444444-4',now())");
+if ($TESTING) {
+    $this->execute("INSERT INTO BankAccount VALUES(1,'กรุงเทพ','รังสิต','111-111111-1',now())");
+    $this->execute("INSERT INTO BankAccount VALUES(2,'ไทยพาณิชย์','รังสิต','222-222222-2',now())");
+    $this->execute("INSERT INTO BankAccount VALUES(3,'กสิกร','รังสิต','333-333333-3',now())");
+    $this->execute("INSERT INTO BankAccount VALUES(4,'ทหารไทย','รังสิต','444-444444-4',now())");
+}
 
+    // transaction
+    // check
     $this->createTable('MoneyTransfer', 
                        array(
                              'SaleId' => 'string',
@@ -734,11 +773,11 @@ if ($TESTING) {
                              'PRIMARY KEY (SaleId,EndDate)',
                              ), 'ENGINE=InnoDB');   
 
-
-    // sync option tables
+    // upload options
+    // check
     $this->createTable('PaymentType', 
                        array(
-                             'PaymentType' => 'string',
+                             'PaymentType' => 'string not null',
                              'UpdateAt' => 'datetime',
                              'PRIMARY KEY (PaymentType)',
                              ), 'ENGINE=InnoDB');   
@@ -748,6 +787,8 @@ if ($TESTING) {
     $this->execute("INSERT INTO PaymentType VALUES('โอนเงินสด',now())");
     $this->execute("INSERT INTO PaymentType VALUES('CN',now())");
 
+    // transaction
+    // check
     $this->createTable('BillCollection', 
                        array(
                              'CollectionNo' => 'string',
@@ -763,6 +804,8 @@ if ($TESTING) {
     //$this->addForeignKey('fk_BillCollection_SaleUnit','BillCollection','SaleId','SaleUnit','SaleId','RESTRICT','CASCADE');
     //$this->addForeignKey('fk_BillCollection_Customer','BillCollection','CustomerId','Customer','CustomerId','RESTRICT','CASCADE');
 
+    // transaction
+    // check
     $this->createTable('Payment', 
                        array(
                              'CollectionNo' => 'string',
@@ -777,9 +820,11 @@ if ($TESTING) {
                              'UpdateAt' => 'datetime',
                              'PRIMARY KEY (PaymentId)',
                              ), 'ENGINE=InnoDB');   
-//('fk_Payment_BillCollection','Payment','CollectionNo','BillCollection','CollectionNo','CASCADE','CASCADE');
+    $this->addForeignKey('fk_Payment_BillCollection','Payment','CollectionNo','BillCollection','CollectionNo','CASCADE','CASCADE');
     //$this->addForeignKey('fk_Payment_PaymentType','Payment','PaymentType','PaymentType','PaymentType','RESTRICT','CASCADE');
 
+    // transaction
+    // check
     $this->createTable('InvoicePayment', 
                        array(
                              'PaymentId' => 'string',
@@ -788,9 +833,11 @@ if ($TESTING) {
                              'UpdateAt' => 'datetime',
                              'PRIMARY KEY (PaymentId,InvoiceNo)',
                              ), 'ENGINE=InnoDB');   
-//('fk_InvoicePayment_Payment','InvoicePayment','PaymentId','Payment','PaymentId','CASCADE','CASCADE');
+    $this->addForeignKey('fk_InvoicePayment_Payment','InvoicePayment','PaymentId','Payment','PaymentId','CASCADE','CASCADE');
     //$this->addForeignKey('fk_InvoicePayment_ProductInvoice','InvoicePayment','InvoiceNo','ProductInvoice','InvoiceNo','CASCADE','CASCADE');
   
+    // transaction
+    // check
     $this->createTable('ProductOrder', 
                        array(
                              'OrderNo' => 'string',
@@ -813,6 +860,8 @@ if ($TESTING) {
     //$this->addForeignKey('fk_ProductOrder_SaleUnit','ProductOrder','SaleId','SaleUnit','SaleId','SET NULL','CASCADE');
     //$this->addForeignKey('fk_ProductOrder_Customer','ProductOrder','CustomerId','Customer','CustomerId','RESTRICT','CASCADE');
 
+    // transaction
+    // check
     $this->createTable('OrderDetail',
                        array(
                              'OrderNo' => 'string',
@@ -831,9 +880,11 @@ if ($TESTING) {
                              'UpdateAt' => 'datetime',
                              'PRIMARY KEY (OrderNo, ProductId)',
                              ), 'ENGINE=InnoDB');   
-//('fk_OrderDetail_ProductOrder','OrderDetail','OrderNo','ProductOrder','OrderNo','CASCADE','CASCADE');
+    $this->addForeignKey('fk_OrderDetail_ProductOrder','OrderDetail','OrderNo','ProductOrder','OrderNo','CASCADE','CASCADE');
     //$this->addForeignKey('fk_OrderDetail_Product','OrderDetail','ProductId','Product','ProductId','RESTRICT','CASCADE');
  
+    // transaction
+    // check 
     $this->createTable('ProductInvoice', 
                        array(
                              'InvoiceNo' => 'string',
@@ -849,6 +900,8 @@ if ($TESTING) {
                              ), 'ENGINE=InnoDB');   
     //$this->addForeignKey('fk_ProductInvoice_ProductOrder','ProductInvoice','OrderNo','ProductOrder','OrderNo','CASCADE','CASCADE');
  
+    // transaction
+    // check
     $this->createTable('InvoiceDetail',
                        array(
                              'InvoiceNo' => 'string',
@@ -861,9 +914,11 @@ if ($TESTING) {
                              'UpdateAt' => 'datetime',
                              'PRIMARY KEY (InvoiceNo, ProductId)',
                              ), 'ENGINE=InnoDB');   
-    //$this->addForeignKey('fk_InvoiceDetail_ProductInvoice','InvoiceDetail','InvoiceNo','ProductInvoice','InvoiceNo','CASCADE','CASCADE');
-//   //$this->addForeignKey('fk_InvoiceDetail_Product','InvoiceDetail','ProductId','Product','ProductId','RESTRICT','CASCADE');
+    $this->addForeignKey('fk_InvoiceDetail_ProductInvoice','InvoiceDetail','InvoiceNo','ProductInvoice','InvoiceNo','CASCADE','CASCADE');
+   //$this->addForeignKey('fk_InvoiceDetail_Product','InvoiceDetail','ProductId','Product','ProductId','RESTRICT','CASCADE');
  
+    // transaction
+    // check
     $this->createTable('ProductReturn', 
                        array(
                              'ReturnNo' => 'string',
@@ -879,6 +934,8 @@ if ($TESTING) {
     //$this->addForeignKey('fk_ProductReturn_SaleUnit','ProductReturn','SaleId','SaleUnit','SaleId','SET NULL','CASCADE');
     //$this->addForeignKey('fk_ProductReturn_Customer','ProductReturn','CustomerId','Customer','CustomerId','RESTRICT','CASCADE');
 
+    // transaction
+    // check
     $this->createTable('ReturnDetail', 
                        array(
                              'ReturnNo' => 'string',
@@ -900,9 +957,11 @@ if ($TESTING) {
                              'UpdateAt' => 'datetime',
                              'PRIMARY KEY (ReturnNo, ProductId)',
                              ), 'ENGINE=InnoDB');	
-//('fk_ReturnDetail_ProductReturn','ReturnDetail','ReturnNo','ProductReturn','ReturnNo','CASCADE','CASCADE');
+    $this->addForeignKey('fk_ReturnDetail_ProductReturn','ReturnDetail','ReturnNo','ProductReturn','ReturnNo','CASCADE','CASCADE');
     //$this->addForeignKey('fk_ReturnDetail_Product','ReturnDetail','ProductId','Product','ProductId','RESTRICT','CASCADE');
 
+    // transaction
+    // check
     $this->createTable('FreeDetail', 
                        array(
                              'OrderNo' => 'string',
@@ -914,10 +973,12 @@ if ($TESTING) {
                              'UpdateAt' => 'datetime',
                              'PRIMARY KEY (OrderNo, PromotionId, FreeProductId)',
                              ), 'ENGINE=InnoDB');	
-    //$this->addForeignKey('fk_FreeDetail_ProductOrder','FreeDetail','OrderNo','ProductOrder','OrderNo','CASCADE','CASCADE');
+    $this->addForeignKey('fk_FreeDetail_ProductOrder','FreeDetail','OrderNo','ProductOrder','OrderNo','CASCADE','CASCADE');
     //$this->addForeignKey('fk_FreeDetail_Promotion','FreeDetail','PromotionId','Promotion','PromotionId','RESTRICT','CASCADE');
     //$this->addForeignKey('fk_FreeDetail_Product','FreeDetail','FreeProductId','Product','ProductId','RESTRICT','CASCADE');
 
+    // transaction
+    // check
     $this->createTable('DiscDetail', 
                        array(
                              'OrderNo' => 'string',
@@ -930,17 +991,17 @@ if ($TESTING) {
                              'UpdateAt' => 'datetime',
                              'PRIMARY KEY (OrderNo, PromotionId)',
                              ), 'ENGINE=InnoDB');	
-    //$this->addForeignKey('fk_DiscDetail_ProductOrder','DiscDetail','OrderNo','ProductOrder','OrderNo','CASCADE','CASCADE');
+    $this->addForeignKey('fk_DiscDetail_ProductOrder','DiscDetail','OrderNo','ProductOrder','OrderNo','CASCADE','CASCADE');
     //$this->addForeignKey('fk_DiscDetail_Promotion','DiscDetail','PromotionId','Promotion','PromotionId','RESTRICT','CASCADE');
 
-    // sync option tables
+    // upload options
     $this->createTable('Promotion', 
                        array(
-                             'PromotionGroup' => 'string',
-                             'PromotionId' => 'string',
-                             'StartDate' => 'date',
-                             'EndDate' => 'date',
-                             'PromotionType' => 'string',
+                             'PromotionGroup' => 'string not null',
+                             'PromotionId' => 'string not null',
+                             'StartDate' => 'date not null',
+                             'EndDate' => 'date not null',
+                             'PromotionType' => 'string not null',
                              'ProductOrGrpId' => 'string',
                              'MinAmount' => 'integer DEFAULT 0',
                              'MinSku' => 'integer DEFAULT 0',
@@ -959,89 +1020,89 @@ if ($TESTING) {
                              'FreePerAmount' => 'integer DEFAULT 0',
                              'FreePerQty' => 'integer DEFAULT 0',
                              'FreeBaht' => 'integer DEFAULT 0',
-                             'Formula' => 'string',
+                             'Formula' => 'string not null',
                              'UpdateAt' => 'datetime',
                              'PRIMARY KEY (PromotionId)',
                              ), 'ENGINE=InnoDB');	
 
 if ($TESTING) {
     $this->execute("INSERT INTO Promotion VALUES"
-                   . "('A','A1','2012-08-01','2013-12-30','sku','0050100003',0,0,1,'หีบ',5,0,1,0,0,0,'','',0,'',0,0,0,'Fixed',now())");
+                   . "('A','A1','2012-08-01','2013-12-30','sku','0050100003',0,0,1,'หีบ',5,0,1,0,0,0,'','',0,'',0,0,0,'F',now())");
     $this->execute("INSERT INTO Promotion VALUES"
-                   . "('A','A2','2012-08-01','2013-12-30','sku','0050100003',0,0,11,'หีบ',5,0,1,0,0,0,'S','0050100003',1,'กระป๋อง',0,1,0,'Fixed',now())");
+                   . "('A','A2','2012-08-01','2013-12-30','sku','0050100003',0,0,11,'หีบ',5,0,1,0,0,0,'S','0050100003',1,'กระป๋อง',0,1,0,'F',now())");
     $this->execute("INSERT INTO Promotion VALUES"
-                   . "('A','A3','2012-08-01','2013-12-30','sku','0050100003',0,0,21,'หีบ',5,0,1,0,0,0,'S','0050100003',1,'กระป๋อง',0,1,0,'Fixed',now())");
+                   . "('A','A3','2012-08-01','2013-12-30','sku','0050100003',0,0,21,'หีบ',5,0,1,0,0,0,'S','0050100003',1,'กระป๋อง',0,1,0,'F',now())");
     $this->execute("INSERT INTO Promotion VALUES"
-                   . "('A','A4','2012-08-01','2013-12-30','sku','0050100003',0,0,31,'หีบ',5,0,1,0,0,0,'S','0050100003',1,'กระป๋อง',0,1,0,'Fixed',now())");
+                   . "('A','A4','2012-08-01','2013-12-30','sku','0050100003',0,0,31,'หีบ',5,0,1,0,0,0,'S','0050100003',1,'กระป๋อง',0,1,0,'F',now())");
     $this->execute("INSERT INTO Promotion VALUES"
-                   . "('A','A5','2012-08-01','2013-12-30','sku','0050100003',0,0,41,'หีบ',5,0,1,0,0,0,'S','0050100003',1,'กระป๋อง',0,1,0,'Fixed',now())");
+                   . "('A','A5','2012-08-01','2013-12-30','sku','0050100003',0,0,41,'หีบ',5,0,1,0,0,0,'S','0050100003',1,'กระป๋อง',0,1,0,'F',now())");
     $this->execute("INSERT INTO Promotion VALUES"
-                   . "('A','A6','2012-08-01','2013-12-30','sku','0050100003',0,0,51,'หีบ',5,0,1,0,0,0,'S','0050100003',1,'กระป๋อง',0,1,0,'Fixed',now())");
+                   . "('A','A6','2012-08-01','2013-12-30','sku','0050100003',0,0,51,'หีบ',5,0,1,0,0,0,'S','0050100003',1,'กระป๋อง',0,1,0,'F',now())");
     $this->execute("INSERT INTO Promotion VALUES"
-                   . "('A','A8','2012-08-01','2013-12-30','sku','0050100001',100,0,0,'',5,100,0,0,0,0,'','',0,'',0,0,0,'Fixed',now())");
+                   . "('A','A8','2012-08-01','2013-12-30','sku','0050100001',100,0,0,'',5,100,0,0,0,0,'','',0,'',0,0,0,'F',now())");
     $this->execute("INSERT INTO Promotion VALUES"
-                   . "('A','A9','2012-08-01','2013-12-30','sku','0050100001',1100,0,0,'',5,100,0,0,0,0,'G','A',1,'กระป๋อง',100,0,0,'Fixed',now())");
+                   . "('A','A9','2012-08-01','2013-12-30','sku','0050100001',1100,0,0,'',5,100,0,0,0,0,'G','A',1,'กระป๋อง',100,0,0,'F',now())");
     $this->execute("INSERT INTO Promotion VALUES"
-                   . "('A','A10','2012-08-01','2013-12-30','sku','0050100002',100,0,0,'',5,100,0,0,0,0,'','',0,'',0,0,0,'Fixed',now())");
+                   . "('A','A10','2012-08-01','2013-12-30','sku','0050100002',100,0,0,'',5,100,0,0,0,0,'','',0,'',0,0,0,'F',now())");
     $this->execute("INSERT INTO Promotion VALUES"
-                   . "('A','A11','2012-08-01','2013-12-30','sku','0050100002',1100,0,0,'',5,100,0,0,0,0,'G','A',1,'กระป๋อง',100,0,0,'Fixed',now())");
+                   . "('A','A11','2012-08-01','2013-12-30','sku','0050100002',1100,0,0,'',5,100,0,0,0,0,'G','A',1,'กระป๋อง',100,0,0,'F',now())");
     
     $this->execute("INSERT INTO Promotion VALUES"
-                   . "('M','M1','2012-08-01','2013-12-30','group','A',100,0,0,'',3,100,0,0,0,0,'S','0050100003',1,'กระป๋อง',100,0,0,'Fixed',now())");
+                   . "('M','M1','2012-08-01','2013-12-30','group','A',100,0,0,'',3,100,0,0,0,0,'S','0050100003',1,'กระป๋อง',100,0,0,'F',now())");
     $this->execute("INSERT INTO Promotion VALUES"
-                   . "('M','M2','2012-08-01','2013-12-30','group','A',1100,0,0,'',5,100,0,0,0,0,'S','0050100003',1,'กระป๋อง',100,0,0,'Fixed',now())");
+                   . "('M','M2','2012-08-01','2013-12-30','group','A',1100,0,0,'',5,100,0,0,0,0,'S','0050100003',1,'กระป๋อง',100,0,0,'F',now())");
     $this->execute("INSERT INTO Promotion VALUES"
-                   . "('M','M3','2012-08-01','2013-12-30','group','B',100,0,0,'',5,100,0,0,0,0,'','',0,'',0,0,0,'Fixed',now())");
+                   . "('M','M3','2012-08-01','2013-12-30','group','B',100,0,0,'',5,100,0,0,0,0,'','',0,'',0,0,0,'F',now())");
     $this->execute("INSERT INTO Promotion VALUES"
-                   . "('M','M4','2012-08-01','2013-12-30','group','B',1100,0,0,'',5,100,0,0,0,0,'G','A',1,'กระป๋อง',100,0,0,'Fixed',now())");
+                   . "('M','M4','2012-08-01','2013-12-30','group','B',1100,0,0,'',5,100,0,0,0,0,'G','A',1,'กระป๋อง',100,0,0,'F',now())");
     $this->execute("INSERT INTO Promotion VALUES"
-                   . "('B','B1','2012-08-01','2013-12-30','bill','',1000,0,0,'',0,0,0,0,0,0,'G','A',0,'',0,0,50,'Fixed',now())");
+                   . "('B','B1','2012-08-01','2013-12-30','bill','',1000,0,0,'',0,0,0,0,0,0,'G','A',0,'',0,0,50,'F',now())");
     $this->execute("INSERT INTO Promotion VALUES"
-                   . "('B','B2','2012-08-01','2013-12-30','bill','',5000,0,0,'',0,0,0,5,0,0,'','',0,'',0,0,0,'Fixed',now())");
+                   . "('B','B2','2012-08-01','2013-12-30','bill','',5000,0,0,'',0,0,0,5,0,0,'','',0,'',0,0,0,'F',now())");
     $this->execute("INSERT INTO Promotion VALUES"
-                   . "('B','B3','2012-08-01','2013-12-30','bill','',10000,0,0,'',0,0,0,2,0,0,'G','A',0,'',0,0,150,'Fixed',now())");
+                   . "('B','B3','2012-08-01','2013-12-30','bill','',10000,0,0,'',0,0,0,2,0,0,'G','A',0,'',0,0,150,'F',now())");
     $this->execute("INSERT INTO Promotion VALUES"
-                   . "('B','B4','2012-08-01','2013-12-30','bill','',15000,0,0,'',500,0,0,0,0,0,'G','A',0,'',0,0,200,'Fixed',now())");
+                   . "('B','B4','2012-08-01','2013-12-30','bill','',15000,0,0,'',500,0,0,0,0,0,'G','A',0,'',0,0,200,'F',now())");
     $this->execute("INSERT INTO Promotion VALUES"
-                   . "('B','B5','2012-08-01','2013-12-30','bill','',20000,0,0,'',1000,0,0,0,0,0,'','',0,'',0,0,0,'Fixed',now())");
+                   . "('B','B5','2012-08-01','2013-12-30','bill','',20000,0,0,'',1000,0,0,0,0,0,'','',0,'',0,0,0,'F',now())");
     $this->execute("INSERT INTO Promotion VALUES"
-                   . "('B','B6','2012-08-01','2013-12-30','bill','',25000,0,0,'',1500,0,0,0,0,0,'','',0,'',0,0,0,'Fixed',now())");
+                   . "('B','B6','2012-08-01','2013-12-30','bill','',25000,0,0,'',1500,0,0,0,0,0,'','',0,'',0,0,0,'F',now())");
     $this->execute("INSERT INTO Promotion VALUES"
-                   . "('AC','AC-A1','2012-08-01','2013-12-30','accu-all','',1000,0,0,'',0,0,0,0,0,0,'G','A',0,'',0,0,50,'Fixed',now())");
+                   . "('AC','AC-A1','2012-08-01','2013-12-30','accu-all','',1000,0,0,'',0,0,0,0,0,0,'G','A',0,'',0,0,50,'F',now())");
     $this->execute("INSERT INTO Promotion VALUES"
-                   . "('AC','AC-A2','2012-08-01','2013-12-30','accu-all','',5000,0,0,'',0,0,0,5,0,0,'','',0,'',0,0,0,'Fixed',now())");
+                   . "('AC','AC-A2','2012-08-01','2013-12-30','accu-all','',5000,0,0,'',0,0,0,5,0,0,'','',0,'',0,0,0,'F',now())");
     $this->execute("INSERT INTO Promotion VALUES"
-                   . "('AC','AC-A3','2012-08-01','2013-12-30','accu-all','',10000,0,0,'',0,0,0,2,0,0,'G','A',0,'',0,0,150,'Fixed',now())");
+                   . "('AC','AC-A3','2012-08-01','2013-12-30','accu-all','',10000,0,0,'',0,0,0,2,0,0,'G','A',0,'',0,0,150,'F',now())");
     $this->execute("INSERT INTO Promotion VALUES"
-                   . "('AC','AC-A4','2012-08-01','2013-12-30','accu-all','',15000,0,0,'',500,0,0,0,0,0,'G','A',0,'',0,0,200,'Fixed',now())");
+                   . "('AC','AC-A4','2012-08-01','2013-12-30','accu-all','',15000,0,0,'',500,0,0,0,0,0,'G','A',0,'',0,0,200,'F',now())");
     $this->execute("INSERT INTO Promotion VALUES"
-                   . "('AC','AC-A5','2012-08-01','2013-12-30','accu-all','',20000,0,0,'',1000,0,0,0,0,0,'','',0,'',0,0,0,'Fixed',now())");
+                   . "('AC','AC-A5','2012-08-01','2013-12-30','accu-all','',20000,0,0,'',1000,0,0,0,0,0,'','',0,'',0,0,0,'F',now())");
     $this->execute("INSERT INTO Promotion VALUES"
-                   . "('AC','AC-A6','2012-08-01','2013-12-30','accu-all','',25000,0,0,'',1500,0,0,0,0,0,'','',0,'',0,0,0,'Fixed',now())");
+                   . "('AC','AC-A6','2012-08-01','2013-12-30','accu-all','',25000,0,0,'',1500,0,0,0,0,0,'','',0,'',0,0,0,'F',now())");
     $this->execute("INSERT INTO Promotion VALUES"
-                   . "('AC','AC-A7','2012-08-01','2013-12-30','accu-all','',25000,0,0,'',1500,0,0,0,0,0,'','',0,'',0,0,0,'Fixed',now())");
+                   . "('AC','AC-A7','2012-08-01','2013-12-30','accu-all','',25000,0,0,'',1500,0,0,0,0,0,'','',0,'',0,0,0,'F',now())");
     $this->execute("INSERT INTO Promotion VALUES"
-                   . "('AC','AC-B1','2012-08-01','2013-12-30','accu-l1','313',1000,0,0,'',0,0,0,0,0,0,'G','A',0,'',0,0,50,'Fixed',now())");
+                   . "('AC','AC-B1','2012-08-01','2013-12-30','accu-l1','313',1000,0,0,'',0,0,0,0,0,0,'G','A',0,'',0,0,50,'F',now())");
     $this->execute("INSERT INTO Promotion VALUES"
-                   . "('AC','AC-B2','2012-08-01','2013-12-30','accu-l1','313',5000,0,0,'',0,0,0,5,0,0,'','',0,'',0,0,0,'Fixed',now())");
+                   . "('AC','AC-B2','2012-08-01','2013-12-30','accu-l1','313',5000,0,0,'',0,0,0,5,0,0,'','',0,'',0,0,0,'F',now())");
     $this->execute("INSERT INTO Promotion VALUES"
-                   . "('AC','AC-B3','2012-08-01','2013-12-30','accu-l1','313',10000,0,0,'',0,0,0,2,0,0,'G','A',0,'',0,0,150,'Fixed',now())");
+                   . "('AC','AC-B3','2012-08-01','2013-12-30','accu-l1','313',10000,0,0,'',0,0,0,2,0,0,'G','A',0,'',0,0,150,'F',now())");
     $this->execute("INSERT INTO Promotion VALUES"
-                   . "('AC','AC-B4','2012-08-01','2013-12-30','accu-l1','313',15000,0,0,'',500,0,0,0,0,0,'G','A',0,'',0,0,200,'Fixed',now())");
+                   . "('AC','AC-B4','2012-08-01','2013-12-30','accu-l1','313',15000,0,0,'',500,0,0,0,0,0,'G','A',0,'',0,0,200,'F',now())");
     $this->execute("INSERT INTO Promotion VALUES"
-                   . "('AC','AC-B5','2012-08-01','2013-12-30','accu-l1','313',20000,0,0,'',1000,0,0,0,0,0,'','',0,'',0,0,0,'Fixed',now())");
+                   . "('AC','AC-B5','2012-08-01','2013-12-30','accu-l1','313',20000,0,0,'',1000,0,0,0,0,0,'','',0,'',0,0,0,'F',now())");
     $this->execute("INSERT INTO Promotion VALUES"
-                   . "('AC','AC-B6','2012-08-01','2013-12-30','accu-l1','313',25000,0,0,'',1500,0,0,0,0,0,'','',0,'',0,0,0,'Fixed',now())");
+                   . "('AC','AC-B6','2012-08-01','2013-12-30','accu-l1','313',25000,0,0,'',1500,0,0,0,0,0,'','',0,'',0,0,0,'F',now())");
     $this->execute("INSERT INTO Promotion VALUES"
-                   . "('AC','AC-B7','2012-08-01','2013-12-30','accu-l1','313',25000,0,0,'',1500,0,0,0,0,0,'','',0,'',0,0,0,'Fixed',now())");
+                   . "('AC','AC-B7','2012-08-01','2013-12-30','accu-l1','313',25000,0,0,'',1500,0,0,0,0,0,'','',0,'',0,0,0,'F',now())");
 }
 
-    // sync option tables
+    // upload options
     $this->createTable('FreeGrp', 
                        array(
-                             'FreeGrpId' => 'string',
-                             'ProductId' => 'string',
-                             'FreePack' => 'string',
+                             'FreeGrpId' => 'string not null',
+                             'ProductId' => 'string not null',
+                             'FreePack' => 'string not null',
                              'UpdateAt' => 'datetime',
                              'PRIMARY KEY (FreeGrpId, ProductId)',
                              ), 'ENGINE=InnoDB');	
@@ -1055,7 +1116,7 @@ if ($TESTING) {
     $this->execute("INSERT INTO FreeGrp VALUES('A','0050100005','กระป๋อง',now())");
 }
 
-    // sync option tables
+    // upload options
     $this->createTable('ProductGrp', 
                        array(
                              'ProductGrpId' => 'string not null',
@@ -1078,10 +1139,12 @@ if ($TESTING) {
     $this->execute("INSERT INTO ProductGrp VALUES('B','0010400001',now())");
 }
 
+    // sale upload options
+    // check
     $this->createTable('TargetSale', 
                        array(
-                             'SaleId' => 'string',
-                             'Level' => 'string',
+                             'SaleId' => 'string not null',
+                             'Level' => 'string not null',
                              'ProductOrGrpId' => 'string',
                              'TargetAmount' => 'integer DEFAULT 0',
                              'TargetQty' => 'integer DEFAULT 0',
@@ -1109,6 +1172,8 @@ if ($TESTING) {
     $this->execute("INSERT INTO TargetSale VALUES('N003','sku','0050100002',0,10,'หีบ',now())");
 }
 
+    // transaction
+    // check
     $this->createTable('ProductExchange', 
                        array(
                              'ExchangeNo' => 'string',
@@ -1124,6 +1189,8 @@ if ($TESTING) {
     //$this->addForeignKey('fk_ProductOrder_SaleUnit','ProductOrder','SaleId','SaleUnit','SaleId','SET NULL','CASCADE');
     //$this->addForeignKey('fk_ProductOrder_Customer','ProductOrder','CustomerId','Customer','CustomerId','RESTRICT','CASCADE');
 
+    // transaction
+    // check
     $this->createTable('ExchangeInDetail',
                        array(
                              'ExchangeNo' => 'string',
@@ -1139,8 +1206,10 @@ if ($TESTING) {
                              'UpdateAt' => 'datetime',
                              'PRIMARY KEY (ExchangeNo, ProductId)',
                              ), 'ENGINE=InnoDB');   
-    //$this->addForeignKey('fk_ExchangeInDetail_ProductOrder','ExchangeInDetail','ExchangeNo','ProductExchange','ExchangeNo','CASCADE','CASCADE');
+    $this->addForeignKey('fk_ExchangeInDetail_ProductOrder','ExchangeInDetail','ExchangeNo','ProductExchange','ExchangeNo','CASCADE','CASCADE');
 
+    // transaction
+    // check
     $this->createTable('ExchangeOutDetail',
                        array(
                              'ExchangeNo' => 'string',
@@ -1156,15 +1225,16 @@ if ($TESTING) {
                              'UpdateAt' => 'datetime',
                              'PRIMARY KEY (ExchangeNo, ProductId)',
                              ), 'ENGINE=InnoDB');   
-    //$this->addForeignKey('fk_ExchangeOutDetail_ProductOrder','ExchangeOutDetail','ExchangeNo','ProductExchange','ExchangeNo','CASCADE','CASCADE');
+    $this->addForeignKey('fk_ExchangeOutDetail_ProductOrder','ExchangeOutDetail','ExchangeNo','ProductExchange','ExchangeNo','CASCADE','CASCADE');
 
     // Synch Table
+    // check
     $this->createTable('Customer', 
                        array(
                              'CustomerId' => 'string',
                              'SaleId' => 'string',
                              'Title' => 'string',
-                             'CustomerName' => 'string',
+                             'CustomerName' => 'string not null',
                              'Type' => 'string',
                              'Trip1' => 'string',
                              'Trip2' => 'string',
@@ -1180,7 +1250,6 @@ if ($TESTING) {
                              'Road' => 'string',
                              'Phone' => 'string',
                              'ContactPerson' => 'string',
-                             'Promotion' => 'string',
                              'CreditTerm' => 'integer DEFAULT 0',
                              'CreditLimit' => 'decimal(20,2) DEFAULT 0',
                              'OverCreditType' => 'string',
@@ -1188,6 +1257,7 @@ if ($TESTING) {
                              'PoseCheck' => 'decimal(20,2) DEFAULT 0',
                              'ReturnCheck' => 'decimal(20,2) DEFAULT 0',
                              'NewFlag' => 'char',
+                             'DeleteFlag' => 'char',
                              'UpdateAt' => 'datetime',
                              'PRIMARY KEY (CustomerId)',
                              ), 'ENGINE=InnoDB');
@@ -1196,63 +1266,63 @@ if ($TESTING) {
     $this->execute("INSERT INTO Customer VALUES"
                 . "('CUD00113050001','N001','ร้าน','สุขใจ 1','CH','วันจันทร์','วันพุธ','',"
                 . "'ปทุมธานี','ธัญบุรี','บึงยี่โถ','12130','33','5','สบายดี','4','พหลโยธิน',"
-                . "'02-564-3333','คุณอ้อย','Manual',30,20000,'N',0,0,0,'N',now());");
+                . "'02-564-3333','คุณอ้อย',30,20000,'N',0,0,0,'N','N',now());");
 
     $this->execute("INSERT INTO Customer VALUES"
                 . "('CUD00113050002','N001','ร้าน','มีดี 1','CH','วันจันทร์','วันศุกร์','',"
                 . "'ปทุมธานี','ธัญบุรี','บึงยี่โถ','12130','11','2','ชมฟ้า','1','รังสิต-นครนายก',"
-                . "'02-564-5555','คุณเอ','Manual',60,30000,'P',0,0,0,'N',now());");
+                . "'02-564-5555','คุณเอ',60,30000,'P',0,0,0,'N','N',now());");
 
     $this->execute("INSERT INTO Customer VALUES"
                 . "('CUD00113050003','N001','ร้าน','ใจดี 1','CR','วันอังคาร','วันพุธ','',"
                 . "'นนทบุรี','บางกรวย','บางกรวย','11130','33','5','สบายดี','4','ติวานนท์',"
-                . "'02-564-6666','คุณส้ม','Manual',30,20000,'N',0,0,0,'N',now());");
+                . "'02-564-6666','คุณส้ม',30,20000,'N',0,0,0,'N','N',now());");
 
     $this->execute("INSERT INTO Customer VALUES"
                 . "('CUD00113050004','N001','ร้าน','รวยดี 1','CR','วันอังคาร','วันศุกร์','',"
                 . "'นนทบุรี','บางกรวย','บางกรวย','11130','11','2','ชมฟ้า','1','ติวานนท์',"
-                . "'02-564-7777','คุณรวย','Manual',60,30000,'P',0,0,0,'N',now());");
+                . "'02-564-7777','คุณรวย',60,30000,'P',0,0,0,'N','N',now());");
 
     $this->execute("INSERT INTO Customer VALUES"
                 . "('CUD00213050001','N002','ร้าน','สุขใจ 2','CH','วันจันทร์','วันพุธ','',"
                 . "'ปทุมธานี','ธัญบุรี','บึงยี่โถ','12130','33','5','สบายดี','4','พหลโยธิน',"
-                . "'02-564-3333','คุณอ้อย','Manual',0,0,'N',0,0,0,'N',now());");
+                . "'02-564-3333','คุณอ้อย',0,0,'N',0,0,0,'N','N',now());");
 
     $this->execute("INSERT INTO Customer VALUES"
                 . "('CUD00213050002','N002','ร้าน','มีดี 2','CH','วันจันทร์','วันศุกร์','',"
                 . "'ปทุมธานี','ธัญบุรี','บึงยี่โถ','12130','11','2','ชมฟ้า','1','รังสิต-นครนายก',"
-                . "'02-564-5555','คุณเอ','Manual',0,0,'P',0,0,0,'N',now());");
+                . "'02-564-5555','คุณเอ',0,0,'P',0,0,0,'N','N',now());");
 
     $this->execute("INSERT INTO Customer VALUES"
                 . "('CUD00213050003','N002','ร้าน','ใจดี 2','CH','วันอังคาร','วันพุธ','',"
                 . "'นนทบุรี','บางกรวย','บางกรวย','11130','33','5','สบายดี','4','ติวานนท์',"
-                . "'02-564-6666','คุณส้ม','Manual',0,0,'N',0,0,0,'N',now());");
+                . "'02-564-6666','คุณส้ม',0,0,'N',0,0,0,'N','N',now());");
 
     $this->execute("INSERT INTO Customer VALUES"
                 . "('CUD00213050004','N002','ร้าน','รวยดี 2','CH','วันอังคาร','วันศุกร์','',"
                 . "'นนทบุรี','บางกรวย','บางกรวย','11130','11','2','ชมฟ้า','1','ติวานนท์',"
-                . "'02-564-7777','คุณรวย','Manual',0,0,'P',0,0,0,'N',now());");
+                . "'02-564-7777','คุณรวย',0,0,'P',0,0,0,'N','N',now());");
 
 
     $this->execute("INSERT INTO Customer VALUES"
                 . "('CUD00313050001','N003','ร้าน','สุขใจ 3','CH','วันจันทร์','วันพุธ','',"
                 . "'ปทุมธานี','ธัญบุรี','บึงยี่โถ','12130','33','5','สบายดี','4','พหลโยธิน',"
-                . "'02-564-3333','คุณอ้อย','Manual',0,0,'N',0,0,0,'N',now());");
+                . "'02-564-3333','คุณอ้อย',0,0,'N',0,0,0,'N','N',now());");
 
     $this->execute("INSERT INTO Customer VALUES"
                 . "('CUD00313050002','N003','ร้าน','มีดี 3','CH','วันจันทร์','วันศุกร์','',"
                 . "'ปทุมธานี','ธัญบุรี','บึงยี่โถ','12130','11','2','ชมฟ้า','1','รังสิต-นครนายก',"
-                . "'02-564-5555','คุณเอ','Manual',0,0,'P',0,0,0,'N',now());");
+                . "'02-564-5555','คุณเอ',0,0,'P',0,0,0,'N','N',now());");
 
     $this->execute("INSERT INTO Customer VALUES"
                 . "('CUD00313050003','N003','ร้าน','ใจดี 3','CH','วันอังคาร','วันพุธ','',"
                 . "'นนทบุรี','บางกรวย','บางกรวย','11130','33','5','สบายดี','4','ติวานนท์',"
-                . "'02-564-6666','คุณส้ม','Manual',0,0,'N',0,0,0,'N',now());");
+                . "'02-564-6666','คุณส้ม',0,0,'N',0,0,0,'N','N',now());");
 
     $this->execute("INSERT INTO Customer VALUES"
                 . "('CUD00313050004','N003','ร้าน','รวยดี 3','CH','วันอังคาร','วันศุกร์','',"
                 . "'นนทบุรี','บางกรวย','บางกรวย','11130','11','2','ชมฟ้า','1','ติวานนท์',"
-                . "'02-564-7777','คุณรวย','Manual',0,0,'P',0,0,0,'N',now());");
+                . "'02-564-7777','คุณรวย',0,0,'P',0,0,0,'N','N',now());");
 
 /*    $this->execute("INSERT INTO `ProductOrder` VALUES('SOD00113050001', 'CREDIT', 'N001', 'CUD00113050001', '2013-05-08', 6730.93, 506.63, 639.50, '2013-05-08', '', 'เครดิต', 'ยืนยัน', '', '2013-06-08 10:04:39');");
     $this->execute("INSERT INTO `ProductOrder` VALUES('SOD00113050002', 'CREDIT', 'N001', 'CUD00113050001', '2013-05-10', 4802.09, 361.45, 663.82, '2013-05-10', '', 'เครดิต', 'ยืนยัน', '', '2013-06-08 10:06:05');");

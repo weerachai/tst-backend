@@ -35,4 +35,14 @@ class Location extends BaseLocation
 				));
 		return CHtml::listData($data,'SubDistrict','SubDistrict');
 	}
+
+	public static function getZipCodes($province,$district,$subdistrict) {
+		$data = Location::model()->findAll(array(
+				'select'=>'ZipCode',
+				'distinct'=>true,
+				'condition'=>'Province=:Province AND District=:District AND SubDistrict=:SubDistrict',
+				'params'=>array(':Province'=>$province,':District'=>$district,':SubDistrict'=>$subdistrict)
+				));
+		return CHtml::listData($data,'ZipCode','ZipCode');
+	}
 }

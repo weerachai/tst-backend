@@ -210,3 +210,433 @@ Stack trace:
 REQUEST_URI=/backend/php/index.php?r=deviceSetting/view&id=asd
 HTTP_REFERER=https://localhost/backend/php/index.php?r=deviceSetting/create
 ---
+2013/07/15 07:29:04 [error] [system.db.CDbCommand] CDbCommand::fetchAll() failed: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'backend.CustomerTitle' doesn't exist. The SQL statement executed was: SHOW FULL COLUMNS FROM `CustomerTitle`.
+in /home/tu/www/backend/php/index.php (13)
+2013/07/15 07:29:27 [error] [system.db.CDbCommand] CDbCommand::fetchAll() failed: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'backend.CustomerTitle' doesn't exist. The SQL statement executed was: SHOW FULL COLUMNS FROM `CustomerTitle`.
+in /home/tu/www/backend/php/index.php (13)
+2013/07/15 08:01:07 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'The system is unable to find the requested action "table=Customer".' in /home/tu/www/backend/php/framework/web/CController.php:483
+Stack trace:
+#0 /home/tu/www/backend/php/framework/web/CController.php(270): CController->missingAction('table=Customer')
+#1 /home/tu/www/backend/php/framework/web/CWebApplication.php(282): CController->run('table=Customer')
+#2 /home/tu/www/backend/php/framework/web/CWebApplication.php(141): CWebApplication->runController('export/table=Cu...')
+#3 /home/tu/www/backend/php/framework/base/CApplication.php(169): CWebApplication->processRequest()
+#4 /home/tu/www/backend/php/index.php(13): CApplication->run()
+#5 {main}
+REQUEST_URI=/backend/php/index.php?r=export/table=Customer
+---
+2013/07/15 08:43:50 [error] [exception.CException] exception 'CException' with message 'Customer and its behaviors do not have a method or closure named "getProvinces".' in /home/tu/www/backend/php/framework/base/CComponent.php:265
+Stack trace:
+#0 /home/tu/www/backend/php/framework/db/ar/CActiveRecord.php(225): CComponent->__call('getProvinces', Array)
+#1 /home/tu/www/backend/php/protected/views/customer/_form.php(66): CActiveRecord->__call('getProvinces', Array)
+#2 /home/tu/www/backend/php/protected/views/customer/_form.php(66): Customer->getProvinces()
+#3 /home/tu/www/backend/php/framework/web/CBaseController.php(126): require('/home/tu/www/ba...')
+#4 /home/tu/www/backend/php/framework/web/CBaseController.php(95): CBaseController->renderInternal('/home/tu/www/ba...', Array, true)
+#5 /home/tu/www/backend/php/framework/web/CController.php(869): CBaseController->renderFile('/home/tu/www/ba...', Array, true)
+#6 /home/tu/www/backend/php/protected/views/customer/create.php(19): CController->renderPartial('_form', Array)
+#7 /home/tu/www/backend/php/framework/web/CBaseController.php(126): require('/home/tu/www/ba...')
+#8 /home/tu/www/backend/php/framework/web/CBaseController.php(95): CBaseController->renderInternal('/home/tu/www/ba...', Array, true)
+#9 /home/tu/www/backend/php/framework/web/CController.php(869): CBaseController->renderFile('/home/tu/www/ba...', Array, true)
+#10 /home/tu/www/backend/php/framework/web/CController.php(782): CController->renderPartial('create', Array, true)
+#11 /home/tu/www/backend/php/protected/controllers/CustomerController.php(53): CController->render('create', Array)
+#12 /home/tu/www/backend/php/framework/web/actions/CInlineAction.php(49): CustomerController->actionCreate()
+#13 /home/tu/www/backend/php/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#14 /home/tu/www/backend/php/framework/web/filters/CFilterChain.php(133): CController->runAction(Object(CInlineAction))
+#15 /home/tu/www/backend/php/framework/web/filters/CFilter.php(40): CFilterChain->run()
+#16 /home/tu/www/backend/php/framework/web/CController.php(1145): CFilter->filter(Object(CFilterChain))
+#17 /home/tu/www/backend/php/framework/web/filters/CInlineFilter.php(58): CController->filterAccessControl(Object(CFilterChain))
+#18 /home/tu/www/backend/php/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter(Object(CFilterChain))
+#19 /home/tu/www/backend/php/framework/web/CController.php(291): CFilterChain->run()
+#20 /home/tu/www/backend/php/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#21 /home/tu/www/backend/php/framework/web/CWebApplication.php(282): CController->run('create')
+#22 /home/tu/www/backend/php/framework/web/CWebApplication.php(141): CWebApplication->runController('customer/create')
+#23 /home/tu/www/backend/php/framework/base/CApplication.php(169): CWebApplication->processRequest()
+#24 /home/tu/www/backend/php/index.php(13): CApplication->run()
+#25 {main}
+REQUEST_URI=/backend/php/index.php?r=customer/create
+HTTP_REFERER=https://localhost/backend/php/index.php?r=customer/update&id=CUD00113050001
+---
+2013/07/15 08:51:16 [error] [php] Undefined index: Province (/home/tu/www/backend/php/protected/controllers/HelperController.php:7)
+Stack trace:
+#0 /home/tu/www/backend/php/framework/web/CController.php(286): HelperController->runAction()
+#1 /home/tu/www/backend/php/framework/web/CController.php(265): HelperController->runActionWithFilters()
+#2 /home/tu/www/backend/php/framework/web/CWebApplication.php(282): HelperController->run()
+#3 /home/tu/www/backend/php/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#4 /home/tu/www/backend/php/framework/base/CApplication.php(169): CWebApplication->processRequest()
+#5 /home/tu/www/backend/php/index.php(13): CWebApplication->run()
+REQUEST_URI=/backend/php/index.php?r=helper/getDistricts
+in /home/tu/www/backend/php/protected/controllers/HelperController.php (7)
+in /home/tu/www/backend/php/index.php (13)
+2013/07/15 09:49:56 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Unable to resolve the request "bank".' in /home/tu/www/backend/php/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /home/tu/www/backend/php/framework/web/CWebApplication.php(141): CWebApplication->runController('bank')
+#1 /home/tu/www/backend/php/framework/base/CApplication.php(169): CWebApplication->processRequest()
+#2 /home/tu/www/backend/php/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/backend/php/index.php?r=bank
+---
+2013/07/15 12:55:40 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'The system is unable to find the requested action "getProductsOrGroups()".' in /home/tu/www/backend/php/framework/web/CController.php:483
+Stack trace:
+#0 /home/tu/www/backend/php/framework/web/CController.php(270): CController->missingAction('getProductsOrGr...')
+#1 /home/tu/www/backend/php/framework/web/CWebApplication.php(282): CController->run('getProductsOrGr...')
+#2 /home/tu/www/backend/php/framework/web/CWebApplication.php(141): CWebApplication->runController('helper/getProdu...')
+#3 /home/tu/www/backend/php/framework/base/CApplication.php(169): CWebApplication->processRequest()
+#4 /home/tu/www/backend/php/index.php(13): CApplication->run()
+#5 {main}
+REQUEST_URI=/backend/php/index.php?r=helper/getProductsOrGroups()
+HTTP_REFERER=https://localhost/backend/php/index.php?r=promotion/create
+---
+2013/07/15 12:55:43 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'The system is unable to find the requested action "getProductsOrGroups()".' in /home/tu/www/backend/php/framework/web/CController.php:483
+Stack trace:
+#0 /home/tu/www/backend/php/framework/web/CController.php(270): CController->missingAction('getProductsOrGr...')
+#1 /home/tu/www/backend/php/framework/web/CWebApplication.php(282): CController->run('getProductsOrGr...')
+#2 /home/tu/www/backend/php/framework/web/CWebApplication.php(141): CWebApplication->runController('helper/getProdu...')
+#3 /home/tu/www/backend/php/framework/base/CApplication.php(169): CWebApplication->processRequest()
+#4 /home/tu/www/backend/php/index.php(13): CApplication->run()
+#5 {main}
+REQUEST_URI=/backend/php/index.php?r=helper/getProductsOrGroups()
+HTTP_REFERER=https://localhost/backend/php/index.php?r=promotion/create
+---
+2013/07/15 12:56:06 [error] [php] Undefined index: PromotionType (/home/tu/www/backend/php/protected/controllers/HelperController.php:39)
+Stack trace:
+#0 /home/tu/www/backend/php/framework/web/CController.php(286): HelperController->runAction()
+#1 /home/tu/www/backend/php/framework/web/CController.php(265): HelperController->runActionWithFilters()
+#2 /home/tu/www/backend/php/framework/web/CWebApplication.php(282): HelperController->run()
+#3 /home/tu/www/backend/php/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#4 /home/tu/www/backend/php/framework/base/CApplication.php(169): CWebApplication->processRequest()
+#5 /home/tu/www/backend/php/index.php(13): CWebApplication->run()
+REQUEST_URI=/backend/php/index.php?r=helper/getProductsOrGroups
+in /home/tu/www/backend/php/protected/controllers/HelperController.php (39)
+in /home/tu/www/backend/php/index.php (13)
+2013/07/15 12:57:54 [error] [php] Undefined index: PromotionType (/home/tu/www/backend/php/protected/controllers/HelperController.php:39)
+Stack trace:
+#0 /home/tu/www/backend/php/framework/web/CController.php(286): HelperController->runAction()
+#1 /home/tu/www/backend/php/framework/web/CController.php(265): HelperController->runActionWithFilters()
+#2 /home/tu/www/backend/php/framework/web/CWebApplication.php(282): HelperController->run()
+#3 /home/tu/www/backend/php/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#4 /home/tu/www/backend/php/framework/base/CApplication.php(169): CWebApplication->processRequest()
+#5 /home/tu/www/backend/php/index.php(13): CWebApplication->run()
+REQUEST_URI=/backend/php/index.php?r=helper/getProductsOrGroups
+in /home/tu/www/backend/php/protected/controllers/HelperController.php (39)
+in /home/tu/www/backend/php/index.php (13)
+2013/07/15 12:58:00 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'The system is unable to find the requested action "getProductsOrGroups()".' in /home/tu/www/backend/php/framework/web/CController.php:483
+Stack trace:
+#0 /home/tu/www/backend/php/framework/web/CController.php(270): CController->missingAction('getProductsOrGr...')
+#1 /home/tu/www/backend/php/framework/web/CWebApplication.php(282): CController->run('getProductsOrGr...')
+#2 /home/tu/www/backend/php/framework/web/CWebApplication.php(141): CWebApplication->runController('helper/getProdu...')
+#3 /home/tu/www/backend/php/framework/base/CApplication.php(169): CWebApplication->processRequest()
+#4 /home/tu/www/backend/php/index.php(13): CApplication->run()
+#5 {main}
+REQUEST_URI=/backend/php/index.php?r=helper/getProductsOrGroups()
+HTTP_REFERER=https://localhost/backend/php/index.php?r=promotion/create
+---
+2013/07/15 12:58:20 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'The system is unable to find the requested action "getProductsOrGroups()".' in /home/tu/www/backend/php/framework/web/CController.php:483
+Stack trace:
+#0 /home/tu/www/backend/php/framework/web/CController.php(270): CController->missingAction('getProductsOrGr...')
+#1 /home/tu/www/backend/php/framework/web/CWebApplication.php(282): CController->run('getProductsOrGr...')
+#2 /home/tu/www/backend/php/framework/web/CWebApplication.php(141): CWebApplication->runController('helper/getProdu...')
+#3 /home/tu/www/backend/php/framework/base/CApplication.php(169): CWebApplication->processRequest()
+#4 /home/tu/www/backend/php/index.php(13): CApplication->run()
+#5 {main}
+REQUEST_URI=/backend/php/index.php?r=helper/getProductsOrGroups()
+HTTP_REFERER=https://localhost/backend/php/index.php?r=promotion/create
+---
+2013/07/15 13:00:37 [error] [php] Undefined index: PromotionType (/home/tu/www/backend/php/protected/controllers/HelperController.php:39)
+Stack trace:
+#0 /home/tu/www/backend/php/framework/web/CController.php(286): HelperController->runAction()
+#1 /home/tu/www/backend/php/framework/web/CController.php(265): HelperController->runActionWithFilters()
+#2 /home/tu/www/backend/php/framework/web/CWebApplication.php(282): HelperController->run()
+#3 /home/tu/www/backend/php/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#4 /home/tu/www/backend/php/framework/base/CApplication.php(169): CWebApplication->processRequest()
+#5 /home/tu/www/backend/php/index.php(13): CWebApplication->run()
+REQUEST_URI=/backend/php/index.php?r=helper/getProductsOrGroups&PromotionType=sku
+in /home/tu/www/backend/php/protected/controllers/HelperController.php (39)
+in /home/tu/www/backend/php/index.php (13)
+2013/07/15 13:00:42 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'The system is unable to find the requested action "getProductsOrGroups()".' in /home/tu/www/backend/php/framework/web/CController.php:483
+Stack trace:
+#0 /home/tu/www/backend/php/framework/web/CController.php(270): CController->missingAction('getProductsOrGr...')
+#1 /home/tu/www/backend/php/framework/web/CWebApplication.php(282): CController->run('getProductsOrGr...')
+#2 /home/tu/www/backend/php/framework/web/CWebApplication.php(141): CWebApplication->runController('helper/getProdu...')
+#3 /home/tu/www/backend/php/framework/base/CApplication.php(169): CWebApplication->processRequest()
+#4 /home/tu/www/backend/php/index.php(13): CApplication->run()
+#5 {main}
+REQUEST_URI=/backend/php/index.php?r=helper/getProductsOrGroups()
+HTTP_REFERER=https://localhost/backend/php/index.php?r=promotion/create
+---
+2013/07/15 13:01:33 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'The system is unable to find the requested action "getProductsOrGroups()".' in /home/tu/www/backend/php/framework/web/CController.php:483
+Stack trace:
+#0 /home/tu/www/backend/php/framework/web/CController.php(270): CController->missingAction('getProductsOrGr...')
+#1 /home/tu/www/backend/php/framework/web/CWebApplication.php(282): CController->run('getProductsOrGr...')
+#2 /home/tu/www/backend/php/framework/web/CWebApplication.php(141): CWebApplication->runController('helper/getProdu...')
+#3 /home/tu/www/backend/php/framework/base/CApplication.php(169): CWebApplication->processRequest()
+#4 /home/tu/www/backend/php/index.php(13): CApplication->run()
+#5 {main}
+REQUEST_URI=/backend/php/index.php?r=helper/getProductsOrGroups()
+HTTP_REFERER=https://localhost/backend/php/index.php?r=promotion/create
+---
+2013/07/15 13:01:35 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'The system is unable to find the requested action "getProductsOrGroups()".' in /home/tu/www/backend/php/framework/web/CController.php:483
+Stack trace:
+#0 /home/tu/www/backend/php/framework/web/CController.php(270): CController->missingAction('getProductsOrGr...')
+#1 /home/tu/www/backend/php/framework/web/CWebApplication.php(282): CController->run('getProductsOrGr...')
+#2 /home/tu/www/backend/php/framework/web/CWebApplication.php(141): CWebApplication->runController('helper/getProdu...')
+#3 /home/tu/www/backend/php/framework/base/CApplication.php(169): CWebApplication->processRequest()
+#4 /home/tu/www/backend/php/index.php(13): CApplication->run()
+#5 {main}
+REQUEST_URI=/backend/php/index.php?r=helper/getProductsOrGroups()
+HTTP_REFERER=https://localhost/backend/php/index.php?r=promotion/create
+---
+2013/07/15 13:01:37 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'The system is unable to find the requested action "getProductsOrGroups()".' in /home/tu/www/backend/php/framework/web/CController.php:483
+Stack trace:
+#0 /home/tu/www/backend/php/framework/web/CController.php(270): CController->missingAction('getProductsOrGr...')
+#1 /home/tu/www/backend/php/framework/web/CWebApplication.php(282): CController->run('getProductsOrGr...')
+#2 /home/tu/www/backend/php/framework/web/CWebApplication.php(141): CWebApplication->runController('helper/getProdu...')
+#3 /home/tu/www/backend/php/framework/base/CApplication.php(169): CWebApplication->processRequest()
+#4 /home/tu/www/backend/php/index.php(13): CApplication->run()
+#5 {main}
+REQUEST_URI=/backend/php/index.php?r=helper/getProductsOrGroups()
+HTTP_REFERER=https://localhost/backend/php/index.php?r=promotion/create
+---
+2013/07/15 13:04:11 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'The system is unable to find the requested action "getProductsOrGroups()".' in /home/tu/www/backend/php/framework/web/CController.php:483
+Stack trace:
+#0 /home/tu/www/backend/php/framework/web/CController.php(270): CController->missingAction('getProductsOrGr...')
+#1 /home/tu/www/backend/php/framework/web/CWebApplication.php(282): CController->run('getProductsOrGr...')
+#2 /home/tu/www/backend/php/framework/web/CWebApplication.php(141): CWebApplication->runController('helper/getProdu...')
+#3 /home/tu/www/backend/php/framework/base/CApplication.php(169): CWebApplication->processRequest()
+#4 /home/tu/www/backend/php/index.php(13): CApplication->run()
+#5 {main}
+REQUEST_URI=/backend/php/index.php?r=helper/getProductsOrGroups()
+HTTP_REFERER=https://localhost/backend/php/index.php?r=promotion/create
+---
+2013/07/15 13:05:04 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'The system is unable to find the requested action "getProductsOrGroups()".' in /home/tu/www/backend/php/framework/web/CController.php:483
+Stack trace:
+#0 /home/tu/www/backend/php/framework/web/CController.php(270): CController->missingAction('getProductsOrGr...')
+#1 /home/tu/www/backend/php/framework/web/CWebApplication.php(282): CController->run('getProductsOrGr...')
+#2 /home/tu/www/backend/php/framework/web/CWebApplication.php(141): CWebApplication->runController('helper/getProdu...')
+#3 /home/tu/www/backend/php/framework/base/CApplication.php(169): CWebApplication->processRequest()
+#4 /home/tu/www/backend/php/index.php(13): CApplication->run()
+#5 {main}
+REQUEST_URI=/backend/php/index.php?r=helper/getProductsOrGroups()
+HTTP_REFERER=https://localhost/backend/php/index.php?r=promotion/create
+---
+2013/07/15 13:06:44 [error] [php] Undefined variable: data (/home/tu/www/backend/php/protected/controllers/HelperController.php:43)
+Stack trace:
+#0 /home/tu/www/backend/php/framework/web/CController.php(286): HelperController->runAction()
+#1 /home/tu/www/backend/php/framework/web/CController.php(265): HelperController->runActionWithFilters()
+#2 /home/tu/www/backend/php/framework/web/CWebApplication.php(282): HelperController->run()
+#3 /home/tu/www/backend/php/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#4 /home/tu/www/backend/php/framework/base/CApplication.php(169): CWebApplication->processRequest()
+#5 /home/tu/www/backend/php/index.php(13): CWebApplication->run()
+REQUEST_URI=/backend/php/index.php?r=helper/getProductsOrGroups
+in /home/tu/www/backend/php/protected/controllers/HelperController.php (43)
+in /home/tu/www/backend/php/index.php (13)
+2013/07/15 13:20:31 [error] [exception.CException] exception 'CException' with message 'Promotion and its behaviors do not have a method or closure named "getGroupLevel2".' in /home/tu/www/backend/php/framework/base/CComponent.php:265
+Stack trace:
+#0 /home/tu/www/backend/php/framework/db/ar/CActiveRecord.php(225): CComponent->__call('getGroupLevel2', Array)
+#1 /home/tu/www/backend/php/protected/controllers/HelperController.php(47): CActiveRecord->__call('getGroupLevel2', Array)
+#2 /home/tu/www/backend/php/protected/controllers/HelperController.php(47): Promotion->getGroupLevel2()
+#3 /home/tu/www/backend/php/framework/web/actions/CInlineAction.php(49): HelperController->actionGetProductsOrGroups()
+#4 /home/tu/www/backend/php/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#5 /home/tu/www/backend/php/framework/web/CController.php(286): CController->runAction(Object(CInlineAction))
+#6 /home/tu/www/backend/php/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#7 /home/tu/www/backend/php/framework/web/CWebApplication.php(282): CController->run('getProductsOrGr...')
+#8 /home/tu/www/backend/php/framework/web/CWebApplication.php(141): CWebApplication->runController('helper/getProdu...')
+#9 /home/tu/www/backend/php/framework/base/CApplication.php(169): CWebApplication->processRequest()
+#10 /home/tu/www/backend/php/index.php(13): CApplication->run()
+#11 {main}
+REQUEST_URI=/backend/php/index.php?r=helper/getProductsOrGroups
+HTTP_REFERER=https://localhost/backend/php/index.php?r=promotion/create
+---
+2013/07/15 13:20:32 [error] [exception.CException] exception 'CException' with message 'Promotion and its behaviors do not have a method or closure named "getGroupLevel3".' in /home/tu/www/backend/php/framework/base/CComponent.php:265
+Stack trace:
+#0 /home/tu/www/backend/php/framework/db/ar/CActiveRecord.php(225): CComponent->__call('getGroupLevel3', Array)
+#1 /home/tu/www/backend/php/protected/controllers/HelperController.php(49): CActiveRecord->__call('getGroupLevel3', Array)
+#2 /home/tu/www/backend/php/protected/controllers/HelperController.php(49): Promotion->getGroupLevel3()
+#3 /home/tu/www/backend/php/framework/web/actions/CInlineAction.php(49): HelperController->actionGetProductsOrGroups()
+#4 /home/tu/www/backend/php/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#5 /home/tu/www/backend/php/framework/web/CController.php(286): CController->runAction(Object(CInlineAction))
+#6 /home/tu/www/backend/php/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#7 /home/tu/www/backend/php/framework/web/CWebApplication.php(282): CController->run('getProductsOrGr...')
+#8 /home/tu/www/backend/php/framework/web/CWebApplication.php(141): CWebApplication->runController('helper/getProdu...')
+#9 /home/tu/www/backend/php/framework/base/CApplication.php(169): CWebApplication->processRequest()
+#10 /home/tu/www/backend/php/index.php(13): CApplication->run()
+#11 {main}
+REQUEST_URI=/backend/php/index.php?r=helper/getProductsOrGroups
+HTTP_REFERER=https://localhost/backend/php/index.php?r=promotion/create
+---
+2013/07/15 13:21:11 [error] [exception.CException] exception 'CException' with message 'Promotion and its behaviors do not have a method or closure named "getGroupLevel2".' in /home/tu/www/backend/php/framework/base/CComponent.php:265
+Stack trace:
+#0 /home/tu/www/backend/php/framework/db/ar/CActiveRecord.php(225): CComponent->__call('getGroupLevel2', Array)
+#1 /home/tu/www/backend/php/protected/controllers/HelperController.php(47): CActiveRecord->__call('getGroupLevel2', Array)
+#2 /home/tu/www/backend/php/protected/controllers/HelperController.php(47): Promotion->getGroupLevel2()
+#3 /home/tu/www/backend/php/framework/web/actions/CInlineAction.php(49): HelperController->actionGetProductsOrGroups()
+#4 /home/tu/www/backend/php/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#5 /home/tu/www/backend/php/framework/web/CController.php(286): CController->runAction(Object(CInlineAction))
+#6 /home/tu/www/backend/php/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#7 /home/tu/www/backend/php/framework/web/CWebApplication.php(282): CController->run('getProductsOrGr...')
+#8 /home/tu/www/backend/php/framework/web/CWebApplication.php(141): CWebApplication->runController('helper/getProdu...')
+#9 /home/tu/www/backend/php/framework/base/CApplication.php(169): CWebApplication->processRequest()
+#10 /home/tu/www/backend/php/index.php(13): CApplication->run()
+#11 {main}
+REQUEST_URI=/backend/php/index.php?r=helper/getProductsOrGroups
+HTTP_REFERER=https://localhost/backend/php/index.php?r=promotion/create
+---
+2013/07/15 13:21:14 [error] [exception.CException] exception 'CException' with message 'Promotion and its behaviors do not have a method or closure named "getGroupLevel3".' in /home/tu/www/backend/php/framework/base/CComponent.php:265
+Stack trace:
+#0 /home/tu/www/backend/php/framework/db/ar/CActiveRecord.php(225): CComponent->__call('getGroupLevel3', Array)
+#1 /home/tu/www/backend/php/protected/controllers/HelperController.php(49): CActiveRecord->__call('getGroupLevel3', Array)
+#2 /home/tu/www/backend/php/protected/controllers/HelperController.php(49): Promotion->getGroupLevel3()
+#3 /home/tu/www/backend/php/framework/web/actions/CInlineAction.php(49): HelperController->actionGetProductsOrGroups()
+#4 /home/tu/www/backend/php/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#5 /home/tu/www/backend/php/framework/web/CController.php(286): CController->runAction(Object(CInlineAction))
+#6 /home/tu/www/backend/php/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#7 /home/tu/www/backend/php/framework/web/CWebApplication.php(282): CController->run('getProductsOrGr...')
+#8 /home/tu/www/backend/php/framework/web/CWebApplication.php(141): CWebApplication->runController('helper/getProdu...')
+#9 /home/tu/www/backend/php/framework/base/CApplication.php(169): CWebApplication->processRequest()
+#10 /home/tu/www/backend/php/index.php(13): CApplication->run()
+#11 {main}
+REQUEST_URI=/backend/php/index.php?r=helper/getProductsOrGroups
+HTTP_REFERER=https://localhost/backend/php/index.php?r=promotion/create
+---
+2013/07/15 13:30:14 [error] [exception.CException] exception 'CException' with message 'Property "Promotion.PromotionTyp" is not defined.' in /home/tu/www/backend/php/framework/base/CComponent.php:173
+Stack trace:
+#0 /home/tu/www/backend/php/framework/db/ar/CActiveRecord.php(159): CComponent->__set('PromotionTyp', 'sku')
+#1 /home/tu/www/backend/php/protected/models/Promotion.php(13): CActiveRecord->__set('PromotionTyp', 'sku')
+#2 /home/tu/www/backend/php/protected/views/promotion/_form.php(58): Promotion->getPromotionTypes()
+#3 /home/tu/www/backend/php/framework/web/CBaseController.php(126): require('/home/tu/www/ba...')
+#4 /home/tu/www/backend/php/framework/web/CBaseController.php(95): CBaseController->renderInternal('/home/tu/www/ba...', Array, true)
+#5 /home/tu/www/backend/php/framework/web/CController.php(869): CBaseController->renderFile('/home/tu/www/ba...', Array, true)
+#6 /home/tu/www/backend/php/protected/views/promotion/create.php(19): CController->renderPartial('_form', Array)
+#7 /home/tu/www/backend/php/framework/web/CBaseController.php(126): require('/home/tu/www/ba...')
+#8 /home/tu/www/backend/php/framework/web/CBaseController.php(95): CBaseController->renderInternal('/home/tu/www/ba...', Array, true)
+#9 /home/tu/www/backend/php/framework/web/CController.php(869): CBaseController->renderFile('/home/tu/www/ba...', Array, true)
+#10 /home/tu/www/backend/php/framework/web/CController.php(782): CController->renderPartial('create', Array, true)
+#11 /home/tu/www/backend/php/protected/controllers/PromotionController.php(53): CController->render('create', Array)
+#12 /home/tu/www/backend/php/framework/web/actions/CInlineAction.php(49): PromotionController->actionCreate()
+#13 /home/tu/www/backend/php/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#14 /home/tu/www/backend/php/framework/web/filters/CFilterChain.php(133): CController->runAction(Object(CInlineAction))
+#15 /home/tu/www/backend/php/framework/web/filters/CFilter.php(40): CFilterChain->run()
+#16 /home/tu/www/backend/php/framework/web/CController.php(1145): CFilter->filter(Object(CFilterChain))
+#17 /home/tu/www/backend/php/framework/web/filters/CInlineFilter.php(58): CController->filterAccessControl(Object(CFilterChain))
+#18 /home/tu/www/backend/php/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter(Object(CFilterChain))
+#19 /home/tu/www/backend/php/framework/web/CController.php(291): CFilterChain->run()
+#20 /home/tu/www/backend/php/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#21 /home/tu/www/backend/php/framework/web/CWebApplication.php(282): CController->run('create')
+#22 /home/tu/www/backend/php/framework/web/CWebApplication.php(141): CWebApplication->runController('promotion/creat...')
+#23 /home/tu/www/backend/php/framework/base/CApplication.php(169): CWebApplication->processRequest()
+#24 /home/tu/www/backend/php/index.php(13): CApplication->run()
+#25 {main}
+REQUEST_URI=/backend/php/index.php?r=promotion/create
+HTTP_REFERER=https://localhost/backend/php/index.php?r=promotion
+---
+2013/07/15 13:42:48 [error] [system.db.CDbCommand] CDbCommand::fetchAll() failed: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'backend.FreeProductGrp' doesn't exist. The SQL statement executed was: SHOW FULL COLUMNS FROM `FreeProductGrp`.
+in /home/tu/www/backend/php/index.php (13)
+2013/07/15 13:55:06 [error] [system.db.CDbCommand] CDbCommand::fetchAll() failed: SQLSTATE[42000]: Syntax error or access violation: 1582 Incorrect parameter count in the call to native function 'isnull'. The SQL statement executed was: SELECT DISTINCT PackLevel1 FROM `Product` `t` WHERE strlen(isnull(PackLevel1,'')) > 0.
+in /home/tu/www/backend/php/protected/models/Product.php (46)
+in /home/tu/www/backend/php/protected/views/promotion/_form.php (148)
+in /home/tu/www/backend/php/protected/views/promotion/create.php (19)
+2013/07/15 13:55:06 [error] [exception.CDbException] exception 'CDbException' with message 'CDbCommand failed to execute the SQL statement: SQLSTATE[42000]: Syntax error or access violation: 1582 Incorrect parameter count in the call to native function 'isnull'. The SQL statement executed was: SELECT DISTINCT PackLevel1 FROM `Product` `t` WHERE strlen(isnull(PackLevel1,'')) > 0' in /home/tu/www/backend/php/framework/db/CDbCommand.php:541
+Stack trace:
+#0 /home/tu/www/backend/php/framework/db/CDbCommand.php(395): CDbCommand->queryInternal('fetchAll', Array, Array)
+#1 /home/tu/www/backend/php/framework/db/ar/CActiveRecord.php(1297): CDbCommand->queryAll()
+#2 /home/tu/www/backend/php/framework/db/ar/CActiveRecord.php(1416): CActiveRecord->query(Object(CDbCriteria), true)
+#3 /home/tu/www/backend/php/protected/models/Product.php(46): CActiveRecord->findAll(Array)
+#4 /home/tu/www/backend/php/protected/views/promotion/_form.php(148): Product::getPacks()
+#5 /home/tu/www/backend/php/framework/web/CBaseController.php(126): require('/home/tu/www/ba...')
+#6 /home/tu/www/backend/php/framework/web/CBaseController.php(95): CBaseController->renderInternal('/home/tu/www/ba...', Array, true)
+#7 /home/tu/www/backend/php/framework/web/CController.php(869): CBaseController->renderFile('/home/tu/www/ba...', Array, true)
+#8 /home/tu/www/backend/php/protected/views/promotion/create.php(19): CController->renderPartial('_form', Array)
+#9 /home/tu/www/backend/php/framework/web/CBaseController.php(126): require('/home/tu/www/ba...')
+#10 /home/tu/www/backend/php/framework/web/CBaseController.php(95): CBaseController->renderInternal('/home/tu/www/ba...', Array, true)
+#11 /home/tu/www/backend/php/framework/web/CController.php(869): CBaseController->renderFile('/home/tu/www/ba...', Array, true)
+#12 /home/tu/www/backend/php/framework/web/CController.php(782): CController->renderPartial('create', Array, true)
+#13 /home/tu/www/backend/php/protected/controllers/PromotionController.php(53): CController->render('create', Array)
+#14 /home/tu/www/backend/php/framework/web/actions/CInlineAction.php(49): PromotionController->actionCreate()
+#15 /home/tu/www/backend/php/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#16 /home/tu/www/backend/php/framework/web/filters/CFilterChain.php(133): CController->runAction(Object(CInlineAction))
+#17 /home/tu/www/backend/php/framework/web/filters/CFilter.php(40): CFilterChain->run()
+#18 /home/tu/www/backend/php/framework/web/CController.php(1145): CFilter->filter(Object(CFilterChain))
+#19 /home/tu/www/backend/php/framework/web/filters/CInlineFilter.php(58): CController->filterAccessControl(Object(CFilterChain))
+#20 /home/tu/www/backend/php/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter(Object(CFilterChain))
+#21 /home/tu/www/backend/php/framework/web/CController.php(291): CFilterChain->run()
+#22 /home/tu/www/backend/php/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#23 /home/tu/www/backend/php/framework/web/CWebApplication.php(282): CController->run('create')
+#24 /home/tu/www/backend/php/framework/web/CWebApplication.php(141): CWebApplication->runController('promotion/creat...')
+#25 /home/tu/www/backend/php/framework/base/CApplication.php(169): CWebApplication->processRequest()
+#26 /home/tu/www/backend/php/index.php(13): CApplication->run()
+#27 {main}
+REQUEST_URI=/backend/php/index.php?r=promotion/create
+HTTP_REFERER=https://localhost/backend/php/index.php?r=promotion/update&id=GG
+---
+2013/07/15 13:56:32 [error] [system.db.CDbCommand] CDbCommand::fetchAll() failed: SQLSTATE[42000]: Syntax error or access violation: 1305 FUNCTION backend.strlen does not exist. The SQL statement executed was: SELECT DISTINCT PackLevel1 FROM `Product` `t` WHERE PackLevel1 IS NOT NULL AND strlen(PackLevel1) > 0.
+in /home/tu/www/backend/php/protected/models/Product.php (46)
+in /home/tu/www/backend/php/protected/views/promotion/_form.php (148)
+in /home/tu/www/backend/php/protected/views/promotion/create.php (19)
+2013/07/15 13:56:32 [error] [exception.CDbException] exception 'CDbException' with message 'CDbCommand failed to execute the SQL statement: SQLSTATE[42000]: Syntax error or access violation: 1305 FUNCTION backend.strlen does not exist. The SQL statement executed was: SELECT DISTINCT PackLevel1 FROM `Product` `t` WHERE PackLevel1 IS NOT NULL AND strlen(PackLevel1) > 0' in /home/tu/www/backend/php/framework/db/CDbCommand.php:541
+Stack trace:
+#0 /home/tu/www/backend/php/framework/db/CDbCommand.php(395): CDbCommand->queryInternal('fetchAll', Array, Array)
+#1 /home/tu/www/backend/php/framework/db/ar/CActiveRecord.php(1297): CDbCommand->queryAll()
+#2 /home/tu/www/backend/php/framework/db/ar/CActiveRecord.php(1416): CActiveRecord->query(Object(CDbCriteria), true)
+#3 /home/tu/www/backend/php/protected/models/Product.php(46): CActiveRecord->findAll(Array)
+#4 /home/tu/www/backend/php/protected/views/promotion/_form.php(148): Product::getPacks()
+#5 /home/tu/www/backend/php/framework/web/CBaseController.php(126): require('/home/tu/www/ba...')
+#6 /home/tu/www/backend/php/framework/web/CBaseController.php(95): CBaseController->renderInternal('/home/tu/www/ba...', Array, true)
+#7 /home/tu/www/backend/php/framework/web/CController.php(869): CBaseController->renderFile('/home/tu/www/ba...', Array, true)
+#8 /home/tu/www/backend/php/protected/views/promotion/create.php(19): CController->renderPartial('_form', Array)
+#9 /home/tu/www/backend/php/framework/web/CBaseController.php(126): require('/home/tu/www/ba...')
+#10 /home/tu/www/backend/php/framework/web/CBaseController.php(95): CBaseController->renderInternal('/home/tu/www/ba...', Array, true)
+#11 /home/tu/www/backend/php/framework/web/CController.php(869): CBaseController->renderFile('/home/tu/www/ba...', Array, true)
+#12 /home/tu/www/backend/php/framework/web/CController.php(782): CController->renderPartial('create', Array, true)
+#13 /home/tu/www/backend/php/protected/controllers/PromotionController.php(53): CController->render('create', Array)
+#14 /home/tu/www/backend/php/framework/web/actions/CInlineAction.php(49): PromotionController->actionCreate()
+#15 /home/tu/www/backend/php/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#16 /home/tu/www/backend/php/framework/web/filters/CFilterChain.php(133): CController->runAction(Object(CInlineAction))
+#17 /home/tu/www/backend/php/framework/web/filters/CFilter.php(40): CFilterChain->run()
+#18 /home/tu/www/backend/php/framework/web/CController.php(1145): CFilter->filter(Object(CFilterChain))
+#19 /home/tu/www/backend/php/framework/web/filters/CInlineFilter.php(58): CController->filterAccessControl(Object(CFilterChain))
+#20 /home/tu/www/backend/php/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter(Object(CFilterChain))
+#21 /home/tu/www/backend/php/framework/web/CController.php(291): CFilterChain->run()
+#22 /home/tu/www/backend/php/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#23 /home/tu/www/backend/php/framework/web/CWebApplication.php(282): CController->run('create')
+#24 /home/tu/www/backend/php/framework/web/CWebApplication.php(141): CWebApplication->runController('promotion/creat...')
+#25 /home/tu/www/backend/php/framework/base/CApplication.php(169): CWebApplication->processRequest()
+#26 /home/tu/www/backend/php/index.php(13): CApplication->run()
+#27 {main}
+REQUEST_URI=/backend/php/index.php?r=promotion/create
+HTTP_REFERER=https://localhost/backend/php/index.php?r=promotion/update&id=GG
+---
+2013/07/15 13:57:27 [error] [system.db.CDbCommand] CDbCommand::fetchAll() failed: SQLSTATE[42000]: Syntax error or access violation: 1305 FUNCTION backend.len does not exist. The SQL statement executed was: SELECT DISTINCT PackLevel1 FROM `Product` `t` WHERE PackLevel1 IS NOT NULL AND len(PackLevel1) > 0.
+in /home/tu/www/backend/php/protected/models/Product.php (46)
+in /home/tu/www/backend/php/protected/views/promotion/_form.php (148)
+in /home/tu/www/backend/php/protected/views/promotion/create.php (19)
+2013/07/15 13:57:27 [error] [exception.CDbException] exception 'CDbException' with message 'CDbCommand failed to execute the SQL statement: SQLSTATE[42000]: Syntax error or access violation: 1305 FUNCTION backend.len does not exist. The SQL statement executed was: SELECT DISTINCT PackLevel1 FROM `Product` `t` WHERE PackLevel1 IS NOT NULL AND len(PackLevel1) > 0' in /home/tu/www/backend/php/framework/db/CDbCommand.php:541
+Stack trace:
+#0 /home/tu/www/backend/php/framework/db/CDbCommand.php(395): CDbCommand->queryInternal('fetchAll', Array, Array)
+#1 /home/tu/www/backend/php/framework/db/ar/CActiveRecord.php(1297): CDbCommand->queryAll()
+#2 /home/tu/www/backend/php/framework/db/ar/CActiveRecord.php(1416): CActiveRecord->query(Object(CDbCriteria), true)
+#3 /home/tu/www/backend/php/protected/models/Product.php(46): CActiveRecord->findAll(Array)
+#4 /home/tu/www/backend/php/protected/views/promotion/_form.php(148): Product::getPacks()
+#5 /home/tu/www/backend/php/framework/web/CBaseController.php(126): require('/home/tu/www/ba...')
+#6 /home/tu/www/backend/php/framework/web/CBaseController.php(95): CBaseController->renderInternal('/home/tu/www/ba...', Array, true)
+#7 /home/tu/www/backend/php/framework/web/CController.php(869): CBaseController->renderFile('/home/tu/www/ba...', Array, true)
+#8 /home/tu/www/backend/php/protected/views/promotion/create.php(19): CController->renderPartial('_form', Array)
+#9 /home/tu/www/backend/php/framework/web/CBaseController.php(126): require('/home/tu/www/ba...')
+#10 /home/tu/www/backend/php/framework/web/CBaseController.php(95): CBaseController->renderInternal('/home/tu/www/ba...', Array, true)
+#11 /home/tu/www/backend/php/framework/web/CController.php(869): CBaseController->renderFile('/home/tu/www/ba...', Array, true)
+#12 /home/tu/www/backend/php/framework/web/CController.php(782): CController->renderPartial('create', Array, true)
+#13 /home/tu/www/backend/php/protected/controllers/PromotionController.php(53): CController->render('create', Array)
+#14 /home/tu/www/backend/php/framework/web/actions/CInlineAction.php(49): PromotionController->actionCreate()
+#15 /home/tu/www/backend/php/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#16 /home/tu/www/backend/php/framework/web/filters/CFilterChain.php(133): CController->runAction(Object(CInlineAction))
+#17 /home/tu/www/backend/php/framework/web/filters/CFilter.php(40): CFilterChain->run()
+#18 /home/tu/www/backend/php/framework/web/CController.php(1145): CFilter->filter(Object(CFilterChain))
+#19 /home/tu/www/backend/php/framework/web/filters/CInlineFilter.php(58): CController->filterAccessControl(Object(CFilterChain))
+#20 /home/tu/www/backend/php/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter(Object(CFilterChain))
+#21 /home/tu/www/backend/php/framework/web/CController.php(291): CFilterChain->run()
+#22 /home/tu/www/backend/php/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#23 /home/tu/www/backend/php/framework/web/CWebApplication.php(282): CController->run('create')
+#24 /home/tu/www/backend/php/framework/web/CWebApplication.php(141): CWebApplication->runController('promotion/creat...')
+#25 /home/tu/www/backend/php/framework/base/CApplication.php(169): CWebApplication->processRequest()
+#26 /home/tu/www/backend/php/index.php(13): CApplication->run()
+#27 {main}
+REQUEST_URI=/backend/php/index.php?r=promotion/create
+HTTP_REFERER=https://localhost/backend/php/index.php?r=promotion/update&id=GG
+---

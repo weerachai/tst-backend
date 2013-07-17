@@ -28,7 +28,7 @@
 		<?php echo $form->dropDownList($model,'Province',$model->getProvinces(), array(
 					'ajax' => array(
 						'type'=>'POST', //request type
-						'url'=>CController::createUrl('helper/getDistricts'),
+						'url'=>CController::createUrl('helper/getLocations'),
 						'dataType'=>'json',
  		                'data'=>array('Province'=>'js:this.value'),
  		                'success'=>'function(data) {
@@ -43,9 +43,13 @@
 		<?php echo $form->dropDownList($model,'District', $model->getDistricts(), array(
 					'ajax' => array(
 						'type'=>'POST', //request type
-						'url'=>CController::createUrl('helper/getSubDistricts'),
-						'update'=>'#'.CHtml::activeId($model,'SubDistrict'),
- 		                'data'=>array('Province'=>'js:'.CHtml::activeId($model,'Province').'.value','District'=>'js:this.value'),
+						'url'=>CController::createUrl('helper/getLocations'),
+						'dataType'=>'json',
+ 		                'data'=>array('Province'=>'js:'.CHtml::activeId($model,'Province').'.value',
+ 		                	'District'=>'js:this.value'),
+  		                'success'=>'function(data) {
+							$("#'.CHtml::activeId($model, "SubDistrict").'").html(data.subdistricts);
+                		}',
 					))); ?>
 		<?php echo $form->error($model,'District'); ?>
 		</div><!-- row -->
