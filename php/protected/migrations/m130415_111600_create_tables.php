@@ -113,7 +113,7 @@ if ($TESTING) {
                              'SupervisorId' => 'string',
                              'primary key (AreaId)',
                              ), 'ENGINE=InnoDB');	
-    //$this->addForeignKey('fk_SaleArea_Employee','SaleArea','SupervisorId','Employee','EmployeeId','SET NULL','CASCADE');
+//    $this->addForeignKey('fk_SaleArea_Employee','SaleArea','SupervisorId','Employee','EmployeeId','SET NULL','CASCADE');
 
 
     // backend only table
@@ -124,12 +124,12 @@ if ($TESTING) {
                              'SaleName' => 'string not null',
                              'SaleType' => 'string not null',
                              'EmployeeId' => 'string',
-                             'AreaId' => 'string not null',
+                             'AreaId' => 'string',
                              'Active' => 'string not null',
                              'primary key (SaleId)',
                              ), 'ENGINE=InnoDB');   
-    //$this->addForeignKey('fk_SaleUnit_Employee','SaleUnit','EmployeeId','Employee','EmployeeId','SET NULL','CASCADE');
-    //$this->addForeignKey('fk_SaleUnit_SaleArea','SaleUnit','AreaId','SaleArea','AreaId','SET NULL','CASCADE');
+//    $this->addForeignKey('fk_SaleUnit_Employee','SaleUnit','EmployeeId','Employee','EmployeeId','SET NULL','CASCADE');
+//    $this->addForeignKey('fk_SaleUnit_SaleArea','SaleUnit','AreaId','SaleArea','AreaId','SET NULL','CASCADE');
 
     // device-backend auth table
     // check
@@ -137,13 +137,13 @@ if ($TESTING) {
                        array(
                              'DeviceId' => 'string not null',
                              'DeviceKey' => 'string',
-                             'SaleId' => 'string',
+                             'SaleId' => 'string not null',
                              'Username' => 'string not null',
                              'Password' => 'string',
                              'UpdateAt' => 'datetime',          
-                             'primary key (DeviceId)',
+                             'primary key (SaleId)',
                              ), 'ENGINE=InnoDB');   
-    //$this->addForeignKey('fk_Device_SaleUnit','Device','SaleId','SaleUnit','SaleId','SET NULL','CASCADE');
+//    $this->addForeignKey('fk_Device_SaleUnit','Device','SaleId','SaleUnit','SaleId','SET NULL','CASCADE');
 
 if ($TESTING) {
     $k = 0;    

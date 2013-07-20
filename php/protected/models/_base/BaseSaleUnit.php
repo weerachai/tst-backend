@@ -37,9 +37,9 @@ abstract class BaseSaleUnit extends GxActiveRecord {
 
 	public function rules() {
 		return array(
-			array('SaleId, SaleName, SaleType, AreaId, Active', 'required'),
+			array('SaleId, SaleName, SaleType, Active', 'required'),
 			array('SaleId, SaleName, SaleType, EmployeeId, AreaId, Active', 'length', 'max'=>255),
-			array('EmployeeId', 'default', 'setOnEmpty' => true, 'value' => null),
+			array('EmployeeId, AreaId', 'default', 'setOnEmpty' => true, 'value' => null),
 			array('SaleId, SaleName, SaleType, EmployeeId, AreaId, Active', 'safe', 'on'=>'search'),
 		);
 	}

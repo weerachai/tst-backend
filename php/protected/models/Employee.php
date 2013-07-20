@@ -8,6 +8,26 @@ class Employee extends BaseEmployee
 		return parent::model($className);
 	}
 
+	public static function representingColumn() {
+		return array('FirstName', 'LastName');
+	}
+
+	public function relations() {
+		return array(
+			'saleArea' => array(self::BELONGS_TO, 'SaleArea', 'SupervisorId'),
+			'saleUnit' => array(self::BELONGS_TO, 'SaleUnit', 'EmployeeId'),
+		);
+	}
+
+	public function attributeLabels() {
+		return array(
+			'EmployeeId' => Yii::t('app', 'รหัสพนักงาน'),
+			'FirstName' => Yii::t('app', 'ชื่อ'),
+			'LastName' => Yii::t('app', 'นามสกุล'),
+			'Active' => Yii::t('app', 'Active'),
+		);
+	}
+
 	public static function getOptions() {
 		return CHtml::listData(Employee::model()->findAll(), 
 				'EmployeeId', 

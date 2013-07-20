@@ -8,6 +8,24 @@ class SaleArea extends BaseSaleArea
 		return parent::model($className);
 	}
 
+	public function relations() {
+		return array(
+			'supervisor' => array(self::BELONGS_TO, 'Employee', 'SupervisorId'),
+			'saleUnits' => array(self::HAS_MANY, 'SaleUnit', 'AreaId'),
+		);
+	}
+
+	public function attributeLabels() {
+		return array(
+			'AreaId' => Yii::t('app', 'รหัสพื้นที่ขาย'),
+			'AreaName' => Yii::t('app', 'ชื่อพื้นที่ขาย'),
+			'Province' => Yii::t('app', 'จังหวัด'),
+			'District' => Yii::t('app', 'อำเภอ'),
+			'SubDistrict' => Yii::t('app', 'ตำบล'),
+			'SupervisorId' => Yii::t('app', 'Supervisor'),
+		);
+	}
+
 	public function getProvinces() {
 		$data = Location::model()->getProvinces();
 		if (empty($this->Province))

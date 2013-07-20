@@ -640,3 +640,4 @@ Stack trace:
 REQUEST_URI=/backend/php/index.php?r=promotion/create
 HTTP_REFERER=https://localhost/backend/php/index.php?r=promotion/update&id=GG
 ---
+2013/07/20 13:17:38 [error] [system.db.CDbCommand] CDbCommand::execute() failed: SQLSTATE[HY000]: General error: 1005 Can't create table 'backend.#sql-378_38' (errno: 150). The SQL statement executed was: ALTER TABLE `SaleUnit` ADD CONSTRAINT `fk_SaleUnit_SaleArea` FOREIGN KEY (`AreaId`) REFERENCES `SaleArea` (`AreaId`) ON DELETE SET NULL ON UPDATE CASCADE.

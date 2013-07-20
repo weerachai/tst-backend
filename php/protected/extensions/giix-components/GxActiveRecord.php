@@ -206,7 +206,7 @@ abstract class GxActiveRecord extends CActiveRecord {
 		if (is_array($representingColumn)) {
 			$part = '';
 			foreach ($representingColumn as $representingColumn_item) {
-				$part .= ( $this->$representingColumn_item === null ? '' : $this->$representingColumn_item) . '-';
+				$part .= ( $this->$representingColumn_item === null ? '' : $this->$representingColumn_item) . ' ';
 			}
 			return substr($part, 0, -1);
 		} else {

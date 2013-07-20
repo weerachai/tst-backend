@@ -32,15 +32,15 @@ abstract class BaseDevice extends GxActiveRecord {
 	}
 
 	public static function representingColumn() {
-		return 'Username';
+		return 'DeviceId';
 	}
 
 	public function rules() {
 		return array(
-			array('DeviceId, Username', 'required'),
+			array('DeviceId, SaleId, Username', 'required'),
 			array('DeviceId, DeviceKey, SaleId, Username, Password', 'length', 'max'=>255),
 			array('UpdateAt', 'safe'),
-			array('DeviceKey, SaleId, Password, UpdateAt', 'default', 'setOnEmpty' => true, 'value' => null),
+			array('DeviceKey, Password, UpdateAt', 'default', 'setOnEmpty' => true, 'value' => null),
 			array('DeviceId, DeviceKey, SaleId, Username, Password, UpdateAt', 'safe', 'on'=>'search'),
 		);
 	}
