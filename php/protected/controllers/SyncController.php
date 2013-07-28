@@ -24,7 +24,7 @@ class SyncController extends Controller
 	public function actionSave() 
 	{
 		$params = $_POST;
-		file_put_contents("/home/tu/www/backend/php/protected/log.txt", print_r($params,true), LOCK_EX);
+//		file_put_contents("/home/tu/www/backend/php/protected/log.txt", print_r($params,true), LOCK_EX);
 		$jsonHelper = new JSONHelper($params);
 		$jsonHelper->assertRequiredParams(array("Table"));
 		$device = $jsonHelper->login();		
@@ -38,13 +38,13 @@ class SyncController extends Controller
 		} else {
 			$pk = $params['params'][$schema->primaryKey];
 		}
-		file_put_contents("/home/tu/www/backend/php/protected/log.txt", print_r($pk,true), FILE_APPEND | LOCK_EX);
+//		file_put_contents("/home/tu/www/backend/php/protected/log.txt", print_r($pk,true), FILE_APPEND | LOCK_EX);
 		$model = $table::model()->findByPk($pk);
 		if ($model == null)
 			$model = new $table;
-		file_put_contents("/home/tu/www/backend/php/protected/log.txt", print_r($model->attributes,true), FILE_APPEND | LOCK_EX);
+//		file_put_contents("/home/tu/www/backend/php/protected/log.txt", print_r($model->attributes,true), FILE_APPEND | LOCK_EX);
 		$model->attributes = $params['params'];
-		file_put_contents("/home/tu/www/backend/php/protected/log.txt", print_r($model->attributes,true), FILE_APPEND | LOCK_EX);
+//		file_put_contents("/home/tu/www/backend/php/protected/log.txt", print_r($model->attributes,true), FILE_APPEND | LOCK_EX);
 		$jsonHelper->assertTrue($model->save(),$model->getErrors());
 		$jsonHelper->end("Updated successfully.");
 	}
