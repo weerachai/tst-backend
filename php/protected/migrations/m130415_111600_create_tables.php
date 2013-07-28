@@ -183,15 +183,16 @@ if ($TESTING) {
                              'Vat' => 'string not null', // vat calculation method - bill,sku
                              'OverStock' => 'char not null', // stock limit sale - Y, N
                              'DayToClear' => 'integer not null', // day to clear data
+                             'ExchangeDiff' => 'integer not null', // product exchange diff value
                              'UpdateAt' => 'datetime',			
                              'primary key (SaleId)',
                              ), 'ENGINE=InnoDB');	
     //$this->addForeignKey('fk_DeviceSetting_SaleUnit','DeviceSetting','SaleId','SaleUnit','SaleId','CASCADE','CASCADE');
 
 if ($TESTING) {
-    $this->execute("INSERT INTO DeviceSetting VALUES('N001','เครดิต','A','M','B','AC','sku','Y',60,now())");
-    $this->execute("INSERT INTO DeviceSetting VALUES('N002','หน่วยรถ','A','M','B','AC','sku','Y',60,now())");
-    $this->execute("INSERT INTO DeviceSetting VALUES('N003','หน่วยรถ','A','M','B','AC','sku','N',60,now())");
+    $this->execute("INSERT INTO DeviceSetting VALUES('N001','เครดิต','A','M','B','AC','sku','Y',60,0,now())");
+    $this->execute("INSERT INTO DeviceSetting VALUES('N002','หน่วยรถ','A','M','B','AC','sku','Y',60,5,now())");
+    $this->execute("INSERT INTO DeviceSetting VALUES('N003','หน่วยรถ','A','M','B','AC','sku','N',60,5,now())");
 }
     
     // fixed option tables
@@ -765,9 +766,7 @@ if ($TESTING) {
                              'StartDate' => 'date',
                              'EndDate' => 'date',
                              'Amount' => 'decimal(20,2) DEFAULT 0',
-                             'Bank' => 'string',
-                             'Branch' => 'string',
-                             'AccountNo' => 'string',
+                             'BankAccount' => 'string',
                              'Status' => 'string',
                              'UpdateAt' => 'datetime',
                              'PRIMARY KEY (SaleId,EndDate)',

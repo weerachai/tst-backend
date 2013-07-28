@@ -14,9 +14,7 @@
  * @property string $StartDate
  * @property string $EndDate
  * @property string $Amount
- * @property string $Bank
- * @property string $Branch
- * @property string $AccountNo
+ * @property string $BankAccount
  * @property string $Status
  * @property string $UpdateAt
  *
@@ -41,11 +39,11 @@ abstract class BaseMoneyTransfer extends GxActiveRecord {
 
 	public function rules() {
 		return array(
-			array('SaleId, Bank, Branch, AccountNo, Status', 'length', 'max'=>255),
+			array('SaleId, BankAccount, Status', 'length', 'max'=>255),
 			array('Amount', 'length', 'max'=>20),
 			array('TransferDate, StartDate, UpdateAt', 'safe'),
-			array('SaleId, TransferDate, StartDate, EndDate, Amount, Bank, Branch, AccountNo, Status, UpdateAt', 'default', 'setOnEmpty' => true, 'value' => null),
-			array('SaleId, TransferDate, StartDate, EndDate, Amount, Bank, Branch, AccountNo, Status, UpdateAt', 'safe', 'on'=>'search'),
+			array('SaleId, TransferDate, StartDate, EndDate, Amount, BankAccount, Status, UpdateAt', 'default', 'setOnEmpty' => true, 'value' => null),
+			array('SaleId, TransferDate, StartDate, EndDate, Amount, BankAccount, Status, UpdateAt', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -66,9 +64,7 @@ abstract class BaseMoneyTransfer extends GxActiveRecord {
 			'StartDate' => Yii::t('app', 'Start Date'),
 			'EndDate' => Yii::t('app', 'End Date'),
 			'Amount' => Yii::t('app', 'Amount'),
-			'Bank' => Yii::t('app', 'Bank'),
-			'Branch' => Yii::t('app', 'Branch'),
-			'AccountNo' => Yii::t('app', 'Account No'),
+			'BankAccount' => Yii::t('app', 'Bank Account'),
 			'Status' => Yii::t('app', 'Status'),
 			'UpdateAt' => Yii::t('app', 'Update At'),
 		);
@@ -82,9 +78,7 @@ abstract class BaseMoneyTransfer extends GxActiveRecord {
 		$criteria->compare('StartDate', $this->StartDate, true);
 		$criteria->compare('EndDate', $this->EndDate, true);
 		$criteria->compare('Amount', $this->Amount, true);
-		$criteria->compare('Bank', $this->Bank, true);
-		$criteria->compare('Branch', $this->Branch, true);
-		$criteria->compare('AccountNo', $this->AccountNo, true);
+		$criteria->compare('BankAccount', $this->BankAccount, true);
 		$criteria->compare('Status', $this->Status, true);
 		$criteria->compare('UpdateAt', $this->UpdateAt, true);
 

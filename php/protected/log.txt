@@ -3,35 +3,29 @@ Array
     [Username] => D002
     [Password] => 1a3b0cc7ede95099129197b513be8bee
     [DeviceKey] => 358718676788243
-    [Table] => ReturnDetail
+    [Table] => RequestDetail
     [params] => Array
         (
             [id] => 1
             [SyncFlag] => N
-            [ReturnNo] => RED00213070001
-            [ProductId] => 0050100001
-            [MfgDate] => 
-            [ExpDate] => 
-            [LotNo] => 
-            [OrderNo] => 
-            [Reason] => 
-            [Condition] => ดี
+            [RequestNo] => RQD00213070001
+            [ProductId] => 0050100004
             [QtyLevel1] => 3
             [QtyLevel2] => 0
             [QtyLevel3] => 0
             [QtyLevel4] => 0
             [PriceLevel1] => 1284
-            [PriceLevel2] => 0
-            [PriceLevel3] => 0
+            [PriceLevel2] => 200
+            [PriceLevel3] => 50
             [PriceLevel4] => 0
-            [UpdateAt] => 2013-07-13 08:26:10
+            [UpdateAt] => 2013-07-29 12:05:50
         )
 
 )
 Array
 (
-    [ReturnNo] => RED00213070001
-    [ProductId] => 0050100001
+    [RequestNo] => RQD00213070001
+    [ProductId] => 0050100004
 )
 Array
 (
@@ -39,18 +33,12 @@ Array
     [QtyLevel2] => 0
     [QtyLevel3] => 0
     [QtyLevel4] => 0
-    [ReturnNo] => 
+    [PriceLevel1] => 0.00
+    [PriceLevel2] => 0.00
+    [PriceLevel3] => 0.00
+    [PriceLevel4] => 0.00
+    [RequestNo] => 
     [ProductId] => 
-    [MfgDate] => 
-    [ExpDate] => 
-    [LotNo] => 
-    [OrderNo] => 
-    [Reason] => 
-    [Condition] => 
-    [PriceLevel1] => 
-    [PriceLevel2] => 
-    [PriceLevel3] => 
-    [PriceLevel4] => 
     [UpdateAt] => 
 )
 Array
@@ -59,17 +47,11 @@ Array
     [QtyLevel2] => 0
     [QtyLevel3] => 0
     [QtyLevel4] => 0
-    [ReturnNo] => RED00213070001
-    [ProductId] => 0050100001
-    [MfgDate] => 
-    [ExpDate] => 
-    [LotNo] => 
-    [OrderNo] => 
-    [Reason] => 
-    [Condition] => ดี
     [PriceLevel1] => 1284
-    [PriceLevel2] => 0
-    [PriceLevel3] => 0
+    [PriceLevel2] => 200
+    [PriceLevel3] => 50
     [PriceLevel4] => 0
-    [UpdateAt] => 2013-07-13 08:26:10
+    [RequestNo] => RQD00213070001
+    [ProductId] => 0050100004
+    [UpdateAt] => 2013-07-29 12:05:50
 )
