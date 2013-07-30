@@ -19,10 +19,8 @@ class SaleArea extends BaseSaleArea
 		return array(
 			'AreaId' => Yii::t('app', 'รหัสพื้นที่ขาย'),
 			'AreaName' => Yii::t('app', 'ชื่อพื้นที่ขาย'),
-			'Province' => Yii::t('app', 'จังหวัด'),
-			'District' => Yii::t('app', 'อำเภอ'),
-			'SubDistrict' => Yii::t('app', 'ตำบล'),
 			'SupervisorId' => Yii::t('app', 'Supervisor'),
+			'supervisor' => Yii::t('app', 'Supervisor'),
 		);
 	}
 

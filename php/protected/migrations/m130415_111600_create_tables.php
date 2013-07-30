@@ -107,9 +107,6 @@ if ($TESTING) {
                        array(
                              'AreaId' => 'string not null',
                              'AreaName' => 'string not null',
-                             'Province' => 'string not null',
-                             'District' => 'string not null',
-                             'SubDistrict' => 'string not null',
                              'SupervisorId' => 'string',
                              'primary key (AreaId)',
                              ), 'ENGINE=InnoDB');	
@@ -153,7 +150,7 @@ if ($TESTING) {
         $this->execute("INSERT INTO User VALUES($area,'sup$i','$pass','Supervisor $i','user','$supervisor')");
         $this->execute("INSERT INTO AuthAssignment VALUES('user',$area,null,'N;')");
         $this->execute("INSERT INTO Employee VALUES('$supervisor','นายซุป $i','นามสกุลซุป $i','ทำงาน')");
-        $this->execute("INSERT INTO SaleArea VALUES('N$i','พื้นที่เหนือ $i','','','','$supervisor')");
+        $this->execute("INSERT INTO SaleArea VALUES('N$i','พื้นที่เหนือ $i','$supervisor')");
         for ($j = 1; $j <= 5; $j++) {
             $k++;
             $sale = sprintf("N%03d", $k);

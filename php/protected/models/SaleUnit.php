@@ -12,7 +12,7 @@ class SaleUnit extends BaseSaleUnit
 		return array(
 			'area' => array(self::BELONGS_TO, 'SaleArea', 'AreaId'),
 			'employee' => array(self::BELONGS_TO, 'Employee', 'EmployeeId'),
-			'device' => array(self::BELONGS_TO, 'Device', 'SaleId'),
+			'device' => array(self::HAS_ONE, 'Device', 'SaleId'),
 		);
 	}
 
@@ -46,11 +46,13 @@ class SaleUnit extends BaseSaleUnit
 	public function search() {
 		$criteria = new CDbCriteria;
 		$criteria->with = array( 'area', 'area.supervisor', 'device', 'employee' );
-
+		
 		$criteria->compare('SaleId', $this->SaleId, true);
 		$criteria->compare('SaleName', $this->SaleName, true);
 		$criteria->compare('SaleType', $this->SaleType, true);
+		$criteria->addCondition('t.EmployeeId IS NOT NULL');
 		$criteria->compare('t.EmployeeId', $this->EmployeeId, true);
+		$criteria->addCondition('t.AreaId IS NOT NULL');
 		$criteria->compare('AreaId', $this->AreaId, true);
 		$criteria->compare('Active', $this->Active, true);
 		$criteria->compare('area.AreaName', $this->AreaName, true);
@@ -91,6 +93,12 @@ class SaleUnit extends BaseSaleUnit
 
 	public static function getOptions() {
 		return CHtml::listData(SaleUnit::model()->findAll(), 
+				'SaleId', 'SaleName'
+			);
+	}
+
+	public static function getAvailableOptions() {
+		return CHtml::listData(SaleUnit::model()->findAll('EmployeeId IS NULL'), 
 				'SaleId', 'SaleName'
 			);
 	}

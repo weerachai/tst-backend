@@ -11,9 +11,6 @@
  *
  * @property string $AreaId
  * @property string $AreaName
- * @property string $Province
- * @property string $District
- * @property string $SubDistrict
  * @property string $SupervisorId
  *
  */
@@ -37,10 +34,10 @@ abstract class BaseSaleArea extends GxActiveRecord {
 
 	public function rules() {
 		return array(
-			array('AreaId, AreaName, Province, District, SubDistrict', 'required'),
-			array('AreaId, AreaName, Province, District, SubDistrict, SupervisorId', 'length', 'max'=>255),
+			array('AreaId, AreaName', 'required'),
+			array('AreaId, AreaName, SupervisorId', 'length', 'max'=>255),
 			array('SupervisorId', 'default', 'setOnEmpty' => true, 'value' => null),
-			array('AreaId, AreaName, Province, District, SubDistrict, SupervisorId', 'safe', 'on'=>'search'),
+			array('AreaId, AreaName, SupervisorId', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -58,9 +55,6 @@ abstract class BaseSaleArea extends GxActiveRecord {
 		return array(
 			'AreaId' => Yii::t('app', 'Area'),
 			'AreaName' => Yii::t('app', 'Area Name'),
-			'Province' => Yii::t('app', 'Province'),
-			'District' => Yii::t('app', 'District'),
-			'SubDistrict' => Yii::t('app', 'Sub District'),
 			'SupervisorId' => Yii::t('app', 'Supervisor'),
 		);
 	}
@@ -70,9 +64,6 @@ abstract class BaseSaleArea extends GxActiveRecord {
 
 		$criteria->compare('AreaId', $this->AreaId, true);
 		$criteria->compare('AreaName', $this->AreaName, true);
-		$criteria->compare('Province', $this->Province, true);
-		$criteria->compare('District', $this->District, true);
-		$criteria->compare('SubDistrict', $this->SubDistrict, true);
 		$criteria->compare('SupervisorId', $this->SupervisorId, true);
 
 		return new CActiveDataProvider($this, array(

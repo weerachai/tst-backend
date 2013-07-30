@@ -1,9 +1,16 @@
 <?php
 
-class SaleUnitController extends Controller
+class SaleUnitController extends GxController
 {
 	public function actionIndex()
 	{
+		if (isset($_POST['SaleId'])) {
+			$model = $this->loadModel($_POST['SaleId'], 'SaleUnit');
+			$model->AreaId = $_POST['AreaId'];
+			$model->EmployeeId = $_POST['EmployeeId'];
+			$model->save();
+		}
+
 		$model = new SaleUnit('search');
 		$model->unsetAttributes();
 
@@ -12,6 +19,23 @@ class SaleUnitController extends Controller
 
 		$this->render('index', array(
 			'model' => $model,
+		));
+	}
+
+	public function actionDelete($id) {
+		if (Yii::app()->getRequest()->getIsPostRequest()) {
+			$model = $this->loadModel($id, 'SaleUnit');
+			$model->AreaId = null;
+			$model->EmployeeId = null;
+			$model->save();
+			$this->redirect(array('index'));
+		} else
+			throw new CHttpException(400, Yii::t('app', 'Your request is invalid.'));
+	}
+
+	public function actionView($id) {
+		$this->render('view', array(
+			'model' => $this->loadModel($id, 'SaleUnit'),
 		));
 	}
 

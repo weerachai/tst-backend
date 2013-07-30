@@ -2,30 +2,18 @@
 /* @var $this SaleUnitController */
 
 $this->breadcrumbs=array(
-	'Sale Unit',
+      $this->module->id => array('/'.$this->module->id),
+	'หน่วยขาย',
 );
 ?>
-<h1>ข้อมูลหน่วยขาย</h1>
 
-<?php
-Yii::app()->clientScript->registerScript('search', "
-$('.search-button').click(function(){
-	$('.search-form').toggle();
-	return false;
-});
-$('.search-form form').submit(function(){
-	$.fn.yiiGridView.update('sale-unit-grid', {
-		data: $(this).serialize()
-	});
-	return false;
-});
-");
-?>
+<h1>ข้อมูลหน่วยขาย</h1>
 
 <?php $this->widget('zii.widgets.grid.CGridView', array(
 	'id' => 'sale-unit-grid',
 	'dataProvider' => $model->search(),
 	'filter' => $model,
+      'ajaxUpdate'=>false,
 	'columns' => array(
 		array(
             'class'=>'CDataColumn',
@@ -71,3 +59,21 @@ $('.search-form form').submit(function(){
 		),
 	),
 )); ?>
+
+<h3>เพิ่มข้อมูลหน่วยขาย</h3>
+
+<?php $form = $this->beginWidget('CActiveForm'); ?>
+
+<div class="row">
+<?php echo CHtml::label('พื้นที่ขาย: ',  'AreaId'); ?>
+<?php echo CHtml::dropDownList('AreaId',  null, SaleArea::model()->getOptions()); ?>
+
+<?php echo CHtml::label('หน่วยขาย: ',  'SaleId'); ?>
+<?php echo CHtml::dropDownList('SaleId',  null, SaleUnit::model()->getAvailableOptions()); ?>
+
+<?php echo CHtml::label('พนักงานขาย: ',  'EmployeeId'); ?>
+<?php echo CHtml::dropDownList('EmployeeId',  null, Employee::model()->getAvailableOptions()); ?>
+
+<?php echo GxHtml::submitButton(Yii::t('app', 'กำหนดความสัมพันธ์')); ?>
+</div><!-- row -->
+<?php $this->endWidget(); ?>
