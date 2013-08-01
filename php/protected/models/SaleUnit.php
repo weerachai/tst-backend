@@ -13,6 +13,7 @@ class SaleUnit extends BaseSaleUnit
 			'area' => array(self::BELONGS_TO, 'SaleArea', 'AreaId'),
 			'employee' => array(self::BELONGS_TO, 'Employee', 'EmployeeId'),
 			'device' => array(self::HAS_ONE, 'Device', 'SaleId'),
+			'customers' => array(self::HAS_MANY, 'Customer', 'SaleId'),
 		);
 	}
 

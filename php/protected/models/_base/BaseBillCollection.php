@@ -7,7 +7,7 @@
  * property or method in class "BillCollection".
  *
  * Columns in table "BillCollection" available as properties of the model,
- * followed by relations of table "BillCollection" available as properties of the model.
+ * and there are no model relations.
  *
  * @property string $CollectionNo
  * @property string $SaleId
@@ -18,7 +18,6 @@
  * @property string $Status
  * @property string $UpdateAt
  *
- * @property Payment[] $payments
  */
 abstract class BaseBillCollection extends GxActiveRecord {
 
@@ -50,7 +49,6 @@ abstract class BaseBillCollection extends GxActiveRecord {
 
 	public function relations() {
 		return array(
-			'payments' => array(self::HAS_MANY, 'Payment', 'CollectionNo'),
 		);
 	}
 
@@ -69,7 +67,6 @@ abstract class BaseBillCollection extends GxActiveRecord {
 			'PaidAmount' => Yii::t('app', 'Paid Amount'),
 			'Status' => Yii::t('app', 'Status'),
 			'UpdateAt' => Yii::t('app', 'Update At'),
-			'payments' => null,
 		);
 	}
 

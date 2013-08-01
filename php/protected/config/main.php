@@ -21,7 +21,7 @@ return array(
 	'name'=>'Total Sales Tools - Backend',
 
 	// preloading 'log' component
-	'preload'=>array('log'),
+	'preload'=>array('log','bootstrap'),
 
 	// autoloading model and component classes
 	'import'=>array(
@@ -38,10 +38,11 @@ return array(
 			'class'=>'system.gii.GiiModule',
 			'generatorPaths' => array(
 				'ext.giix-core', // giix generators
+				'bootstrap.gii',
 			),
 			'password'=>false,
 			// If removed, Gii defaults to localhost only. Edit carefully to taste.
-//			'ipFilters'=>array('127.0.0.1','::1'),
+			'ipFilters'=>array('192.168.1.*','::1'),
 		),
 		
 	),
@@ -50,8 +51,12 @@ return array(
 	'components'=>array(
       		'user'=>array(
 			// enable cookie-based authentication
-			'allowAutoLogin'=>true,
-		),
+				'allowAutoLogin'=>true,
+			),
+      		'bootstrap' => array(
+	    		'class' => 'ext.bootstrap.components.Bootstrap',
+	    		'responsiveCss' => true,
+			),
                 
 		// uncomment the following to enable URLs in path-format
 		/*

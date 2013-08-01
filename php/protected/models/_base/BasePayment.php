@@ -7,7 +7,7 @@
  * property or method in class "Payment".
  *
  * Columns in table "Payment" available as properties of the model,
- * followed by relations of table "Payment" available as properties of the model.
+ * and there are no model relations.
  *
  * @property string $CollectionNo
  * @property string $PaymentId
@@ -20,8 +20,6 @@
  * @property string $AccountNo
  * @property string $UpdateAt
  *
- * @property InvoicePayment[] $invoicePayments
- * @property BillCollection $collectionNo
  */
 abstract class BasePayment extends GxActiveRecord {
 
@@ -53,8 +51,6 @@ abstract class BasePayment extends GxActiveRecord {
 
 	public function relations() {
 		return array(
-			'invoicePayments' => array(self::HAS_MANY, 'InvoicePayment', 'PaymentId'),
-			'collectionNo' => array(self::BELONGS_TO, 'BillCollection', 'CollectionNo'),
 		);
 	}
 
@@ -65,7 +61,7 @@ abstract class BasePayment extends GxActiveRecord {
 
 	public function attributeLabels() {
 		return array(
-			'CollectionNo' => null,
+			'CollectionNo' => Yii::t('app', 'Collection No'),
 			'PaymentId' => Yii::t('app', 'Payment'),
 			'PaymentType' => Yii::t('app', 'Payment Type'),
 			'PaidAmount' => Yii::t('app', 'Paid Amount'),
@@ -75,15 +71,13 @@ abstract class BasePayment extends GxActiveRecord {
 			'Branch' => Yii::t('app', 'Branch'),
 			'AccountNo' => Yii::t('app', 'Account No'),
 			'UpdateAt' => Yii::t('app', 'Update At'),
-			'invoicePayments' => null,
-			'collectionNo' => null,
 		);
 	}
 
 	public function search() {
 		$criteria = new CDbCriteria;
 
-		$criteria->compare('CollectionNo', $this->CollectionNo);
+		$criteria->compare('CollectionNo', $this->CollectionNo, true);
 		$criteria->compare('PaymentId', $this->PaymentId, true);
 		$criteria->compare('PaymentType', $this->PaymentType, true);
 		$criteria->compare('PaidAmount', $this->PaidAmount, true);

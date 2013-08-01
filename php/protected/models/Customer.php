@@ -8,6 +8,12 @@ class Customer extends BaseCustomer
 		return parent::model($className);
 	}
 
+	public function relations() {
+		return array(
+			'saleUnit' => array(self::BELONGS_TO, 'SaleUnit', 'SaleId'),
+		);
+	}
+
 	public function getProvinces() {
 		$data = Location::model()->getProvinces();
 		if (empty($this->Province))

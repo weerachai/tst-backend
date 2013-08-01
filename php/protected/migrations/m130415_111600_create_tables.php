@@ -181,15 +181,17 @@ if ($TESTING) {
                              'OverStock' => 'char not null', // stock limit sale - Y, N
                              'DayToClear' => 'integer not null', // day to clear data
                              'ExchangeDiff' => 'integer not null', // product exchange diff value
+                             'ExchangePaymentMethod' => 'string', // bill collection or cash
+                             'Capacity' => 'integer DEFAULT 0', //truck capacity
                              'UpdateAt' => 'datetime',			
                              'primary key (SaleId)',
                              ), 'ENGINE=InnoDB');	
     //$this->addForeignKey('fk_DeviceSetting_SaleUnit','DeviceSetting','SaleId','SaleUnit','SaleId','CASCADE','CASCADE');
 
 if ($TESTING) {
-    $this->execute("INSERT INTO DeviceSetting VALUES('N001','เครดิต','A','M','B','AC','sku','Y',60,0,now())");
-    $this->execute("INSERT INTO DeviceSetting VALUES('N002','หน่วยรถ','A','M','B','AC','sku','Y',60,5,now())");
-    $this->execute("INSERT INTO DeviceSetting VALUES('N003','หน่วยรถ','A','M','B','AC','sku','N',60,5,now())");
+    $this->execute("INSERT INTO DeviceSetting VALUES('N001','เครดิต','A','M','B','AC','sku','Y',60,0,'',0,now())");
+    $this->execute("INSERT INTO DeviceSetting VALUES('N002','หน่วยรถ','A','M','B','AC','sku','Y',60,50,'bill',10000,now())");
+    $this->execute("INSERT INTO DeviceSetting VALUES('N003','หน่วยรถ','A','M','B','AC','sku','N',60,50,'cash',10000,now())");
 }
     
     // fixed option tables
@@ -459,10 +461,10 @@ if ($TESTING) {
                              'PriceLevel2' => 'decimal(10,2)',
                              'PriceLevel3' => 'decimal(10,2)',
                              'PriceLevel4' => 'decimal(10,2)',
-                             'WeightLevel1' => 'integer DEFAULT 0',
-                             'WeightLevel2' => 'integer DEFAULT 0',
-                             'WeightLevel3' => 'integer DEFAULT 0',
-                             'WeightLevel4' => 'integer DEFAULT 0',
+                             'VolumeLevel1' => 'integer DEFAULT 0',
+                             'VolumeLevel2' => 'integer DEFAULT 0',
+                             'VolumeLevel3' => 'integer DEFAULT 0',
+                             'VolumeLevel4' => 'integer DEFAULT 0',
                              'FreeFlag' => 'char',
                              'VatFlag' => 'char',
                              'ShipFlag' => 'char',
@@ -477,23 +479,23 @@ if ($TESTING) {
 
 if ($TESTING) {
     $this->execute("INSERT INTO Product VALUES"
-                   . "('309','144',null,'0010100001','น้ำมันกุ๊กถั่วเหลือง 1/4 ลิตร','หีบ','','','',614.37,0,0,0,0,0,0,0,'N','Y','N',5000,100,now())");
+                   . "('309','144',null,'0010100001','น้ำมันกุ๊กถั่วเหลือง 1/4 ลิตร','หีบ','','','',614.37,0,0,0,100,50,20,10,'N','Y','N',5000,100,now())");
     $this->execute("INSERT INTO Product VALUES"
-                   . "('309','144',null,'0010200001','น้ำมันกุ๊กถั่วเหลือง 1/2 ลิตร','หีบ','','','',555.77,0,0,0,0,0,0,0,'N','Y','N',5000,100,now())");
+                   . "('309','144',null,'0010200001','น้ำมันกุ๊กถั่วเหลือง 1/2 ลิตร','หีบ','','','',555.77,0,0,0,100,50,20,10,'N','Y','N',5000,100,now())");
     $this->execute("INSERT INTO Product VALUES"
-                   . "('309','144',null,'0010300001','น้ำมันกุ๊กทานตะวัน 1/2 ลิตร','หีบ','','','',913.89,0,0,0,0,0,0,0,'N','Y','N',5000,100,now())");
+                   . "('309','144',null,'0010300001','น้ำมันกุ๊กทานตะวัน 1/2 ลิตร','หีบ','','','',913.89,0,0,0,100,50,20,10,'N','Y','N',5000,100,now())");
     $this->execute("INSERT INTO Product VALUES"
-                   . "('309','144',null,'0010400001','น้ำมันกุ๊กถั่วเหลือง 1 ลิตร','หีบ','','','',525.39,0,0,0,0,0,0,0,'N','Y','N',5000,100,now())");
+                   . "('309','144',null,'0010400001','น้ำมันกุ๊กถั่วเหลือง 1 ลิตร','หีบ','','','',525.39,0,0,0,100,50,20,10,'N','Y','N',5000,100,now())");
     $this->execute("INSERT INTO Product VALUES"
-                   . "('313','167',null,'0050100001','ซีเล็กแซนวิชน้ำมัน 185 กรัม','หีบ','','','กระป๋อง',1284,0,0,0,0,0,0,0,'N','Y','N',5000,100,now())");
+                   . "('313','167',null,'0050100001','ซีเล็กแซนวิชน้ำมัน 185 กรัม','หีบ','','','กระป๋อง',1284,0,0,0,100,50,20,10,'N','Y','N',5000,100,now())");
     $this->execute("INSERT INTO Product VALUES"
-                   . "('313','167',null,'0050100002','ซีเล็กแซนวิชน้ำเกลือ 185 กรัม','หีบ','','','กระป๋อง',1284,0,0,0,0,0,0,0,'N','Y','N',5000,100,now())");
+                   . "('313','167',null,'0050100002','ซีเล็กแซนวิชน้ำเกลือ 185 กรัม','หีบ','','','กระป๋อง',1284,0,0,0,100,50,20,10,'N','Y','N',5000,100,now())");
     $this->execute("INSERT INTO Product VALUES"
-                   . "('313','167',null,'0050100003','ซีเล็กแซนวิชน้ำมัน 185 กรัม แพ็ค 4','หีบ','กล่อง','','กระป๋อง',1284,200,0,0,0,0,0,0,'N','Y','N',5000,100,now())");
+                   . "('313','167',null,'0050100003','ซีเล็กแซนวิชน้ำมัน 185 กรัม แพ็ค 4','หีบ','กล่อง','','กระป๋อง',1284,200,0,0,100,50,20,10,'N','Y','N',5000,100,now())");
     $this->execute("INSERT INTO Product VALUES"
-                   . "('313','167',null,'0050100004','ซีเล็กแซนวิชน้ำเปล่า 185 กรัม','หีบ','กล่อง','โหล','กระป๋อง',1284,200,50,0,0,0,0,0,'N','Y','N',5000,100,now())");
+                   . "('313','167',null,'0050100004','ซีเล็กแซนวิชน้ำเปล่า 185 กรัม','หีบ','กล่อง','โหล','กระป๋อง',1284,200,50,0,100,50,20,10,'N','Y','N',5000,100,now())");
     $this->execute("INSERT INTO Product VALUES"
-                   . "('313','167',null,'0050100005','ซีเล็กแซนวิชน้ำแร่ 185 กรัม','หีบ','กล่อง','โหล','กระป๋อง',1284,200,50,5,0,0,0,0,'N','Y','N',5000,100,now())");
+                   . "('313','167',null,'0050100005','ซีเล็กแซนวิชน้ำแร่ 185 กรัม','หีบ','กล่อง','โหล','กระป๋อง',1284,200,50,5,100,50,20,10,'N','Y','N',5000,100,now())");
 }
 
     $this->createTable('Stock', 
@@ -816,7 +818,7 @@ if ($TESTING) {
                              'UpdateAt' => 'datetime',
                              'PRIMARY KEY (PaymentId)',
                              ), 'ENGINE=InnoDB');   
-    $this->addForeignKey('fk_Payment_BillCollection','Payment','CollectionNo','BillCollection','CollectionNo','CASCADE','CASCADE');
+    //$this->addForeignKey('fk_Payment_BillCollection','Payment','CollectionNo','BillCollection','CollectionNo','CASCADE','CASCADE');
     //$this->addForeignKey('fk_Payment_PaymentType','Payment','PaymentType','PaymentType','PaymentType','RESTRICT','CASCADE');
 
     // transaction
@@ -829,7 +831,7 @@ if ($TESTING) {
                              'UpdateAt' => 'datetime',
                              'PRIMARY KEY (PaymentId,InvoiceNo)',
                              ), 'ENGINE=InnoDB');   
-    $this->addForeignKey('fk_InvoicePayment_Payment','InvoicePayment','PaymentId','Payment','PaymentId','CASCADE','CASCADE');
+    //$this->addForeignKey('fk_InvoicePayment_Payment','InvoicePayment','PaymentId','Payment','PaymentId','CASCADE','CASCADE');
     //$this->addForeignKey('fk_InvoicePayment_ProductInvoice','InvoicePayment','InvoiceNo','ProductInvoice','InvoiceNo','CASCADE','CASCADE');
   
     // transaction
@@ -1178,6 +1180,8 @@ if ($TESTING) {
                              'ExchangeDate' => 'date',
                              'InTotal' => 'decimal(20,2) DEFAULT 0',
                              'OutTotal' => 'decimal(20,2) DEFAULT 0',
+                             'Paid' => 'decimal(20,2) DEFAULT 0',
+                             'CashFlag' => 'char',
                              'Status' => 'string',
                              'UpdateAt' => 'datetime',
                              'PRIMARY KEY (ExchangeNo)',

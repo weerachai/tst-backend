@@ -15,6 +15,8 @@
  * @property string $ExchangeDate
  * @property string $InTotal
  * @property string $OutTotal
+ * @property string $Paid
+ * @property string $CashFlag
  * @property string $Status
  * @property string $UpdateAt
  *
@@ -42,10 +44,11 @@ abstract class BaseProductExchange extends GxActiveRecord {
 	public function rules() {
 		return array(
 			array('ExchangeNo, SaleId, CustomerId, Status', 'length', 'max'=>255),
-			array('InTotal, OutTotal', 'length', 'max'=>20),
+			array('InTotal, OutTotal, Paid', 'length', 'max'=>20),
+			array('CashFlag', 'length', 'max'=>1),
 			array('ExchangeDate, UpdateAt', 'safe'),
-			array('ExchangeNo, SaleId, CustomerId, ExchangeDate, InTotal, OutTotal, Status, UpdateAt', 'default', 'setOnEmpty' => true, 'value' => null),
-			array('ExchangeNo, SaleId, CustomerId, ExchangeDate, InTotal, OutTotal, Status, UpdateAt', 'safe', 'on'=>'search'),
+			array('ExchangeNo, SaleId, CustomerId, ExchangeDate, InTotal, OutTotal, Paid, CashFlag, Status, UpdateAt', 'default', 'setOnEmpty' => true, 'value' => null),
+			array('ExchangeNo, SaleId, CustomerId, ExchangeDate, InTotal, OutTotal, Paid, CashFlag, Status, UpdateAt', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -69,6 +72,8 @@ abstract class BaseProductExchange extends GxActiveRecord {
 			'ExchangeDate' => Yii::t('app', 'Exchange Date'),
 			'InTotal' => Yii::t('app', 'In Total'),
 			'OutTotal' => Yii::t('app', 'Out Total'),
+			'Paid' => Yii::t('app', 'Paid'),
+			'CashFlag' => Yii::t('app', 'Cash Flag'),
 			'Status' => Yii::t('app', 'Status'),
 			'UpdateAt' => Yii::t('app', 'Update At'),
 			'exchangeInDetails' => null,
@@ -85,6 +90,8 @@ abstract class BaseProductExchange extends GxActiveRecord {
 		$criteria->compare('ExchangeDate', $this->ExchangeDate, true);
 		$criteria->compare('InTotal', $this->InTotal, true);
 		$criteria->compare('OutTotal', $this->OutTotal, true);
+		$criteria->compare('Paid', $this->Paid, true);
+		$criteria->compare('CashFlag', $this->CashFlag, true);
 		$criteria->compare('Status', $this->Status, true);
 		$criteria->compare('UpdateAt', $this->UpdateAt, true);
 

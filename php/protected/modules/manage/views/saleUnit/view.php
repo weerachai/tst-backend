@@ -1,7 +1,8 @@
 <?php
 
 $this->breadcrumbs = array(
-	$model->label(2) => array('index'),
+    $this->module->id => array('/'.$this->module->id),
+	'หน่วยขาย' => array('index'),
 	GxHtml::valueEx($model),
 );
 ?>

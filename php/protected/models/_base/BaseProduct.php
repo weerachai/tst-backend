@@ -22,10 +22,10 @@
  * @property string $PriceLevel2
  * @property string $PriceLevel3
  * @property string $PriceLevel4
- * @property integer $WeightLevel1
- * @property integer $WeightLevel2
- * @property integer $WeightLevel3
- * @property integer $WeightLevel4
+ * @property integer $VolumeLevel1
+ * @property integer $VolumeLevel2
+ * @property integer $VolumeLevel3
+ * @property integer $VolumeLevel4
  * @property string $FreeFlag
  * @property string $VatFlag
  * @property string $ShipFlag
@@ -55,13 +55,13 @@ abstract class BaseProduct extends GxActiveRecord {
 	public function rules() {
 		return array(
 			array('GrpLevel1Id, ProductName', 'required'),
-			array('WeightLevel1, WeightLevel2, WeightLevel3, WeightLevel4', 'numerical', 'integerOnly'=>true),
+			array('VolumeLevel1, VolumeLevel2, VolumeLevel3, VolumeLevel4', 'numerical', 'integerOnly'=>true),
 			array('GrpLevel1Id, GrpLevel2Id, GrpLevel3Id, ProductId, ProductName, PackLevel1, PackLevel2, PackLevel3, PackLevel4', 'length', 'max'=>255),
 			array('PriceLevel1, PriceLevel2, PriceLevel3, PriceLevel4, MinShip, ShipFee', 'length', 'max'=>10),
 			array('FreeFlag, VatFlag, ShipFlag', 'length', 'max'=>1),
 			array('UpdateAt', 'safe'),
-			array('GrpLevel2Id, GrpLevel3Id, ProductId, PackLevel1, PackLevel2, PackLevel3, PackLevel4, PriceLevel1, PriceLevel2, PriceLevel3, PriceLevel4, WeightLevel1, WeightLevel2, WeightLevel3, WeightLevel4, FreeFlag, VatFlag, ShipFlag, MinShip, ShipFee, UpdateAt', 'default', 'setOnEmpty' => true, 'value' => null),
-			array('GrpLevel1Id, GrpLevel2Id, GrpLevel3Id, ProductId, ProductName, PackLevel1, PackLevel2, PackLevel3, PackLevel4, PriceLevel1, PriceLevel2, PriceLevel3, PriceLevel4, WeightLevel1, WeightLevel2, WeightLevel3, WeightLevel4, FreeFlag, VatFlag, ShipFlag, MinShip, ShipFee, UpdateAt', 'safe', 'on'=>'search'),
+			array('GrpLevel2Id, GrpLevel3Id, ProductId, PackLevel1, PackLevel2, PackLevel3, PackLevel4, PriceLevel1, PriceLevel2, PriceLevel3, PriceLevel4, VolumeLevel1, VolumeLevel2, VolumeLevel3, VolumeLevel4, FreeFlag, VatFlag, ShipFlag, MinShip, ShipFee, UpdateAt', 'default', 'setOnEmpty' => true, 'value' => null),
+			array('GrpLevel1Id, GrpLevel2Id, GrpLevel3Id, ProductId, ProductName, PackLevel1, PackLevel2, PackLevel3, PackLevel4, PriceLevel1, PriceLevel2, PriceLevel3, PriceLevel4, VolumeLevel1, VolumeLevel2, VolumeLevel3, VolumeLevel4, FreeFlag, VatFlag, ShipFlag, MinShip, ShipFee, UpdateAt', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -90,10 +90,10 @@ abstract class BaseProduct extends GxActiveRecord {
 			'PriceLevel2' => Yii::t('app', 'Price Level2'),
 			'PriceLevel3' => Yii::t('app', 'Price Level3'),
 			'PriceLevel4' => Yii::t('app', 'Price Level4'),
-			'WeightLevel1' => Yii::t('app', 'Weight Level1'),
-			'WeightLevel2' => Yii::t('app', 'Weight Level2'),
-			'WeightLevel3' => Yii::t('app', 'Weight Level3'),
-			'WeightLevel4' => Yii::t('app', 'Weight Level4'),
+			'VolumeLevel1' => Yii::t('app', 'Volume Level1'),
+			'VolumeLevel2' => Yii::t('app', 'Volume Level2'),
+			'VolumeLevel3' => Yii::t('app', 'Volume Level3'),
+			'VolumeLevel4' => Yii::t('app', 'Volume Level4'),
 			'FreeFlag' => Yii::t('app', 'Free Flag'),
 			'VatFlag' => Yii::t('app', 'Vat Flag'),
 			'ShipFlag' => Yii::t('app', 'Ship Flag'),
@@ -119,10 +119,10 @@ abstract class BaseProduct extends GxActiveRecord {
 		$criteria->compare('PriceLevel2', $this->PriceLevel2, true);
 		$criteria->compare('PriceLevel3', $this->PriceLevel3, true);
 		$criteria->compare('PriceLevel4', $this->PriceLevel4, true);
-		$criteria->compare('WeightLevel1', $this->WeightLevel1);
-		$criteria->compare('WeightLevel2', $this->WeightLevel2);
-		$criteria->compare('WeightLevel3', $this->WeightLevel3);
-		$criteria->compare('WeightLevel4', $this->WeightLevel4);
+		$criteria->compare('VolumeLevel1', $this->VolumeLevel1);
+		$criteria->compare('VolumeLevel2', $this->VolumeLevel2);
+		$criteria->compare('VolumeLevel3', $this->VolumeLevel3);
+		$criteria->compare('VolumeLevel4', $this->VolumeLevel4);
 		$criteria->compare('FreeFlag', $this->FreeFlag, true);
 		$criteria->compare('VatFlag', $this->VatFlag, true);
 		$criteria->compare('ShipFlag', $this->ShipFlag, true);

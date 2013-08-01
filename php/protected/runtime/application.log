@@ -641,3 +641,39 @@ REQUEST_URI=/backend/php/index.php?r=promotion/create
 HTTP_REFERER=https://localhost/backend/php/index.php?r=promotion/update&id=GG
 ---
 2013/07/20 13:17:38 [error] [system.db.CDbCommand] CDbCommand::execute() failed: SQLSTATE[HY000]: General error: 1005 Can't create table 'backend.#sql-378_38' (errno: 150). The SQL statement executed was: ALTER TABLE `SaleUnit` ADD CONSTRAINT `fk_SaleUnit_SaleArea` FOREIGN KEY (`AreaId`) REFERENCES `SaleArea` (`AreaId`) ON DELETE SET NULL ON UPDATE CASCADE.
+2013/08/01 20:50:12 [error] [system.db.CDbCommand] CDbCommand::execute() failed: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'bill,
+	`UpdateAt` datetime,
+	primary key (SaleId)
+) ENGINE=InnoDB' at line 12. The SQL statement executed was: CREATE TABLE `DeviceSetting` (
+	`SaleId` varchar(255) not null,
+	`SaleType` varchar(255) not null,
+	`PromotionSku` varchar(255),
+	`PromotionGroup` varchar(255),
+	`PromotionBill` varchar(255),
+	`PromotionAccu` varchar(255),
+	`Vat` varchar(255) not null,
+	`OverStock` char not null,
+	`DayToClear` int(11) not null,
+	`ExchangeDiff` int(11) not null,
+	`ExchangePaymentMethod` bill,
+	`UpdateAt` datetime,
+	primary key (SaleId)
+) ENGINE=InnoDB.
+2013/08/01 20:50:26 [error] [system.db.CDbCommand] CDbCommand::execute() failed: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'bill,
+	`UpdateAt` datetime,
+	primary key (SaleId)
+) ENGINE=InnoDB' at line 12. The SQL statement executed was: CREATE TABLE `DeviceSetting` (
+	`SaleId` varchar(255) not null,
+	`SaleType` varchar(255) not null,
+	`PromotionSku` varchar(255),
+	`PromotionGroup` varchar(255),
+	`PromotionBill` varchar(255),
+	`PromotionAccu` varchar(255),
+	`Vat` varchar(255) not null,
+	`OverStock` char not null,
+	`DayToClear` int(11) not null,
+	`ExchangeDiff` int(11) not null,
+	`ExchangePaymentMethod` bill,
+	`UpdateAt` datetime,
+	primary key (SaleId)
+) ENGINE=InnoDB.

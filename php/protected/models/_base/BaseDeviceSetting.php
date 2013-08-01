@@ -19,6 +19,8 @@
  * @property string $OverStock
  * @property integer $DayToClear
  * @property integer $ExchangeDiff
+ * @property string $ExchangePaymentMethod
+ * @property integer $Capacity
  * @property string $UpdateAt
  *
  */
@@ -43,12 +45,12 @@ abstract class BaseDeviceSetting extends GxActiveRecord {
 	public function rules() {
 		return array(
 			array('SaleId, SaleType, Vat, OverStock, DayToClear, ExchangeDiff', 'required'),
-			array('DayToClear, ExchangeDiff', 'numerical', 'integerOnly'=>true),
-			array('SaleId, SaleType, PromotionSku, PromotionGroup, PromotionBill, PromotionAccu, Vat', 'length', 'max'=>255),
+			array('DayToClear, ExchangeDiff, Capacity', 'numerical', 'integerOnly'=>true),
+			array('SaleId, SaleType, PromotionSku, PromotionGroup, PromotionBill, PromotionAccu, Vat, ExchangePaymentMethod', 'length', 'max'=>255),
 			array('OverStock', 'length', 'max'=>1),
 			array('UpdateAt', 'safe'),
-			array('PromotionSku, PromotionGroup, PromotionBill, PromotionAccu, UpdateAt', 'default', 'setOnEmpty' => true, 'value' => null),
-			array('SaleId, SaleType, PromotionSku, PromotionGroup, PromotionBill, PromotionAccu, Vat, OverStock, DayToClear, ExchangeDiff, UpdateAt', 'safe', 'on'=>'search'),
+			array('PromotionSku, PromotionGroup, PromotionBill, PromotionAccu, ExchangePaymentMethod, Capacity, UpdateAt', 'default', 'setOnEmpty' => true, 'value' => null),
+			array('SaleId, SaleType, PromotionSku, PromotionGroup, PromotionBill, PromotionAccu, Vat, OverStock, DayToClear, ExchangeDiff, ExchangePaymentMethod, Capacity, UpdateAt', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -74,6 +76,8 @@ abstract class BaseDeviceSetting extends GxActiveRecord {
 			'OverStock' => Yii::t('app', 'Over Stock'),
 			'DayToClear' => Yii::t('app', 'Day To Clear'),
 			'ExchangeDiff' => Yii::t('app', 'Exchange Diff'),
+			'ExchangePaymentMethod' => Yii::t('app', 'Exchange Payment Method'),
+			'Capacity' => Yii::t('app', 'Capacity'),
 			'UpdateAt' => Yii::t('app', 'Update At'),
 		);
 	}
@@ -91,6 +95,8 @@ abstract class BaseDeviceSetting extends GxActiveRecord {
 		$criteria->compare('OverStock', $this->OverStock, true);
 		$criteria->compare('DayToClear', $this->DayToClear);
 		$criteria->compare('ExchangeDiff', $this->ExchangeDiff);
+		$criteria->compare('ExchangePaymentMethod', $this->ExchangePaymentMethod, true);
+		$criteria->compare('Capacity', $this->Capacity);
 		$criteria->compare('UpdateAt', $this->UpdateAt, true);
 
 		return new CActiveDataProvider($this, array(
