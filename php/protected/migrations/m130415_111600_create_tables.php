@@ -190,8 +190,8 @@ if ($TESTING) {
 
 if ($TESTING) {
     $this->execute("INSERT INTO DeviceSetting VALUES('N001','เครดิต','A','M','B','AC','sku','Y',60,0,'',0,now())");
-    $this->execute("INSERT INTO DeviceSetting VALUES('N002','หน่วยรถ','A','M','B','AC','sku','Y',60,50,'bill',10000,now())");
-    $this->execute("INSERT INTO DeviceSetting VALUES('N003','หน่วยรถ','A','M','B','AC','sku','N',60,50,'cash',10000,now())");
+    $this->execute("INSERT INTO DeviceSetting VALUES('N002','หน่วยรถ','A','M','B','AC','sku','Y',60,50,'bill',30000,now())");
+    $this->execute("INSERT INTO DeviceSetting VALUES('N003','หน่วยรถ','A','M','B','AC','sku','N',60,50,'cash',30000,now())");
 }
     
     // fixed option tables
