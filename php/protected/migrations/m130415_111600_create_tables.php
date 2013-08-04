@@ -350,11 +350,11 @@ if (false) {
     // sale upload options
     $this->createTable('StockCheckList', 
                        array(
-                             'SaleId' => 'string',
-                             'GrpLevel1Id' => 'string',
-                             'GrpLevel2Id' => 'string',
-                             'GrpLevel3Id' => 'string',
-                             'ProductId' => 'string',
+                             'SaleId' => 'string not null',
+                             'GrpLevel1Id' => 'string not null',
+                             'GrpLevel2Id' => 'string not null',
+                             'GrpLevel3Id' => 'string not null',
+                             'ProductId' => 'string not null',
                              'UpdateAt' => 'datetime',
                              ), 'ENGINE=InnoDB');	
     //$this->addForeignKey('fk_StockCheckList_SaleUnit','StockCheckList','SaleId','SaleUnit','SaleId','CASCADE','CASCADE');
@@ -363,15 +363,15 @@ if (false) {
     //$this->addForeignKey('fk_StockCheckList_GrpLevel3','StockCheckList','GrpLevel3Id','GrpLevel3','GrpLevel3Id','CASCADE','CASCADE');
     //$this->addForeignKey('fk_StockCheckList_Product','StockCheckList','ProductId','Product','ProductId','CASCADE','CASCADE');
 
-if ($TESTING) {
-    $this->execute("INSERT INTO StockCheckList VALUES('N001','309','144',null,'',now())");
-    $this->execute("INSERT INTO StockCheckList VALUES('N001','313','167',null,'0050100001',now())");
+if (!$TESTING) {
+    $this->execute("INSERT INTO StockCheckList VALUES('N001','309','144','','',now())");
+    $this->execute("INSERT INTO StockCheckList VALUES('N001','313','167','','0050100001',now())");
 
-    $this->execute("INSERT INTO StockCheckList VALUES('N002','309','144',null,'',now())");
-    $this->execute("INSERT INTO StockCheckList VALUES('N002','313','167',null,'0050100001',now())");
+    $this->execute("INSERT INTO StockCheckList VALUES('N002','309','144','','',now())");
+    $this->execute("INSERT INTO StockCheckList VALUES('N002','313','167','','0050100001',now())");
 
-    $this->execute("INSERT INTO StockCheckList VALUES('N003','309','144',null,'',now())");
-    $this->execute("INSERT INTO StockCheckList VALUES('N003','313','167',null,'0050100001',now())");
+    $this->execute("INSERT INTO StockCheckList VALUES('N003','309','144','','',now())");
+    $this->execute("INSERT INTO StockCheckList VALUES('N003','313','167','','0050100001',now())");
 }
 
     // transaction
@@ -449,9 +449,9 @@ if ($TESTING) {
     $this->createTable('Product', 
                        array(
                              'GrpLevel1Id' => 'string not null',
-                             'GrpLevel2Id' => 'string',
-                             'GrpLevel3Id' => 'string',
-                             'ProductId' => 'string',
+                             'GrpLevel2Id' => 'string not null',
+                             'GrpLevel3Id' => 'string not null',
+                             'ProductId' => 'string not null',
                              'ProductName' => 'string not null',
                              'PackLevel1' => 'string',
                              'PackLevel2' => 'string',
@@ -479,23 +479,23 @@ if ($TESTING) {
 
 if ($TESTING) {
     $this->execute("INSERT INTO Product VALUES"
-                   . "('309','144',null,'0010100001','น้ำมันกุ๊กถั่วเหลือง 1/4 ลิตร','หีบ','','','',614.37,0,0,0,100,50,20,10,'N','Y','N',5000,100,now())");
+                   . "('309','144','0010100001','น้ำมันกุ๊กถั่วเหลือง 1/4 ลิตร','หีบ','','','',614.37,0,0,0,100,50,20,10,'N','Y','N',5000,100,now())");
     $this->execute("INSERT INTO Product VALUES"
-                   . "('309','144',null,'0010200001','น้ำมันกุ๊กถั่วเหลือง 1/2 ลิตร','หีบ','','','',555.77,0,0,0,100,50,20,10,'N','Y','N',5000,100,now())");
+                   . "('309','144','','0010200001','น้ำมันกุ๊กถั่วเหลือง 1/2 ลิตร','หีบ','','','',555.77,0,0,0,100,50,20,10,'N','Y','N',5000,100,now())");
     $this->execute("INSERT INTO Product VALUES"
-                   . "('309','144',null,'0010300001','น้ำมันกุ๊กทานตะวัน 1/2 ลิตร','หีบ','','','',913.89,0,0,0,100,50,20,10,'N','Y','N',5000,100,now())");
+                   . "('309','144','','0010300001','น้ำมันกุ๊กทานตะวัน 1/2 ลิตร','หีบ','','','',913.89,0,0,0,100,50,20,10,'N','Y','N',5000,100,now())");
     $this->execute("INSERT INTO Product VALUES"
-                   . "('309','144',null,'0010400001','น้ำมันกุ๊กถั่วเหลือง 1 ลิตร','หีบ','','','',525.39,0,0,0,100,50,20,10,'N','Y','N',5000,100,now())");
+                   . "('309','144','','0010400001','น้ำมันกุ๊กถั่วเหลือง 1 ลิตร','หีบ','','','',525.39,0,0,0,100,50,20,10,'N','Y','N',5000,100,now())");
     $this->execute("INSERT INTO Product VALUES"
-                   . "('313','167',null,'0050100001','ซีเล็กแซนวิชน้ำมัน 185 กรัม','หีบ','','','กระป๋อง',1284,0,0,0,100,50,20,10,'N','Y','N',5000,100,now())");
+                   . "('313','167','','0050100001','ซีเล็กแซนวิชน้ำมัน 185 กรัม','หีบ','','','กระป๋อง',1284,0,0,0,100,50,20,10,'N','Y','N',5000,100,now())");
     $this->execute("INSERT INTO Product VALUES"
-                   . "('313','167',null,'0050100002','ซีเล็กแซนวิชน้ำเกลือ 185 กรัม','หีบ','','','กระป๋อง',1284,0,0,0,100,50,20,10,'N','Y','N',5000,100,now())");
+                   . "('313','167','','0050100002','ซีเล็กแซนวิชน้ำเกลือ 185 กรัม','หีบ','','','กระป๋อง',1284,0,0,0,100,50,20,10,'N','Y','N',5000,100,now())");
     $this->execute("INSERT INTO Product VALUES"
-                   . "('313','167',null,'0050100003','ซีเล็กแซนวิชน้ำมัน 185 กรัม แพ็ค 4','หีบ','กล่อง','','กระป๋อง',1284,200,0,0,100,50,20,10,'N','Y','N',5000,100,now())");
+                   . "('313','167','','0050100003','ซีเล็กแซนวิชน้ำมัน 185 กรัม แพ็ค 4','หีบ','กล่อง','','กระป๋อง',1284,200,0,0,100,50,20,10,'N','Y','N',5000,100,now())");
     $this->execute("INSERT INTO Product VALUES"
-                   . "('313','167',null,'0050100004','ซีเล็กแซนวิชน้ำเปล่า 185 กรัม','หีบ','กล่อง','โหล','กระป๋อง',1284,200,50,0,100,50,20,10,'N','Y','N',5000,100,now())");
+                   . "('313','167','','0050100004','ซีเล็กแซนวิชน้ำเปล่า 185 กรัม','หีบ','กล่อง','โหล','กระป๋อง',1284,200,50,0,100,50,20,10,'N','Y','N',5000,100,now())");
     $this->execute("INSERT INTO Product VALUES"
-                   . "('313','167',null,'0050100005','ซีเล็กแซนวิชน้ำแร่ 185 กรัม','หีบ','กล่อง','โหล','กระป๋อง',1284,200,50,5,100,50,20,10,'N','Y','N',5000,100,now())");
+                   . "('313','167','','0050100005','ซีเล็กแซนวิชน้ำแร่ 185 กรัม','หีบ','กล่อง','โหล','กระป๋อง',1284,200,50,5,100,50,20,10,'N','Y','N',5000,100,now())");
 }
 
     $this->createTable('Stock', 

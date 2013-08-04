@@ -37,9 +37,10 @@ abstract class BaseStockCheckList extends GxActiveRecord {
 
 	public function rules() {
 		return array(
+			array('SaleId, GrpLevel1Id, GrpLevel2Id, GrpLevel3Id, ProductId', 'required'),
 			array('SaleId, GrpLevel1Id, GrpLevel2Id, GrpLevel3Id, ProductId', 'length', 'max'=>255),
 			array('UpdateAt', 'safe'),
-			array('SaleId, GrpLevel1Id, GrpLevel2Id, GrpLevel3Id, ProductId, UpdateAt', 'default', 'setOnEmpty' => true, 'value' => null),
+			array('UpdateAt', 'default', 'setOnEmpty' => true, 'value' => null),
 			array('SaleId, GrpLevel1Id, GrpLevel2Id, GrpLevel3Id, ProductId, UpdateAt', 'safe', 'on'=>'search'),
 		);
 	}

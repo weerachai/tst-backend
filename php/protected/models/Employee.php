@@ -45,4 +45,13 @@ class Employee extends BaseEmployee
 				}
 			);
 	}
+
+	public static function getAssignedOptions() {
+		return CHtml::listData(Employee::model()->with('saleUnit')->findAll('SaleId IS NOT NULL'), 
+				'saleUnit.SaleId', 
+				function($row) {
+					return CHtml::encode($row->FirstName.' '.$row->LastName);
+				}
+			);
+	}	
 }

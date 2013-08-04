@@ -103,4 +103,17 @@ class SaleUnit extends BaseSaleUnit
 				'SaleId', 'SaleName'
 			);
 	}
+
+	public static function getUnassigendOptions() {
+		return CHtml::listData(SaleUnit::model()->with('customers')->findAll('CustomerId IS NULL'), 
+				'SaleId', 'SaleName'
+			);
+	}
+
+	public static function getAssigendOptions() {
+		return CHtml::listData(SaleUnit::model()->with('customers')->findAll('CustomerId IS NOT NULL'), 
+				'SaleId', 'SaleName'
+			);
+	}
+
 }

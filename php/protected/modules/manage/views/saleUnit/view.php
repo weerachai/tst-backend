@@ -7,7 +7,7 @@ $this->breadcrumbs = array(
 );
 ?>
 
-<h1>รายละเอียด <?php echo GxHtml::encode(GxHtml::valueEx($model)); ?></h1>
+<h3>รายละเอียด <?php echo GxHtml::encode(GxHtml::valueEx($model)); ?></h3>
 
 <?php $this->widget('zii.widgets.CDetailView', array(
 	'data' => $model,
