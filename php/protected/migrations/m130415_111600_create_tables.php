@@ -346,7 +346,17 @@ if (false) {
                              ), 'ENGINE=InnoDB');	
     $this->execute("INSERT INTO CustomerTitle VALUES('บมจ.',now())");
     $this->execute("INSERT INTO CustomerTitle VALUES('ร้าน',now())");
-    
+ 
+    $this->createTable('StockStartList', 
+                       array(
+                             'SaleId' => 'string not null',
+                             'ProductId' => 'string not null',
+                             'Level' => 'integer not null',
+                             'Qty' => 'integer not null',
+                             'UpdateAt' => 'datetime',
+                             ), 'ENGINE=InnoDB');   
+
+
     // sale upload options
     $this->createTable('StockCheckList', 
                        array(
