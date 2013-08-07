@@ -373,7 +373,7 @@ if (false) {
     //$this->addForeignKey('fk_StockCheckList_GrpLevel3','StockCheckList','GrpLevel3Id','GrpLevel3','GrpLevel3Id','CASCADE','CASCADE');
     //$this->addForeignKey('fk_StockCheckList_Product','StockCheckList','ProductId','Product','ProductId','CASCADE','CASCADE');
 
-if (!$TESTING) {
+if ($TESTING) {
     $this->execute("INSERT INTO StockCheckList VALUES('N001','309','144','','',now())");
     $this->execute("INSERT INTO StockCheckList VALUES('N001','313','167','','0050100001',now())");
 
