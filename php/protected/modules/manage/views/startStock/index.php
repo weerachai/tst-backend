@@ -37,7 +37,7 @@ $columns = array(
 		'buttons'=>array(
 			'delete' => array(
 	    		'label'=>'ยกเลิกความสัมพันธ์',
-	        	'url'=>'Yii::app()->createUrl("/manage/startStock/delete", array("saleId"=>$data["id"],"productId"=>$data["productId"],"level"=>$data["Level"]))',
+	        	'url'=>'Yii::app()->createUrl("/manage/startStock/delete", array("saleId"=>$data["id"],"productId"=>$data["ProductId"],"level"=>$data["Level"]))',
 		    ),
 		),
 		'htmlOptions' => array('style'=>'white-space:nowrap'),
@@ -61,35 +61,6 @@ $this->widget('bootstrap.widgets.TbGridView', array(
     ),  
 //	'template' => "{items}",
 	'columns' => $columns,
-	/*
-	'bulkActions' => array(
-	'actionButtons' => array(
-		array(
-			'id' => 'delete',
-			'buttonType' => 'button',
-			'type' => 'primary',
-			'size' => 'small',
-			'label' => 'Testing Primary Bulk Actions',
-			'click' => 'js:function(values){console.log(values);}'
-			)
-		),
-		// if grid doesn't have a checkbox column type, it will attach
-		// one and this configuration will be part of it
-		'checkBoxColumnConfig' => array(
-		    'name' => 'id'
-		),
-	),
-	'extendedSummary' => array(
-		'title' => 'จำนวนร้านค้า',
-		'columns' => array(
-			'Num' => array('label'=>'จำนวนร้าน', 'class'=>'TbSumOperation')
-		)
-	),
-	'extendedSummaryOptions' => array(
-		'class' => 'well pull-right',
-		'style' => 'width:300px'
-	),
-	*/
 ));
 
 ?>
@@ -107,69 +78,101 @@ $this->widget('bootstrap.widgets.TbGridView', array(
 <?php echo $form->dropDownListRow($model, 'SaleId', SaleUnit::model()->getAssigendOptions(), array(
 					'ajax' => array(
 						'type'=>'POST', //request type
-						'url'=>CController::createUrl('/helper/getCheckOptions'),
+						'url'=>CController::createUrl('/helper/getStockStartOptions'),
 						'dataType'=>'json',
  		                'data'=>array('SaleId'=>'js:this.value'),
  		                'success'=>'function(data) {
-                    		$("#GrpLevel1Id").html(data.grp1);
-							$("#GrpLevel2Id").html(data.grp2);
-							$("#GrpLevel3Id").html(data.grp3);
-							$("#ProductId").html(data.pro);
+                    		$("#'.CHtml::activeId($model, "GrpLevel1Id").'").html(data.grp1);
+                    		$("#'.CHtml::activeId($model, "GrpLevel2Id").'").html(data.grp2);
+                    		$("#'.CHtml::activeId($model, "GrpLevel3Id").'").html(data.grp3);
+                    		$("#'.CHtml::activeId($model, "Type").'").html(data.type);
+                    		$("#'.CHtml::activeId($model, "ProductId").'").html(data.pro);
+                     		$("#'.CHtml::activeId($model, "Pack").'").html(data.pack);
                 		}',
 					))); ?>
 
-<?php echo $form->dropDownListRow($model, 'GrpLevel1Id', StockCheckList::model()->getCheckGrpLevel1(''), array(
+<?php echo $form->dropDownListRow($model, 'GrpLevel1Id', StockStartList::model()->getGrpLevel1(''), array(
 					'ajax' => array(
 						'type'=>'POST', //request type
-						'url'=>CController::createUrl('/helper/getCheckOptions'),
+						'url'=>CController::createUrl('/helper/getStockStartOptions'),
 						'dataType'=>'json',
- 		                'data'=>array('SaleId'=>'js:SaleId.value',
+ 		                'data'=>array('SaleId'=>'js:'.CHtml::activeId($model,'SaleId').'.value',
  		                	'GrpLevel1Id'=>'js:this.value'),
  		                'success'=>'function(data) {
-							$("#GrpLevel2Id").html(data.grp2);
-							$("#GrpLevel3Id").html(data.grp3);
-							$("#ProductId").html(data.pro);
-                		}',
+                    		$("#'.CHtml::activeId($model, "GrpLevel2Id").'").html(data.grp2);
+                    		$("#'.CHtml::activeId($model, "GrpLevel3Id").'").html(data.grp3);
+                    		$("#'.CHtml::activeId($model, "Type").'").html(data.type);
+                    		$("#'.CHtml::activeId($model, "ProductId").'").html(data.pro);
+                     		$("#'.CHtml::activeId($model, "Pack").'").html(data.pack);
+               		}',
 					))); ?>
 
-<?php echo $form->dropDownListRow($model, 'GrpLevel2Id',  StockCheckList::model()->getCheckGrpLevel2('',''), array(
+<?php echo $form->dropDownListRow($model, 'GrpLevel2Id',  StockStartList::model()->getGrpLevel2('',''), array(
 					'ajax' => array(
 						'type'=>'POST', //request type
-						'url'=>CController::createUrl('/helper/getCheckOptions'),
+						'url'=>CController::createUrl('/helper/getStockStartOptions'),
 						'dataType'=>'json',
- 		                'data'=>array('SaleId'=>'js:SaleId.value',
- 		                	'GrpLevel1Id'=>'js:GrpLevel1Id.value',
+ 		                'data'=>array('SaleId'=>'js:'.CHtml::activeId($model,'SaleId').'.value',
+ 		                	'GrpLevel1Id'=>'js:'.CHtml::activeId($model,'GrpLevel1Id').'.value',
  		                	'GrpLevel2Id'=>'js:this.value'),
  		                'success'=>'function(data) {
-							$("#GrpLevel3Id").html(data.grp3);
-							$("#ProductId").html(data.pro);
-                		}',
+                    		$("#'.CHtml::activeId($model, "GrpLevel3Id").'").html(data.grp3);
+                    		$("#'.CHtml::activeId($model, "Type").'").html(data.type);
+                    		$("#'.CHtml::activeId($model, "ProductId").'").html(data.pro);
+                     		$("#'.CHtml::activeId($model, "Pack").'").html(data.pack);
+               		}',
 					))); ?>
 
-<?php echo $form->dropDownListRow($model, 'GrpLevel3Id', StockCheckList::model()->getCheckGrpLevel3('','',''), array(
+<?php echo $form->dropDownListRow($model, 'GrpLevel3Id', StockStartList::model()->getGrpLevel3('','',''), array(
 					'ajax' => array(
 						'type'=>'POST', //request type
-						'url'=>CController::createUrl('/helper/getCheckOptions'),
+						'url'=>CController::createUrl('/helper/getStockStartOptions'),
 						'dataType'=>'json',
- 		                'data'=>array('SaleId'=>'js:SaleId.value',
- 		                	'GrpLevel1Id'=>'js:GrpLevel1Id.value',
- 		                	'GrpLevel2Id'=>'js:GrpLevel2Id.value',
+ 		                'data'=>array('SaleId'=>'js:'.CHtml::activeId($model,'SaleId').'.value',
+ 		                	'GrpLevel1Id'=>'js:'.CHtml::activeId($model,'GrpLevel1Id').'.value',
+ 		                	'GrpLevel2Id'=>'js:'.CHtml::activeId($model,'GrpLevel2Id').'.value',
  		                	'GrpLevel3Id'=>'js:this.value'),
  		                'success'=>'function(data) {
-							$("#ProductId").html(data.pro);
+                    		$("#'.CHtml::activeId($model, "Type").'").html(data.type);
+                    		$("#'.CHtml::activeId($model, "ProductId").'").html(data.pro);
+                      		$("#'.CHtml::activeId($model, "Pack").'").html(data.pack);
+               		}',
+					))); ?>
+
+<?php echo $form->dropDownListRow($model, 'Type', StockStartList::model()->getType(), array(
+					'ajax' => array(
+						'type'=>'POST', //request type
+						'url'=>CController::createUrl('/helper/getStockStartOptions'),
+						'dataType'=>'json',
+ 		                'data'=>array('SaleId'=>'js:'.CHtml::activeId($model,'SaleId').'.value',
+ 		                	'GrpLevel1Id'=>'js:'.CHtml::activeId($model,'GrpLevel1Id').'.value',
+ 		                	'GrpLevel2Id'=>'js:'.CHtml::activeId($model,'GrpLevel2Id').'.value',
+ 		                	'GrpLevel3Id'=>'js:'.CHtml::activeId($model,'GrpLevel3Id').'.value',
+ 		                	'Type'=>'js:this.value'),
+ 		                'success'=>'function(data) {
+                    		$("#'.CHtml::activeId($model, "ProductId").'").html(data.pro);
+                     		$("#'.CHtml::activeId($model, "Pack").'").html(data.pack);
                 		}',
 					))); ?>
 
-<?php echo $form->radioButtonListInlineRow($model, 'Type', array(
-		'ขายได้',
-		'แถมได้',
-		'ทั้งหมด',
-	)); ?>
+<?php echo $form->dropDownListRow($model, 'ProductId', StockStartList::model()->getProduct('','','','','a'), array(
+					'ajax' => array(
+						'type'=>'POST', //request type
+						'url'=>CController::createUrl('/helper/getStockStartOptions'),
+						'dataType'=>'json',
+ 		                'data'=>array('SaleId'=>'js:'.CHtml::activeId($model,'SaleId').'.value',
+ 		                	'GrpLevel1Id'=>'js:'.CHtml::activeId($model,'GrpLevel1Id').'.value',
+ 		                	'GrpLevel2Id'=>'js:'.CHtml::activeId($model,'GrpLevel2Id').'.value',
+ 		                	'GrpLevel3Id'=>'js:'.CHtml::activeId($model,'GrpLevel3Id').'.value',
+ 		                	'Type'=>'js:'.CHtml::activeId($model,'Type').'.value',
+ 		                	'ProductId'=>'js:this.value'),
+ 		                'success'=>'function(data) {
+                     		$("#'.CHtml::activeId($model, "Pack").'").html(data.pack);
+                		}',
+					))); ?>
 
-<?php echo $form->dropDownListRow($model, 'ProductId', StockCheckList::model()->getCheckProduct('','','','')); ?>
+<?php echo $form->dropDownListRow($model, 'Pack', StockStartList::model()->getPack('')); ?>
 
-<?php echo $form->dropDownListRow($model, 'Pack',
-        array('1', '2', '3', '4', '5')); ?>
 <?php echo $form->textFieldRow($model, 'Qty'); ?>
 
 </fieldset>

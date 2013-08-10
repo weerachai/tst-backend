@@ -10,6 +10,8 @@
  * followed by relations of table "StockRequest" available as properties of the model.
  *
  * @property string $RequestNo
+ * @property string $RequestType
+ * @property string $RequestFlag
  * @property string $SaleId
  * @property string $WarehouseId
  * @property string $WarehouseName
@@ -41,11 +43,11 @@ abstract class BaseStockRequest extends GxActiveRecord {
 
 	public function rules() {
 		return array(
-			array('RequestNo, SaleId, WarehouseId, WarehouseName, WarehouseType, Status', 'length', 'max'=>255),
+			array('RequestNo, RequestType, RequestFlag, SaleId, WarehouseId, WarehouseName, WarehouseType, Status', 'length', 'max'=>255),
 			array('Total', 'length', 'max'=>10),
 			array('RequestDate, UpdateAt', 'safe'),
-			array('RequestNo, SaleId, WarehouseId, WarehouseName, WarehouseType, RequestDate, Total, Status, UpdateAt', 'default', 'setOnEmpty' => true, 'value' => null),
-			array('RequestNo, SaleId, WarehouseId, WarehouseName, WarehouseType, RequestDate, Total, Status, UpdateAt', 'safe', 'on'=>'search'),
+			array('RequestNo, RequestType, RequestFlag, SaleId, WarehouseId, WarehouseName, WarehouseType, RequestDate, Total, Status, UpdateAt', 'default', 'setOnEmpty' => true, 'value' => null),
+			array('RequestNo, RequestType, RequestFlag, SaleId, WarehouseId, WarehouseName, WarehouseType, RequestDate, Total, Status, UpdateAt', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -63,6 +65,8 @@ abstract class BaseStockRequest extends GxActiveRecord {
 	public function attributeLabels() {
 		return array(
 			'RequestNo' => Yii::t('app', 'Request No'),
+			'RequestType' => Yii::t('app', 'Request Type'),
+			'RequestFlag' => Yii::t('app', 'Request Flag'),
 			'SaleId' => Yii::t('app', 'Sale'),
 			'WarehouseId' => Yii::t('app', 'Warehouse'),
 			'WarehouseName' => Yii::t('app', 'Warehouse Name'),
@@ -79,6 +83,8 @@ abstract class BaseStockRequest extends GxActiveRecord {
 		$criteria = new CDbCriteria;
 
 		$criteria->compare('RequestNo', $this->RequestNo, true);
+		$criteria->compare('RequestType', $this->RequestType, true);
+		$criteria->compare('RequestFlag', $this->RequestFlag, true);
 		$criteria->compare('SaleId', $this->SaleId, true);
 		$criteria->compare('WarehouseId', $this->WarehouseId, true);
 		$criteria->compare('WarehouseName', $this->WarehouseName, true);

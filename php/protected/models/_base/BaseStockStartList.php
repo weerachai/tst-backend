@@ -36,11 +36,10 @@ abstract class BaseStockStartList extends GxActiveRecord {
 
 	public function rules() {
 		return array(
-			array('SaleId, ProductId, Level, Qty', 'required'),
 			array('Level, Qty', 'numerical', 'integerOnly'=>true),
 			array('SaleId, ProductId', 'length', 'max'=>255),
 			array('UpdateAt', 'safe'),
-			array('UpdateAt', 'default', 'setOnEmpty' => true, 'value' => null),
+			array('SaleId, ProductId, Level, Qty, UpdateAt', 'default', 'setOnEmpty' => true, 'value' => null),
 			array('SaleId, ProductId, Level, Qty, UpdateAt', 'safe', 'on'=>'search'),
 		);
 	}

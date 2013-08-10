@@ -216,6 +216,9 @@ if ($TESTING) {
     $this->execute("INSERT INTO ControlRunning VALUES('C09','Bill Collection','BC')");
     $this->execute("INSERT INTO ControlRunning VALUES('C10','Payment','PM')");
     $this->execute("INSERT INTO ControlRunning VALUES('C11','โอนสินค้า','TX')");
+    $this->execute("INSERT INTO ControlRunning VALUES('C12','ใบเบิกสินค้า-backend','RQ')");
+    $this->execute("INSERT INTO ControlRunning VALUES('C13','ใบส่งสินค้า-backend','SN')");
+    $this->execute("INSERT INTO ControlRunning VALUES('C14','IR-backend','IR')");
 }
 
     // synch table
@@ -247,6 +250,9 @@ if ($TESTING) {
     $this->execute("INSERT INTO ControlNo VALUES('N001','C09',$year,$month,1,now())");
     $this->execute("INSERT INTO ControlNo VALUES('N001','C10',$year,$month,1,now())");
     $this->execute("INSERT INTO ControlNo VALUES('N001','C11',$year,$month,1,now())");
+    $this->execute("INSERT INTO ControlNo VALUES('N001','C12',$year,$month,1,now())");
+    $this->execute("INSERT INTO ControlNo VALUES('N001','C13',$year,$month,1,now())");
+    $this->execute("INSERT INTO ControlNo VALUES('N001','C14',$year,$month,1,now())");
 
     $this->execute("INSERT INTO ControlNo VALUES('N002','C01',$year,$month,1,now())");
     $this->execute("INSERT INTO ControlNo VALUES('N002','C02',$year,$month,1,now())");
@@ -259,6 +265,9 @@ if ($TESTING) {
     $this->execute("INSERT INTO ControlNo VALUES('N002','C09',$year,$month,1,now())");
     $this->execute("INSERT INTO ControlNo VALUES('N002','C10',$year,$month,1,now())");
     $this->execute("INSERT INTO ControlNo VALUES('N002','C11',$year,$month,1,now())");
+    $this->execute("INSERT INTO ControlNo VALUES('N002','C12',$year,$month,1,now())");
+    $this->execute("INSERT INTO ControlNo VALUES('N002','C13',$year,$month,1,now())");
+    $this->execute("INSERT INTO ControlNo VALUES('N002','C14',$year,$month,1,now())");
 
     $this->execute("INSERT INTO ControlNo VALUES('N003','C01',$year,$month,1,now())");
     $this->execute("INSERT INTO ControlNo VALUES('N003','C02',$year,$month,1,now())");
@@ -271,6 +280,9 @@ if ($TESTING) {
     $this->execute("INSERT INTO ControlNo VALUES('N003','C09',$year,$month,1,now())");
     $this->execute("INSERT INTO ControlNo VALUES('N003','C10',$year,$month,1,now())");
     $this->execute("INSERT INTO ControlNo VALUES('N003','C11',$year,$month,1,now())");
+    $this->execute("INSERT INTO ControlNo VALUES('N003','C12',$year,$month,1,now())");
+    $this->execute("INSERT INTO ControlNo VALUES('N003','C13',$year,$month,1,now())");
+    $this->execute("INSERT INTO ControlNo VALUES('N003','C14',$year,$month,1,now())");
 }
 
     // fixed option table
@@ -349,10 +361,10 @@ if (false) {
  
     $this->createTable('StockStartList', 
                        array(
-                             'SaleId' => 'string not null',
-                             'ProductId' => 'string not null',
-                             'Level' => 'integer not null',
-                             'Qty' => 'integer not null',
+                             'SaleId' => 'string',
+                             'ProductId' => 'string',
+                             'Level' => 'integer default 1',
+                             'Qty' => 'integer default 0',
                              'UpdateAt' => 'datetime',
                              ), 'ENGINE=InnoDB');   
 
@@ -489,11 +501,11 @@ if ($TESTING) {
 
 if ($TESTING) {
     $this->execute("INSERT INTO Product VALUES"
-                   . "('309','144','','0010100001','น้ำมันกุ๊กถั่วเหลือง 1/4 ลิตร','หีบ','','','',614.37,0,0,0,100,0,0,0,'N','Y','N',5000,100,now())");
+                   . "('309','144','','0010100001','น้ำมันกุ๊กถั่วเหลือง 1/4 ลิตร','หีบ','ห่อ','','',614.37,0,0,0,100,0,0,0,'N','Y','N',5000,100,now())");
     $this->execute("INSERT INTO Product VALUES"
-                   . "('309','144','','0010200001','น้ำมันกุ๊กถั่วเหลือง 1/2 ลิตร','หีบ','','','',555.77,0,0,0,100,0,0,0,'N','Y','N',5000,100,now())");
+                   . "('309','144','','0010200001','น้ำมันกุ๊กถั่วเหลือง 1/2 ลิตร','หีบ','','ห่อ','',555.77,0,0,0,100,0,0,0,'N','Y','N',5000,100,now())");
     $this->execute("INSERT INTO Product VALUES"
-                   . "('309','144','','0010300001','น้ำมันกุ๊กทานตะวัน 1/2 ลิตร','หีบ','','','',913.89,0,0,0,100,0,0,0,'N','Y','N',5000,100,now())");
+                   . "('309','144','','0010300001','น้ำมันกุ๊กทานตะวัน 1/2 ลิตร','หีบ','','','ห่อ',913.89,0,0,0,100,0,0,0,'N','Y','N',5000,100,now())");
     $this->execute("INSERT INTO Product VALUES"
                    . "('309','144','','0010400001','น้ำมันกุ๊กถั่วเหลือง 1 ลิตร','หีบ','','','',525.39,0,0,0,100,0,0,0,'N','Y','N',5000,100,now())");
     $this->execute("INSERT INTO Product VALUES"
@@ -604,6 +616,8 @@ if ($TESTING) {
     $this->createTable('StockRequest', 
                        array(
                              'RequestNo' => 'string',
+                             'RequestType' => 'string DEFAULT "สร้างโดย Backend"',
+                             'RequestFlag' => 'string DEFAULT "ต้นทริป"',
                              'SaleId' => 'string',
                              'WarehouseId' => 'string',
                              'WarehouseName' => 'string',
@@ -635,6 +649,51 @@ if ($TESTING) {
     $this->addForeignKey('fk_RequestDetail_StockRequest','RequestDetail','RequestNo','StockRequest','RequestNo','CASCADE','CASCADE');
     //$this->addForeignKey('fk_sStock_bSaleUnit','sStock','SaleId','bSaleUnit','SaleId','CASCADE','CASCADE');
     //$this->addForeignKey('fk_sStock_oProduct','sStock','ProductId','oProduct','ProductId','RESTRICT','CASCADE');
+
+    // transaction
+    // check
+    $this->createTable('StockIR', 
+                       array(
+                             'IRNo' => 'string',
+                             'SaleId' => 'string',
+                             'IRDate' => 'date',
+                             'Total' => 'decimal(10,2) DEFAULT 0',
+                             'Status' => 'string',
+                             'UpdateAt' => 'datetime',
+                             'PRIMARY KEY (IRNo)',
+                             ), 'ENGINE=InnoDB');   
+
+    // transaction
+    // check
+    $this->createTable('RequestIR', 
+                       array(
+                             'IRNo' => 'string',
+                             'RequestNo' => 'string',
+                             'UpdateAt' => 'datetime',
+                             'PRIMARY KEY (IRNo, RequestNo)',
+                             ), 'ENGINE=InnoDB');   
+    //$this->addForeignKey('fk_RequestDetail_StockRequest','RequestDetail','RequestNo','StockRequest','RequestNo','CASCADE','CASCADE');
+    //$this->addForeignKey('fk_sStock_bSaleUnit','sStock','SaleId','bSaleUnit','SaleId','CASCADE','CASCADE');
+    //$this->addForeignKey('fk_sStock_oProduct','sStock','ProductId','oProduct','ProductId','RESTRICT','CASCADE');
+
+    // transaction
+    // check
+    $this->createTable('IRDetail', 
+                       array(
+                             'IRNo' => 'string',
+                             'ProductId' => 'string',
+                             'QtyLevel1' => 'integer DEFAULT 0',
+                             'QtyLevel2' => 'integer DEFAULT 0',
+                             'QtyLevel3' => 'integer DEFAULT 0',
+                             'QtyLevel4' => 'integer DEFAULT 0',
+                             'PriceLevel1' => 'decimal(10,2) DEFAULT 0',
+                             'PriceLevel2' => 'decimal(10,2) DEFAULT 0',
+                             'PriceLevel3' => 'decimal(10,2) DEFAULT 0',
+                             'PriceLevel4' => 'decimal(10,2) DEFAULT 0',
+                             'UpdateAt' => 'datetime',
+                             'PRIMARY KEY (IRNo, ProductId)',
+                             ), 'ENGINE=InnoDB');   
+    //$this->addForeignKey('fk_RequestDetail_StockRequest','RequestDetail','RequestNo','StockRequest','RequestNo','CASCADE','CASCADE');
 
     // transaction
     // check

@@ -4,19 +4,15 @@ class StartStockController extends GxController
 {
 	public function actionIndex()
 	{
+		$model = new StockStartList;
 
-		if (isset($_POST['SaleId']) && isset($_POST['ProductId']) && !empty($_POST['ProductId'])) {
-			$saleId = $_POST['SaleId'];
-			$grpLevel1Id = $_POST['GrpLevel1Id'];
-			$grpLevel2Id = $_POST['GrpLevel2Id'];
-			$grpLevel3Id = $_POST['GrpLevel3Id'];
-			$productId = $_POST['ProductId'];
+		$this->performAjaxValidation($model, 'stock-form');
 
-			$sql = <<<SQL
-				INSERT INTO StockCheckList 
-				VALUES('$saleId','$grpLevel1Id','$grpLevel2Id','$grpLevel3Id','$productId',now())
-SQL;
-			Yii::app()->db->createCommand($sql)->execute();
+		if (isset($_POST['StockStartList'])) {
+			$model->setAttributes($_POST['StockStartList']);
+			$model->UpdateAt = date("Y-m-d H:i:s");
+			if ($model->save())
+				$model = new StockStartList;
 		}
 
 		$sql = <<<SQL
@@ -24,21 +20,25 @@ SQL;
 			1 AS Level, Qty, PackLevel1 AS Pack
 			FROM (StockStartList JOIN SaleUnit USING(SaleId))
 			JOIN Product USING (ProductId)
+			WHERE PackLevel1 != ''
 		UNION
 			SELECT SaleId AS id, SaleName, Product.ProductId, ProductName,
 			2 AS Level, Qty, PackLevel2 AS Pack
 			FROM (StockStartList JOIN SaleUnit USING(SaleId))
 			JOIN Product USING (ProductId)
+			WHERE PackLevel2 != ''
 		UNION
 			SELECT SaleId AS id, SaleName, Product.ProductId, ProductName,
 			3 AS Level, Qty, PackLevel3 AS Pack
 			FROM (StockStartList JOIN SaleUnit USING(SaleId))
 			JOIN Product USING (ProductId)
+			WHERE PackLevel3 != ''
 		UNION
 			SELECT SaleId AS id, SaleName, Product.ProductId, ProductName,
 			4 AS Level, Qty, PackLevel4 AS Pack
 			FROM (StockStartList JOIN SaleUnit USING(SaleId))
 			JOIN Product USING (ProductId)
+			WHERE PackLevel4 != ''
 		ORDER BY SaleName, ProductName, Level
 SQL;
 
@@ -61,19 +61,6 @@ SQL;
     		),
 		));
 
-		$model = new StockStartList;
-
-		$this->performAjaxValidation($model, 'stock-form');
-
-		if (isset($_POST['StockStartList'])) {
-			$model->setAttributes($_POST['StockStartList']);
-
-			if ($model->save()) {
-				if (Yii::app()->getRequest()->getIsAjaxRequest())
-					Yii::app()->end();
-			}
-		}
-
 		// Render
 		$this->render('index', array(
     		'filtersForm' => $filtersForm,
@@ -82,14 +69,14 @@ SQL;
 		));
 	}
 
-	public function actionDelete($saleId, $grpLevel1Id, $grpLevel2Id, $grpLevel3Id, $productId)
+	public function actionDelete($saleId, $productId, $level)
 	{
 		if (Yii::app()->getRequest()->getIsPostRequest()) {
 			$sql = <<<SQL
-			DELETE FROM StockCheckList
+			DELETE FROM StockStartList
 			WHERE SaleId = '$saleId'
-			AND GrpLevel1Id = '$grpLevel1Id' AND GrpLevel2Id = '$grpLevel2Id'
-			AND GrpLevel3Id = '$grpLevel3Id' AND ProductId = '$productId'
+			AND ProductId = '$productId'
+			AND Level = '$level'
 SQL;
 			Yii::app()->db->createCommand($sql)->execute();
 			$this->redirect(array('index'));

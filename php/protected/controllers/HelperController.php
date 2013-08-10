@@ -180,6 +180,150 @@ class HelperController extends Controller
               'pro'=>$pro,
             ));
 	}
+
+	public function actionGetStockStartOptions() {
+		$saleId = $_POST['SaleId'];
+	    $data = StockStartList::model()->getGrpLevel1($saleId);
+	    $grp1 = '';
+    	foreach($data as $value=>$name)
+        	$grp1 .= CHtml::tag('option',array('value'=>$value),CHtml::encode($name),true);
+
+        if (isset($_POST['GrpLevel1Id']))
+	        $grpLevel1Id = $_POST['GrpLevel1Id'];
+	   	else
+	   		$grpLevel1Id = '';
+	    $data = StockStartList::model()->getGrpLevel2($saleId,$grpLevel1Id);
+	    $grp2 = '';
+    	foreach($data as $value=>$name)
+        	$grp2 .= CHtml::tag('option',array('value'=>$value),CHtml::encode($name),true);
+
+        if (isset($_POST['GrpLevel2Id']))
+	        $grpLevel2Id = $_POST['GrpLevel2Id'];
+	   	else
+	   		$grpLevel2Id = '';
+	    $data = StockStartList::model()->getGrpLevel3($saleId,$grpLevel1Id,$grpLevel2Id);
+	    $grp3 = '';
+    	foreach($data as $value=>$name)
+        	$grp3 .= CHtml::tag('option',array('value'=>$value),CHtml::encode($name),true);
+
+        if (isset($_POST['GrpLevel3Id']))
+	        $grpLevel3Id = $_POST['GrpLevel3Id'];
+	   	else
+	   		$grpLevel3Id = '';
+
+	    $data = StockStartList::model()->getType();
+	    $type = '';
+    	foreach($data as $value=>$name)
+        	$type .= CHtml::tag('option',array('value'=>$value),CHtml::encode($name),true);
+
+        if (isset($_POST['Type']))
+	        $ptype = $_POST['Type'];
+	   	else
+	   		$ptype = 'a';
+	    $data = StockStartList::model()->getProduct($saleId,$grpLevel1Id,$grpLevel2Id,$grpLevel3Id,$ptype);
+	    $pro = '';
+    	foreach($data as $value=>$name)
+        	$pro .= CHtml::tag('option',array('value'=>$value),CHtml::encode($name),true);
+
+        if (isset($_POST['ProductId']))
+	        $productId = $_POST['ProductId'];
+	   	else
+	   		$productId = array_shift(array_keys($data));	
+	   	$pack = '';
+	   	if (!empty($productId)) {
+		    $data = StockStartList::model()->getPack($productId);		    
+    		foreach($data as $value=>$name)
+        		$pack .= CHtml::tag('option',array('value'=>$value),CHtml::encode($name),true);
+        }
+        echo CJSON::encode(array(
+              'grp1'=>$grp1,
+              'grp2'=>$grp2,
+              'grp3'=>$grp3,
+              'type'=>$type,
+              'pack'=>$pack,
+              'pro'=>$pro,
+            ));
+	}
+
+	public function actionGetRequestId() {
+		$saleId = $_POST['SaleId'];
+ 		echo ControlNo::model()->getControlNo($saleId,'ใบเบิกสินค้า');
+	}
+
+
+	public function actionGetRequestOptions() {
+		$requestNo = $_POST['RequestNo'];
+	    $data = RequestDetail::model()->getGrpLevel1($requestNo);
+	    $grp1 = '';
+    	foreach($data as $value=>$name)
+        	$grp1 .= CHtml::tag('option',array('value'=>$value),CHtml::encode($name),true);
+
+        if (isset($_POST['GrpLevel1Id']))
+	        $grpLevel1Id = $_POST['GrpLevel1Id'];
+	   	else
+	   		$grpLevel1Id = '';
+	    $data = RequestDetail::model()->getGrpLevel2($requestNo,$grpLevel1Id);
+	    $grp2 = '';
+    	foreach($data as $value=>$name)
+        	$grp2 .= CHtml::tag('option',array('value'=>$value),CHtml::encode($name),true);
+
+        if (isset($_POST['GrpLevel2Id']))
+	        $grpLevel2Id = $_POST['GrpLevel2Id'];
+	   	else
+	   		$grpLevel2Id = '';
+	    $data = RequestDetail::model()->getGrpLevel3($requestNo,$grpLevel1Id,$grpLevel2Id);
+	    $grp3 = '';
+    	foreach($data as $value=>$name)
+        	$grp3 .= CHtml::tag('option',array('value'=>$value),CHtml::encode($name),true);
+
+        if (isset($_POST['GrpLevel3Id']))
+	        $grpLevel3Id = $_POST['GrpLevel3Id'];
+	   	else
+	   		$grpLevel3Id = '';
+
+	   	if (isset($_POST['ProductIdName']))
+	   		$productIdName = $_POST['ProductIdName'];
+	   	else
+	   		$productIdName = '';
+	    $data = RequestDetail::model()->getProduct($requestNo,$grpLevel1Id,$grpLevel2Id,$grpLevel3Id,$productIdName);
+	    $pro = '';
+    	foreach($data as $value=>$name)
+        	$pro .= CHtml::tag('option',array('value'=>$value),CHtml::encode($name),true);
+
+        if (isset($_POST['ProductId']))
+	        $productId = $_POST['ProductId'];
+	   	else
+	   		$productId = array_shift(array_keys($data));	
+	  
+	  	$l1 = $l2 = $l3 = $l4 = true;
+	  	$p1 = $p2 = $p3 = $p4 = '';
+	   	if (!empty($productId)) {
+	   		$product = Product::model()->findByPk($productId);
+	   		$l1 = empty($product->PackLevel1);
+	   		$l2 = empty($product->PackLevel2);
+	   		$l3 = empty($product->PackLevel3);
+	   		$l4 = empty($product->PackLevel4);
+	   		$p1 = $product->PackLevel1;
+	   		$p2 = $product->PackLevel2;
+	   		$p3 = $product->PackLevel3;
+	   		$p4 = $product->PackLevel4;
+       }
+        echo CJSON::encode(array(
+              'grp1'=>$grp1,
+              'grp2'=>$grp2,
+              'grp3'=>$grp3,
+              'pro'=>$pro,
+              'l1'=>$l1,
+              'l2'=>$l2,
+              'l3'=>$l3,
+              'l4'=>$l4,
+              'p1'=>$p1,
+              'p2'=>$p2,
+              'p3'=>$p3,
+              'p4'=>$p4,
+            ));
+	}
+
 	// Uncomment the following methods and override them if needed
 	/*
 	public function filters()

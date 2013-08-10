@@ -8,6 +8,12 @@ class Product extends BaseProduct
 		return parent::model($className);
 	}
 
+	public function relations() {
+		return array(
+			'requestDetails' => array(self::HAS_MANY, 'RequestDetail', 'ProductId'),
+		);
+	}
+
 	public static function getOptions() {
 		return CHtml::listData(Product::model()->findAll(), 
 				'ProductId', 'ProductName'
@@ -66,5 +72,18 @@ class Product extends BaseProduct
 				'condition'=>'PackLevel4 IS NOT NULL AND length(trim(PackLevel4)) > 0'
 				));
 		return array_merge($list,CHtml::listData($data,'PackLevel4','PackLevel4'));
+	}
+
+	public static function formatQty($data,$name) {
+		$qty = '';
+		if ($data[$name.'1'] > 0)
+			$qty = empty($qty) ? $data[$name.'1'].' '.$data['PackLevel1'] :  $qty.' '.$data[$name.'1'].' '.$data['PackLevel1'];
+		if ($data[$name.'2'] > 0)
+			$qty = empty($qty) ? $data[$name.'2'].' '.$data['PackLevel2'] :  $qty.' '.$data[$name.'2'].' '.$data['PackLevel2'];
+		if ($data[$name.'3'] > 0)
+			$qty = empty($qty) ? $data[$name.'3'].' '.$data['PackLevel3'] :  $qty.' '.$data[$name.'3'].' '.$data['PackLevel3'];
+		if ($data[$name.'4'] > 0)
+			$qty = empty($qty) ? $data[$name.'4'].' '.$data['PackLevel4'] :  $qty.' '.$data[$name.'4'].' '.$data['PackLevel4'];
+		return $qty;
 	}
 }

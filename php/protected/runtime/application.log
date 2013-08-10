@@ -678,3 +678,26 @@ HTTP_REFERER=https://localhost/backend/php/index.php?r=promotion/update&id=GG
 	primary key (SaleId)
 ) ENGINE=InnoDB.
 2013/08/06 10:28:04 [error] [system.db.CDbCommand] CDbCommand::execute() failed: SQLSTATE[21S01]: Insert value list does not match column list: 1136 Column count doesn't match value count at row 1. The SQL statement executed was: INSERT INTO Product VALUES('309','144','0010100001','น้ำมันกุ๊กถั่วเหลือง 1/4 ลิตร','หีบ','','','',614.37,0,0,0,100,50,20,10,'N','Y','N',5000,100,now()).
+2013/08/10 19:45:08 [error] [system.db.CDbCommand] CDbCommand::execute() failed: SQLSTATE[42000]: Syntax error or access violation: 1072 Key column 'RequestNo' doesn't exist in table. The SQL statement executed was: CREATE TABLE `StockIR` (
+	`IRNo` varchar(255),
+	`SaleId` varchar(255),
+	`IRDate` date,
+	`Total` decimal(10,2) DEFAULT 0,
+	`Status` varchar(255),
+	`UpdateAt` datetime,
+	PRIMARY KEY (RequestNo)
+) ENGINE=InnoDB.
+2013/08/10 21:31:06 [error] [system.db.CDbCommand] CDbCommand::execute() failed: SQLSTATE[42000]: Syntax error or access violation: 1072 Key column 'RequestNo' doesn't exist in table. The SQL statement executed was: CREATE TABLE `IRDetail` (
+	`IRNo` varchar(255),
+	`ProductId` varchar(255),
+	`QtyLevel1` int(11) DEFAULT 0,
+	`QtyLevel2` int(11) DEFAULT 0,
+	`QtyLevel3` int(11) DEFAULT 0,
+	`QtyLevel4` int(11) DEFAULT 0,
+	`PriceLevel1` decimal(10,2) DEFAULT 0,
+	`PriceLevel2` decimal(10,2) DEFAULT 0,
+	`PriceLevel3` decimal(10,2) DEFAULT 0,
+	`PriceLevel4` decimal(10,2) DEFAULT 0,
+	`UpdateAt` datetime,
+	PRIMARY KEY (RequestNo, ProductId)
+) ENGINE=InnoDB.
