@@ -33,7 +33,11 @@ return array(
 
 	'modules'=>array(
 		// uncomment the following to enable the Gii tool
-		'manage',
+		'manage','backup',
+        'media'=>array(
+            // Base dir for media browser (app/files):
+            'baseDir'=>dirname(__FILE__).DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'files',
+        ),
 		'gii'=>array(
 			'class'=>'system.gii.GiiModule',
 			'generatorPaths' => array(

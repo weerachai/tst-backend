@@ -44,7 +44,8 @@ $columns = array(
             'delete' => array(
                 'label'=>'ยกเลิก IR',
                 'url'=>'Yii::app()->createUrl("/manage/stockIR/delete", array("id"=>$data["id"]))',
-		    ),
+               // 'visible'=>!Yii::app()->user->checkAccess('admin'),
+            ),
 		),
 		'htmlOptions' => array('style'=>'white-space:nowrap'),
  	),

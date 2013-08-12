@@ -1,61 +1,71 @@
 <?php
 
-$this->breadcrumbs = array(
-	$model->label(2) => array('index'),
-	Yii::t('app', 'Manage'),
+$this->breadcrumbs=array(
+    $this->module->id => array('/'.$this->module->id),
+	'สร้างใบส่งสินค้า' => array('/'.$this->module->id.'/deliver/'),
+	'รายการใบส่ง',
 );
 
-$this->menu = array(
-		array('label'=>Yii::t('app', 'List') . ' ' . $model->label(2), 'url'=>array('index')),
-		array('label'=>Yii::t('app', 'Create') . ' ' . $model->label(), 'url'=>array('create')),
-	);
-
-Yii::app()->clientScript->registerScript('search', "
-$('.search-button').click(function(){
-	$('.search-form').toggle();
-	return false;
-});
-$('.search-form form').submit(function(){
-	$.fn.yiiGridView.update('stock-deliver-grid', {
-		data: $(this).serialize()
-	});
-	return false;
-});
-");
 ?>
 
-<h1><?php echo Yii::t('app', 'Manage') . ' ' . GxHtml::encode($model->label(2)); ?></h1>
+<h3>รายการใบส่ง</h3>
 
 <p>
-You may optionally enter a comparison operator (&lt;, &lt;=, &gt;, &gt;=, &lt;&gt; or =) at the beginning of each of your search values to specify how the comparison should be done.
-</p>
 
-<?php echo GxHtml::link(Yii::t('app', 'Advanced Search'), '#', array('class' => 'search-button')); ?>
-<div class="search-form">
-<?php $this->renderPartial('_search', array(
-	'model' => $model,
-)); ?>
-</div><!-- search-form -->
-
-<?php $this->widget('zii.widgets.grid.CGridView', array(
-	'id' => 'stock-deliver-grid',
-	'dataProvider' => $model->search(),
-	'filter' => $model,
-	'columns' => array(
-		'RequestNo',
-		'DeliverNo',
-		'SaleId',
-		'WarehouseId',
-		'WarehouseName',
-		'WarehouseType',
-		/*
-		'DeliverDate',
-		'Total',
-		'Status',
-		'UpdateAt',
-		*/
-		array(
-			'class' => 'CButtonColumn',
+<?php
+$columns = array(
+    array(
+        'header'=>CHtml::encode('เลขที่ใบเบิก'),
+        'name'=>'RequestNo',
+        'htmlOptions' => array('style'=>'white-space:nowrap'),
+    ),
+    array(
+        'header'=>CHtml::encode('เลขที่ใบส่ง'),
+        'name'=>'id',
+        'htmlOptions' => array('style'=>'white-space:nowrap'),
+    ),
+    array(
+        'header'=>CHtml::encode('วันที่ส่ง'),
+        'name'=>'DeliverDate',
+        'htmlOptions' => array('style'=>'white-space:nowrap'),
+    ),
+   	array(
+		'class' => 'bootstrap.widgets.TbButtonColumn',
+		'template'=>'{view}{update}{delete}',
+		'buttons'=>array(
+            'view' => array(
+                'label'=>'รายละเอียดใบส่ง',
+                'url'=>'Yii::app()->createUrl("/manage/stockDeliver/view", array("id"=>$data["id"]))',
+            ),
+            'update' => array(
+                'label'=>'แก้ไข',
+                'url'=>'Yii::app()->createUrl("/manage/stockDeliver/update", array("id"=>$data["id"]))',
+		    ),
+            'delete' => array(
+                'label'=>'ยกเลิก',
+                'url'=>'Yii::app()->createUrl("/manage/stockDeliver/delete", array("id"=>$data["id"]))',
+		    ),
 		),
-	),
-)); ?>
+		'htmlOptions' => array('style'=>'white-space:nowrap'),
+ 	),
+);
+
+$this->widget('bootstrap.widgets.TbGridView', array(
+	'id' => 'data-grid',
+    'filter'=>$filtersForm,
+    'ajaxUpdate'=>false,
+	'type'=>'striped bordered condensed',
+	'dataProvider' => $dataProvider,
+	'enablePagination' => true,
+    'pager' => array(
+        'cssFile' => false,
+        'header' => false,
+        'firstPageLabel' => 'หน้าแรก',
+        'prevPageLabel' => 'หน้าก่อน',
+        'nextPageLabel' => 'หน้าถัดไป',
+        'lastPageLabel' => 'หน้าสุดท้าย',
+    ),  
+	'columns' => $columns,
+));
+
+?>

@@ -86,4 +86,14 @@ class Product extends BaseProduct
 			$qty = empty($qty) ? $data[$name.'4'].' '.$data['PackLevel4'] :  $qty.' '.$data[$name.'4'].' '.$data['PackLevel4'];
 		return $qty;
 	}
+
+	public static function getQtyOptions($max, $pack) {
+		$qty = array(0=>'-');
+		if (empty($pack))
+			return $qty;
+		for ($i = 1; $i <= $max; $i++)
+			$qty += array($i=>"$i $pack");
+		return $qty;
+
+	}
 }

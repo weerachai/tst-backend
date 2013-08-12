@@ -30,6 +30,19 @@ $columns = array(
         'name'=>'SaleName',
         'htmlOptions' => array('style'=>'white-space:nowrap'),
     ),
+    array(
+        'class' => 'bootstrap.widgets.TbButtonColumn',
+        'template'=>'{deliver}',
+        'buttons'=>array(
+            'deliver' => array(
+                'label'=>'สร้างใบส่ง',
+                'imageUrl'=>Yii::app()->request->baseUrl.'/images/deliver.png',
+                'url'=>'Yii::app()->createUrl("/manage/stockIR/deliver", array("id"=>$data["id"]))',
+            ),
+
+        ),
+        'htmlOptions' => array('style'=>'white-space:nowrap'),
+    ),
 );
 
 $this->widget('bootstrap.widgets.TbGridView', array(
@@ -49,6 +62,12 @@ $this->widget('bootstrap.widgets.TbGridView', array(
 	'columns' => $columns,
 )); ?>
 
+
+<div>
+<?php $form=$this->beginWidget('CActiveForm', array(
+    'enableAjaxValidation'=>true,
+)); ?>
+ 
 <?php 
 
 $columns = array(
@@ -65,34 +84,26 @@ $columns = array(
     array(
         'header'=>CHtml::encode('จำนวนเบิก'),
         'type'=>'raw',
-        'value'=>'Product::model()->formatQty($data,"QtyLevel");',
+        'value'=>'Product::model()->formatQty($data,"ReqQty");',
         'htmlOptions' => array('style'=>'white-space:nowrap'),
     ),
     array(
         'header'=>CHtml::encode('จำนวนอนุมัติ'),
         'type'=>'raw',
-        'value'=>'Product::model()->formatQty($data,"QtyOK");',
-        'htmlOptions' => array('style'=>'white-space:nowrap'),
-    ),
-    array(
-        'class' => 'bootstrap.widgets.TbButtonColumn',
-        'template'=>'{update}',
-        'buttons'=>array(
-            'update' => array(
-                'label'=>'แก้ไขรายการอนุมัติ',
-                'url'=>'Yii::app()->createUrl("/manage/stockIR/update", array("id"=>$data["IRNo"],"productId"=>$data["id"]))',
-            ),
-        ),
+        'value'=>'CHtml::dropDownList("Qty[$data[id]][1]",$data["Qty1"],Product::model()->getQtyOptions($data["ReqQty1"],$data["PackLevel1"]),array("style"=>"width:100px;"))'.
+            '.CHtml::dropDownList("Qty[$data[id]][2]",$data["Qty2"],Product::model()->getQtyOptions($data["ReqQty2"],$data["PackLevel2"]),array("style"=>"width:100px;"))'.
+            '.CHtml::dropDownList("Qty[$data[id]][3]",$data["Qty3"],Product::model()->getQtyOptions($data["ReqQty3"],$data["PackLevel3"]),array("style"=>"width:100px;"))'.
+            '.CHtml::dropDownList("Qty[$data[id]][4]",$data["Qty4"],Product::model()->getQtyOptions($data["ReqQty4"],$data["PackLevel4"]),array("style"=>"width:100px;"))',
         'htmlOptions' => array('style'=>'white-space:nowrap'),
     ),
 );
 
 $this->widget('bootstrap.widgets.TbGridView', array(
-	'id' => 'data-grid',
+    'id' => 'data-grid',
     'ajaxUpdate'=>false,
-	'type'=>'striped bordered condensed',
-	'dataProvider' => $dataProvider2,
-	'enablePagination' => true,
+    'type'=>'striped bordered condensed',
+    'dataProvider' => $dataProvider2,
+    'enablePagination' => false,
     'pager' => array(
         'cssFile' => false,
         'header' => false,
@@ -101,6 +112,15 @@ $this->widget('bootstrap.widgets.TbGridView', array(
         'nextPageLabel' => 'หน้าถัดไป',
         'lastPageLabel' => 'หน้าสุดท้าย',
     ),  
-	'columns' => $columns,
+    'columns' => $columns,
 ));
 ?>
+<script>
+function reloadGrid(data) {
+    alert("บันทึกข้อมูลแล้ว");
+    $.fn.yiiGridView.update('data-grid');
+}
+</script>
+<?php echo CHtml::ajaxSubmitButton('บันทึก',array('stockIR/ajaxupdate','id'=>$id), array('success'=>'reloadGrid')); ?>
+<?php $this->endWidget(); ?>
+</div>

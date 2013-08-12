@@ -15,7 +15,7 @@ public function accessRules() {
 				'users'=>array('@'),
 				),
 			array('allow', 
-				'actions'=>array('minicreate', 'create', 'update', 'admin', 'delete'),
+				'actions'=>array('minicreate', 'create', 'update', 'admin', 'delete', 'deliver', 'ajaxupdate'),
 				'users'=>array('admin'),
 				),
 			array('deny', 
@@ -47,18 +47,18 @@ SQL;
 
 		$sql = <<<SQL
 		SELECT T.ProductId AS id, IRNo, ProductName,
-		SUM(T.QtyLevel1) AS QtyLevel1, PackLevel1, 
-		SUM(T.QtyLevel2) AS QtyLevel2, PackLevel2,
-		SUM(T.QtyLevel3) AS QtyLevel3, PackLevel3,
-		SUM(T.QtyLevel4) AS QtyLevel4, PackLevel4,
-		D.QtyLevel1 AS QtyOK1, D.QtyLevel2 AS QtyOK2,
-		D.QtyLevel3 AS QtyOK3, D.QtyLevel4 AS QtyOK4		
+		SUM(T.QtyLevel1) AS ReqQty1, PackLevel1, 
+		SUM(T.QtyLevel2) AS ReqQty2, PackLevel2,
+		SUM(T.QtyLevel3) AS ReqQty3, PackLevel3,
+		SUM(T.QtyLevel4) AS ReqQty4, PackLevel4,
+		D.QtyLevel1 AS Qty1, D.QtyLevel2 AS Qty2,
+		D.QtyLevel3 AS Qty3, D.QtyLevel4 AS Qty4		
 		FROM (RequestDetail T JOIN Product USING(ProductId))
 			JOIN IRDetail D USING(ProductId)
 		WHERE IRNo = '$id' AND RequestNo IN 
 		(SELECT RequestNo FROM RequestIR WHERE IRNo = '$id')
 		GROUP BY id, ProductName, PackLevel1, PackLevel2,
-		PackLevel3, PackLevel4, QtyOK1, QtyOK2, QtyOK3, QtyOK4
+		PackLevel3, PackLevel4, Qty1, Qty2, Qty3, Qty4
 		ORDER BY ProductName
 SQL;
 
@@ -70,9 +70,9 @@ SQL;
            	 	 'id','ProductName',
         		),
     		),
-    		'pagination'=>array(
-        		'pageSize'=>10,
-    		),
+    		// 'pagination'=>array(
+      //   		'pageSize'=>2,
+    		// ),
 		));
 
 		// Render
@@ -253,4 +253,48 @@ SQL;
 		));
 	}
 
+	public function actionDeliver($id) {
+		$request = $this->loadModel($id, 'StockRequest');
+		$model = StockDeliver::model()->find("RequestNo='$request->RequestNo'");
+		if ($model == null) {
+			$model = new StockDeliver;
+			$model->SaleId = $request->SaleId;
+			$model->RequestNo = $request->RequestNo;
+			$model->DeliverDate = date("Y-m-d");
+			$model->DeliverNo = ControlNo::model()->getControlNo($model->SaleId,'ใบส่งสินค้า');
+			if ($model->save()) {
+				ControlNo::model()->updateControlNo($model->SaleId,'ใบส่งสินค้า');
+				foreach ($request->requestDetails as $detail) {
+					$rec = new DeliverDetail;
+					$rec->DeliverNo = $model->DeliverNo;
+					$rec->ProductId = $detail->ProductId;
+					$rec->QtyLevel1 = $detail->QtyLevel1;
+					$rec->QtyLevel2 = $detail->QtyLevel2;
+					$rec->QtyLevel3 = $detail->QtyLevel3;
+					$rec->QtyLevel4 = $detail->QtyLevel4;
+					$rec->PriceLevel1 = $detail->PriceLevel1;
+					$rec->PriceLevel2 = $detail->PriceLevel2;
+					$rec->PriceLevel3 = $detail->PriceLevel3;
+					$rec->PriceLevel4 = $detail->PriceLevel4;
+					$rec->save();
+				}
+			}
+		}
+
+		$this->redirect(array('stockDeliver/update', 'id' => $model->DeliverNo));
+	}
+
+	public function actionAjaxupdate($id)
+	{
+		foreach ($_POST['Qty'] as $productId => $qty) {
+			$model = IRDetail::model()->findByPk(array("IRNo"=>$id,"ProductId"=>$productId));
+			if ($model) {
+				$model->QtyLevel1 = $qty[1];
+				$model->QtyLevel2 = $qty[2];
+				$model->QtyLevel3 = $qty[3];
+				$model->QtyLevel4 = $qty[4];
+				$model->save();
+			}
+		}
+	}
 }

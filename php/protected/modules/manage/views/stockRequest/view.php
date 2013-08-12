@@ -29,7 +29,7 @@ $columns = array(
     array(
         'header'=>CHtml::encode('จำนวน'),
         'type'=>'raw',
-		'value'=>'Product::model()->formatQty($data);',
+		'value'=>'Product::model()->formatQty($data,"QtyLevel");',
         'htmlOptions' => array('style'=>'white-space:nowrap'),
     ),
    	array(
