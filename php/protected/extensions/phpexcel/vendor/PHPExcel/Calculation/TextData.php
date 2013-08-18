@@ -208,17 +208,16 @@ class PHPExcel_Calculation_TextData {
 		}
 		$decimals = floor($decimals);
 
-		$mask = '$#,##0';
 		if ($decimals > 0) {
-			$mask .= '.' . str_repeat('0',$decimals);
+			return money_format('%.'.$decimals.'n',$value);
 		} else {
 			$round = pow(10,abs($decimals));
 			if ($value < 0) { $round = 0-$round; }
-			$value = PHPExcel_Calculation_MathTrig::MROUND($value, $round);
+			$value = PHPExcel_Calculation_MathTrig::MROUND($value,$round);
+			//	The implementation of money_format used if the standard PHP function is not available can't handle decimal places of 0,
+			//		so we display to 1 dp and chop off that character and the decimal separator using substr
+			return substr(money_format('%.1n',$value),0,-2);
 		}
-
-		return PHPExcel_Style_NumberFormat::toFormattedString($value, $mask);
-
 	}	//	function DOLLAR()
 
 

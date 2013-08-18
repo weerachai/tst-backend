@@ -71,13 +71,6 @@ class PHPExcel_Writer_Excel2007 extends PHPExcel_Writer_Abstract implements PHPE
 	private $_stylesConditionalHashTable;
 
 	/**
-	 * Private unique PHPExcel_Style HashTable
-	 *
-	 * @var PHPExcel_HashTable
-	 */
-	private $_styleHashTable;
-
-	/**
 	 * Private unique PHPExcel_Style_Fill HashTable
 	 *
 	 * @var PHPExcel_HashTable
@@ -142,8 +135,7 @@ class PHPExcel_Writer_Excel2007 extends PHPExcel_Writer_Abstract implements PHPE
 		}
 
     	$hashTablesArray = array( '_stylesConditionalHashTable',	'_fillHashTable',		'_fontHashTable',
-								  '_bordersHashTable',				'_numFmtHashTable',		'_drawingHashTable',
-                                  '_styleHashTable'
+								  '_bordersHashTable',				'_numFmtHashTable',		'_drawingHashTable'
 							    );
 
 		// Set HashTable variables
@@ -199,7 +191,6 @@ class PHPExcel_Writer_Excel2007 extends PHPExcel_Writer_Abstract implements PHPE
 			}
 
 			// Create styles dictionaries
-			$this->_styleHashTable->addFromSource( 	            $this->getWriterPart('Style')->allStyles($this->_spreadSheet) 			);
 			$this->_stylesConditionalHashTable->addFromSource( 	$this->getWriterPart('Style')->allConditionalStyles($this->_spreadSheet) 			);
 			$this->_fillHashTable->addFromSource( 				$this->getWriterPart('Style')->allFills($this->_spreadSheet) 			);
 			$this->_fontHashTable->addFromSource( 				$this->getWriterPart('Style')->allFonts($this->_spreadSheet) 			);
@@ -402,15 +393,6 @@ class PHPExcel_Writer_Excel2007 extends PHPExcel_Writer_Abstract implements PHPE
      */
     public function getStringTable() {
     	return $this->_stringTable;
-    }
-
-    /**
-     * Get PHPExcel_Style HashTable
-     *
-     * @return PHPExcel_HashTable
-     */
-    public function getStyleHashTable() {
-    	return $this->_styleHashTable;
     }
 
     /**

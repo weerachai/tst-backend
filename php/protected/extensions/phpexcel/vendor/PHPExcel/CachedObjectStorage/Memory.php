@@ -96,7 +96,7 @@ class PHPExcel_CachedObjectStorage_Memory extends PHPExcel_CachedObjectStorage_C
 		$newCollection = array();
 		foreach($this->_cellCache as $k => &$cell) {
 			$newCollection[$k] = clone $cell;
-			$newCollection[$k]->attach($this);
+			$newCollection[$k]->attach($parent);
 		}
 
 		$this->_cellCache = $newCollection;

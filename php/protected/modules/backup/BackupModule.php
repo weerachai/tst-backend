@@ -1,7 +1,15 @@
 <?php
-
+/**
+ * Backup
+ * 
+ * Yii module to backup, restore databse
+ * 
+ * @version 1.0
+ * @author Shiv Charan Panjeta <shiv@toxsl.com> <shivcharan.panjeta@outlook.com>
+ */
 class BackupModule extends CWebModule
 {
+	public $path = null;
 	public function init()
 	{
 		// this method is called when the module is being created

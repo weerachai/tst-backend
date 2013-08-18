@@ -1233,9 +1233,7 @@ class PHPExcel_Writer_HTML extends PHPExcel_Writer_Abstract implements PHPExcel_
 					//	Also apply style from last cell in merge to fix borders -
 					//		relies on !important for non-none border declarations in _createCSSStyleBorder
 					$endCellCoord = PHPExcel_Cell::stringFromColumnIndex($colNum + $colSpan - 1) . ($pRow + $rowSpan);
-					if (!$this->_useInlineCss) {
-						$cssClass .= ' style' . $pSheet->getCell($endCellCoord)->getXfIndex();
-					}
+					$cssClass .= ' style' . $pSheet->getCell($endCellCoord)->getXfIndex();
 				}
 
 				// Write

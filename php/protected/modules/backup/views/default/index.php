@@ -1,11 +1,19 @@
 <?php
-/* @var $this DefaultController */
-
 $this->breadcrumbs=array(
-	$this->module->id,
-);
-?>
-<h1><?php echo $this->uniqueId . '/' . $this->action->id; ?></h1>
+	'Manage'=>array('index'),
+);?>
+<h1> Manage database backup files</h1>
 
-<p>
-<?php echo CHtml::link('Media Browser', array('/media')); ?>
+<?php $this->renderPartial('_list', array(
+	'dataProvider'=>$dataProvider,
+	'enablePagination' => true,
+    'pager' => array(
+        'cssFile' => false,
+        'header' => false,
+        'firstPageLabel' => 'หน้าแรก',
+        'prevPageLabel' => 'หน้าก่อน',
+        'nextPageLabel' => 'หน้าถัดไป',
+        'lastPageLabel' => 'หน้าสุดท้าย',
+    ), 
+));
+?>

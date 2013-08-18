@@ -496,10 +496,6 @@ class PHPExcel_Reader_Excel2007 extends PHPExcel_Reader_Abstract implements PHPE
 									$numFmt = PHPExcel_Style_NumberFormat::builtInFormatCode((int)$xf["numFmtId"]);
 								}
 							}
-                            $quotePrefix = false;
-							if (isset($xf["quotePrefix"])) {
-                                $quotePrefix = (boolean) $xf["quotePrefix"];
-                            }
 							//$numFmt = str_replace('mm', 'i', $numFmt);
 							//$numFmt = str_replace('h', 'H', $numFmt);
 
@@ -510,7 +506,6 @@ class PHPExcel_Reader_Excel2007 extends PHPExcel_Reader_Abstract implements PHPE
 								"border" => $xmlStyles->borders->border[intval($xf["borderId"])],
 								"alignment" => $xf->alignment,
 								"protection" => $xf->protection,
-								"quotePrefix" => $quotePrefix,
 							);
 							$styles[] = $style;
 
@@ -538,7 +533,6 @@ class PHPExcel_Reader_Excel2007 extends PHPExcel_Reader_Abstract implements PHPE
 								"border" => $xmlStyles->borders->border[intval($xf["borderId"])],
 								"alignment" => $xf->alignment,
 								"protection" => $xf->protection,
-								"quotePrefix" => $quotePrefix,
 							);
 							$cellStyles[] = $cellStyle;
 
@@ -1371,9 +1365,7 @@ class PHPExcel_Reader_Excel2007 extends PHPExcel_Reader_Abstract implements PHPE
 												$hfImages[ (string)$shape['id'] ]->setResizeProportional(false);
 												$hfImages[ (string)$shape['id'] ]->setWidth($style['width']);
 												$hfImages[ (string)$shape['id'] ]->setHeight($style['height']);
-												if (isset($style['margin-left'])) {
-													$hfImages[ (string)$shape['id'] ]->setOffsetX($style['margin-left']);
-												}
+												$hfImages[ (string)$shape['id'] ]->setOffsetX($style['margin-left']);
 												$hfImages[ (string)$shape['id'] ]->setOffsetY($style['margin-top']);
 												$hfImages[ (string)$shape['id'] ]->setResizeProportional(true);
 											}
@@ -1864,11 +1856,6 @@ class PHPExcel_Reader_Excel2007 extends PHPExcel_Reader_Abstract implements PHPE
 				}
 			}
 		}
-
-		// top-level style settings
-		if (isset($style->quotePrefix)) {
-			$docStyle->setQuotePrefix($style->quotePrefix);
-        }
 	}
 
 
