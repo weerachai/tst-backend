@@ -46,6 +46,8 @@ $this->widget('zii.widgets.jui.CJuiDatePicker', array(
 <b> Format : </b>
 <?php echo CHtml::dropDownList('format', $format, array('Excel'=>'Excel','Pdf'=>'Pdf')); ?>
 
+<?php $this->widget('bootstrap.widgets.TbButton', array('buttonType'=>'submit', 'type'=>'primary', 'label'=>'Export')); ?>
+
 <p><h4 style="color:red;"><?php echo $error; ?></h4>
 
 <?php 
@@ -73,8 +75,6 @@ $this->widget('bootstrap.widgets.TbGridView', array(
 	'columns' => $columns,
 ));
 ?>
-
-<?php $this->widget('bootstrap.widgets.TbButton', array('buttonType'=>'submit', 'type'=>'primary', 'label'=>'Export')); ?>
 
 <?php $this->endWidget(); ?>
 

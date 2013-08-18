@@ -16,6 +16,9 @@ class SaleUnit extends BaseSaleUnit
 			'customers' => array(self::HAS_MANY, 'Customer', 'SaleId'),
 			'orders' => array(self::HAS_MANY, 'ProductOrder', 'SaleId'),
 			'controlNos' => array(self::HAS_MANY, 'ControlNo', 'SaleId'),
+			'moneyTransfers' => array(self::HAS_MANY, 'MoneyTransfer', 'SaleId'),
+			'stockTransfers' => array(self::HAS_MANY, 'StockTransfer', 'SaleId'),
+			'stocks' => array(self::HAS_MANY, 'Stock', 'SaleId'),
 		);
 	}
 

@@ -15,7 +15,7 @@
  * @param boolean $be // eg. 2554 if true, 2011 if false
  */
 class ThaiDate {
-	public function thaidate( $format = '', $timestamp = '', $be = true ) {
+	public function format( $format = '', $timestamp = '', $be = true ) {
 		if ( $timestamp == null ) {$timestamp = time();}
 		// month values
 		$en_month_long = array( 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December' );

@@ -10,7 +10,13 @@ class Product extends BaseProduct
 
 	public function relations() {
 		return array(
+			'orderDetails' => array(self::HAS_MANY, 'OrderDetail', 'ProductId'),
+			'exchangeInDetails' => array(self::HAS_MANY, 'ExchangeInDetail', 'ProductId'),
+			'exchangeOutDetails' => array(self::HAS_MANY, 'ExchangeOutDetail', 'ProductId'),
 			'requestDetails' => array(self::HAS_MANY, 'RequestDetail', 'ProductId'),
+			'deliverDetails' => array(self::HAS_MANY, 'DeliverDetail', 'ProductId'),
+			'transferDetails' => array(self::HAS_MANY, 'TransferDetail', 'ProductId'),
+			'stocks' => array(self::HAS_MANY, 'Stock', 'ProductId'),
 		);
 	}
 

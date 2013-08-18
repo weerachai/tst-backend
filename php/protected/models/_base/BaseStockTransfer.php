@@ -17,6 +17,7 @@
  * @property string $TransferDate
  * @property string $Total
  * @property string $Status
+ * @property string $EndTripFlag
  * @property string $UpdateAt
  *
  * @property TransferDetail[] $transferDetails
@@ -43,9 +44,10 @@ abstract class BaseStockTransfer extends GxActiveRecord {
 		return array(
 			array('TransferNo, SaleId, WarehouseId, WarehouseName, WarehouseType, Status', 'length', 'max'=>255),
 			array('Total', 'length', 'max'=>10),
+			array('EndTripFlag', 'length', 'max'=>1),
 			array('TransferDate, UpdateAt', 'safe'),
-			array('TransferNo, SaleId, WarehouseId, WarehouseName, WarehouseType, TransferDate, Total, Status, UpdateAt', 'default', 'setOnEmpty' => true, 'value' => null),
-			array('TransferNo, SaleId, WarehouseId, WarehouseName, WarehouseType, TransferDate, Total, Status, UpdateAt', 'safe', 'on'=>'search'),
+			array('TransferNo, SaleId, WarehouseId, WarehouseName, WarehouseType, TransferDate, Total, Status, EndTripFlag, UpdateAt', 'default', 'setOnEmpty' => true, 'value' => null),
+			array('TransferNo, SaleId, WarehouseId, WarehouseName, WarehouseType, TransferDate, Total, Status, EndTripFlag, UpdateAt', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -70,6 +72,7 @@ abstract class BaseStockTransfer extends GxActiveRecord {
 			'TransferDate' => Yii::t('app', 'Transfer Date'),
 			'Total' => Yii::t('app', 'Total'),
 			'Status' => Yii::t('app', 'Status'),
+			'EndTripFlag' => Yii::t('app', 'End Trip Flag'),
 			'UpdateAt' => Yii::t('app', 'Update At'),
 			'transferDetails' => null,
 		);
@@ -86,6 +89,7 @@ abstract class BaseStockTransfer extends GxActiveRecord {
 		$criteria->compare('TransferDate', $this->TransferDate, true);
 		$criteria->compare('Total', $this->Total, true);
 		$criteria->compare('Status', $this->Status, true);
+		$criteria->compare('EndTripFlag', $this->EndTripFlag, true);
 		$criteria->compare('UpdateAt', $this->UpdateAt, true);
 
 		return new CActiveDataProvider($this, array(

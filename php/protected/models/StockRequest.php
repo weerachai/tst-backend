@@ -11,6 +11,7 @@ class StockRequest extends BaseStockRequest
 	public function relations() {
 		return array(
 			'requestDetails' => array(self::HAS_MANY, 'RequestDetail', 'RequestNo'),
+			'deliver' => array(self::HAS_ONE, 'StockDeliver', 'RequestNo'),
 		);
 	}
 

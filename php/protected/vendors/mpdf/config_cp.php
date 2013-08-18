@@ -83,7 +83,7 @@ function GetLangOpts($llcc, $adobeCJK) {
 	  CASE "te":  $unifonts = "ind_te_1_001"; break;
 
 	  // THAI
-	  CASE "th":  $unifonts = "garuda,garudaB,garudaI,garudaBI,norasi,norasiB,norasiI,norasiBI";  break;
+	  CASE "th":  $unifonts = "garuda,garudaB,garudaI,garudaBI,norasi,norasiB,norasiI,norasiBI,THSarabunNew,THSarabunNewB,THSarabunNewI,THSarabunNewBI";  break;
 
 	  // VIETNAMESE
 	  CASE "vi":  

@@ -781,6 +781,7 @@ if ($TESTING) {
                              'TransferDate' => 'date',
                              'Total' => 'decimal(10,2) DEFAULT 0',
                              'Status' => 'string',
+                             'EndTripFlag' => 'char',
                              'UpdateAt' => 'datetime',
                              'PRIMARY KEY (TransferNo)',
                              ), 'ENGINE=InnoDB');   

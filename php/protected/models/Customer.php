@@ -11,6 +11,9 @@ class Customer extends BaseCustomer
 	public function relations() {
 		return array(
 			'saleUnit' => array(self::BELONGS_TO, 'SaleUnit', 'SaleId'),
+			'productOrders' => array(self::HAS_MANY, 'ProductOrder', 'CustomerId'),
+			'productReturns' => array(self::HAS_MANY, 'ProductReturn', 'CustomerId'),
+			'productExchanges' => array(self::HAS_MANY, 'ProductExchange', 'CustomerId'),
 		);
 	}
 

@@ -2,73 +2,6 @@
 
 class DefaultController extends Controller
 {
-	public function createpdf($title, $header, $w, $data){
- 
-        $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
-        spl_autoload_register(array('YiiBase','autoload'));
-        // set document information
- 		$thaidate = new ThaiDate;
-        $pdf->SetCreator(PDF_CREATOR);   
-        $pdf->SetTitle($title);                
-        $pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, $title, "รายงาน".$thaidate->thaidate( "วันที่ j F Y - H:i:s" ));
-        $pdf->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
-        $pdf->setFooterFont(Array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
-        $pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
-        $pdf->SetHeaderMargin(PDF_MARGIN_HEADER);
-        $pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
-        $pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
-        $pdf->SetFont('THSarabunNew', '', 16);
-        $pdf->SetTextColor(80,80,80);
-        $pdf->AddPage();
-
-		$html = "<h2>$title:</h2>";
-        $html .= '<table border="1" bordercolor="#eeeeee" cellspacing="0" cellpadding="3">';
-        $html .= "<tr bgcolor=\"#ff0000\">";
-        foreach ($header as $i=>$txt)
-        	$html .= "<th width=\"$w[$i]\"><b>$txt</b></th>";
-        $html .= "</tr>";
-        foreach ($data as $i=>$row) {
-        	if ($i%2)
-        		$html .= "<tr bgcolor=\"#e0ebff\">";
-        	else
-        		$html .= "<tr>";
-        	foreach ($row as $txt) {
-        		$html .= "<td>$txt</td>";
-        	}
-        	$html .= "</tr>";
-        }
-        $html .= '</table>';
-		$pdf->writeHTML($html, true, false, true, false, '');
-
-        // reset pointer to the last page
-        $pdf->lastPage();
- 
-        //Close and output PDF document
-        $pdf->Output('filename.pdf', 'I');
-        Yii::app()->end();
-    }
-
-    private function createExcel($title,$header,$data) {
-    	$c = count($header);
-        $r = new YiiReport(array('template'=> "template$c.xls"));
-        $r->load(array(
-            	array(
-                    'id' => 'report',
-                    'data' => array('name'=>$title),
-            	),
-            	array(
-                    'id' => 'header',
-                    'data' => $header,
-            	),
-            	array(
-                    'id' => 'row',
-                    'repeat'=>true,
-                    'data' => $data,
-                    'minRows'=>2,
-            	),
-       		));        
-        echo $r->render('excel5', 'NewCustomerReport');
-    }
 	private $reportList = array(
 			'NewCustomer' => 'ร้านค้าใหม่',
 			'ProductOrder' => 'ใบสั่งซื้อ',
@@ -80,39 +13,11 @@ class DefaultController extends Controller
 			'Payment' => 'รายการเช็ค CN โอนเงินสด',
 			'MoneyTransfer' => 'โอนเงินสด',
 			'Customer' => 'ร้านค้า',
-			'StockExchange' => 'เปลี่ยนสินค้า',
+			'ProductExchange' => 'เปลี่ยนสินค้า',
 			'StockRequest' => 'เบิก ส่ง รับ สินค้า',
 			'StockTransfer' => 'โอนสินค้าเข้าคล้งสิ้นทริป',
-			'StockProgress' => 'สินค้าเคลื่อนไหว',
+			'StockStatus' => 'สินค้าเคลื่อนไหว',
 		);
-
-	private function newCustomerReport($ids, $format) {
-        $title = "รายชื่อร้านค้าใหม่";
-        $header = array('h1'=>'รหัสร้านค้า',
-        	'h2'=>'ชื่อร้านค้า', 
-        	'h3'=>'ตำบล', 
-        	'h4'=>'อำเภอ', 
-        	'h5'=>'จังหวัด', 
-        	'h6'=>'หน่วยขาย'); 
-		$models = Customer::model()->findAll("SaleId IN ('".implode("','",$ids)."')");
-		$data = array();
-		foreach ($models as $model) {
-			$data[] = array(
-				'd1'=>$model->CustomerId,
-				'd2'=>$model->Title.$model->CustomerName,
-				'd3'=>$model->SubDistrict,
-				'd4'=>$model->District,
-				'd5'=>$model->Province,
-				'd6'=>$model->saleUnit->SaleName,
-			);   
-		}     
-		if ($format == 'Excel') {
-	        $this->createExcel($title,$header,$data);
-        } else {
-			$w = array(100, 140, 60, 60, 60, 90);
-			$this->createpdf($title,array_values($header),$w,$data);
-        }
-	}
 
 	public function actionIndex()
 	{
@@ -124,8 +29,51 @@ class DefaultController extends Controller
 			$format = $_POST['format'];
 			if (isset($_POST['ids'])) {
 				$ids = $_POST['ids'];
-				if ($report == 'NewCustomer')
-					$this->newCustomerReport($ids, $format);
+				if ($report == 'NewCustomer') {
+					$report = new NewCustomerReport();
+					$report->create($ids, $format);
+				} elseif ($report == 'ProductOrder') {
+					$report = new ProductOrderReport();
+					$report->create($ids, $from_date, $to_date, $format);
+				} elseif ($report == 'ProductReturn') {
+					$report = new ProductReturnReport();
+					$report->create($ids, $from_date, $to_date, $format);
+				} elseif ($report == 'CustomerStock') {
+					$report = new CustomerStockReport();
+					$report->create($ids, $from_date, $to_date, $format);
+				} elseif ($report == 'DailySale') {
+					$report = new DailySaleReport();
+					$report->create($ids, $from_date, $to_date, $format);
+				} elseif ($report == 'TargetSale') {
+					$report = new TargetSaleReport();
+					$report->create($ids, $from_date, $to_date, $format);
+				} elseif ($report == 'BillCollection') {
+					$report = new BillCollectionReport();
+					$report->create($ids, $from_date, $to_date, $format);
+				} elseif ($report == 'Payment') {
+					$report = new PaymentReport();
+					$report->create($ids, $from_date, $to_date, $format);
+				} elseif ($report == 'MoneyTransfer') {
+					$report = new MoneyTransferReport();
+					$report->create($ids, $from_date, $to_date, $format);
+				} elseif ($report == 'Customer') {
+					$report = new CustomerReport();
+					$report->create($ids, $format);
+				} elseif ($report == 'ProductExchange') {
+					$report = new ProductExchangeReport();
+					$report->create($ids, $from_date, $to_date, $format);
+				} elseif ($report == 'StockRequest') {
+					$report = new StockRequestReport();
+					$report->create($ids, $from_date, $to_date, $format);
+				} elseif ($report == 'StockTransfer') {
+					$report = new StockTransferReport();
+					$report->create($ids, $from_date, $to_date, $format);
+				} elseif ($report == 'StockStatus') {
+					$report = new StockStatusReport();
+					$report->create($ids, $format);
+				} else
+					throw new CHttpException(404,'The specified action cannot be found.');
+				
 			}
 			else
 				$error = 'กรุณาเลือกหน่วยขาย';
