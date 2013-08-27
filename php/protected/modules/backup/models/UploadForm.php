@@ -26,7 +26,8 @@ class UploadForm extends CFormModel
 		$this->scenario = 'upload';
 
 		return array(
-		array('upload_file', 'required'),
+			array('upload_file', 'required'),
+			array('upload_file','file','types'=>'sql','allowEmpty'=>false),
 		);
 	}
 

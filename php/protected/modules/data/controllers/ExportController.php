@@ -21,9 +21,7 @@ class ExportController extends GxController
 			$fileType = $_POST['FileType'];
 			$fieldList = $_POST['FieldList'];
 
-			$fileName = Yii::app()->basePath.DIRECTORY_SEPARATOR.			
-					'..'.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'files'.
-					DIRECTORY_SEPARATOR.$folder.DIRECTORY_SEPARATOR.$fileName;
+			$fileName = Yii::app()->basePath . "/../../files/$folder/$fileName";
 			$select = implode(',', $fieldList);		
 			$cmd = Yii::app()->db->createCommand("SELECT $select FROM $table");	
 			if ($fileType == 'Text') {
@@ -33,9 +31,8 @@ class ExportController extends GxController
 				$csv->toCSV($fileName); // returns string by default
 				echo file_get_contents($fileName);
 			} else {
-				Yii::import('ext.phpexcel.XPHPExcel');   
 				$fileName .= '.xls'; 
-      			$objPHPExcel= XPHPExcel::createPHPExcel();
+      			$objPHPExcel= new PHPExcel;
  				$objPHPExcel->setActiveSheetIndex(0);
 
 				// Add header
@@ -55,7 +52,7 @@ class ExportController extends GxController
 				$objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
 				$objWriter->save($fileName);
 			}
-			$this->redirect(array('/media','p'=>$folder));
+			$this->redirect(array('/data/browse','folder'=>$folder,'type'=>pathinfo($fileName, PATHINFO_EXTENSION)));
 		}
 
 		$tableList = array(
@@ -63,7 +60,7 @@ class ExportController extends GxController
 			"Product" => "Product",
 			);
 
-		$dir = Yii::app()->basePath.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'files';
+		$dir = Yii::app()->basePath . "/../../files";
 		$files = scandir($dir);
 		$folderList = array();
 		foreach ($files as $file) {

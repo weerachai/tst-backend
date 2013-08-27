@@ -15,6 +15,17 @@ class ControlNo extends BaseControlNo
 		);
 	}
 
+	public function rules() {
+		return array(
+			array('SaleId, ControlId, Year, Month, No', 'required'),
+			array('Year, Month, No', 'numerical', 'integerOnly'=>true, 'min'=>1, 'max'=>9999),
+			array('SaleId, ControlId', 'length', 'max'=>255),
+			array('UpdateAt', 'safe'),
+			array('UpdateAt', 'default', 'setOnEmpty' => true, 'value' => null),
+			array('SaleId, ControlId, Year, Month, No, UpdateAt', 'safe', 'on'=>'search'),
+		);
+	}
+
 	public static function getControlNo($saleId, $name)
 	{
 		$sql = <<<SQL

@@ -28,6 +28,16 @@ class Employee extends BaseEmployee
 		);
 	}
 
+	public function rules() {
+		return array(
+			array('EmployeeId, FirstName, LastName', 'required'),
+			array('EmployeeId, FirstName, LastName', 'length', 'max'=>255),
+			array('EmployeeId', 'unique'),
+			array('FirstName+LastName', 'application.extensions.uniqueMultiColumnValidator'),
+			array('EmployeeId, FirstName, LastName', 'safe', 'on'=>'search'),
+		);
+	}
+
 	public static function getOptions() {
 		return CHtml::listData(Employee::model()->findAll(), 
 				'EmployeeId', 

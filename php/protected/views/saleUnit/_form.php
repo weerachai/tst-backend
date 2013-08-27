@@ -29,13 +29,6 @@
 		<?php echo $form->error($model,'SaleType'); ?>
 		</div><!-- row -->
 		<div class="row">
-		<?php echo $form->labelEx($model,'EmployeeId'); ?>
-		<?php echo $form->dropDownList($model,'EmployeeId',
-			Employee::model()->getOptions(),
-			array('empty' => '(ระบุพนักงานขาย)')); ?>		
-		<?php echo $form->error($model,'EmployeeId'); ?>
-		</div><!-- row -->
-		<div class="row">
 		<?php echo $form->labelEx($model,'AreaId'); ?>
 		<?php echo $form->dropDownList($model, 'AreaId', SaleArea::model()->getOptions()); ?>
 		<?php echo $form->error($model,'AreaId'); ?>

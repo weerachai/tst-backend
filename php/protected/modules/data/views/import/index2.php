@@ -2,10 +2,10 @@
 /* @var $this ImportController */
 
 $this->breadcrumbs=array(
-    $this->module->id => array('/'.$this->module->id),
-	'นำข้อมูลเข้า',
-);
-?>
+    'ข้อมูล' => array('/data/'),
+    'นำข้อมูลเข้า',
+);?>
+
 
 <h3>นำข้อมูลเข้า</h3>
 <div>

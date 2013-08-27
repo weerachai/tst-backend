@@ -24,6 +24,16 @@ class SaleArea extends BaseSaleArea
 		);
 	}
 
+	public function rules() {
+		return array(
+			array('AreaId, AreaName', 'required'),
+            array('AreaId, AreaName', 'unique'),
+			array('AreaId, AreaName', 'length', 'max'=>255),
+			array('SupervisorId', 'default', 'setOnEmpty' => true, 'value' => null),
+//			array('AreaId, AreaName, SupervisorId', 'safe', 'on'=>'search'),
+		);
+	}
+
 	public function getProvinces() {
 		$data = Location::model()->getProvinces();
 		if (empty($this->Province))

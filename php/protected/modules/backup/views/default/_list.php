@@ -1,28 +1,38 @@
 <?php 
-$this->beginWidget('zii.widgets.jui.CJuiDialog', array(
-    'id'=>'mydialog',
-    // additional javascript options for the dialog plugin
-    'options'=>array(
-        'title'=>'Dialog box 1',
-        'autoOpen'=>false,
-    ),
-));
 
-echo 'dialog content here';
-
-$this->endWidget('zii.widgets.jui.CJuiDialog');
-
-$this->widget('zii.widgets.grid.CGridView', array(
+$this->widget('bootstrap.widgets.TbGridView', array(
 	'id' => 'install-grid',
 	'dataProvider' => $dataProvider,
+	'enablePagination' => true,
+    'pager' => array(
+        'cssFile' => false,
+        'header' => false,
+        'firstPageLabel' => 'หน้าแรก',
+        'prevPageLabel' => 'หน้าก่อน',
+        'nextPageLabel' => 'หน้าถัดไป',
+        'lastPageLabel' => 'หน้าสุดท้าย',
+    ), 
+   	'type'=>'striped bordered condensed',
 	'columns' => array(
-		'name',
-		'size',
-		'create_time',
+	    array(
+	        'header'=>CHtml::encode('ชื่อไฟล์'),
+	        'name'=>'name',
+	        'htmlOptions' => array('style'=>'white-space:nowrap'),
+	    ),
+	    array(
+	        'header'=>CHtml::encode('ขนาด'),
+	        'name'=>'size',
+	        'htmlOptions' => array('style'=>'white-space:nowrap'),
+	    ),
+	    array(
+	        'header'=>CHtml::encode('เวลาบันทึก'),
+	        'name'=>'create_time',
+	        'htmlOptions' => array('style'=>'white-space:nowrap'),
+	    ),
 		array(
 			'class' => 'bootstrap.widgets.TbButtonColumn',
 			'template' => ' {download} {restore} {delete}',
-			  'buttons'=>array
+		    'buttons'=>array
 			    (
 			        'download' => array
 			        (
@@ -39,7 +49,8 @@ $this->widget('zii.widgets.grid.CGridView', array(
 			        (
 			            'url'=>'Yii::app()->createUrl("backup/default/delete", array("file"=>$data["name"]))',
 			        ),
-			    ),		
+			    ),
+			'htmlOptions' => array('style'=>'white-space:nowrap'),		
 		),
 	),
 )); ?>

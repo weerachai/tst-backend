@@ -2,10 +2,9 @@
 /* @var $this ImportController */
 
 $this->breadcrumbs=array(
-    $this->module->id => array('/'.$this->module->id),
+    'ข้อมูล' => array('/data/'),
 	'นำข้อมูลเข้า',
-);
-?>
+);?>
 
 <h3>นำข้อมูลเข้า</h3>
 
@@ -19,10 +18,16 @@ $this->breadcrumbs=array(
 <?php echo CHtml::dropDownList('Table',  null, $tableList); ?>
 
 <?php echo CHtml::label('เลือก folder: ',  'Folder'); ?>
-<?php echo CHtml::dropDownList('Folder',  null, $folderList); ?>
-
-<?php echo CHtml::label('ชนิดไฟล์: ',  'FileType'); ?>
-<?php echo CHtml::dropDownList('FileType',  null, array('Text'=>'Text', 'Excel'=>'Excel')); ?>
+<?php echo CHtml::dropDownList('Folder',  null, $folderList, array(
+					'ajax' => array(
+						'type'=>'POST', //request type
+						'url'=>CController::createUrl('/helper/getFileList'),
+						'dataType'=>'json',
+ 		                'data'=>array('Folder'=>'js:this.value'),
+ 		                'success'=>'function(data) {
+                    		$("#FileName").html(data.fileList);
+                		}',
+					))); ?>
 
 <?php echo CHtml::label('เลือก ไฟล์: ',  'FileName'); ?>
 <?php echo CHtml::dropDownList('FileName',  null, $fileList); ?>

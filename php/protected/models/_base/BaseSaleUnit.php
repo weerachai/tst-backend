@@ -14,7 +14,6 @@
  * @property string $SaleType
  * @property string $EmployeeId
  * @property string $AreaId
- * @property string $Active
  *
  */
 abstract class BaseSaleUnit extends GxActiveRecord {
@@ -37,10 +36,10 @@ abstract class BaseSaleUnit extends GxActiveRecord {
 
 	public function rules() {
 		return array(
-			array('SaleId, SaleName, SaleType, Active', 'required'),
-			array('SaleId, SaleName, SaleType, EmployeeId, AreaId, Active', 'length', 'max'=>255),
+			array('SaleId, SaleName, SaleType', 'required'),
+			array('SaleId, SaleName, SaleType, EmployeeId, AreaId', 'length', 'max'=>255),
 			array('EmployeeId, AreaId', 'default', 'setOnEmpty' => true, 'value' => null),
-			array('SaleId, SaleName, SaleType, EmployeeId, AreaId, Active', 'safe', 'on'=>'search'),
+			array('SaleId, SaleName, SaleType, EmployeeId, AreaId', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -61,7 +60,6 @@ abstract class BaseSaleUnit extends GxActiveRecord {
 			'SaleType' => Yii::t('app', 'Sale Type'),
 			'EmployeeId' => Yii::t('app', 'Employee'),
 			'AreaId' => Yii::t('app', 'Area'),
-			'Active' => Yii::t('app', 'Active'),
 		);
 	}
 
@@ -73,7 +71,6 @@ abstract class BaseSaleUnit extends GxActiveRecord {
 		$criteria->compare('SaleType', $this->SaleType, true);
 		$criteria->compare('EmployeeId', $this->EmployeeId, true);
 		$criteria->compare('AreaId', $this->AreaId, true);
-		$criteria->compare('Active', $this->Active, true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria' => $criteria,

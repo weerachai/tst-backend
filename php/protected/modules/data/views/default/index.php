@@ -2,10 +2,19 @@
 /* @var $this DefaultController */
 
 $this->breadcrumbs=array(
-	$this->module->id,
+	'ข้อมูล',
 );
 ?>
-<h1><?php echo $this->uniqueId . '/' . $this->action->id; ?></h1>
+<h3>จัดการข้อมูล</h3>
 
 <p>
-<?php echo CHtml::link('Media Browser', array('/media')); ?>
+<ul>
+	<li><?php echo CHtml::link('Backup และ Restore',array('/backup')); ?></li>
+	<li><?php echo CHtml::link('Backup อัตโนมัติ',array('/data/backup')); ?></li>
+	<li><?php echo CHtml::link('นำข้อมูลเข้า',array('/data/import')); ?></li>
+	<li><?php echo CHtml::link('นำข้อมูลออก',array('/data/export')); ?></li>
+	<li><?php echo CHtml::link('Data File Browser', array('/data/browse')); ?></li>
+</ul>
+</p>
+
+<p>

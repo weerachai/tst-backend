@@ -17,6 +17,7 @@ if (empty($OPENSHIFT_MYSQL_DB_HOST)) {
 }
 
 return array(
+	'theme'=>'abound',
 	'basePath'=>dirname(__FILE__).DIRECTORY_SEPARATOR.'..',
 	'name'=>'Total Sales Tools - Backend',
 
@@ -28,6 +29,7 @@ return array(
 		'application.models.*',
 		'application.components.*',
 		'application.helpers.*',
+		'application.extensions.crontab.*',
 		'ext.giix-components.*', // giix components
 		'application.vendors.phpexcel.PHPExcel',
 		'ext.yiireport.*',
@@ -35,7 +37,7 @@ return array(
 
 	'modules'=>array(
 		// uncomment the following to enable the Gii tool
-		'manage','data','report',
+		'manage','data','report','master',
 		'backup'=> array('path' => dirname(__FILE__).DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'backup'.DIRECTORY_SEPARATOR  ),
         'media'=>array(
             // Base dir for media browser (app/files):

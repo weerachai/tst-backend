@@ -12,7 +12,6 @@
  * @property string $EmployeeId
  * @property string $FirstName
  * @property string $LastName
- * @property string $Active
  *
  */
 abstract class BaseEmployee extends GxActiveRecord {
@@ -35,10 +34,9 @@ abstract class BaseEmployee extends GxActiveRecord {
 
 	public function rules() {
 		return array(
-			array('EmployeeId, FirstName, LastName, Active', 'required'),
+			array('EmployeeId, FirstName, LastName', 'required'),
 			array('EmployeeId, FirstName, LastName', 'length', 'max'=>255),
-			array('Active', 'length', 'max'=>1),
-			array('EmployeeId, FirstName, LastName, Active', 'safe', 'on'=>'search'),
+			array('EmployeeId, FirstName, LastName', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -57,7 +55,6 @@ abstract class BaseEmployee extends GxActiveRecord {
 			'EmployeeId' => Yii::t('app', 'Employee'),
 			'FirstName' => Yii::t('app', 'First Name'),
 			'LastName' => Yii::t('app', 'Last Name'),
-			'Active' => Yii::t('app', 'Active'),
 		);
 	}
 
@@ -67,7 +64,6 @@ abstract class BaseEmployee extends GxActiveRecord {
 		$criteria->compare('EmployeeId', $this->EmployeeId, true);
 		$criteria->compare('FirstName', $this->FirstName, true);
 		$criteria->compare('LastName', $this->LastName, true);
-		$criteria->compare('Active', $this->Active, true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria' => $criteria,

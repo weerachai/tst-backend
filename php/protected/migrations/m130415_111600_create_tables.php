@@ -83,12 +83,13 @@ if ($TESTING) {
     // backend only table
     $this->createTable('Config', // backend config information
                        array(
+                             'id' => 'pk',
                              'DayToClear' => 'integer not null',
                              'SaleDiffPercent' => 'integer DEFAULT 0',
                              'StockDiffPercent' => 'integer DEFAULT 0',
                              'UpdateAt' => 'datetime',
                              ), 'ENGINE=InnoDB');
-    $this->execute("INSERT INTO Config VALUES(60,0,0,now())");
+    $this->execute("INSERT INTO Config VALUES(1,60,0,0,now())");
 
     // backend only table
     // check
@@ -97,7 +98,7 @@ if ($TESTING) {
                              'EmployeeId' => 'string not null',
                              'FirstName' => 'string not null',
                              'LastName' => 'string not null',
-                             'Active' => 'char not null',
+//                             'Active' => 'char not null',
                              'primary key (EmployeeId)',
                              ), 'ENGINE=InnoDB');	
 
@@ -110,7 +111,7 @@ if ($TESTING) {
                              'SupervisorId' => 'string',
                              'primary key (AreaId)',
                              ), 'ENGINE=InnoDB');	
-//    $this->addForeignKey('fk_SaleArea_Employee','SaleArea','SupervisorId','Employee','EmployeeId','SET NULL','CASCADE');
+    $this->addForeignKey('fk_SaleArea_Employee','SaleArea','SupervisorId','Employee','EmployeeId','SET NULL','CASCADE');
 
 
     // backend only table
@@ -122,11 +123,11 @@ if ($TESTING) {
                              'SaleType' => 'string not null',
                              'EmployeeId' => 'string',
                              'AreaId' => 'string',
-                             'Active' => 'string not null',
+//                             'Active' => 'string not null',
                              'primary key (SaleId)',
                              ), 'ENGINE=InnoDB');   
-//    $this->addForeignKey('fk_SaleUnit_Employee','SaleUnit','EmployeeId','Employee','EmployeeId','SET NULL','CASCADE');
-//    $this->addForeignKey('fk_SaleUnit_SaleArea','SaleUnit','AreaId','SaleArea','AreaId','SET NULL','CASCADE');
+    $this->addForeignKey('fk_SaleUnit_Employee','SaleUnit','EmployeeId','Employee','EmployeeId','SET NULL','CASCADE');
+    $this->addForeignKey('fk_SaleUnit_SaleArea','SaleUnit','AreaId','SaleArea','AreaId','SET NULL','CASCADE');
 
     // device-backend auth table
     // check
@@ -140,7 +141,7 @@ if ($TESTING) {
                              'UpdateAt' => 'datetime',          
                              'primary key (SaleId)',
                              ), 'ENGINE=InnoDB');   
-//    $this->addForeignKey('fk_Device_SaleUnit','Device','SaleId','SaleUnit','SaleId','SET NULL','CASCADE');
+    $this->addForeignKey('fk_Device_SaleUnit','Device','SaleId','SaleUnit','SaleId','CASCADE','CASCADE');
 
 if ($TESTING) {
     $k = 0;    
@@ -149,7 +150,7 @@ if ($TESTING) {
         $supervisor = sprintf("S%03d", $i);
         $this->execute("INSERT INTO User VALUES($area,'sup$i','$pass','Supervisor $i','user','$supervisor')");
         $this->execute("INSERT INTO AuthAssignment VALUES('user',$area,null,'N;')");
-        $this->execute("INSERT INTO Employee VALUES('$supervisor','นายซุป $i','นามสกุลซุป $i','ทำงาน')");
+        $this->execute("INSERT INTO Employee VALUES('$supervisor','นายซุป $i','นามสกุลซุป $i')");
         $this->execute("INSERT INTO SaleArea VALUES('N$i','พื้นที่เหนือ $i','$supervisor')");
         for ($j = 1; $j <= 5; $j++) {
             $k++;
@@ -157,12 +158,12 @@ if ($TESTING) {
             $device = sprintf("D%03d", $k);
             $employee = sprintf("E%03d", $k);
             $name = array('ก','ข','ค','ม','ง','จ','ฉ','ช','ซ','ฌ','ญ','ฎ','ฏ','ฐ','ฑ','ฒ','ณ','ด','ต','ถ','ท','ธ','บ','ป','ผ','ฝ');
-            $this->execute("INSERT INTO Employee VALUES('$employee','นายสมมติ $name[$k]','นามสกุลสมมติ $k','Y')");
+            $this->execute("INSERT INTO Employee VALUES('$employee','นายสมมติ $name[$k]','นามสกุลสมมติ $k')");
             $this->execute("INSERT INTO Device VALUES('$device','','$sale','$device','$pass',now())");
             if ($k==1)
-                $this->execute("INSERT INTO SaleUnit VALUES('$sale','หน่วยขายเหนือ $k','เครดิต','$employee','N$i','Y')");
+                $this->execute("INSERT INTO SaleUnit VALUES('$sale','หน่วยขายเหนือ $k','เครดิต','$employee','N$i')");
             else
-                $this->execute("INSERT INTO SaleUnit VALUES('$sale','หน่วยขายเหนือ $k','หน่วยรถ','$employee','N$i','Y')");
+                $this->execute("INSERT INTO SaleUnit VALUES('$sale','หน่วยขายเหนือ $k','หน่วยรถ','$employee','N$i')");
         }
     }
 }
@@ -233,7 +234,7 @@ if ($TESTING) {
                              'UpdateAt' => 'datetime',			
                              'primary key (SaleId, ControlId)',
                              ), 'ENGINE=InnoDB');	
-    //$this->addForeignKey('fk_ControlNo_SaleUnit','ControlNo','SaleId','SaleUnit','SaleId','CASCADE','CASCADE');
+    $this->addForeignKey('fk_ControlNo_SaleUnit','ControlNo','SaleId','SaleUnit','SaleId','CASCADE','CASCADE');
     //$this->addForeignKey('fk_ControlNo_ControlRunning','ControlNo','ControlId','ControlRunning','ControlId','RESTRICT','CASCADE');
 
 if ($TESTING) {

@@ -1,6 +1,6 @@
 <?php
 
-class DefaultController extends Controller
+class DefaultController extends GxController
 {
 	private $reportList = array(
 			'NewCustomer' => 'ร้านค้าใหม่',

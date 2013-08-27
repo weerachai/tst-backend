@@ -348,16 +348,18 @@ class DefaultController extends Controller
 
 	public function actionUpload()
 	{
+		$this->updateMenuItems();
 		$model= new UploadForm('upload');
 		if(isset($_POST['UploadForm']))
 		{
 			$model->attributes = $_POST['UploadForm'];
 			$model->upload_file = CUploadedFile::getInstance($model,'upload_file');
-			if($model->upload_file->saveAs($this->path . $model->upload_file))
-			{
-				// redirect to success page
-				$this->redirect(array('index'));
-			}
+			if ($model->validate())
+				if($model->upload_file->saveAs($this->path . $model->upload_file))
+				{
+					// redirect to success page
+					$this->redirect(array('index'));
+				}
 		}
 
 		$this->render('upload',array('model'=>$model));
@@ -371,22 +373,15 @@ class DefaultController extends Controller
 		switch( $this->action->id)
 		{
 			case 'restore':
-				{
-					$this->menu[] = array('label'=>Yii::t('app', 'View Site') , 'url'=>Yii::app()->HomeUrl);
-				}
-			case 'create':
-				{
-					$this->menu[] = array('label'=>Yii::t('app', 'List Backup') . ' ' . $model->label(2), 'url'=>array('index'));
-				}
-				break;
 			case 'upload':
 				{
+					$this->menu[] = array('label'=>Yii::t('app', 'List Backup') . ' ' . $model->label(2), 'url'=>array('index'));
 					$this->menu[] = array('label'=>Yii::t('app', 'Create Backup') . ' ' . $model->label(), 'url'=>array('create'));
 				}
 				break;
 			default:
 				{
-					$this->menu[] = array('label'=>Yii::t('app', 'List Backup') . ' ' . $model->label(2), 'url'=>array('index'));
+//					$this->menu[] = array('label'=>Yii::t('app', 'List Backup') . ' ' . $model->label(2), 'url'=>array('index'));
 					$this->menu[] = array('label'=>Yii::t('app', 'Create Backup') . ' ' . $model->label(), 'url'=>array('create'));
 					$this->menu[] = array('label'=>Yii::t('app', 'Upload Backup') . ' ' . $model->label(), 'url'=>array('upload'));
 //					$this->menu[] = array('label'=>Yii::t('app', 'Restore Backup') . ' ' . $model->label(), 'url'=>array('restore'));

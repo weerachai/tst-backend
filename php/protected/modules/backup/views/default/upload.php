@@ -1,26 +1,24 @@
 <?php
 $this->breadcrumbs=array(
-	'backup'=>array('backup'),
+    'ข้อมูล' => array('/data/'),
+	'Backup และ Restore' => array('index'),
 	'Upload',
 );?>
-<h1><?php echo $this->action->id; ?></h1>
+
+<h3>Upload Backup File</h3>
 
 <div class="form">
 
-
-<?php $form = $this->beginWidget('CActiveForm', array(
+<?php $form = $this->beginWidget('bootstrap.widgets.TbActiveForm', array(
 	'id' => 'install-form',
 	'enableAjaxValidation' => true,
 	'htmlOptions'=>array('enctype'=>'multipart/form-data'),
 ));
 ?>
-		<div class="row">
-		<?php echo $form->labelEx($model,'upload_file'); ?>
-		<?php echo $form->fileField($model,'upload_file'); ?>
-		<?php echo $form->error($model,'upload_file'); ?>
-		</div><!-- row -->	
-<?php
-	echo CHtml::submitButton(Yii::t('app', 'Save'));
-	$this->endWidget();
-?>
+
+<?php echo $form->fileFieldRow($model, 'upload_file'); ?>
+
+<?php $this->widget('bootstrap.widgets.TbButton', array('buttonType'=>'submit', 'type'=>'primary', 'label'=>'Save')); ?>
+
+<?php $this->endWidget(); ?>
 </div><!-- form -->

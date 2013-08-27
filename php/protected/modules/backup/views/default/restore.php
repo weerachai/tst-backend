@@ -1,11 +1,13 @@
 <?php
 $this->breadcrumbs=array(
-	'Backup'=>array('backup'),
+    'ข้อมูล' => array('/data/'),
+	'Backup และ Restore' => array('index'),
 	'Restore',
 );?>
-<h1><?php echo  $this->action->id; ?></h1>
+
+<h3>Restore Backup File</h3>
 
 <p>
 	<?php if(isset($error)) echo $error; else echo 'Done';?>
 </p>
-<p> <?php echo CHtml::link('View Site',Yii::app()->HomeUrl)?></p>
+

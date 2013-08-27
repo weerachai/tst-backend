@@ -102,4 +102,17 @@ class Product extends BaseProduct
 		return $qty;
 
 	}
+
+	public function getPacksList() {
+		$packs = array();
+		if (!empty($this->PackLevel1))
+			$packs[$this->PackLevel1] = $this->PackLevel1;
+		if (!empty($this->PackLevel2))
+			$packs[$this->PackLevel2] = $this->PackLevel2;
+		if (!empty($this->PackLevel3))
+			$packs[$this->PackLevel3] = $this->PackLevel3;
+		if (!empty($this->PackLevel4))
+			$packs[$this->PackLevel4] = $this->PackLevel4;
+		return $packs;
+	}
 }

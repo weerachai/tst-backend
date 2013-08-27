@@ -2,10 +2,9 @@
 /* @var $this ExportController */
 
 $this->breadcrumbs=array(
-    $this->module->id => array('/'.$this->module->id),
+    'ข้อมูล' => array('/data/'),
 	'นำข้อมูลออก',
-);
-?>
+);?>
 
 <h3>นำข้อมูลออก</h3>
 <div>

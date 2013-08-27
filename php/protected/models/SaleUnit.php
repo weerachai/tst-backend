@@ -27,26 +27,39 @@ class SaleUnit extends BaseSaleUnit
 			'SaleId' => Yii::t('app', 'รหัสหน่วยขาย'),
 			'SaleName' => Yii::t('app', 'ชื่อหน่วยขาย'),
 			'SaleType' => Yii::t('app', 'ประเภทการขาย'),
+			'DeviceId' => Yii::t('app', 'รหัสอุปกรณ์'),
+			'Username' => Yii::t('app', 'รหัสผู้ใช้'),
+			'Password' => Yii::t('app', 'รหัสผ่าน'),
+			'Password2' => Yii::t('app', 'ยืนยันรหัสผ่าน'),
 			'EmployeeId' => Yii::t('app', 'รหัสพนักงานขาย'),
 			'AreaId' => Yii::t('app', 'ชื่อพื้นที่ขาย'),
-			'Active' => Yii::t('app', 'Active'),
 		);
 	}
 
 	public function rules() {
 		return array(
-			array('SaleId, SaleName, SaleType, Active', 'required'),
-			array('SaleId, SaleName, SaleType, EmployeeId, AreaId, Active', 'length', 'max'=>255),
+			array('SaleId, SaleName, SaleType, DeviceId, Username', 'required'),
+			array('SaleId, SaleName, DeviceId, Password, Password2, Username', 'length', 'max'=>255),
+			array('Password, Password2', 'required', 'on'=>'insert'),
+		    array('Password, Password2', 'length', 'min'=>4, 'max'=>40),
+            array('Password', 'compare', 'compareAttribute'=>'Password2'),
+            array('SaleId, SaleName', 'unique'),
+            array('DeviceId, Username','unique', 'className' => 'Device', 'criteria'=>array(
+        			'condition'=>'SaleId <> :SaleId',
+        			'params'=>array(':SaleId'=>empty($this->SaleId)?'-':$this->SaleId))),
 			array('EmployeeId, AreaId', 'default', 'setOnEmpty' => true, 'value' => null),
-			array('SaleId, SaleName, SaleType, EmployeeId, AreaId, Active', 'safe', 'on'=>'search'),
-			array('AreaName, Supervisor, DeviceId, Username, Employee', 'safe', 'on'=>'search'),
+			// array('SaleId, SaleName, SaleType, EmployeeId, AreaId, Active', 'safe', 'on'=>'search'),
+			// array('AreaName, Supervisor, DeviceId, Username, Employee', 'safe', 'on'=>'search'),
 		);
 	}
 
-	public $AreaName;
-	public $Supervisor;
 	public $DeviceId;
 	public $Username;
+	public $Password;
+	public $Password2;
+
+	public $AreaName;
+	public $Supervisor;
 	public $Employee;
 
 	public function search() {
@@ -60,7 +73,6 @@ class SaleUnit extends BaseSaleUnit
 		$criteria->compare('t.EmployeeId', $this->EmployeeId, true);
 		$criteria->addCondition('t.AreaId IS NOT NULL');
 		$criteria->compare('AreaId', $this->AreaId, true);
-		$criteria->compare('Active', $this->Active, true);
 		$criteria->compare('area.AreaName', $this->AreaName, true);
 		$criteria->compare('CONCAT(supervisor.FirstName," ",supervisor.LastName)', $this->Supervisor, true);
 		$criteria->compare('device.DeviceId', $this->DeviceId, true);

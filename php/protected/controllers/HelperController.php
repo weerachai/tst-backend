@@ -105,12 +105,16 @@ class HelperController extends Controller
 		} else {
 			$data = array();
 		}
-		if (count($data) > 0)
-		    foreach($data as $value=>$name)
- 		       echo CHtml::tag('option',array('value'=>$value),CHtml::encode($name),true);
-    	else
-    		echo CHtml::tag('option',array('value'=>''),CHtml::encode('-'),true);
-	}
+		$ProductOrGrpId = '';
+    	if (count($data) > 0)
+    		foreach($data as $value=>$name)
+        	 	$ProductOrGrpId .= CHtml::tag('option',array('value'=>$value),CHtml::encode($name),true);
+        else
+        	$ProductOrGrpId = CHtml::tag('option',array('value'=>''),CHtml::encode('-'),true);
+        echo CJSON::encode(array(
+              'ProductOrGrpId'=>$ProductOrGrpId,
+            ));
+    }
 
 	public function actionGetFreeProductsOrGroups() {
 		$type = $_POST['FreeType'];
@@ -121,11 +125,30 @@ class HelperController extends Controller
 		} else {
 			$data = array();
 		}
+		$FreeProductOrGrpId = '';
 		if (count($data) > 0)
 		    foreach($data as $value=>$name)
- 		       echo CHtml::tag('option',array('value'=>$value),CHtml::encode($name),true);
+ 		       $FreeProductOrGrpId .= CHtml::tag('option',array('value'=>$value),CHtml::encode($name),true);
     	else
-    		echo CHtml::tag('option',array('value'=>''),CHtml::encode('-'),true);
+    		$FreeProductOrGrpId = CHtml::tag('option',array('value'=>''),CHtml::encode('-'),true);
+		
+		$FreeQty = $_POST['FreeQty'];
+		$FreeBaht = $_POST['FreeBaht'];
+		$MinAmount = $_POST['MinAmount'];
+		$MinQty = $_POST['MinQty'];
+		$FreePerAmount = $_POST['FreePerAmount'];
+		$FreePerQty = $_POST['FreePerQty'];
+		echo CJSON::encode(array(
+            'FreeProductOrGrpId'=>$FreeProductOrGrpId,
+			'l1' => (empty($type) || $FreeBaht != 0),
+			'l2' => (empty($type) || $FreeQty != 0),
+			'l3' => ($MinAmount <= 0 || ($FreeQty <= 0 && $FreeBaht <= 0)),
+			'l4' => ($MinQty <= 0 || ($FreeQty <= 0 && $FreeBaht <= 0)),
+			'v1' => (empty($type) || $FreeBaht != 0) ? 0 : $FreeQty,
+			'v2' => (empty($type) || $FreeQty != 0) ? 0 : $FreeBaht,
+ 			'v3' => ($MinAmount <= 0 || ($FreeQty <= 0 && $FreeBaht <= 0)) ? 0 : $FreePerAmount,
+			'v4' => ($MinQty <= 0 || ($FreeQty <= 0 && $FreeBaht <= 0)) ? 0 : $FreePerQty,
+            ));
 	}
 
 	public function actionGetTrips() {
@@ -324,6 +347,123 @@ class HelperController extends Controller
             ));
 	}
 
+	public function actionToggleDisabled() {
+		$name = $_POST['name'];
+		if ($name == 'MinAmount') {
+			$MinAmount = $_POST['MinAmount'];
+			$DiscBaht = $_POST['DiscBaht'];
+			$FreeQty = $_POST['FreeQty'];
+			$FreeBaht = $_POST['FreeBaht'];
+			echo CJSON::encode(array(
+				'l1' => ($MinAmount != 0),
+				'l2' => ($MinAmount <= 0 || $DiscBaht <= 0),
+				'l3' => ($MinAmount <= 0 || ($FreeQty <= 0 && $FreeBaht <= 0)),
+			));
+		} elseif ($name == 'MinSku') {
+			$MinSku = $_POST['MinSku'];
+			echo CJSON::encode(array(
+				'l1' => ($MinSku != 0),
+			));
+		} elseif ($name == 'MinQty') {
+			$MinQty = $_POST['MinQty'];
+			$DiscBaht = $_POST['DiscBaht'];
+			$FreeQty = $_POST['FreeQty'];
+			$FreeBaht = $_POST['FreeBaht'];
+			echo CJSON::encode(array(
+				'l1' => ($MinQty != 0),
+				'l2' => ($MinQty <= 0 || $DiscBaht <= 0),
+				'l3' => ($MinQty <= 0 || ($FreeQty <= 0 && $FreeBaht <= 0)),
+			));
+		} elseif ($name == 'DiscBaht') {
+			$DiscBaht = $_POST['DiscBaht'];
+			$MinAmount = $_POST['MinAmount'];
+			$MinQty = $_POST['MinQty'];
+			$DiscPerAmount = $_POST['DiscPerAmount'];
+			$DiscPerQty = $_POST['DiscPerQty'];
+			echo CJSON::encode(array(
+				'l1' => ($MinAmount <= 0 || $DiscBaht <= 0),
+				'l2' => ($MinQty <= 0 || $DiscBaht <= 0),
+				'l3' => ($DiscBaht != 0),
+				'v1' => ($MinAmount <= 0 || $DiscBaht <= 0) ? 0 : $DiscPerAmount,
+				'v2' => ($MinQty <= 0 || $DiscBaht <= 0) ? 0 : $DiscPerQty,
+			));
+		} elseif ($name == 'DiscPer1') {
+			$DiscPer1 = $_POST['DiscPer1'];
+			$DiscPer2 = $_POST['DiscPer2'];
+			$DiscPer3 = $_POST['DiscPer3'];
+			echo CJSON::encode(array(
+				'l1' => ($DiscPer1 != 0),
+				'l2' => ($DiscPer1 <= 0),
+				'l3' => ($DiscPer1 <= 0 || $DiscPer2 <= 0),
+				'v1' => ($DiscPer1 <= 0) ? 0 : $DiscPer2,
+				'v2' => ($DiscPer1 <= 0) ? 0 : $DiscPer3,
+			));
+		} elseif ($name == 'DiscPer2') {
+			$DiscPer2 = $_POST['DiscPer2'];
+			$DiscPer3 = $_POST['DiscPer3'];
+			echo CJSON::encode(array(
+				'l1' => ($DiscPer2 <= 0),
+				'v1' => ($DiscPer2 <= 0) ? 0 : $DiscPer3,
+			));
+		} elseif ($name == 'FreeQty') {
+			$FreeQty = $_POST['FreeQty'];
+			$MinAmount = $_POST['MinAmount'];
+			$MinQty = $_POST['MinQty'];
+			$FreePerAmount = $_POST['FreePerAmount'];
+			$FreePerQty = $_POST['FreePerQty'];
+			echo CJSON::encode(array(
+				'l1' => ($MinAmount <= 0 || $FreeQty <= 0),
+				'l2' => ($MinQty <= 0 || $FreeQty <= 0),
+				'l3' => ($FreeQty != 0),
+				'v1' => ($MinAmount <= 0 || $FreeQty <= 0) ? 0 : $FreePerAmount,
+				'v2' => ($MinQty <= 0 || $FreeQty <= 0) ? 0 : $FreePerQty,
+			));
+		} elseif ($name == 'FreeBaht') {
+			$FreeBaht = $_POST['FreeBaht'];
+			$MinAmount = $_POST['MinAmount'];
+			$MinQty = $_POST['MinQty'];
+			$FreePerAmount = $_POST['FreePerAmount'];
+			$FreePerQty = $_POST['FreePerQty'];
+			echo CJSON::encode(array(
+				'l1' => ($MinAmount <= 0 || $FreeBaht <= 0),
+				'l2' => ($MinQty <= 0 || $FreeBaht <= 0),
+				'l3' => ($FreeBaht != 0),
+				'v1' => ($MinAmount <= 0 || $FreeBaht <= 0) ? 0 : $FreePerAmount,
+				'v2' => ($MinQty <= 0 || $FreeBaht <= 0) ? 0 : $FreePerQty,
+			));
+		} 
+	}
+
+	public function actionUpdatePack() {
+		echo CJSON::encode(array(
+			'pack' => $_POST['value']
+		));
+	}
+
+	private function endsWith($haystack, $needle)
+	{
+	    $length = strlen($needle);
+	    if ($length == 0) {
+	        return true;
+	    }
+	    return (substr($haystack, -$length) === $needle);
+	}
+	
+	public function actionGetFileList() {
+		$folder = $_POST['Folder'];
+		$fileList = array();
+		$dir = Yii::app()->basePath . "/../../files";
+		$files = scandir("$dir/$folder");
+		$fileList = '';
+		foreach ($files as $file) {
+			if (!is_dir("$dir/$file") && 
+					($this->endsWith($file,'.xls') || $this->endsWith($file,'.txt')) )
+				$fileList .= CHtml::tag('option',array('value'=>$file),CHtml::encode($file),true);
+        }
+		echo CJSON::encode(array(
+			'fileList' => $fileList
+		));
+	}
 	// Uncomment the following methods and override them if needed
 	/*
 	public function filters()

@@ -11,6 +11,7 @@ class ImportController extends GxController
 			return chr(ord('A')+$i).chr(ord('A')+$j);
 		}
 	}
+
 	private function endsWith($haystack, $needle)
 	{
 	    $length = strlen($needle);
@@ -19,6 +20,7 @@ class ImportController extends GxController
 	    }
 	    return (substr($haystack, -$length) === $needle);
 	}
+
 	public function actionIndex()
 	{
 
@@ -26,12 +28,13 @@ class ImportController extends GxController
 			$table = $_POST['Table'];
 			$folder = $_POST['Folder'];
 			$fileName = $_POST['FileName'];
-			$fileType = $_POST['FileType'];
+			$fileType = pathinfo($fileName, PATHINFO_EXTENSION);
 			if (isset($_POST['FieldList'])) {
 				$fieldList = $_POST['FieldList'];
 				$options[] = array();
-				$count = 0;
-				if ($fileType == 'Text') {
+				$update = 0;
+				$insert = 0;
+				if ($fileType == 'txt') {
 					$file = @fopen($fileName, "r") ;  
 					// while there is another line to read in the file
 					$i = 0;
@@ -55,8 +58,12 @@ class ImportController extends GxController
 						    }
 						    try {
 						    	//$model->UpdateAt = date("Y-m-d H:i:s");
-							    if ($model->save())
-								    $count++;
+						    	if ($oldModel = $table::model()->findByPk($model->getPrimaryKey())) {
+						    		$oldModel->attributes = $model->attributes;
+						    		if ($oldModel->save())
+						    			$update++;
+						    	} elseif ($model->save())
+								    $insert++;
 							} catch (CDbException $e) {
 								;
 							}
@@ -64,8 +71,7 @@ class ImportController extends GxController
 					}  
 					fclose($file) ;
 				} else {
-					Yii::import('ext.phpexcel.XPHPExcel');   
-					$objPHPExcel= XPHPExcel::createPHPExcel();
+					$objPHPExcel= new PHPExcel();
 					$objReader = PHPExcel_IOFactory::createReader('Excel5');
 					$objPHPExcel = $objReader->load($fileName);
 					$objWorksheet = $objPHPExcel->getActiveSheet();
@@ -88,20 +94,22 @@ class ImportController extends GxController
 					    }
 					    try {
 					    	//$model->UpdateAt = date("Y-m-d H:i:s");
-						    if ($model->save())
-							    $count++;
+						    if ($oldModel = $table::model()->findByPk($model->getPrimaryKey())) {
+					    		$oldModel->attributes = $model->attributes;
+					    		if ($oldModel->save())
+					    			$update++;
+					    	} elseif ($model->save())
+							    $insert++;
 						} catch (CDbException $e) {
 							;
 						}
 					}
 				}
-				$message = "นำเข้าข้อมูลจำนวน $count แถว";
+				$message = "นำเข้าข้อมูลจำนวน $insert แถว และ update จำนวน $update แถว";
 			} else {
-				$fileName = Yii::app()->basePath.DIRECTORY_SEPARATOR.			
-					'..'.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'files'.
-					DIRECTORY_SEPARATOR.$folder.DIRECTORY_SEPARATOR.$fileName;
+				$fileName = Yii::app()->basePath. "/../../files/$folder/$fileName";
 				$options = array(''=>'-');
-				if ($fileType == 'Text') {
+				if ($fileType == 'txt') {
 					$file = @fopen($fileName, "r") ;  
 					// while there is another line to read in the file
 					while (!feof($file))
@@ -113,9 +121,8 @@ class ImportController extends GxController
 					    break;
 					}  
 					fclose($file) ;
-				} else {
-					Yii::import('ext.phpexcel.XPHPExcel');   
-					$objPHPExcel= XPHPExcel::createPHPExcel();
+				} else {  
+					$objPHPExcel= new PHPExcel();
 					$objReader = PHPExcel_IOFactory::createReader('Excel5');
 					$objPHPExcel = $objReader->load($fileName);
 					$objWorksheet = $objPHPExcel->getActiveSheet();
@@ -158,18 +165,19 @@ SQL;
 			"Product" => "Product",
 			);
 
-		$dir = Yii::app()->basePath.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'files';
+		$dir = Yii::app()->basePath . "/../../files";
 		$files = scandir($dir);
 		$folderList = array();
 		foreach ($files as $file) {
-			if ($file != '.' && $file != '..' && is_dir($dir.DIRECTORY_SEPARATOR.$file))
+			if ($file != '.' && $file != '..' && is_dir("$dir/$file"))
 				$folderList[$file] = $file;
 		}
 		$fileList = array();
 		if (!empty($folderList)) {
-			$files = scandir($dir.DIRECTORY_SEPARATOR.array_shift(array_keys($folderList)));
+			$files = scandir("$dir/".array_shift(array_keys($folderList)));
 			foreach ($files as $file) {
-				if (!is_dir($dir.DIRECTORY_SEPARATOR.$file) && $this->endsWith($file,'.xls'))
+				if (!is_dir("$dir/$file") && 
+					($this->endsWith($file,'.xls') || $this->endsWith($file,'.txt')) )
 					$fileList[$file] = $file;
 			}
 		}
