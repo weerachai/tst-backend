@@ -22,6 +22,8 @@ return array(
 	
 	'import'=>array(
 		'application.helpers.*',
+		'application.models.*',
+		'ext.giix-components.*', // giix components
 	),
 
 	// application components

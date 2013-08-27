@@ -464,6 +464,17 @@ class HelperController extends Controller
 			'fileList' => $fileList
 		));
 	}
+
+	public function actionGetFieldList() {
+		$table = $_POST['Table'];
+		$fieldList = '';
+		foreach (Yii::app()->db->schema->getTable($table)->columns as $column) {
+			$fieldList .= CHtml::tag('option',array('value'=>$column->name),CHtml::encode($column->name),true);
+        }
+		echo CJSON::encode(array(
+			'fieldList' => $fieldList
+		));
+	}
 	// Uncomment the following methods and override them if needed
 	/*
 	public function filters()

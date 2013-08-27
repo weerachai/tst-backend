@@ -706,3 +706,169 @@ HTTP_REFERER=https://localhost/backend/php/index.php?r=promotion/update&id=GG
 2013/08/25 19:36:13 [error] [system.db.CDbCommand] CDbCommand::execute() failed: SQLSTATE[21S01]: Insert value list does not match column list: 1136 Column count doesn't match value count at row 1. The SQL statement executed was: INSERT INTO Employee VALUES('S001','นายซุป 1','นามสกุลซุป 1','ทำงาน').
 2013/08/25 19:36:38 [error] [system.db.CDbCommand] CDbCommand::execute() failed: SQLSTATE[21S01]: Insert value list does not match column list: 1136 Column count doesn't match value count at row 1. The SQL statement executed was: INSERT INTO Employee VALUES('S001','นายซุป 1','นามสกุลซุป 1','ทำงาน').
 2013/08/25 19:36:42 [error] [system.db.CDbCommand] CDbCommand::execute() failed: SQLSTATE[21S01]: Insert value list does not match column list: 1136 Column count doesn't match value count at row 1. The SQL statement executed was: INSERT INTO Employee VALUES('S001','นายซุป 1','นามสกุลซุป 1','ทำงาน').
+2013/08/27 18:21:29 [error] [php] include(GxActiveRecord.php): failed to open stream: No such file or directory (/home/tu/www/backend/php/framework/YiiBase.php:421)
+Stack trace:
+#0 /home/tu/www/backend/php/protected/models/_base/BaseCustomer.php(42): spl_autoload_call()
+#1 /home/tu/www/backend/php/framework/YiiBase.php(395): include()
+#2 unknown(0): autoload()
+#3 /home/tu/www/backend/php/protected/models/Customer.php(6): spl_autoload_call()
+#4 /home/tu/www/backend/php/framework/YiiBase.php(421): include()
+#5 unknown(0): autoload()
+#6 /home/tu/www/backend/php/protected/commands/TestCommand.php(7): spl_autoload_call()
+#7 /home/tu/www/backend/php/framework/console/CConsoleCommandRunner.php(67): TestCommand->run()
+#8 /home/tu/www/backend/php/framework/console/CConsoleApplication.php(91): CConsoleCommandRunner->run()
+#9 /home/tu/www/backend/php/framework/base/CApplication.php(169): CConsoleApplication->processRequest()
+#10 /home/tu/www/backend/php/framework/yiic.php(33): CConsoleApplication->run()
+#11 /home/tu/www/backend/php/protected/yiic.php(7): require_once()
+#12 /home/tu/www/backend/php/protected/yiic(4): require_once()
+
+2013/08/27 18:24:41 [error] [php] Undefined offset: 0 (/home/tu/www/backend/php/protected/commands/TestCommand.php:9)
+Stack trace:
+#0 /home/tu/www/backend/php/framework/base/CApplication.php(169): CConsoleApplication->processRequest()
+#1 /home/tu/www/backend/php/framework/yiic.php(33): CConsoleApplication->run()
+#2 /home/tu/www/backend/php/protected/yiic.php(7): require_once()
+#3 /home/tu/www/backend/php/protected/yiic(4): require_once()
+
+2013/08/27 18:25:17 [error] [exception.CException] exception 'CException' with message 'Property "Customer.model" is not defined.' in /home/tu/www/backend/php/framework/base/CComponent.php:173
+Stack trace:
+#0 /home/tu/www/backend/php/framework/db/ar/CActiveRecord.php(159): CComponent->__set('model', '2013-08-27')
+#1 /home/tu/www/backend/php/protected/commands/TestCommand.php(10): CActiveRecord->__set('model', '2013-08-27')
+#2 /home/tu/www/backend/php/framework/console/CConsoleCommandRunner.php(67): TestCommand->run(Array)
+#3 /home/tu/www/backend/php/framework/console/CConsoleApplication.php(91): CConsoleCommandRunner->run(Array)
+#4 /home/tu/www/backend/php/framework/base/CApplication.php(169): CConsoleApplication->processRequest()
+#5 /home/tu/www/backend/php/framework/yiic.php(33): CApplication->run()
+#6 /home/tu/www/backend/php/protected/yiic.php(7): require_once('/home/tu/www/ba...')
+#7 /home/tu/www/backend/php/protected/yiic(4): require_once('/home/tu/www/ba...')
+#8 {main}
+---
+2013/08/27 18:26:38 [error] [php] Undefined offset: 0 (/home/tu/www/backend/php/protected/commands/TestCommand.php:9)
+Stack trace:
+#0 /home/tu/www/backend/php/framework/base/CApplication.php(169): CConsoleApplication->processRequest()
+#1 /home/tu/www/backend/php/framework/yiic.php(33): CConsoleApplication->run()
+#2 /home/tu/www/backend/php/protected/yiic.php(7): require_once()
+#3 /home/tu/www/backend/php/protected/yiic(4): require_once()
+
+2013/08/27 18:26:41 [error] [exception.CException] exception 'CException' with message 'Property "Customer.model" is not defined.' in /home/tu/www/backend/php/framework/base/CComponent.php:173
+Stack trace:
+#0 /home/tu/www/backend/php/framework/db/ar/CActiveRecord.php(159): CComponent->__set('model', '2013-08-27')
+#1 /home/tu/www/backend/php/protected/commands/TestCommand.php(10): CActiveRecord->__set('model', '2013-08-27')
+#2 /home/tu/www/backend/php/framework/console/CConsoleCommandRunner.php(67): TestCommand->run(Array)
+#3 /home/tu/www/backend/php/framework/console/CConsoleApplication.php(91): CConsoleCommandRunner->run(Array)
+#4 /home/tu/www/backend/php/framework/base/CApplication.php(169): CConsoleApplication->processRequest()
+#5 /home/tu/www/backend/php/framework/yiic.php(33): CApplication->run()
+#6 /home/tu/www/backend/php/protected/yiic.php(7): require_once('/home/tu/www/ba...')
+#7 /home/tu/www/backend/php/protected/yiic(4): require_once('/home/tu/www/ba...')
+#8 {main}
+---
+2013/08/27 18:29:29 [error] [php] Missing argument 1 for CModel::getError(), called in /home/tu/www/backend/php/framework/base/CComponent.php on line 111 and defined (/home/tu/www/backend/php/framework/base/CModel.php:370)
+Stack trace:
+#0 /home/tu/www/backend/php/protected/commands/TestCommand.php(16): Customer->__get()
+#1 /home/tu/www/backend/php/framework/console/CConsoleCommandRunner.php(67): TestCommand->run()
+#2 /home/tu/www/backend/php/framework/console/CConsoleApplication.php(91): CConsoleCommandRunner->run()
+#3 /home/tu/www/backend/php/framework/base/CApplication.php(169): CConsoleApplication->processRequest()
+#4 /home/tu/www/backend/php/framework/yiic.php(33): CConsoleApplication->run()
+#5 /home/tu/www/backend/php/protected/yiic.php(7): require_once()
+#6 /home/tu/www/backend/php/protected/yiic(4): require_once()
+
+2013/08/27 18:30:43 [error] [php] Missing argument 1 for CModel::getError(), called in /home/tu/www/backend/php/protected/commands/TestCommand.php on line 16 and defined (/home/tu/www/backend/php/framework/base/CModel.php:370)
+Stack trace:
+#0 /home/tu/www/backend/php/framework/console/CConsoleApplication.php(91): CConsoleCommandRunner->run()
+#1 /home/tu/www/backend/php/framework/base/CApplication.php(169): CConsoleApplication->processRequest()
+#2 /home/tu/www/backend/php/framework/yiic.php(33): CConsoleApplication->run()
+#3 /home/tu/www/backend/php/protected/yiic.php(7): require_once()
+#4 /home/tu/www/backend/php/protected/yiic(4): require_once()
+
+2013/08/27 18:37:07 [error] [php] Undefined variable:  (/home/tu/www/backend/php/protected/commands/TestCommand.php:16)
+Stack trace:
+#0 /home/tu/www/backend/php/framework/base/CApplication.php(169): CConsoleApplication->processRequest()
+#1 /home/tu/www/backend/php/framework/yiic.php(33): CConsoleApplication->run()
+#2 /home/tu/www/backend/php/protected/yiic.php(7): require_once()
+#3 /home/tu/www/backend/php/protected/yiic(4): require_once()
+
+2013/08/27 18:37:43 [error] [exception.CException] exception 'CException' with message 'Property "Customer.CustomeName" is not defined.' in /home/tu/www/backend/php/framework/base/CComponent.php:173
+Stack trace:
+#0 /home/tu/www/backend/php/framework/db/ar/CActiveRecord.php(159): CComponent->__set('CustomeName', 'a')
+#1 /home/tu/www/backend/php/protected/commands/TestCommand.php(10): CActiveRecord->__set('CustomeName', 'a')
+#2 /home/tu/www/backend/php/framework/console/CConsoleCommandRunner.php(67): TestCommand->run(Array)
+#3 /home/tu/www/backend/php/framework/console/CConsoleApplication.php(91): CConsoleCommandRunner->run(Array)
+#4 /home/tu/www/backend/php/framework/base/CApplication.php(169): CConsoleApplication->processRequest()
+#5 /home/tu/www/backend/php/framework/yiic.php(33): CApplication->run()
+#6 /home/tu/www/backend/php/protected/yiic.php(7): require_once('/home/tu/www/ba...')
+#7 /home/tu/www/backend/php/protected/yiic(4): require_once('/home/tu/www/ba...')
+#8 {main}
+---
+2013/08/27 20:12:24 [error] [exception.CException] exception 'CException' with message 'CConsoleApplication and its behaviors do not have a method or closure named "runController".' in /home/tu/www/backend/php/framework/base/CComponent.php:265
+Stack trace:
+#0 /home/tu/www/backend/php/protected/commands/TestCommand.php(7): CComponent->__call('runController', Array)
+#1 /home/tu/www/backend/php/protected/commands/TestCommand.php(7): CConsoleApplication->runController('/backup/create')
+#2 /home/tu/www/backend/php/framework/console/CConsoleCommandRunner.php(67): TestCommand->run(Array)
+#3 /home/tu/www/backend/php/framework/console/CConsoleApplication.php(91): CConsoleCommandRunner->run(Array)
+#4 /home/tu/www/backend/php/framework/base/CApplication.php(169): CConsoleApplication->processRequest()
+#5 /home/tu/www/backend/php/framework/yiic.php(33): CApplication->run()
+#6 /home/tu/www/backend/php/protected/yiic.php(7): require_once('/home/tu/www/ba...')
+#7 /home/tu/www/backend/php/protected/yiic(4): require_once('/home/tu/www/ba...')
+#8 {main}
+---
+2013/08/27 20:18:33 [error] [php] include(Controller.php): failed to open stream: No such file or directory (/home/tu/www/backend/php/framework/YiiBase.php:421)
+Stack trace:
+#0 /home/tu/www/backend/php/protected/modules/backup/controllers/DefaultController.php(11): spl_autoload_call()
+#1 /home/tu/www/backend/php/framework/YiiBase.php(395): include()
+#2 unknown(0): autoload()
+#3 /home/tu/www/backend/php/protected/commands/TestCommand.php(8): spl_autoload_call()
+#4 /home/tu/www/backend/php/framework/console/CConsoleCommandRunner.php(67): TestCommand->run()
+#5 /home/tu/www/backend/php/framework/console/CConsoleApplication.php(91): CConsoleCommandRunner->run()
+#6 /home/tu/www/backend/php/framework/base/CApplication.php(169): CConsoleApplication->processRequest()
+#7 /home/tu/www/backend/php/framework/yiic.php(33): CConsoleApplication->run()
+#8 /home/tu/www/backend/php/protected/yiic.php(7): require_once()
+#9 /home/tu/www/backend/php/protected/yiic(4): require_once()
+
+2013/08/27 23:10:58 [error] [php] Object of class CMysqlColumnSchema could not be converted to string (/home/tu/www/backend/php/protected/helpers/ExportDb.php:15)
+Stack trace:
+#0 /home/tu/www/backend/php/framework/console/CConsoleCommandRunner.php(67): ExportCommand->run()
+#1 /home/tu/www/backend/php/framework/console/CConsoleApplication.php(91): CConsoleCommandRunner->run()
+#2 /home/tu/www/backend/php/framework/base/CApplication.php(169): CConsoleApplication->processRequest()
+#3 /home/tu/www/backend/php/framework/yiic.php(33): CConsoleApplication->run()
+#4 /home/tu/www/backend/php/protected/yiic.php(7): require_once()
+#5 /home/tu/www/backend/php/protected/yiic(4): require_once()
+
+2013/08/27 23:14:04 [error] [php] include(PHPExcel.php): failed to open stream: No such file or directory (/home/tu/www/backend/php/framework/YiiBase.php:421)
+Stack trace:
+#0 /home/tu/www/backend/php/protected/helpers/ExportDb.php(27): spl_autoload_call()
+#1 /home/tu/www/backend/php/protected/commands/ExportCommand.php(20): ExportDb->exportExcel()
+#2 /home/tu/www/backend/php/framework/console/CConsoleCommandRunner.php(67): ExportCommand->run()
+#3 /home/tu/www/backend/php/framework/console/CConsoleApplication.php(91): CConsoleCommandRunner->run()
+#4 /home/tu/www/backend/php/framework/base/CApplication.php(169): CConsoleApplication->processRequest()
+#5 /home/tu/www/backend/php/framework/yiic.php(33): CConsoleApplication->run()
+#6 /home/tu/www/backend/php/protected/yiic.php(7): require_once()
+#7 /home/tu/www/backend/php/protected/yiic(4): require_once()
+
+2013/08/27 23:15:04 [error] [php] include(PHPExcel_Shared_String.php): failed to open stream: No such file or directory (/home/tu/www/backend/php/framework/YiiBase.php:421)
+Stack trace:
+#0 /home/tu/www/backend/php/protected/vendors/phpexcel/PHPExcel/Autoloader.php(36): spl_autoload_call()
+#1 /home/tu/www/backend/php/protected/vendors/phpexcel/PHPExcel.php(32): require()
+#2 /home/tu/www/backend/php/framework/YiiBase.php(395): include()
+#3 unknown(0): autoload()
+#4 /home/tu/www/backend/php/protected/helpers/ExportDb.php(28): spl_autoload_call()
+#5 /home/tu/www/backend/php/protected/commands/ExportCommand.php(20): ExportDb->exportExcel()
+#6 /home/tu/www/backend/php/framework/console/CConsoleCommandRunner.php(67): ExportCommand->run()
+#7 /home/tu/www/backend/php/framework/console/CConsoleApplication.php(91): CConsoleCommandRunner->run()
+#8 /home/tu/www/backend/php/framework/base/CApplication.php(169): CConsoleApplication->processRequest()
+#9 /home/tu/www/backend/php/framework/yiic.php(33): CConsoleApplication->run()
+#10 /home/tu/www/backend/php/protected/yiic.php(7): require_once()
+#11 /home/tu/www/backend/php/protected/yiic(4): require_once()
+
+2013/08/27 23:16:07 [error] [php] include(PHPExcel_Shared_String.php): failed to open stream: No such file or directory (/home/tu/www/backend/php/framework/YiiBase.php:421)
+Stack trace:
+#0 /home/tu/www/backend/php/protected/vendors/phpexcel/PHPExcel/Autoloader.php(36): spl_autoload_call()
+#1 /home/tu/www/backend/php/protected/vendors/phpexcel/PHPExcel.php(32): require()
+#2 /home/tu/www/backend/php/framework/YiiBase.php(395): include()
+#3 unknown(0): autoload()
+#4 /home/tu/www/backend/php/protected/helpers/ExportDb.php(27): spl_autoload_call()
+#5 /home/tu/www/backend/php/protected/commands/ExportCommand.php(20): ExportDb->exportExcel()
+#6 /home/tu/www/backend/php/framework/console/CConsoleCommandRunner.php(67): ExportCommand->run()
+#7 /home/tu/www/backend/php/framework/console/CConsoleApplication.php(91): CConsoleCommandRunner->run()
+#8 /home/tu/www/backend/php/framework/base/CApplication.php(169): CConsoleApplication->processRequest()
+#9 /home/tu/www/backend/php/framework/yiic.php(33): CConsoleApplication->run()
+#10 /home/tu/www/backend/php/protected/yiic.php(7): require_once()
+#11 /home/tu/www/backend/php/protected/yiic(4): require_once()
+

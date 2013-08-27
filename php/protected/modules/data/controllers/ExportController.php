@@ -2,15 +2,12 @@
 
 class ExportController extends GxController
 {
-	private function col($index) {
-		if ($index < 26)
-			return chr(ord('A')+$index);
-		else {
-			$i = $index / 26 - 1;
-			$j = $index % 26;
-			return chr(ord('A')+$i).chr(ord('A')+$j);
-		}
-	}
+			
+	private $tableList = array(
+			"Customer" => "Customer",
+			"Product" => "Product",
+			);
+
 	public function actionIndex()
 	{
 
@@ -21,44 +18,15 @@ class ExportController extends GxController
 			$fileType = $_POST['FileType'];
 			$fieldList = $_POST['FieldList'];
 
+			$helper = new ExportDb;
 			$fileName = Yii::app()->basePath . "/../../files/$folder/$fileName";
-			$select = implode(',', $fieldList);		
-			$cmd = Yii::app()->db->createCommand("SELECT $select FROM $table");	
-			if ($fileType == 'Text') {
-				Yii::import('ext.ECSVExport.ECSVExport');
-				$fileName .= '.txt';
-				$csv = new ECSVExport($cmd);
-				$csv->toCSV($fileName); // returns string by default
-				echo file_get_contents($fileName);
+			if ($fileType == 'txt') {
+				$helper->exportText($table, $fieldList, $fileName);
 			} else {
-				$fileName .= '.xls'; 
-      			$objPHPExcel= new PHPExcel;
- 				$objPHPExcel->setActiveSheetIndex(0);
-
-				// Add header
-				$row = 1;
-				foreach ($fieldList as $i=>$field) {
-					$objPHPExcel->getActiveSheet()->setCellValue($this->col($i).$row, $field);
-				}
-				$data = $cmd->queryAll();
-				foreach ($data as $rec) {
-					$row++;
-					foreach ($fieldList as $i=>$field) {
-						$objPHPExcel->getActiveSheet()->setCellValue($this->col($i).$row, $rec[$field]);
-					}
-				}				
-				// Rename worksheet
-				$objPHPExcel->getActiveSheet()->setTitle($table);
-				$objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
-				$objWriter->save($fileName);
+				$helper->exportExcel($table, $fieldList, $fileName);
 			}
-			$this->redirect(array('/data/browse','folder'=>$folder,'type'=>pathinfo($fileName, PATHINFO_EXTENSION)));
+			$this->redirect(array('/data/browse','folder'=>$folder,'type'=>$fileType));
 		}
-
-		$tableList = array(
-			"Customer" => "Customer",
-			"Product" => "Product",
-			);
 
 		$dir = Yii::app()->basePath . "/../../files";
 		$files = scandir($dir);
@@ -72,13 +40,73 @@ class ExportController extends GxController
 			$fieldList[$column->name] = $column->name;
 		}
 		$this->render('index', array(
-    		'tableList' => $tableList,
+    		'tableList' => $this->tableList,
     		'folderList' => $folderList,
     		'defaultFileName' => 'Customer-'.date("YmdHis"),
     		'fieldList' => $fieldList
 		));
 	}
 
+	public function actionAuto()
+	{
+		$model= new AutoForm('auto');
+		if(isset($_POST['AutoForm']))
+		{
+			$model->attributes = $_POST['AutoForm'];
+			if ($model->validate()) {
+				$cron = new Crontab('my_crontab'); 
+				//		$cron->eraseJobs();
+				$jobs_obj = $cron->getJobs();
+				$found = false;
+				$params = array($model->folder,$model->type);
+				foreach ($model->tables as $table)
+					$params[] = $table;
+				foreach($jobs_obj as $job) {
+					if ($job->getCommandName() == 'export') {
+						$job->setParams($params);
+						$job->setMinute('*/'.$model->min);
+						$found = true;
+						break;
+					}
+				}
+				if (!$found) {
+		    		$cron->addApplicationJob('yiicmd', 'export', $params, '*/'.$model->min);
+				}
+				$cron->saveCronFile();
+				$cron->saveToCrontab();
+				$this->render('success');
+			}
+		}
+		$dir = Yii::app()->basePath . "/../../files";
+		$files = scandir($dir);
+		$folderList = array();
+		foreach ($files as $file) {
+			if ($file != '.' && $file != '..')
+				$folderList[$file] = $file;
+		}
+		$this->render('auto', array(
+			'model' => $model,
+    		'tableList' => $this->tableList,
+    		'folderList' => $folderList,
+    	));
+	}
+
+	public function actionStop()
+	{
+		$cron = new Crontab('my_crontab'); 
+		//		$cron->eraseJobs();
+		$jobs_obj = $cron->getJobs();
+		$found = false;
+		foreach($jobs_obj as $i=>$job) {
+			if ($job->getCommandName() == 'export') {
+				$cron->removeJob($i);
+				break;
+			}
+		}
+		$cron->saveCronFile();
+		$cron->saveToCrontab();
+		$this->render('success');
+	}
 	// Uncomment the following methods and override them if needed
 	/*
 	public function filters()

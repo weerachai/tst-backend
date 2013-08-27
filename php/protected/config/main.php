@@ -38,11 +38,7 @@ return array(
 	'modules'=>array(
 		// uncomment the following to enable the Gii tool
 		'manage','data','report','master',
-		'backup'=> array('path' => dirname(__FILE__).DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'backup'.DIRECTORY_SEPARATOR  ),
-        'media'=>array(
-            // Base dir for media browser (app/files):
-            'baseDir'=>dirname(__FILE__).DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'files',
-        ),
+		'backup',
 		'gii'=>array(
 			'class'=>'system.gii.GiiModule',
 			'generatorPaths' => array(
