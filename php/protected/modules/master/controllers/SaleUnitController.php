@@ -43,6 +43,12 @@ class SaleUnitController extends GxController {
  				$model->device->UpdateAt = date("Y-m-d h:i:s");
  				$model->device->save();
 
+				$model->device = new DeviceSetting;
+				$model->device->SaleId = $model->SaleId;
+				$model->device->SaleType = $model->SaleType;
+				$model->device->UpdateAt = date("Y-m-d h:i:s");
+ 				$model->device->save();
+
  				$running = ControlRunning::model()->findAll();
  				foreach ($running as $row) {
  					$no = new ControlNo;
@@ -80,6 +86,10 @@ class SaleUnitController extends GxController {
 					$model->device->Password = $hash->hash($_POST['SaleUnit']['Password']);
 				}
  				$model->device->save();
+
+				$model->deviceSetting->SaleType = $_POST['SaleUnit']['SaleType'];
+				$model->deviceSetting->save();
+
 				$this->redirect(array('view', 'id' => $model->SaleId));
 			}
 		} else {

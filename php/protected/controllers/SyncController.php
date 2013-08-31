@@ -2,7 +2,7 @@
 
 class SyncController extends Controller
 {
-	public function actionRegister() {
+	public function actionLogin() {
 		$params = $_POST;
 		$jsonHelper = new JSONHelper($params);
 		$jsonHelper->assertRequiredParams(array());
@@ -18,13 +18,31 @@ class SyncController extends Controller
 		unset($rows);
 		$rows[] = $setting->attributes;
 		$jsonHelper->setDataRow("DeviceSetting",$rows);
-		$jsonHelper->end("Registered successfully.");
+		$jsonHelper->end("Logged-in successfully.");
+	}
+
+	private function saveLog($saleId, $table) {
+		$model = SyncLog::model()->find(array(
+			'order'=>'id DESC', 
+			'condition'=>'SaleId=:SaleId', 
+			'params'=>array(':SaleId'=>$saleId),
+			));
+		if ($model != null && $model->Action == 'รับ' && $model->TableName == $table) {
+			$model->NumRecords = $model->NumRecords + 1;
+		} else {
+			$model = new SyncLog;
+			$model->SaleId = $saleId;
+			$model->Action = 'รับ';
+			$model->TableName = $table;
+			$model->NumRecords = 1;
+		}
+		$model->LogTime = date("Y-m-d H:i:s");
+		$model->save();
 	}
 
 	public function actionSave() 
 	{
 		$params = $_POST;
-//		file_put_contents("/home/tu/www/backend/php/protected/log.txt", print_r($params,true), LOCK_EX);
 		$jsonHelper = new JSONHelper($params);
 		$jsonHelper->assertRequiredParams(array("Table"));
 		$device = $jsonHelper->login();		
@@ -46,6 +64,7 @@ class SyncController extends Controller
 		$model->attributes = $params['params'];
 //		file_put_contents("/home/tu/www/backend/php/protected/log.txt", print_r($model->attributes,true), FILE_APPEND | LOCK_EX);
 		$jsonHelper->assertTrue($model->save(),$model->getErrors());
+		$this->saveLog($device->SaleId,$table);
 		$jsonHelper->end("Updated successfully.");
 	}
 

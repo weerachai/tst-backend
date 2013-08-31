@@ -2,7 +2,7 @@
 /* @var $this TripController */
 
 $this->breadcrumbs = array(
-    $this->module->id => array('/'.$this->module->id),
+    'กำหนดความสัมพันธ์' => array('/manage'),
 	'ทริป' => array('index'),
 	'รายชื่อ',
 );

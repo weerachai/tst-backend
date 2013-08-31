@@ -266,6 +266,15 @@ class Promotion extends BasePromotion
 		return $data;
 	}
 
+	public static function getPromotionOptions($type) {
+		$data = Promotion::model()->findAll(array(
+				'select'=>'PromotionGroup',
+				'distinct'=>true,
+				'condition'=>"PromotionType LIKE '$type%'",
+				));
+		return CHtml::listData($data,'PromotionGroup','PromotionGroup');
+	}
+
 	// public function getPacks() {
 	// 	if ($this->PromotionType == 'sku' || $this->PromotionType == 'accu-sku')
 	// 		return Product::model()->findByPk($this->ProductOrGrpId)->getPacksList();

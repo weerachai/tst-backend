@@ -25,8 +25,39 @@ public function accessRules() {
 }
 
 	public function actionView($id) {
+		$sql = <<<SQL
+		SELECT T.ProductId AS id, DeliverNo, ProductName,
+		QtyLevel1, PackLevel1, QtyLevel2, PackLevel2,
+		QtyLevel3, PackLevel3, QtyLevel4, PackLevel4
+		FROM DeliverDetail T JOIN Product USING(ProductId) 
+		WHERE DeliverNo = '$id'
+		ORDER BY ProductName
+SQL;
+
+		// Create filter model and set properties
+		$filtersForm = new FiltersForm;
+		if (isset($_GET['FiltersForm']))
+		    $filtersForm->filters=$_GET['FiltersForm'];
+		 
+		// Get rawData and create dataProvider
+		$rawData = Yii::app()->db->createCommand($sql)->queryAll();
+		$filteredData = $filtersForm->filter($rawData);
+		$dataProvider = new CArrayDataProvider($filteredData, array(
+    		'sort'=>array(
+        		'attributes'=>array(
+           	 	 'id','ProductName',
+        		),
+    		),
+    		'pagination'=>array(
+        		'pageSize'=>10,
+    		),
+		));
+
+		// Render
 		$this->render('view', array(
-			'model' => $this->loadModel($id, 'StockDeliver'),
+    		'filtersForm' => $filtersForm,
+    		'dataProvider' => $dataProvider,
+    		'id' => $id,
 		));
 	}
 

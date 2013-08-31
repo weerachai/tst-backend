@@ -2,8 +2,8 @@
 /* @var $this StartStockController */
 
 $this->breadcrumbs=array(
-    $this->module->id => array('/'.$this->module->id),
-	'ตรวจสต็อค',
+    'กำหนดความสัมพันธ์' => array('/manage'),
+	'สต็อคตั้งต้น',
 );
 ?>
 

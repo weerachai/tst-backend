@@ -166,7 +166,7 @@ SQL;
 			$model->RequestDate = date("Y-m-d");
 		}
 
-		$this->render('copy', array( 'model' => $model));
+		$this->render('copy', array( 'model' => $model, 'id' => $id));
 	}
 
 	public function actionAdmin() {

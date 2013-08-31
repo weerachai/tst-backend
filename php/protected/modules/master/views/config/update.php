@@ -17,24 +17,30 @@ $this->menu=array(
 
 <?php $form = $this->beginWidget('bootstrap.widgets.TbActiveForm', array(
 	'id' => 'config-form',
+	'type'=>'horizontal',
 	'enableAjaxValidation' => true,
 ));
 ?>
 
+	<fieldset>
 	<p class="note">
 		<?php echo Yii::t('app', 'Fields with'); ?> <span class="required">*</span> <?php echo Yii::t('app', 'are required'); ?>.
 	</p>
 
 	<?php echo $form->errorSummary($model); ?>
 
-		<div class="row">
-		<?php echo $form->labelEx($model,'DayToClear'); ?>
-		<?php echo $form->textField($model, 'DayToClear', array('maxlength' => 255)); ?>
-		<?php echo $form->error($model,'DayToClear'); ?>
-		</div><!-- row -->
-
+	<?php echo $form->textFieldRow($model, 'DayToClear', array('maxlength' => 50)); ?>
+	<?php echo $form->dropDownListRow($model, 'Vat', array('bill' => 'ท้ายบิล', 'sku' => 'รายสินค้า')); ?>
+	<?php echo $form->dropDownListRow($model, 'OverStock', array('Y' => 'ได้', 'N' => 'ไม่ได้')); ?>
+	<?php echo $form->textFieldRow($model, 'ExchangeDiff', array('maxlength' => 50)); ?>
+	<?php echo $form->dropDownListRow($model, 'ExchangePaymentMethod', array('bill' => 'ส่ง Bill Collection', 'cash' => 'เก็บเงินสด')); ?>
+    </fieldset>
+ 
+    <div class="form-actions">
+        <?php $this->widget('bootstrap.widgets.TbButton', array('buttonType'=>'submit', 'type'=>'primary', 'label'=>'Save')); ?>
+        <?php $this->widget('bootstrap.widgets.TbButton', array('buttonType'=>'reset', 'label'=>'Reset')); ?>
+    </div>
 <?php
-echo GxHtml::submitButton(Yii::t('app', 'Save'));
 $this->endWidget();
 ?>
 </div><!-- form -->

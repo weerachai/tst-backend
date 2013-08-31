@@ -108,7 +108,7 @@ $columns = array(
     ),
 	array(
 		'class' => 'bootstrap.widgets.TbButtonColumn',
-		'template'=>'{view} {update} {copy} {delete}',
+		'template'=>'{view}{update}{copy}{delete}',
 		'buttons'=>array(
 			'view' => array(
 	    		'label'=>'รายละเอียด',

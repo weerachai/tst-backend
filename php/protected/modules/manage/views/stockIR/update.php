@@ -1,9 +1,10 @@
 <?php
 
 $this->breadcrumbs=array(
-    $this->module->id => array('/'.$this->module->id),
-	'สร้างใบส่งสินค้า' => array('/'.$this->module->id.'/deliver/'),
-	'รายละเอียด IR' => array('/'.$this->module->id.'/stockIR/view&id='.$model->IRNo),
+    'กำหนดความสัมพันธ์' => array('/manage'),
+	'สร้างใบส่งสินค้า' => array('/manage/deliver/'),
+    'รายการ IR' => array('/manage/stockIR/admin'),
+	'รายละเอียด IR' => array('/manage/stockIR/view&id='.$model->IRNo),
 	'แก้ไข'
 );
 

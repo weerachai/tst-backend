@@ -1,9 +1,9 @@
 <?php
 
 $this->breadcrumbs=array(
-    $this->module->id => array('/'.$this->module->id),
-	'สร้างใบส่งสินค้า' => array('/'.$this->module->id.'/deliver/'),
-	'รายละเอียดใบเบิก' => array('/'.$this->module->id.'/stockRequest/view&id='.$model->RequestNo),
+    'กำหนดความสัมพันธ์' => array('/manage'),
+	'สร้างใบส่งสินค้า' => array('/manage/deliver/'),
+	'รายละเอียดใบเบิก' => array('/manage/stockRequest/view&id='.$model->RequestNo),
 	'แก้ไข'
 );
 

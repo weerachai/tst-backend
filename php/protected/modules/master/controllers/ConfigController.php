@@ -16,15 +16,20 @@ class ConfigController extends GxController
 		$this->performAjaxValidation($model, 'config-form');
 
 		if (isset($_POST['Config'])) {
-			if ($model->DayToClear != $_POST['Config']['DayToClear']) {
-				$now = date("Y-m-d H:i:s");
-				$sql = "UPDATE DeviceSetting SET DayToClear = " . $_POST['Config']['DayToClear'] . ", UpdateAt = '$now'";
-				Yii::app()->db->createCommand($sql)->execute();
-			}
 			$model->setAttributes($_POST['Config']);
-
 			if ($model->save()) {
-				$this->redirect(array('index'));
+					
+				$now = date("Y-m-d H:i:s");
+				$sql = "UPDATE DeviceSetting SET ";
+				$sql .= "DayToClear = " . $_POST['Config']['DayToClear'];
+				$sql .= ", Vat = '" . $_POST['Config']['Vat'] . "'";
+				$sql .= ", OverStock = '" . $_POST['Config']['OverStock'] . "'";
+				$sql .= ", ExchangeDiff = " . $_POST['Config']['ExchangeDiff'];
+				$sql .= ", ExchangePaymentMethod = '" . $_POST['Config']['ExchangePaymentMethod'] . "'";
+				$sql .= ", UpdateAt = '$now'";
+				Yii::app()->db->createCommand($sql)->execute();
+
+				$this->redirect(array('index'));		
 			}
 		}
 

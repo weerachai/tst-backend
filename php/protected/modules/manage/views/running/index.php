@@ -2,7 +2,7 @@
 /* @var $this RunningController */
 
 $this->breadcrumbs=array(
-    $this->module->id => array('/'.$this->module->id),
+    'กำหนดความสัมพันธ์' => array('/manage'),
 	'Running No',
 );
 ?>

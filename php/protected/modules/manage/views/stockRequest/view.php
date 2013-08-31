@@ -1,9 +1,10 @@
 <?php
 
 $this->breadcrumbs=array(
-    $this->module->id => array('/'.$this->module->id),
-	'สร้างใบส่งสินค้า' => array('/'.$this->module->id.'/deliver/'),
-	'รายละเอียดใบเบิก'
+    'กำหนดความสัมพันธ์' => array('/manage'),
+	'สร้างใบส่งสินค้า' => array('/manage/deliver/'),
+    'รายการใบเบิก' => array('/manage/stockRequest/admin'),
+    'รายละเอียดใบเบิก'
 );
 
 $this->menu = array(
@@ -37,11 +38,11 @@ $columns = array(
 		'template'=>'{update}{delete}',
 		'buttons'=>array(
 			'update' => array(
-	    		'label'=>'แสดงรายชื่อร้านค้า',
+	    		'label'=>'แก้ไขข้อมูล',
 	        	'url'=>'Yii::app()->createUrl("/manage/stockRequest/update", array("id"=>$data["RequestNo"],"productId"=>$data["id"]))',
 		    ),
 			'delete' => array(
-	    		'label'=>'แสดงรายชื่อร้านค้า',
+	    		'label'=>'ลบข้อมูล',
 	        	'url'=>'Yii::app()->createUrl("/manage/stockRequest/delete", array("id"=>$data["RequestNo"],"productId"=>$data["id"]))',
 		    ),
 		),

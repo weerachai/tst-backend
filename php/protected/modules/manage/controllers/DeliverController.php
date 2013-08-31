@@ -54,6 +54,82 @@ SQL;
 		));
 	}
 
+	public function actionView($id1, $id2, $id3) {
+		if (!empty($id2) && !empty($id3))
+			$sql = <<<SQL
+			SELECT P.ProductId AS id, RequestNo, DeliverNo, ReceiveNo,
+			ProductName, PackLevel1, PackLevel2, PackLevel3, PackLevel4,
+			R.QtyLevel1 AS ReqQty1, R.QtyLevel2 AS ReqQty2, 
+			R.QtyLevel3 AS ReqQty3, R.QtyLevel4 AS ReqQty4,
+			D.QtyLevel1 AS DQty1, D.QtyLevel2 AS DQty2, 
+			D.QtyLevel3 AS DQty3, D.QtyLevel4 AS DQty4,
+			Rc.QtyLevel1 AS RcQty1, Rc.QtyLevel2 AS RcQty2, 
+			Rc.QtyLevel3 AS RcQty3, Rc.QtyLevel4 AS RcQty4
+			FROM ((RequestDetail R JOIN Product P USING(ProductId))
+			JOIN DeliverDetail D USING(ProductId))
+			JOIN ReceiveDetail Rc USING(ProductId)
+			WHERE RequestNo = '$id1' AND DeliverNo = '$id2'
+			AND ReceiveNo = '$id3'
+			ORDER BY ProductName
+SQL;
+		elseif (!empty($id2))
+			$sql = <<<SQL
+			SELECT P.ProductId AS id, RequestNo, DeliverNo, '' AS ReceiveNo,
+			ProductName, PackLevel1, PackLevel2, PackLevel3, PackLevel4,
+			R.QtyLevel1 AS ReqQty1, R.QtyLevel2 AS ReqQty2, 
+			R.QtyLevel3 AS ReqQty3, R.QtyLevel4 AS ReqQty4,
+			D.QtyLevel1 AS DQty1, D.QtyLevel2 AS DQty2, 
+			D.QtyLevel3 AS DQty3, D.QtyLevel4 AS DQty4,
+			0 AS RcQty1, 0 AS RcQty2, 
+			0 AS RcQty3, 0 AS RcQty4
+			FROM (RequestDetail R JOIN Product P USING(ProductId))
+			JOIN DeliverDetail D USING(ProductId)
+			WHERE RequestNo = '$id1' AND DeliverNo = '$id2'
+			ORDER BY ProductName
+SQL;
+		else
+			$sql = <<<SQL
+			SELECT P.ProductId AS id, RequestNo, '' AS DeliverNo, '' AS ReceiveNo,
+			ProductName, PackLevel1, PackLevel2, PackLevel3, PackLevel4,
+			R.QtyLevel1 AS ReqQty1, R.QtyLevel2 AS ReqQty2, 
+			R.QtyLevel3 AS ReqQty3, R.QtyLevel4 AS ReqQty4,
+			0 AS DQty1, 0 AS DQty2, 
+			0 AS DQty3, 0 AS DQty4,
+			0 AS RcQty1, 0 AS RcQty2, 
+			0 AS RcQty3, 0 AS RcQty4
+			FROM RequestDetail R JOIN Product P USING(ProductId)
+			WHERE RequestNo = '$id1'
+			ORDER BY ProductName
+SQL;
+		// Create filter model and set properties
+		$filtersForm = new FiltersForm;
+		if (isset($_GET['FiltersForm']))
+		    $filtersForm->filters=$_GET['FiltersForm'];
+		 
+		// Get rawData and create dataProvider
+		$rawData = Yii::app()->db->createCommand($sql)->queryAll();
+		$filteredData = $filtersForm->filter($rawData);
+		$dataProvider = new CArrayDataProvider($filteredData, array(
+    		'sort'=>array(
+        		'attributes'=>array(
+           	 	 'id','ProductName',
+        		),
+    		),
+    		'pagination'=>array(
+        		'pageSize'=>10,
+    		),
+		));
+
+		// Render
+		$this->render('view', array(
+    		'filtersForm' => $filtersForm,
+    		'dataProvider' => $dataProvider,
+    		'id1' => $id1,
+    		'id2' => $id2,
+    		'id3' => $id3,
+		));
+	}
+
 	// Uncomment the following methods and override them if needed
 	/*
 	public function filters()

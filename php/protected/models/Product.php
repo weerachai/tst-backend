@@ -90,6 +90,8 @@ class Product extends BaseProduct
 			$qty = empty($qty) ? $data[$name.'3'].' '.$data['PackLevel3'] :  $qty.' '.$data[$name.'3'].' '.$data['PackLevel3'];
 		if ($data[$name.'4'] > 0)
 			$qty = empty($qty) ? $data[$name.'4'].' '.$data['PackLevel4'] :  $qty.' '.$data[$name.'4'].' '.$data['PackLevel4'];
+		if (empty($qty))
+			$qty = '-';
 		return $qty;
 	}
 

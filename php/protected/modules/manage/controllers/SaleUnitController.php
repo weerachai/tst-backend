@@ -8,6 +8,8 @@ class SaleUnitController extends GxController
 			$model = $this->loadModel($_POST['SaleId'], 'SaleUnit');
 			$model->AreaId = $_POST['AreaId'];
 			$model->EmployeeId = $_POST['EmployeeId'];
+			$model->DeviceId = 'bogus';
+			$model->Username = 'bogus';
 			$model->save();
 		}
 
@@ -27,8 +29,12 @@ class SaleUnitController extends GxController
 			$model = $this->loadModel($id, 'SaleUnit');
 			$model->AreaId = null;
 			$model->EmployeeId = null;
-			$model->save();
-			$this->redirect(array('index'));
+			$model->DeviceId = 'bogus';
+			$model->Username = 'bogus';
+			if ($model->save())
+				$this->redirect(array('index'));
+			print_r($model->errors);
+			Yii::app()->end();
 		} else
 			throw new CHttpException(400, Yii::t('app', 'Your request is invalid.'));
 	}

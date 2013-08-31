@@ -84,12 +84,28 @@ if ($TESTING) {
     $this->createTable('Config', // backend config information
                        array(
                              'id' => 'pk',
-                             'DayToClear' => 'integer not null',
-                             'SaleDiffPercent' => 'integer DEFAULT 0',
-                             'StockDiffPercent' => 'integer DEFAULT 0',
+                             'DayToClear' => 'integer not null', // day to clear data
+                             'Vat' => 'string not null', // vat calculation method - bill,sku
+                             'OverStock' => 'char not null', // stock limit sale - Y, N
+                             'ExchangeDiff' => 'integer not null', // product exchange diff value
+                             'ExchangePaymentMethod' => 'string', // bill collection or cash
+//                             'SaleDiffPercent' => 'integer DEFAULT 0',
+//                             'StockDiffPercent' => 'integer DEFAULT 0',
                              'UpdateAt' => 'datetime',
                              ), 'ENGINE=InnoDB');
-    $this->execute("INSERT INTO Config VALUES(1,60,0,0,now())");
+    $this->execute("INSERT INTO Config VALUES(1,60,'bill','Y',50,'bill',now())");
+
+    // backend only table
+    $this->createTable('SyncLog', // backend config information
+                       array(
+                             'id' => 'pk',
+                             'SaleId' => 'string not null',
+                             'LogTime' => 'datetime',
+                             'Action' => 'string',
+                             'TableName' => 'string',
+                             'NumRecords' => 'integer',
+                             'Remark' => 'string',
+                             ), 'ENGINE=InnoDB');
 
     // backend only table
     // check
@@ -157,7 +173,7 @@ if ($TESTING) {
             $sale = sprintf("N%03d", $k);
             $device = sprintf("D%03d", $k);
             $employee = sprintf("E%03d", $k);
-            $name = array('ก','ข','ค','ม','ง','จ','ฉ','ช','ซ','ฌ','ญ','ฎ','ฏ','ฐ','ฑ','ฒ','ณ','ด','ต','ถ','ท','ธ','บ','ป','ผ','ฝ');
+            $name = array('','ก','ข','ค','ม','ง','จ','ฉ','ช','ซ','ฌ','ญ','ฎ','ฏ','ฐ','ฑ','ฒ','ณ','ด','ต','ถ','ท','ธ','บ','ป','ผ','ฝ');
             $this->execute("INSERT INTO Employee VALUES('$employee','นายสมมติ $name[$k]','นามสกุลสมมติ $k')");
             $this->execute("INSERT INTO Device VALUES('$device','','$sale','$device','$pass',now())");
             if ($k==1)
@@ -178,21 +194,25 @@ if ($TESTING) {
                              'PromotionGroup' => 'string', 
                              'PromotionBill' => 'string',
                              'PromotionAccu' => 'string', 
-                             'Vat' => 'string not null', // vat calculation method - bill,sku
-                             'OverStock' => 'char not null', // stock limit sale - Y, N
-                             'DayToClear' => 'integer not null', // day to clear data
-                             'ExchangeDiff' => 'integer not null', // product exchange diff value
-                             'ExchangePaymentMethod' => 'string', // bill collection or cash
+                             'Vat' => 'string DEFAULT "bill"', // vat calculation method - bill,sku
+                             'OverStock' => 'char DEFAULT "N"', // stock limit sale - Y, N
+                             'DayToClear' => 'integer DEFAULT 30', // day to clear data
+                             'ExchangeDiff' => 'integer DEFAULT 0', // product exchange diff value
+                             'ExchangePaymentMethod' => 'string DEFAULT "cash"', // bill collection or cash
                              'Capacity' => 'integer DEFAULT 0', //truck capacity
                              'UpdateAt' => 'datetime',			
                              'primary key (SaleId)',
                              ), 'ENGINE=InnoDB');	
-    //$this->addForeignKey('fk_DeviceSetting_SaleUnit','DeviceSetting','SaleId','SaleUnit','SaleId','CASCADE','CASCADE');
+    $this->addForeignKey('fk_DeviceSetting_SaleUnit','DeviceSetting','SaleId','SaleUnit','SaleId','CASCADE','CASCADE');
 
 if ($TESTING) {
     $this->execute("INSERT INTO DeviceSetting VALUES('N001','เครดิต','A','M','B','AC','sku','Y',60,0,'',0,now())");
     $this->execute("INSERT INTO DeviceSetting VALUES('N002','หน่วยรถ','A','M','B','AC','sku','Y',60,50,'bill',20000,now())");
     $this->execute("INSERT INTO DeviceSetting VALUES('N003','หน่วยรถ','A','M','B','AC','sku','N',60,50,'cash',20000,now())");
+    for ($k = 4; $k <= 25; $k++) {
+        $sale = sprintf("N%03d", $k);
+        $this->execute("INSERT INTO DeviceSetting VALUES('$sale','หน่วยรถ',null,null,null,null,'sku','N',60,50,'cash',20000,now())");
+    }
 }
     
     // fixed option tables

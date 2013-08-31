@@ -1,7 +1,7 @@
 <?php
 
 $this->breadcrumbs=array(
-    $this->module->id => array('/'.$this->module->id),
+    'กำหนดความสัมพันธ์' => array('/manage'),
 	'ใบสั่งซื้อ',
 );
 

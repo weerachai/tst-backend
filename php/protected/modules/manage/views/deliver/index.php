@@ -1,7 +1,7 @@
 <?php
 
 $this->breadcrumbs=array(
-    $this->module->id => array('/'.$this->module->id),
+    'กำหนดความสัมพันธ์' => array('/manage'),
 	'สร้างใบส่งสินค้า',
 );
 
@@ -108,8 +108,8 @@ $columns = array(
 		'template'=>'{view}',
 		'buttons'=>array(
 			'view' => array(
-	    		'label'=>'แสดงรายชื่อร้านค้า',
-	        	'url'=>'Yii::app()->createUrl("/manage/deliver/view", array("id"=>$data["id"]))',
+	    		'label'=>'แสดงรายละเอียด',
+	        	'url'=>'Yii::app()->createUrl("/manage/deliver/view", array("id1"=>$data["id"],"id2"=>$data["DeliverNo"],"id3"=>$data["ReceiveNo"]))',
 		    ),
 		),
 		'htmlOptions' => array('style'=>'white-space:nowrap'),

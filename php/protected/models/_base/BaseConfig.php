@@ -11,8 +11,10 @@
  *
  * @property integer $id
  * @property integer $DayToClear
- * @property integer $SaleDiffPercent
- * @property integer $StockDiffPercent
+ * @property string $Vat
+ * @property string $OverStock
+ * @property integer $ExchangeDiff
+ * @property string $ExchangePaymentMethod
  * @property string $UpdateAt
  *
  */
@@ -31,16 +33,18 @@ abstract class BaseConfig extends GxActiveRecord {
 	}
 
 	public static function representingColumn() {
-		return 'UpdateAt';
+		return 'Vat';
 	}
 
 	public function rules() {
 		return array(
-			array('DayToClear', 'required'),
-			array('DayToClear, SaleDiffPercent, StockDiffPercent', 'numerical', 'integerOnly'=>true),
+			array('DayToClear, Vat, OverStock, ExchangeDiff', 'required'),
+			array('DayToClear, ExchangeDiff', 'numerical', 'integerOnly'=>true),
+			array('Vat, ExchangePaymentMethod', 'length', 'max'=>255),
+			array('OverStock', 'length', 'max'=>1),
 			array('UpdateAt', 'safe'),
-			array('SaleDiffPercent, StockDiffPercent, UpdateAt', 'default', 'setOnEmpty' => true, 'value' => null),
-			array('id, DayToClear, SaleDiffPercent, StockDiffPercent, UpdateAt', 'safe', 'on'=>'search'),
+			array('ExchangePaymentMethod, UpdateAt', 'default', 'setOnEmpty' => true, 'value' => null),
+			array('id, DayToClear, Vat, OverStock, ExchangeDiff, ExchangePaymentMethod, UpdateAt', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -58,8 +62,10 @@ abstract class BaseConfig extends GxActiveRecord {
 		return array(
 			'id' => Yii::t('app', 'ID'),
 			'DayToClear' => Yii::t('app', 'Day To Clear'),
-			'SaleDiffPercent' => Yii::t('app', 'Sale Diff Percent'),
-			'StockDiffPercent' => Yii::t('app', 'Stock Diff Percent'),
+			'Vat' => Yii::t('app', 'Vat'),
+			'OverStock' => Yii::t('app', 'Over Stock'),
+			'ExchangeDiff' => Yii::t('app', 'Exchange Diff'),
+			'ExchangePaymentMethod' => Yii::t('app', 'Exchange Payment Method'),
 			'UpdateAt' => Yii::t('app', 'Update At'),
 		);
 	}
@@ -69,8 +75,10 @@ abstract class BaseConfig extends GxActiveRecord {
 
 		$criteria->compare('id', $this->id);
 		$criteria->compare('DayToClear', $this->DayToClear);
-		$criteria->compare('SaleDiffPercent', $this->SaleDiffPercent);
-		$criteria->compare('StockDiffPercent', $this->StockDiffPercent);
+		$criteria->compare('Vat', $this->Vat, true);
+		$criteria->compare('OverStock', $this->OverStock, true);
+		$criteria->compare('ExchangeDiff', $this->ExchangeDiff);
+		$criteria->compare('ExchangePaymentMethod', $this->ExchangePaymentMethod, true);
 		$criteria->compare('UpdateAt', $this->UpdateAt, true);
 
 		return new CActiveDataProvider($this, array(

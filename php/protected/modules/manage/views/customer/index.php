@@ -2,7 +2,7 @@
 /* @var $this CustomerController */
 
 $this->breadcrumbs=array(
-    $this->module->id => array('/'.$this->module->id),
+    'กำหนดความสัมพันธ์' => array('/manage'),
 	'ร้านค้า',
 );
 ?>

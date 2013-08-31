@@ -17,6 +17,7 @@ class DefaultController extends GxController
 			'StockRequest' => 'เบิก ส่ง รับ สินค้า',
 			'StockTransfer' => 'โอนสินค้าเข้าคล้งสิ้นทริป',
 			'StockStatus' => 'สินค้าเคลื่อนไหว',
+			'SyncLog' => 'รับส่งข้อมูล',
 		);
 
 	public function actionIndex()
@@ -71,6 +72,9 @@ class DefaultController extends GxController
 				} elseif ($report == 'StockStatus') {
 					$report = new StockStatusReport();
 					$report->create($ids, $format);
+				} elseif ($report == 'SyncLog') {
+					$report = new SyncLogReport();
+					$report->create($ids, $from_date, $to_date, $format);
 				} else
 					throw new CHttpException(404,'The specified action cannot be found.');
 				

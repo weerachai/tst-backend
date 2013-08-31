@@ -13,6 +13,7 @@ class SaleUnit extends BaseSaleUnit
 			'area' => array(self::BELONGS_TO, 'SaleArea', 'AreaId'),
 			'employee' => array(self::BELONGS_TO, 'Employee', 'EmployeeId'),
 			'device' => array(self::HAS_ONE, 'Device', 'SaleId'),
+			'deviceSetting' => array(self::HAS_ONE, 'DeviceSetting', 'SaleId'),
 			'customers' => array(self::HAS_MANY, 'Customer', 'SaleId'),
 			'orders' => array(self::HAS_MANY, 'ProductOrder', 'SaleId'),
 			'controlNos' => array(self::HAS_MANY, 'ControlNo', 'SaleId'),
@@ -129,6 +130,12 @@ class SaleUnit extends BaseSaleUnit
 
 	public static function getAssigendOptions() {
 		return CHtml::listData(SaleUnit::model()->with('customers')->findAll('CustomerId IS NOT NULL'), 
+				'SaleId', 'SaleName'
+			);
+	}
+
+	public static function getNoPromotionOptions() {
+		return CHtml::listData(SaleUnit::model()->with('deviceSetting')->findAll('PromotionSku IS NULL && PromotionGroup IS NULL && PromotionBill IS NULL && PromotionAccu IS NULL '), 
 				'SaleId', 'SaleName'
 			);
 	}

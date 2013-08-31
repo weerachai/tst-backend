@@ -1,9 +1,8 @@
 <?php
-
-$this->breadcrumbs = array(
-    $this->module->id => array('/'.$this->module->id),
-	'หน่วยขาย' => array('index'),
-	GxHtml::valueEx($model),
+$this->breadcrumbs=array(
+  'กำหนดความสัมพันธ์' => array('/manage'),
+  'หน่วยขาย' => array('index'),
+  GxHtml::valueEx($model),
 );
 ?>
 
@@ -14,9 +13,6 @@ $this->breadcrumbs = array(
 	'attributes' => array(
 'area.AreaId',
 'area.AreaName',
-'area.Province',
-'area.District',
-'area.SubDistrict',
 'area.supervisor',
 'SaleId',
 'SaleName',

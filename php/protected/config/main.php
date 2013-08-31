@@ -29,6 +29,7 @@ return array(
 		'application.models.*',
 		'application.components.*',
 		'application.helpers.*',
+		'application.helpers.reports.*',
 		'application.extensions.crontab.*',
 		'ext.giix-components.*', // giix components
 		'application.vendors.phpexcel.PHPExcel',

@@ -1,9 +1,7 @@
 <?php
-/* @var $this SaleUnitController */
-
 $this->breadcrumbs=array(
-      $this->module->id => array('/'.$this->module->id),
-	'หน่วยขาย',
+  'กำหนดความสัมพันธ์' => array('/manage'),
+  'หน่วยขาย',
 );
 ?>
 

@@ -7,7 +7,7 @@
  * property or method in class "DeviceSetting".
  *
  * Columns in table "DeviceSetting" available as properties of the model,
- * and there are no model relations.
+ * followed by relations of table "DeviceSetting" available as properties of the model.
  *
  * @property string $SaleId
  * @property string $SaleType
@@ -23,6 +23,7 @@
  * @property integer $Capacity
  * @property string $UpdateAt
  *
+ * @property SaleUnit $sale
  */
 abstract class BaseDeviceSetting extends GxActiveRecord {
 
@@ -44,18 +45,19 @@ abstract class BaseDeviceSetting extends GxActiveRecord {
 
 	public function rules() {
 		return array(
-			array('SaleId, SaleType, Vat, OverStock, DayToClear, ExchangeDiff', 'required'),
+			array('SaleId, SaleType', 'required'),
 			array('DayToClear, ExchangeDiff, Capacity', 'numerical', 'integerOnly'=>true),
 			array('SaleId, SaleType, PromotionSku, PromotionGroup, PromotionBill, PromotionAccu, Vat, ExchangePaymentMethod', 'length', 'max'=>255),
 			array('OverStock', 'length', 'max'=>1),
 			array('UpdateAt', 'safe'),
-			array('PromotionSku, PromotionGroup, PromotionBill, PromotionAccu, ExchangePaymentMethod, Capacity, UpdateAt', 'default', 'setOnEmpty' => true, 'value' => null),
+			array('PromotionSku, PromotionGroup, PromotionBill, PromotionAccu, Vat, OverStock, DayToClear, ExchangeDiff, ExchangePaymentMethod, Capacity, UpdateAt', 'default', 'setOnEmpty' => true, 'value' => null),
 			array('SaleId, SaleType, PromotionSku, PromotionGroup, PromotionBill, PromotionAccu, Vat, OverStock, DayToClear, ExchangeDiff, ExchangePaymentMethod, Capacity, UpdateAt', 'safe', 'on'=>'search'),
 		);
 	}
 
 	public function relations() {
 		return array(
+			'sale' => array(self::BELONGS_TO, 'SaleUnit', 'SaleId'),
 		);
 	}
 
@@ -66,7 +68,7 @@ abstract class BaseDeviceSetting extends GxActiveRecord {
 
 	public function attributeLabels() {
 		return array(
-			'SaleId' => Yii::t('app', 'Sale'),
+			'SaleId' => null,
 			'SaleType' => Yii::t('app', 'Sale Type'),
 			'PromotionSku' => Yii::t('app', 'Promotion Sku'),
 			'PromotionGroup' => Yii::t('app', 'Promotion Group'),
@@ -79,13 +81,14 @@ abstract class BaseDeviceSetting extends GxActiveRecord {
 			'ExchangePaymentMethod' => Yii::t('app', 'Exchange Payment Method'),
 			'Capacity' => Yii::t('app', 'Capacity'),
 			'UpdateAt' => Yii::t('app', 'Update At'),
+			'sale' => null,
 		);
 	}
 
 	public function search() {
 		$criteria = new CDbCriteria;
 
-		$criteria->compare('SaleId', $this->SaleId, true);
+		$criteria->compare('SaleId', $this->SaleId);
 		$criteria->compare('SaleType', $this->SaleType, true);
 		$criteria->compare('PromotionSku', $this->PromotionSku, true);
 		$criteria->compare('PromotionGroup', $this->PromotionGroup, true);

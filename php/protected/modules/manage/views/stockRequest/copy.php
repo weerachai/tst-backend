@@ -1,9 +1,10 @@
 <?php
 
 $this->breadcrumbs=array(
-    $this->module->id => array('/'.$this->module->id),
-	'สร้างใบส่งสินค้า' => array('/'.$this->module->id.'/deliver/'),
-	'copy ใบเบิก'
+    'กำหนดความสัมพันธ์' => array('/manage'),
+	'สร้างใบส่งสินค้า' => array('/manage/deliver/'),
+    'รายการใบเบิก' => array('/manage/stockRequest/admin'),
+   	'copy ใบเบิก'
 );
 
 $this->menu = array(
@@ -11,7 +12,7 @@ $this->menu = array(
 );
 ?>
 
-<h3>copy ใบเบิกสินค้า</h3>
+<h3><?php echo 'copy ใบเบิกสินค้า เลขที่: ' . $id; ?></h3>
 
 <?php
 $this->renderPartial('_form', array(

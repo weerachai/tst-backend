@@ -2,7 +2,7 @@
 /* @var $this TripController */
 
 $this->breadcrumbs=array(
-    $this->module->id => array('/'.$this->module->id),
+    'กำหนดความสัมพันธ์' => array('/manage'),
 	'ทริป',
 );
 ?>
@@ -113,7 +113,7 @@ $this->widget('bootstrap.widgets.TbExtendedGridView', array(
 
 ?>
 
-<h3>กำหนดเขตการขายของร้านค้า</h3>
+<h3>กำหนดทริป</h3>
 <div>
 <?php $form = $this->beginWidget('CActiveForm'); ?>
 

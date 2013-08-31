@@ -872,3 +872,12 @@ Stack trace:
 #10 /home/tu/www/backend/php/protected/yiic.php(7): require_once()
 #11 /home/tu/www/backend/php/protected/yiic(4): require_once()
 
+2013/08/31 12:23:14 [error] [system.db.CDbCommand] CDbCommand::execute() failed: SQLSTATE[42S01]: Base table or view already exists: 1050 Table 'Device' already exists. The SQL statement executed was: CREATE TABLE `Device` (
+	`DeviceId` varchar(255) not null,
+	`DeviceKey` varchar(255),
+	`SaleId` varchar(255) not null,
+	`Username` varchar(255) not null,
+	`Password` varchar(255),
+	`UpdateAt` datetime,
+	primary key (SaleId)
+) ENGINE=InnoDB.

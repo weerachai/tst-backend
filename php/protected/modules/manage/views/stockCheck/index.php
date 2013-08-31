@@ -2,7 +2,7 @@
 /* @var $this StockCheckController */
 
 $this->breadcrumbs=array(
-    $this->module->id => array('/'.$this->module->id),
+    'กำหนดความสัมพันธ์' => array('/manage'),
 	'ตรวจสต็อค',
 );
 ?>
