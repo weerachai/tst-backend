@@ -29,7 +29,7 @@ class Promotion extends BasePromotion
 			'FreeType' => Yii::t('app', 'กลุ่มของแถม'),
 			'FreeProductOrGrpId' => Yii::t('app', 'ชื่อสินค้า/กลุ่มสินค้า'),
 			'FreeQty' => Yii::t('app', 'จำนวน'),
-			'FreeBaht' => Yii::t('app', 'หรือมูลค่า'),
+			'FreeBaht' => Yii::t('app', 'มูลค่า'),
 			'FreePack' => Yii::t('app', 'บรรจุ'),
 			'FreePerAmount' => Yii::t('app', 'ทุกๆ'),
 			'FreePerQty' => Yii::t('app', 'หรือทุกๆ'),
@@ -190,11 +190,11 @@ class Promotion extends BasePromotion
 
 	public function getPromotionTypes() {
 		if (empty($this->PromotionType))
-			$this->PromotionType = 'sku';
+			$this->PromotionType = 'accu-all';
 		return array(
-			'sku' => 'รายสินค้า',
-			'group' => 'คละสินค้า',
-			'bill' => 'ท้ายบิล',
+			// 'sku' => 'รายสินค้า',
+			// 'group' => 'คละสินค้า',
+			// 'bill' => 'ท้ายบิล',
 			'accu-all' => 'สะสมทั้งหมด',
 			'accu-l1' => 'สะสมกลุ่มใหญ่',
 			'accu-l2' => 'สะสมกลุ่มกลาง',

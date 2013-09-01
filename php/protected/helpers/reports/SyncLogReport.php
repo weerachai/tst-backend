@@ -19,7 +19,7 @@ class SyncLogReport extends MyReport {
 		JOIN Device USING(SaleId)
   		WHERE DATE(LogTime) >= '$from_date' AND DATE(LogTime) <= '$to_date' 
   		AND SaleId IN ('$idlist')
-		ORDER BY SaleName, LogTime
+		ORDER BY SaleName, LogTime, id
 SQL;
 
 		$rawData = Yii::app()->db->createCommand($sql)->queryAll();

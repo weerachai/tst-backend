@@ -68,6 +68,18 @@ class SyncController extends Controller
 		$jsonHelper->end("Updated successfully.");
 	}
 
+	public function actionSaveLog() 
+	{
+		$params = $_POST;
+		$jsonHelper = new JSONHelper($params);
+		$device = $jsonHelper->login();		
+		$jsonHelper->assertTrue($device->DeviceKey==$params['DeviceKey'],"Account is locked to another device.");
+		$model = new SyncLog;
+		$model->attributes = $params['params'];
+		$jsonHelper->assertTrue($model->save(),$model->getErrors());
+		$jsonHelper->end("Updated successfully.");
+	}
+
 	public function actionSync() 
 	{
 		$params = $_POST;

@@ -40,7 +40,7 @@ $columns = array(
     ),
    	array(
 		'class' => 'bootstrap.widgets.TbButtonColumn',
-		'template'=>'{view}{copy}',
+		'template'=>'{view} {copy} {delete} {confirm}',
 		'buttons'=>array(
             'view' => array(
                 'label'=>'รายละเอียดใบเบิก',
@@ -50,9 +50,21 @@ $columns = array(
                 'label'=>'copy ใบเบิก',
                 'imageUrl'=>Yii::app()->request->baseUrl.'/images/copy.png',
                 'url'=>'Yii::app()->createUrl("/manage/stockRequest/copy", array("id"=>$data["id"]))',
-		    ),
+            ),
+            'delete' => array(
+                'label'=>'ยกเลิกใบเบิก',
+                'url'=>'Yii::app()->createUrl("/manage/stockRequest/delete", array("id"=>$data["id"]))',
+                'visible'=>'empty($data["UpdateAt"])',
+            ),
+            'confirm' => array(
+                'label'=>'ยืนยัน',
+                'imageUrl'=>Yii::app()->request->baseUrl.'/images/confirm.png',
+                'url'=>'Yii::app()->createUrl("/manage/stockRequest/confirm", array("id"=>$data["id"]))',
+                'click'=>'function(){return confirm("กรุณายืนยัน");}',
+                'visible'=>'StockRequest::model()->canConfirm($data["id"])',
+            ),
 		),
-		'htmlOptions' => array('style'=>'white-space:nowrap'),
+		'htmlOptions' => array('style'=>'white-space:nowrap;width:75px'),
  	),
 );
 

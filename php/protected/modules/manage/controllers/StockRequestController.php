@@ -31,9 +31,14 @@ public function accessRules() {
 		$this->performAjaxValidation($model, 'stock-form');
 
 		if (isset($_POST['RequestDetail'])) {
+			if (!empty($model->stockRequest->UpdateAt))
+				throw new CHttpException(400, Yii::t('app', 'Your request is invalid.'));
+
 			$model->setAttributes($_POST['RequestDetail']);
-			$model->UpdateAt = date("Y-m-d H:i:s");
+//			$model->UpdateAt = date("Y-m-d H:i:s");
 			if ($model->save()) {
+				$model->stockRequest->updateTotal();
+				$model->stockRequest->save();
 				$model = new RequestDetail;
 				$model->RequestNo = $id;
 			}
@@ -49,7 +54,7 @@ public function accessRules() {
 		$sql = <<<SQL
 		SELECT T.ProductId AS id, RequestNo, ProductName,
 		QtyLevel1, PackLevel1, QtyLevel2, PackLevel2,
-		QtyLevel3, PackLevel3, QtyLevel4, PackLevel4
+		QtyLevel3, PackLevel3, QtyLevel4, PackLevel4, T.UpdateAt
 		FROM RequestDetail T JOIN Product USING(ProductId) 
 		WHERE RequestNo = '$id'
 		ORDER BY ProductName
@@ -74,12 +79,16 @@ SQL;
     		),
 		));
 
+		$rec = StockRequest::model()->findByPk($id);
+		$viewonly = !empty($rec->UpdateAt);
+
 		// Render
 		$this->render('view', array(
     		'filtersForm' => $filtersForm,
     		'dataProvider' => $dataProvider,
     		'id' => $id,
     		'model' => $model,
+    		'viewonly' => $viewonly,
 		));
 	}
 
@@ -90,7 +99,8 @@ SQL;
 
 		if (isset($_POST['StockRequest'])) {
 			$model->setAttributes($_POST['StockRequest']);
-			$model->UpdateAt = date("Y-m-d H:i:s");
+			$model->Status = 'อยู่ระหว่างบันทึก';
+			$model->UpdateTotal();
 			if ($model->save()) {
 				ControlNo::model()->updateControlNo($model->SaleId,'ใบเบิกสินค้า');
 				if (Yii::app()->getRequest()->getIsAjaxRequest())
@@ -109,6 +119,8 @@ SQL;
 
 	public function actionUpdate($id, $productId) {
 		$model = RequestDetail::model()->findByPk(array('RequestNo'=>$id,'ProductId'=>$productId));
+		if (!empty($model->stockRequest->UpdateAt))
+			throw new CHttpException(400, Yii::t('app', 'Your request is invalid.'));
 
 		$this->performAjaxValidation($model, 'stock-form');
 
@@ -116,6 +128,8 @@ SQL;
 			$model->setAttributes($_POST['RequestDetail']);
 
 			if ($model->save()) {
+				$model->stockRequest->updateTotal();
+				$model->stockRequest->save();
 				$this->redirect(array('view', 'id' => $model->RequestNo));
 			}
 		}
@@ -125,14 +139,33 @@ SQL;
 				));
 	}
 
-	public function actionDelete($id, $productId) {
+	public function actionDelete($id) {
 		if (Yii::app()->getRequest()->getIsPostRequest()) {
+			$model = $this->loadModel($id, 'StockRequest');
+			if (!empty($model->UpdateAt))
+				throw new CHttpException(400, Yii::t('app', 'Your request is invalid.'));
+			$model->delete();
+			if (!Yii::app()->getRequest()->getIsAjaxRequest())
+				$this->redirect(array('admin'));
+		} else
+			throw new CHttpException(400, Yii::t('app', 'Your request is invalid.'));
+	}
+
+	public function actionDeleteDetail($id, $productId) {
+		if (Yii::app()->getRequest()->getIsPostRequest()) {
+			$model = $this->loadModel($id, 'StockRequest');
+			if (!empty($model->UpdateAt))
+				throw new CHttpException(400, Yii::t('app', 'Your request is invalid.'));
+			
 			$sql = <<<SQL
 			DELETE FROM RequestDetail
 			WHERE RequestNo = '$id'
 			AND ProductId = '$productId'
 SQL;
 			Yii::app()->db->createCommand($sql)->execute();
+			$model = $this->loadModel($id, 'StockRequest');
+			$model->updateTotal();
+			$model->save();
 			$this->redirect(array('view','id'=>$id));
 		} else
 			throw new CHttpException(400, Yii::t('app', 'Your request is invalid.'));
@@ -142,18 +175,21 @@ SQL;
 		$old = $this->loadModel($id, 'StockRequest');
 		$model = new StockRequest;
 		$model->SaleId = $old->SaleId;
+		$model->Total = $old->Total;
 
 		$this->performAjaxValidation($model, 'stock-request-form');
 
 		if (isset($_POST['StockRequest'])) {
 			$model->setAttributes($_POST['StockRequest']);
-			$model->UpdateAt = date("Y-m-d H:i:s");
+			$model->Status = 'อยู่ระหว่างบันทึก';
+			$model->UpdateAt = '';
 			if ($model->save()) {
 				ControlNo::model()->updateControlNo($model->SaleId,'ใบเบิกสินค้า');
 				foreach ($old->requestDetails as $detail) {
 					$rec = new RequestDetail;
 					$rec->attributes = $detail->attributes;
 					$rec->RequestNo = $model->RequestNo;
+					$rec->UpdateAt = '';
 					$rec->save();
 				}
 				if (Yii::app()->getRequest()->getIsAjaxRequest())
@@ -172,7 +208,7 @@ SQL;
 	public function actionAdmin() {
 		$sql = <<<SQL
 		SELECT RequestNo AS id, RequestType, RequestFlag,
-		RequestDate
+		RequestDate, UpdateAt
 		FROM StockRequest
 		ORDER BY id
 SQL;
@@ -201,6 +237,20 @@ SQL;
     		'filtersForm' => $filtersForm,
     		'dataProvider' => $dataProvider,
 		));
+	}
+
+	public function actionConfirm($id) {
+		$model = StockRequest::model()->findByPk($id);
+		$t = date("Y-m-d H:i:s");
+		foreach ($model->requestDetails as $detail) {
+			$detail->UpdateAt = $t;
+			$model->Status = 'ยืนยัน';
+			$detail->save();
+		}
+		$model->Status = 'ยืนยัน';
+		$model->UpdateAt = $t;
+		$model->save();
+		$this->redirect(array('admin'));
 	}
 
 }

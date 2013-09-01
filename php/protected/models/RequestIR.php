@@ -11,6 +11,7 @@ class RequestIR extends BaseRequestIR
 	public function relations() {
 		return array(
 			'stockIR' => array(self::BELONGS_TO, 'StockIR', 'IRNo'),
+			'stockRequest' => array(self::BELONGS_TO, 'StockRequest', 'RequestNo'),
 		);
 	}
 }

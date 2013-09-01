@@ -693,7 +693,7 @@ if ($TESTING) {
                              'UpdateAt' => 'datetime',
                              'PRIMARY KEY (IRNo, RequestNo)',
                              ), 'ENGINE=InnoDB');   
-    //$this->addForeignKey('fk_RequestDetail_StockRequest','RequestDetail','RequestNo','StockRequest','RequestNo','CASCADE','CASCADE');
+    $this->addForeignKey('fk_RequestIR_StockIRt','RequestIR','IRNo','StockIR','IRNo','CASCADE','CASCADE');
     //$this->addForeignKey('fk_sStock_bSaleUnit','sStock','SaleId','bSaleUnit','SaleId','CASCADE','CASCADE');
     //$this->addForeignKey('fk_sStock_oProduct','sStock','ProductId','oProduct','ProductId','RESTRICT','CASCADE');
 
@@ -714,7 +714,7 @@ if ($TESTING) {
                              'UpdateAt' => 'datetime',
                              'PRIMARY KEY (IRNo, ProductId)',
                              ), 'ENGINE=InnoDB');   
-    //$this->addForeignKey('fk_RequestDetail_StockRequest','RequestDetail','RequestNo','StockRequest','RequestNo','CASCADE','CASCADE');
+    $this->addForeignKey('fk_IRDetail_StockIR','IRDetail','IRNo','StockIR','IRNo','CASCADE','CASCADE');
 
     // transaction
     // check

@@ -39,6 +39,7 @@ $columns = array(
                 'label'=>'สร้างใบส่ง',
                 'imageUrl'=>Yii::app()->request->baseUrl.'/images/deliver.png',
                 'url'=>'Yii::app()->createUrl("/manage/stockIR/deliver", array("id"=>$data["id"]))',
+                'visible'=>'StockIR::model()->canAddDeliver($data["id"])',
             ),
 
         ),
@@ -85,13 +86,13 @@ $columns = array(
     array(
         'header'=>CHtml::encode('จำนวนเบิก'),
         'type'=>'raw',
-        'value'=>'Product::model()->formatQty($data,"ReqQty");',
+        'value'=>'Product::model()->formatQty($data,"ReqQty")',
         'htmlOptions' => array('style'=>'white-space:nowrap'),
     ),
     array(
         'header'=>CHtml::encode('จำนวนอนุมัติ'),
         'type'=>'raw',
-        'value'=>'CHtml::dropDownList("Qty[$data[id]][1]",$data["Qty1"],Product::model()->getQtyOptions($data["ReqQty1"],$data["PackLevel1"]),array("style"=>"width:100px;"))'.
+        'value'=>!empty($model->UpdateAt)?'Product::model()->formatQty($data,"Qty")':'CHtml::dropDownList("Qty[$data[id]][1]",$data["Qty1"],Product::model()->getQtyOptions($data["ReqQty1"],$data["PackLevel1"]),array("style"=>"width:100px;"))'.
             '.CHtml::dropDownList("Qty[$data[id]][2]",$data["Qty2"],Product::model()->getQtyOptions($data["ReqQty2"],$data["PackLevel2"]),array("style"=>"width:100px;"))'.
             '.CHtml::dropDownList("Qty[$data[id]][3]",$data["Qty3"],Product::model()->getQtyOptions($data["ReqQty3"],$data["PackLevel3"]),array("style"=>"width:100px;"))'.
             '.CHtml::dropDownList("Qty[$data[id]][4]",$data["Qty4"],Product::model()->getQtyOptions($data["ReqQty4"],$data["PackLevel4"]),array("style"=>"width:100px;"))',
@@ -122,6 +123,7 @@ function reloadGrid(data) {
     $.fn.yiiGridView.update('data-grid');
 }
 </script>
-<?php echo CHtml::ajaxSubmitButton('บันทึก',array('stockIR/ajaxupdate','id'=>$id), array('success'=>'reloadGrid')); ?>
+<?php if (empty($model->UpdateAt)) echo CHtml::ajaxSubmitButton('บันทึก',array('stockIR/ajaxupdate','id'=>$id), array('success'=>'reloadGrid')); ?>
 <?php $this->endWidget(); ?>
 </div>
+

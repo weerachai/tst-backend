@@ -7,7 +7,7 @@
  * property or method in class "IRDetail".
  *
  * Columns in table "IRDetail" available as properties of the model,
- * and there are no model relations.
+ * followed by relations of table "IRDetail" available as properties of the model.
  *
  * @property string $IRNo
  * @property string $ProductId
@@ -21,6 +21,7 @@
  * @property string $PriceLevel4
  * @property string $UpdateAt
  *
+ * @property StockIR $iRNo
  */
 abstract class BaseIRDetail extends GxActiveRecord {
 
@@ -37,7 +38,7 @@ abstract class BaseIRDetail extends GxActiveRecord {
 	}
 
 	public static function representingColumn() {
-		return 'IRNo';
+		return 'ProductId';
 	}
 
 	public function rules() {
@@ -53,6 +54,7 @@ abstract class BaseIRDetail extends GxActiveRecord {
 
 	public function relations() {
 		return array(
+			'iRNo' => array(self::BELONGS_TO, 'StockIR', 'IRNo'),
 		);
 	}
 
@@ -63,7 +65,7 @@ abstract class BaseIRDetail extends GxActiveRecord {
 
 	public function attributeLabels() {
 		return array(
-			'IRNo' => Yii::t('app', 'Irno'),
+			'IRNo' => null,
 			'ProductId' => Yii::t('app', 'Product'),
 			'QtyLevel1' => Yii::t('app', 'Qty Level1'),
 			'QtyLevel2' => Yii::t('app', 'Qty Level2'),
@@ -74,13 +76,14 @@ abstract class BaseIRDetail extends GxActiveRecord {
 			'PriceLevel3' => Yii::t('app', 'Price Level3'),
 			'PriceLevel4' => Yii::t('app', 'Price Level4'),
 			'UpdateAt' => Yii::t('app', 'Update At'),
+			'iRNo' => null,
 		);
 	}
 
 	public function search() {
 		$criteria = new CDbCriteria;
 
-		$criteria->compare('IRNo', $this->IRNo, true);
+		$criteria->compare('IRNo', $this->IRNo);
 		$criteria->compare('ProductId', $this->ProductId, true);
 		$criteria->compare('QtyLevel1', $this->QtyLevel1);
 		$criteria->compare('QtyLevel2', $this->QtyLevel2);

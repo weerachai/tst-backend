@@ -15,7 +15,8 @@ public function accessRules() {
 				'users'=>array('@'),
 				),
 			array('allow', 
-				'actions'=>array('minicreate', 'create', 'update', 'admin', 'delete', 'deliver', 'ajaxupdate'),
+				'actions'=>array('minicreate', 'create', 'update', 'admin', 'delete', 'deliver', 'ajaxupdate',
+					'confirm'),
 				'users'=>array('admin'),
 				),
 			array('deny', 
@@ -26,10 +27,11 @@ public function accessRules() {
 
 	public function actionView($id) {
 		$sql = <<<SQL
-		SELECT RequestNo AS id, RequestDate, SaleName
-		FROM StockRequest R JOIN SaleUnit S USING(SaleId)
-		WHERE RequestNo IN 
-		(SELECT RequestNo FROM RequestIR WHERE IRNo = '$id')
+		SELECT RequestNo AS id, RequestDate, SaleName, IR.UpdateAt, DeliverNo
+		FROM ((StockRequest R JOIN SaleUnit S USING(SaleId))
+		JOIN RequestIR IR USING(RequestNo))
+		LEFT JOIN StockDeliver USING(RequestNo)
+		WHERE IRNo = '$id'
 		ORDER BY RequestDate, id
 SQL;
 
@@ -75,11 +77,14 @@ SQL;
     		// ),
 		));
 
+		$model = StockIR::model()->findByPk($id);
+
 		// Render
 		$this->render('view', array(
     		'id' => $id,
     		'dataProvider1' => $dataProvider1,
     		'dataProvider2' => $dataProvider2,
+    		'model' => $model,
 		));
 	}
 
@@ -100,6 +105,7 @@ SQL;
 		WHERE RequestDate >= '$from_date_sql' AND RequestDate <= '$to_date_sql'
 		AND S.SaleId LIKE '$saleId' AND RequestFlag LIKE '$flag'
 		AND RequestNo NOT IN (SELECT RequestNo FROM RequestIR)
+		AND UpdateAt IS NOT NULL
 		ORDER BY RequestDate, id
 SQL;
 
@@ -109,14 +115,15 @@ SQL;
 			$IR->IRNo = $IRNo = ControlNo::model()->getControlNo($saleId,'IR');
 			$IR->SaleId = $saleId;
 			$IR->IRDate = date("Y-m-d");
-			$IR->UpdateAt = date("Y-m-d H:i:s");
+			$IR->Status = 'อยู่ระหว่างบันทึก';
+//			$IR->UpdateAt = date("Y-m-d H:i:s");
 			if ($IR->save()) {
 				ControlNo::model()->updateControlNo($saleId,'IR');
 				foreach ($rawData as $row) {
 					$rec = new RequestIR;
 					$rec->IRNo = $IRNo;
 					$rec->RequestNo = $row['id'];
-					$rec->UpdateAt = date("Y-m-d H:i:s");
+//					$rec->UpdateAt = date("Y-m-d H:i:s");
 					$rec->save();
 				}
 				$sql = <<<SQL
@@ -144,9 +151,11 @@ SQL;
 					$rec->PriceLevel2 = $product->PriceLevel2;
 					$rec->PriceLevel3 = $product->PriceLevel3;
 					$rec->PriceLevel4 = $product->PriceLevel4;
-					$rec->UpdateAt = date("Y-m-d H:i:s");
+//					$rec->UpdateAt = date("Y-m-d H:i:s");
 					$rec->save();
 				}
+				$IR->updateTotal();
+				$IR->save();
 				$this->redirect(array('view', 'id' => $IRNo));
 			}
 		}
@@ -182,6 +191,8 @@ SQL;
 
 	public function actionUpdate($id, $productId) {
 		$model = IRDetail::model()->findByPk(array('IRNo'=>$id,'ProductId'=>$productId));
+		if (!empty($model->stockIR->UpdateAt))
+			throw new CHttpException(400, Yii::t('app', 'Your request is invalid.'));
 
 		$this->performAjaxValidation($model, 'stock-form');
 
@@ -189,6 +200,8 @@ SQL;
 			$model->setAttributes($_POST['IRDetail']);
 
 			if ($model->save()) {
+				$model->stockIR->updateTotal();
+				$model->stockIR->save();
 				$this->redirect(array('view', 'id' => $model->IRNo));
 			}
 		}
@@ -201,10 +214,8 @@ SQL;
 	public function actionDelete($id) {
 		if (Yii::app()->getRequest()->getIsPostRequest()) {
 			$model = $this->loadModel($id, 'StockIR');
-			foreach ($model->requestIRs as $request)
-				$request->delete();
-			foreach ($model->IRdetails as $detail)
-				$detail->delete();
+			if (!empty($model->UpdateAt))
+				throw new CHttpException(400, Yii::t('app', 'Your request is invalid.'));
 			$model->delete();
 			if (!Yii::app()->getRequest()->getIsAjaxRequest())
 				$this->redirect(array('admin'));
@@ -212,17 +223,10 @@ SQL;
 			throw new CHttpException(400, Yii::t('app', 'Your request is invalid.'));
 	}
 
-	public function actionIndex() {
-		$dataProvider = new CActiveDataProvider('StockIR');
-		$this->render('index', array(
-			'dataProvider' => $dataProvider,
-		));
-	}
-
 	public function actionAdmin() {
 		$sql = <<<SQL
-		SELECT IRNo AS id, IRDate, COUNT(RequestNo) AS Num
-		FROM StockIR JOIN RequestIR USING(IRNo)
+		SELECT IRNo AS id, IRDate, COUNT(RequestNo) AS Num, IR.UpdateAt
+		FROM StockIR IR JOIN RequestIR USING(IRNo)
 		GROUP BY id, IRDate
 		ORDER BY IRDate, id
 SQL;
@@ -255,29 +259,33 @@ SQL;
 
 	public function actionDeliver($id) {
 		$request = $this->loadModel($id, 'StockRequest');
-		$model = StockDeliver::model()->find("RequestNo='$request->RequestNo'");
+		$model = $request->deliver;
 		if ($model == null) {
 			$model = new StockDeliver;
 			$model->SaleId = $request->SaleId;
 			$model->RequestNo = $request->RequestNo;
 			$model->DeliverDate = date("Y-m-d");
 			$model->DeliverNo = ControlNo::model()->getControlNo($model->SaleId,'ใบส่งสินค้า');
+			$model->Status = 'อยู่ระหว่างบันทึก';
 			if ($model->save()) {
 				ControlNo::model()->updateControlNo($model->SaleId,'ใบส่งสินค้า');
 				foreach ($request->requestDetails as $detail) {
 					$rec = new DeliverDetail;
 					$rec->DeliverNo = $model->DeliverNo;
 					$rec->ProductId = $detail->ProductId;
-					$rec->QtyLevel1 = $detail->QtyLevel1;
-					$rec->QtyLevel2 = $detail->QtyLevel2;
-					$rec->QtyLevel3 = $detail->QtyLevel3;
-					$rec->QtyLevel4 = $detail->QtyLevel4;
+					$qtys = $request->requestIR->stockIR->getAvailableQty($rec->ProductId);
+					$rec->QtyLevel1 = min($qtys[0],$detail->QtyLevel1);
+					$rec->QtyLevel2 = min($qtys[1],$detail->QtyLevel2);
+					$rec->QtyLevel3 = min($qtys[2],$detail->QtyLevel3);
+					$rec->QtyLevel4 = min($qtys[3],$detail->QtyLevel4);
 					$rec->PriceLevel1 = $detail->PriceLevel1;
 					$rec->PriceLevel2 = $detail->PriceLevel2;
 					$rec->PriceLevel3 = $detail->PriceLevel3;
 					$rec->PriceLevel4 = $detail->PriceLevel4;
 					$rec->save();
 				}
+				$model->updateTotal();
+				$model->save();
 			}
 		}
 
@@ -295,6 +303,27 @@ SQL;
 				$model->QtyLevel4 = $qty[4];
 				$model->save();
 			}
+			$model = $this->loadModel($id, 'StockIR');
+			$model->updateTotal();
+			$model->save();
 		}
+	}
+
+	public function actionConfirm($id) {
+		$model = StockIR::model()->findByPk($id);
+		$t = date("Y-m-d H:i:s");
+		foreach ($model->IRDetails as $detail) {
+			$detail->UpdateAt = $t;
+			$detail->save();
+		}
+		foreach ($model->requestIRs as $request) {
+			$request->UpdateAt = $t;
+			$request->save();
+		}
+		$model->Status = 'ยืนยัน';
+		$model->UpdateAt = $t;
+		$model->save();
+		$model->auto();
+		$this->redirect(array('admin'));
 	}
 }

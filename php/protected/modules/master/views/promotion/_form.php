@@ -23,7 +23,8 @@
         array('prepend'=>'<i class="icon-calendar"></i>',
         'options'=>array('format' => 'yyyy-mm-dd'))); ?>
 	<?php echo $form->dropDownListRow($model, 'Formula', $model->getFormulas()); ?>
-	<?php echo $form->dropDownListRow($model, 'PromotionType', $model->getPromotionTypes(), array(
+	<?php if ($type == 'accu')
+			echo $form->dropDownListRow($model, 'PromotionType', $model->getPromotionTypes($type), array(
 					'ajax' => array(
 						'type'=>'POST', //request type
 						'url'=>CController::createUrl('/helper/getProductsOrGroups'),
@@ -33,7 +34,8 @@
                     		$("#'.CHtml::activeId($model,'ProductOrGrpId').'").html(data.ProductOrGrpId);
                 		}',
 					))); ?>
-	<?php echo $form->dropDownListRow($model, 'ProductOrGrpId', $model->getProductsOrGroups()); ?>
+	<?php if ($type != 'bill')
+			echo $form->dropDownListRow($model, 'ProductOrGrpId', $model->getProductsOrGroups()); ?>
 	
 	<div class="well well-small">ซื้อขั้นต่ำ:</div>
 	<?php echo $form->textFieldRow($model, 'MinAmount', array('append'=>' บาท',
@@ -157,7 +159,8 @@
                      	$("#'.CHtml::activeId($model, "DiscPer3").'").val(data.v2);
               			}',
 					))); ?>
-	<?php echo $form->textFieldRow($model, 'DiscPer2', array('append'=>' %',
+	<?php if ($type == 'sku' || $type == 'group')
+			echo $form->textFieldRow($model, 'DiscPer2', array('append'=>' %',
 					'disabled'=>($model->DiscPer1 == 0),
 					'ajax' => array(
 						'type'=>'POST', //request type
@@ -171,11 +174,17 @@
                      	$("#'.CHtml::activeId($model, "DiscPer3").'").attr("disabled",data.l1);
                      	$("#'.CHtml::activeId($model, "DiscPer3").'").val(data.v1);
                 		}',
-					))); ?>
-	<?php echo $form->textFieldRow($model, 'DiscPer3', array('append'=>' %',
+					)));
+		  else 
+		  	echo $form->hiddenField($model, 'DiscPer2');
+	?>
+	<?php if ($type == 'sku' || $type == 'group')
+			echo $form->textFieldRow($model, 'DiscPer3', array('append'=>' %',
 					'disabled'=>($model->DiscPer2 == 0),
-					)); ?>
-
+					));
+		  else 
+		  	echo $form->hiddenField($model, 'DiscPer3');
+	?>
 	<div class="well well-small">ของแถม:</div>
 	<?php echo $form->dropDownListRow($model, 'FreeType', $model->getFreeTypes(), array(
 					'ajax' => array(
@@ -206,7 +215,8 @@
 					'empty' => '-'
 					)); ?>
 	<?php echo $form->dropDownListRow($model, 'FreeProductOrGrpId', $model->getFreeProductsOrGroups()); ?>
-	<?php echo $form->textFieldRow($model, 'FreeQty', array('append'=>$form->dropDownList($model, 'FreePack', Product::model()->getPacks(), array('empty' => '-',
+	<?php if ($type == 'sku' || $type == 'group')
+			echo $form->textFieldRow($model, 'FreeQty', array('append'=>$form->dropDownList($model, 'FreePack', Product::model()->getPacks(), array('empty' => '-',
 					'disabled'=>(empty($model->FreeType) || $model->FreeBaht > 0),
 					)),
 					'disabled'=>(empty($model->FreeType) || $model->FreeBaht > 0),
@@ -228,8 +238,12 @@
                      	$("#'.CHtml::activeId($model, "FreePerQty").'").val(data.v2);
                       	$("#'.CHtml::activeId($model, "FreeBaht").'").attr("disabled",data.l3);
                 		}',
-					))); ?>
-	<?php echo $form->textFieldRow($model, 'FreeBaht', array('append'=>' บาท',
+					)));
+		  else 
+		  	echo $form->hiddenField($model, 'FreeQty');
+	?>
+	<?php if ($type == 'bill' || $type == 'accu')
+			echo $form->textFieldRow($model, 'FreeBaht', array('append'=>' บาท',
 					'disabled'=>(empty($model->FreeType) || $model->FreeQty > 0),
 					'ajax' => array(
 						'type'=>'POST', //request type
@@ -250,7 +264,10 @@
                      	$("#'.CHtml::activeId($model, "FreeQty").'").attr("disabled",data.l3);
                      	$("#'.CHtml::activeId($model, "FreePack").'").attr("disabled",data.l3);
                 		}',
-					))); ?>
+					)));
+		  else 
+		  	echo $form->hiddenField($model, 'FreeBaht');
+	?>
 	<?php echo $form->textFieldRow($model, 'FreePerAmount', array('append'=>' บาท',
 					'disabled'=>($model->MinAmount == 0 || ($model->FreeQty == 0 && $model->FreeBaht == 0)),
 					)); ?>

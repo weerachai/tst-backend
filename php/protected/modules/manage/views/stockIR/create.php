@@ -49,7 +49,7 @@ $this->widget('zii.widgets.jui.CJuiDatePicker', array(
 ));
 ?>
 <br />
-<b> เชตการขาย : </b>
+<b> เขตการขาย : </b>
 <?php echo CHtml::dropDownList('saleId', $saleId, SaleUnit::model()->getAssigendOptions(), array('empty'=>'(ทั้งหมด)')); ?>
 
 <b> สถานะ : </b>

@@ -35,16 +35,18 @@ $columns = array(
     ),
    	array(
 		'class' => 'bootstrap.widgets.TbButtonColumn',
-		'template'=>'{update}{delete}',
+		'template'=>'{update} {delete}',
 		'buttons'=>array(
 			'update' => array(
 	    		'label'=>'แก้ไขข้อมูล',
 	        	'url'=>'Yii::app()->createUrl("/manage/stockRequest/update", array("id"=>$data["RequestNo"],"productId"=>$data["id"]))',
+                'visible'=>'empty($data["UpdateAt"])',
 		    ),
 			'delete' => array(
 	    		'label'=>'ลบข้อมูล',
-	        	'url'=>'Yii::app()->createUrl("/manage/stockRequest/delete", array("id"=>$data["RequestNo"],"productId"=>$data["id"]))',
-		    ),
+	        	'url'=>'Yii::app()->createUrl("/manage/stockRequest/deleteDetail", array("id"=>$data["RequestNo"],"productId"=>$data["id"]))',
+    		    'visible'=>'empty($data["UpdateAt"])',
+            ),
 		),
 		'htmlOptions' => array('style'=>'white-space:nowrap'),
  	),
@@ -69,6 +71,7 @@ $this->widget('bootstrap.widgets.TbGridView', array(
 ));
 ?>
 
+<?php if (!$viewonly) { ?>
 <h3 id="title">เพิ่มรายการสินค้า</h3>
 <div>
 <?php $form = $this->beginWidget('bootstrap.widgets.TbActiveForm', array(
@@ -210,3 +213,5 @@ $this->widget('bootstrap.widgets.TbGridView', array(
 
 <?php $this->endWidget(); ?>
 </div>
+
+<?php } ?>

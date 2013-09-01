@@ -11,7 +11,7 @@ class PromotionController extends GxController {
 	public function accessRules() {
 		return array(
 				array('allow', 
-					'actions'=>array('index','view','create','update','copy','delete'),
+					'actions'=>array('index','view','create','update','copy','delete','deleteProductGroup','deleteFreeGroup'),
 					'users'=>array('admin'),
 					),
 				array('deny', 
@@ -26,14 +26,16 @@ class PromotionController extends GxController {
 		));
 	}
 
-	public function actionCreate() {
+	public function actionCreate($type) {
 		$model = new Promotion;
+		if ($type != 'accu')
+			$model->PromotionType = $type;
 
 		$this->performAjaxValidation($model, 'promotion-form');
 
 		if (isset($_POST['Promotion'])) {
 			$model->setAttributes($_POST['Promotion']);
-
+			$model->UpdateAt = date("Y-m-d H:i:s");
 			if ($model->save()) {
 				if (Yii::app()->getRequest()->getIsAjaxRequest())
 					Yii::app()->end();
@@ -42,7 +44,7 @@ class PromotionController extends GxController {
 			}
 		}
 
-		$this->render('create', array( 'model' => $model));
+		$this->render('create', array( 'model' => $model, 'type' => $type));
 	}
 
 	public function actionCopy($id) {
@@ -69,6 +71,10 @@ class PromotionController extends GxController {
 
 	public function actionUpdate($id) {
 		$model = $this->loadModel($id, 'Promotion');
+		if ($model->PromotionType == 'sku' || $model->PromotionType == 'group' || $model->PromotionType == 'bill')
+			$type = $model->PromotionType;
+		else
+			$type = 'accu';
 
 		$this->performAjaxValidation($model, 'promotion-form');
 
@@ -82,6 +88,7 @@ class PromotionController extends GxController {
 
 		$this->render('update', array(
 				'model' => $model,
+				'type' => $type,
 				));
 	}
 
@@ -188,13 +195,112 @@ SQL;
     		),
 		));
 
+		$model2 = new ProductGrp;
+
+		$this->performAjaxValidation($model2, 'insert-form2');
+
+		if (isset($_POST['ProductGrp'])) {
+			$model2->setAttributes($_POST['ProductGrp']);
+			$model2->UpdateAt = date("Y-m-d H:i:s");
+			if ($model2->save()) {
+				if (Yii::app()->getRequest()->getIsAjaxRequest())
+					Yii::app()->end();
+			}
+		}
+
+		$sql = <<<SQL
+		SELECT ProductGrpId AS id, ProductGrpId, P.ProductId, P.ProductName
+		FROM ProductGrp JOIN Product P USING(ProductId)
+		ORDER BY ProductGrpId, ProductName
+SQL;
+		// Create filter model and set properties
+		$filtersForm2 = new FiltersForm;
+		if (isset($_GET['FiltersForm']))
+		    $filtersForm2->filters=$_GET['FiltersForm'];
+		 
+		// Get rawData and create dataProvider
+		$rawData = Yii::app()->db->createCommand($sql)->queryAll();
+		$filteredData = $filtersForm2->filter($rawData);
+		$dataProvider2 = new CArrayDataProvider($filteredData, array(
+    		'sort'=>array(
+        		'attributes'=>array(
+           	 	 'ProductGrpId', 'ProductId', 'ProductName',
+        		),
+    		),
+    		'pagination'=>array(
+        		'pageSize'=>10,
+    		),
+		));
+
+		$model3 = new FreeGrp;
+
+		$this->performAjaxValidation($model3, 'insert-form3');
+
+		if (isset($_POST['FreeGrp'])) {
+			$model3->setAttributes($_POST['FreeGrp']);
+			$model3->UpdateAt = date("Y-m-d H:i:s");
+			if ($model3->save()) {
+				if (Yii::app()->getRequest()->getIsAjaxRequest())
+					Yii::app()->end();
+			}
+		}
+
+		$sql = <<<SQL
+		SELECT FreeGrpId AS id, FreeGrpId, P.ProductId, P.ProductName, FreePack
+		FROM FreeGrp JOIN Product P USING(ProductId)
+		ORDER BY FreeGrpId, ProductName
+SQL;
+		// Create filter model and set properties
+		$filtersForm3 = new FiltersForm;
+		if (isset($_GET['FiltersForm']))
+		    $filtersForm3->filters=$_GET['FiltersForm'];
+		 
+		// Get rawData and create dataProvider
+		$rawData = Yii::app()->db->createCommand($sql)->queryAll();
+		$filteredData = $filtersForm3->filter($rawData);
+		$dataProvider3 = new CArrayDataProvider($filteredData, array(
+    		'sort'=>array(
+        		'attributes'=>array(
+           	 	 'FreeGrpId', 'ProductId', 'ProductName', 'FreePack',
+        		),
+    		),
+    		'pagination'=>array(
+        		'pageSize'=>10,
+    		),
+		));
+
 		// Render
 		$this->render('index', array(
     		'filtersForm' => $filtersForm,
     		'dataProvider' => $dataProvider,
     		'from_date' => $from_date,
     		'to_date' => $to_date,
+    		'filtersForm2' => $filtersForm2,
+    		'dataProvider2' => $dataProvider2,
+    		'model2' => $model2,
+    		'filtersForm3' => $filtersForm3,
+    		'dataProvider3' => $dataProvider3,
+    		'model3' => $model3,
 		));
 	}
 
+	public function actionDeleteProductGroup($id, $productId) {
+		if (Yii::app()->getRequest()->getIsPostRequest()) {
+			ProductGrp::model()->findByPk(array('ProductGrpId'=>$id,'ProductId'=>$productId))->delete();
+
+			if (!Yii::app()->getRequest()->getIsAjaxRequest())
+				$this->redirect(array('index'));
+		} else
+			throw new CHttpException(400, Yii::t('app', 'Your request is invalid.'));
+	}
+
+	public function actionDeleteFreeGroup($id, $productId) {
+		if (Yii::app()->getRequest()->getIsPostRequest()) {
+			FreeGrp::model()->findByPk(array('FreeGrpId'=>$id,'ProductId'=>$productId))->delete();
+
+			if (!Yii::app()->getRequest()->getIsAjaxRequest())
+				$this->redirect(array('index'));
+		} else
+			throw new CHttpException(400, Yii::t('app', 'Your request is invalid.'));
+	}
 }

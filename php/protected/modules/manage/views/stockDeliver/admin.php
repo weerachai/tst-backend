@@ -31,7 +31,7 @@ $columns = array(
     ),
    	array(
 		'class' => 'bootstrap.widgets.TbButtonColumn',
-		'template'=>'{view}{update}{delete}',
+		'template'=>'{view} {update} {delete}',
 		'buttons'=>array(
             'view' => array(
                 'label'=>'รายละเอียดใบส่ง',
@@ -40,10 +40,12 @@ $columns = array(
             'update' => array(
                 'label'=>'แก้ไข',
                 'url'=>'Yii::app()->createUrl("/manage/stockDeliver/update", array("id"=>$data["id"]))',
+                'visible'=>'$data["Status"]=="อยู่ระหว่างบันทึก"',
 		    ),
             'delete' => array(
                 'label'=>'ยกเลิก',
                 'url'=>'Yii::app()->createUrl("/manage/stockDeliver/delete", array("id"=>$data["id"]))',
+                'visible'=>'$data["Status"]!="ส่งข้อมูลแล้ว"',
 		    ),
 		),
 		'htmlOptions' => array('style'=>'white-space:nowrap'),

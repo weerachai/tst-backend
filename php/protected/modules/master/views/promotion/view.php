@@ -8,7 +8,10 @@ $this->breadcrumbs = array(
 
 $this->menu=array(
 	array('label'=>'จัดการโปรโมชั่น', 'url'=>array('index')),
-	array('label'=>'เพิ่มโปรโมชั่น', 'url'=>array('create')),
+    array('label'=>'เพิ่มโปรโมชั่นรายสินค้า', 'url'=>array('create','type'=>'sku')),
+    array('label'=>'เพิ่มโปรโมชั่นกลุ่มสินค้า', 'url'=>array('create','type'=>'group')),
+    array('label'=>'เพิ่มโปรโมชั่นท้ายบิล', 'url'=>array('create','type'=>'bill')),
+    array('label'=>'เพิ่มโปรโมชั่นสะสม', 'url'=>array('create','type'=>'accu')),
 	array('label'=>'แก้ไขโปรโมชั่น', 'url'=>array('update', 'id' => $model->PromotionId)),
 	array('label'=>'ลบโปรโมชั่น', 'url'=>'#', 'linkOptions' => array('submit' => array('delete', 'id' => $model->PromotionId), 'confirm'=>'Are you sure you want to delete this item?')),
 );

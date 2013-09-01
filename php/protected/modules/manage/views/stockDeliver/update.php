@@ -38,10 +38,10 @@ $columns = array(
     array(
         'header'=>CHtml::encode('จำนวนส่ง'),
         'type'=>'raw',
-        'value'=>'CHtml::dropDownList("Qty[$data[id]][1]",$data["Qty1"],Product::model()->getQtyOptions($data["ReqQty1"],$data["PackLevel1"]),array("style"=>"width:100px;"))'.
-       	 	'.CHtml::dropDownList("Qty[$data[id]][2]",$data["Qty2"],Product::model()->getQtyOptions($data["ReqQty2"],$data["PackLevel2"]),array("style"=>"width:100px;"))'.
-       	 	'.CHtml::dropDownList("Qty[$data[id]][3]",$data["Qty3"],Product::model()->getQtyOptions($data["ReqQty3"],$data["PackLevel3"]),array("style"=>"width:100px;"))'.
-       	 	'.CHtml::dropDownList("Qty[$data[id]][4]",$data["Qty4"],Product::model()->getQtyOptions($data["ReqQty4"],$data["PackLevel4"]),array("style"=>"width:100px;"))',
+        'value'=>'CHtml::dropDownList("Qty[$data[id]][1]",$data["Qty1"],Product::model()->getQtyOptions(StockIR::model()->getMaxQty($data["id"],$data["DeliverNo"],$data["ReqQty1"],1),$data["PackLevel1"]),array("style"=>"width:100px;"))'.
+       	 	'.CHtml::dropDownList("Qty[$data[id]][2]",$data["Qty2"],Product::model()->getQtyOptions(StockIR::model()->getMaxQty($data["id"],$data["DeliverNo"],$data["ReqQty2"],2),$data["PackLevel2"]),array("style"=>"width:100px;"))'.
+       	 	'.CHtml::dropDownList("Qty[$data[id]][3]",$data["Qty3"],Product::model()->getQtyOptions(StockIR::model()->getMaxQty($data["id"],$data["DeliverNo"],$data["ReqQty3"],3),$data["PackLevel3"]),array("style"=>"width:100px;"))'.
+       	 	'.CHtml::dropDownList("Qty[$data[id]][4]",$data["Qty4"],Product::model()->getQtyOptions(StockIR::model()->getMaxQty($data["id"],$data["DeliverNo"],$data["ReqQty4"],4),$data["PackLevel4"]),array("style"=>"width:100px;"))',
         'htmlOptions' => array('style'=>'white-space:nowrap'),
     ),
 );
@@ -69,7 +69,12 @@ function reloadGrid(data) {
     $.fn.yiiGridView.update('data-grid');
 }
 </script>
-<?php //$this->widget('bootstrap.widgets.TbButton', array('buttonType'=>'submit', 'type'=>'primary', 'label'=>'บันทึก')); ?>
-<?php echo CHtml::ajaxSubmitButton('บันทึก',array('stockDeliver/ajaxupdate','id'=>$id), array('success'=>'reloadGrid')); ?>
+<?php echo GxHtml::ajaxSubmitButton('บันทึก',array('stockDeliver/ajaxupdate','id'=>$id), array('success'=>'reloadGrid')); ?>
+<?php $this->endWidget(); ?>
+</div>
+
+<div>
+<?php $form = $this->beginWidget('bootstrap.widgets.TbActiveForm'); ?>
+<?php echo GxHtml::submitButton(Yii::t('app', 'ยืนยัน'), array('confirm'=>'กรุณายืนยัน')); ?>
 <?php $this->endWidget(); ?>
 </div>

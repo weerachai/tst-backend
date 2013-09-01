@@ -81,6 +81,22 @@ SQL;
 	}
 
 	public function actionUpdate($id) {
+		if (isset($_POST['yt1'])) {
+			$t = date("Y-m-d H:i:s");
+			$model = $this->loadModel($id, 'StockDeliver');
+			$model->Status = 'ยืนยัน';
+			$model->UpdateAt = $t;
+			$model->save();
+			foreach ($model->deliverDetails as $detail) {
+				$detail->UpdateAt = $t;
+				$detail->save();
+			}
+			foreach ($model->request->requestIR->stockIR->requestIRs as $request) {
+				if (!$request->stockRequest->deliver)
+					$this->redirect(array('/manage/stockIR/view','id'=>$request->IRNo));
+			}
+			$this->redirect(array('admin'));
+		}
 		$sql = <<<SQL
 		SELECT D.ProductId AS id, D.DeliverNo AS DeliverNo, ProductName,
 		D.QtyLevel1 AS Qty1, PackLevel1, R.QtyLevel1 AS ReqQty1,
@@ -123,16 +139,9 @@ SQL;
 			throw new CHttpException(400, Yii::t('app', 'Your request is invalid.'));
 	}
 
-	public function actionIndex() {
-		$dataProvider = new CActiveDataProvider('StockDeliver');
-		$this->render('index', array(
-			'dataProvider' => $dataProvider,
-		));
-	}
-
 	public function actionAdmin() {
 		$sql = <<<SQL
-		SELECT DeliverNo AS id, RequestNo, DeliverDate
+		SELECT DeliverNo AS id, RequestNo, DeliverDate, Status
 		FROM StockDeliver
 		ORDER BY id
 SQL;

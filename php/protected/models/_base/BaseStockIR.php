@@ -7,7 +7,7 @@
  * property or method in class "StockIR".
  *
  * Columns in table "StockIR" available as properties of the model,
- * and there are no model relations.
+ * followed by relations of table "StockIR" available as properties of the model.
  *
  * @property string $IRNo
  * @property string $SaleId
@@ -16,6 +16,8 @@
  * @property string $Status
  * @property string $UpdateAt
  *
+ * @property IRDetail[] $iRDetails
+ * @property RequestIR[] $requestIRs
  */
 abstract class BaseStockIR extends GxActiveRecord {
 
@@ -47,6 +49,8 @@ abstract class BaseStockIR extends GxActiveRecord {
 
 	public function relations() {
 		return array(
+			'iRDetails' => array(self::HAS_MANY, 'IRDetail', 'IRNo'),
+			'requestIRs' => array(self::HAS_MANY, 'RequestIR', 'IRNo'),
 		);
 	}
 
@@ -63,6 +67,8 @@ abstract class BaseStockIR extends GxActiveRecord {
 			'Total' => Yii::t('app', 'Total'),
 			'Status' => Yii::t('app', 'Status'),
 			'UpdateAt' => Yii::t('app', 'Update At'),
+			'iRDetails' => null,
+			'requestIRs' => null,
 		);
 	}
 

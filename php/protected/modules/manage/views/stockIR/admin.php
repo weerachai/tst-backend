@@ -35,7 +35,7 @@ $columns = array(
     ),
    	array(
 		'class' => 'bootstrap.widgets.TbButtonColumn',
-		'template'=>'{view}{delete}',
+		'template'=>'{view} {delete} {confirm}',
 		'buttons'=>array(
             'view' => array(
                 'label'=>'รายการใบเบิก',
@@ -44,7 +44,13 @@ $columns = array(
             'delete' => array(
                 'label'=>'ยกเลิก IR',
                 'url'=>'Yii::app()->createUrl("/manage/stockIR/delete", array("id"=>$data["id"]))',
-               // 'visible'=>!Yii::app()->user->checkAccess('admin'),
+                'visible'=>'empty($data["UpdateAt"])',
+            ),
+            'confirm' => array(
+                'label'=>'ยืนยัน',
+                'imageUrl'=>Yii::app()->request->baseUrl.'/images/confirm.png',
+                'url'=>'Yii::app()->createUrl("/manage/stockIR/confirm", array("id"=>$data["id"]))',
+                'visible'=>'empty($data["UpdateAt"])',
             ),
 		),
 		'htmlOptions' => array('style'=>'white-space:nowrap'),

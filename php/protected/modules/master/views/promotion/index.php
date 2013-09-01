@@ -7,7 +7,10 @@ $this->breadcrumbs = array(
 );
 
 $this->menu = array(
-		array('label'=>'เพิ่มโปรโมชั่น', 'url'=>array('create')),
+        array('label'=>'เพิ่มโปรโมชั่นรายสินค้า', 'url'=>array('create','type'=>'sku')),
+        array('label'=>'เพิ่มโปรโมชั่นกลุ่มสินค้า', 'url'=>array('create','type'=>'group')),
+        array('label'=>'เพิ่มโปรโมชั่นท้ายบิล', 'url'=>array('create','type'=>'bill')),
+        array('label'=>'เพิ่มโปรโมชั่นสะสม', 'url'=>array('create','type'=>'accu')),
 );
 ?>
 
@@ -79,15 +82,15 @@ $columns = array(
         'type'=>'raw',
         'value'=>'Promotion::model()->getPromotionTypeName($data["PromotionType"]);',
         'filter'=>array(
-			'sku' => 'รายสินค้า',
-			'group' => 'คละสินค้า',
-			'bill' => 'ท้ายบิล',
-			'accu-all' => 'สะสมทั้งหมด',
-			'accu-l1' => 'สะสมกลุ่มใหญ่',
-			'accu-l2' => 'สะสมกลุ่มกลาง',
-			'accu-l3' => 'สะสมกลุ่มย่อย',
-			'accu-sku' => 'สะสมรายสินค้า',
-		),
+            'sku' => 'รายสินค้า',
+            'group' => 'คละสินค้า',
+            'bill' => 'ท้ายบิล',
+            'accu-all' => 'สะสมทั้งหมด',
+            'accu-l1' => 'สะสมกลุ่มใหญ่',
+            'accu-l2' => 'สะสมกลุ่มกลาง',
+            'accu-l3' => 'สะสมกลุ่มย่อย',
+            'accu-sku' => 'สะสมรายสินค้า',
+        ),
         'htmlOptions' => array('style'=>'white-space:nowrap'),
     ),
     array(
@@ -106,39 +109,39 @@ $columns = array(
         'value'=>'Promotion::model()->getMinBuy($data["MinAmount"],$data["MinSku"],$data["MinQty"],$data["Pack"]);',
         'htmlOptions' => array('style'=>'white-space:nowrap;text-align:right;'),
     ),
-	array(
-		'class' => 'bootstrap.widgets.TbButtonColumn',
-		'template'=>'{view}{update}{copy}{delete}',
-		'buttons'=>array(
-			'view' => array(
-	    		'label'=>'รายละเอียด',
-	        	'url'=>'Yii::app()->createUrl("/master/promotion/view", array("id"=>$data["id"]))',
-		    ),
-			'update' => array(
-	    		'label'=>'แก้ไขข้อมูล',
-	        	'url'=>'Yii::app()->createUrl("/master/promotion/update", array("id"=>$data["id"]))',
-		    ),
+    array(
+        'class' => 'bootstrap.widgets.TbButtonColumn',
+        'template'=>'{view}{update}{copy}{delete}',
+        'buttons'=>array(
+            'view' => array(
+                'label'=>'รายละเอียด',
+                'url'=>'Yii::app()->createUrl("/master/promotion/view", array("id"=>$data["id"]))',
+            ),
+            'update' => array(
+                'label'=>'แก้ไขข้อมูล',
+                'url'=>'Yii::app()->createUrl("/master/promotion/update", array("id"=>$data["id"]))',
+            ),
             'copy' => array(
                 'label'=>'copy โปรโมชั่น',
                 'imageUrl'=>Yii::app()->request->baseUrl.'/images/copy.png',
                 'url'=>'Yii::app()->createUrl("/master/promotion/copy", array("id"=>$data["id"]))',
             ),
-			'delete' => array(
-	    		'label'=>'ลบข้อมูล',
-	        	'url'=>'Yii::app()->createUrl("/master/promotion/delete", array("id"=>$data["id"]))',
-		    ),
-		),
-		'htmlOptions' => array('style'=>'white-space:nowrap'),
- 	),
+            'delete' => array(
+                'label'=>'ลบข้อมูล',
+                'url'=>'Yii::app()->createUrl("/master/promotion/delete", array("id"=>$data["id"]))',
+            ),
+        ),
+        'htmlOptions' => array('style'=>'white-space:nowrap'),
+    ),
 );
 
 $this->widget('bootstrap.widgets.TbGridView', array(
     'id'=>'data-grid',
-	'dataProvider' => $dataProvider,
+    'dataProvider' => $dataProvider,
     'filter'=>$filtersForm,
     'ajaxUpdate'=>true,
-	'type'=>'striped bordered condensed',
-	'enablePagination' => true,
+    'type'=>'striped bordered condensed',
+    'enablePagination' => true,
     'pager' => array(
         'cssFile' => false,
         'header' => false,
@@ -147,6 +150,156 @@ $this->widget('bootstrap.widgets.TbGridView', array(
         'nextPageLabel' => 'หน้าถัดไป',
         'lastPageLabel' => 'หน้าสุดท้าย',
     ),  
-	'columns' => $columns,
+    'columns' => $columns,
 ));
 ?>
+
+<h3>กลุ่มสินค้าจัดโปรโมชั่น</h3>
+
+<?php
+$columns2 = array(
+    array(
+        'header'=>CHtml::encode('รหัสกลุ่มสินค้า'),
+        'name'=>'ProductGrpId',
+        'htmlOptions' => array('style'=>'white-space:nowrap'),
+    ),
+    array(
+        'header'=>CHtml::encode('รหัสสินค้า'),
+        'name'=>'ProductId',
+        'htmlOptions' => array('style'=>'white-space:nowrap'),
+    ),
+    array(
+        'header'=>CHtml::encode('ชื่อสินค้า'),
+        'name'=>'ProductName',
+        'htmlOptions' => array('style'=>'white-space:nowrap'),
+    ),
+    array(
+        'class' => 'bootstrap.widgets.TbButtonColumn',
+        'template'=>'{delete}',
+        'buttons'=>array(
+            'delete' => array(
+                'label'=>'ลบข้อมูล',
+                'url'=>'Yii::app()->createUrl("/master/promotion/deleteProductGroup", array("id"=>$data["id"],"productId"=>$data["ProductId"]))',
+            ),
+        ),
+        'htmlOptions' => array('style'=>'white-space:nowrap'),
+    ),
+);
+
+$this->widget('bootstrap.widgets.TbGridView', array(
+    'id'=>'data2-grid',
+    'dataProvider' => $dataProvider2,
+    'filter'=>$filtersForm2,
+    'ajaxUpdate'=>false,
+    'type'=>'striped bordered condensed',
+    'enablePagination' => true,
+    'pager' => array(
+        'cssFile' => false,
+        'header' => false,
+        'firstPageLabel' => 'หน้าแรก',
+        'prevPageLabel' => 'หน้าก่อน',
+        'nextPageLabel' => 'หน้าถัดไป',
+        'lastPageLabel' => 'หน้าสุดท้าย',
+    ),  
+    'columns' => $columns2,
+));
+?>
+
+<div>
+<?php $form = $this->beginWidget('bootstrap.widgets.TbActiveForm', array(
+    'id' => 'insert-form2',
+    'type'=>'horizontal',
+    'enableAjaxValidation' => true,
+));
+?>
+
+    <fieldset>
+    <?php echo $form->textFieldRow($model2, 'ProductGrpId', array('maxlength' => 50)); ?>
+    <?php echo $form->dropDownListRow($model2, 'ProductId', Product::model()->getOptions()); ?>
+    </fieldset>
+ 
+    <div class="form-actions">
+        <?php $this->widget('bootstrap.widgets.TbButton', array('buttonType'=>'submit', 'type'=>'primary', 'label'=>'Insert')); ?>
+   </div>
+<?php
+$this->endWidget();
+?>
+</div><!-- form -->
+
+<h3>กลุ่มสินค้าแถม</h3>
+
+<?php
+$columns3 = array(
+    array(
+        'header'=>CHtml::encode('รหัสกลุ่มสินค้า'),
+        'name'=>'FreeGrpId',
+        'htmlOptions' => array('style'=>'white-space:nowrap'),
+    ),
+    array(
+        'header'=>CHtml::encode('รหัสสินค้า'),
+        'name'=>'ProductId',
+        'htmlOptions' => array('style'=>'white-space:nowrap'),
+    ),
+    array(
+        'header'=>CHtml::encode('ชื่อสินค้า'),
+        'name'=>'ProductName',
+        'htmlOptions' => array('style'=>'white-space:nowrap'),
+    ),
+    array(
+        'header'=>CHtml::encode('หน่วย'),
+        'name'=>'FreePack',
+        'htmlOptions' => array('style'=>'white-space:nowrap'),
+    ),
+    array(
+        'class' => 'bootstrap.widgets.TbButtonColumn',
+        'template'=>'{delete}',
+        'buttons'=>array(
+            'delete' => array(
+                'label'=>'ลบข้อมูล',
+                'url'=>'Yii::app()->createUrl("/master/promotion/deleteFreeGroup", array("id"=>$data["id"],"productId"=>$data["ProductId"]))',
+            ),
+        ),
+        'htmlOptions' => array('style'=>'white-space:nowrap'),
+    ),
+);
+
+$this->widget('bootstrap.widgets.TbGridView', array(
+    'id'=>'data3-grid',
+    'dataProvider' => $dataProvider3,
+    'filter'=>$filtersForm3,
+    'ajaxUpdate'=>false,
+    'type'=>'striped bordered condensed',
+    'enablePagination' => true,
+    'pager' => array(
+        'cssFile' => false,
+        'header' => false,
+        'firstPageLabel' => 'หน้าแรก',
+        'prevPageLabel' => 'หน้าก่อน',
+        'nextPageLabel' => 'หน้าถัดไป',
+        'lastPageLabel' => 'หน้าสุดท้าย',
+    ),  
+    'columns' => $columns3,
+));
+?>
+
+<div>
+<?php $form = $this->beginWidget('bootstrap.widgets.TbActiveForm', array(
+    'id' => 'insert-form3',
+    'type'=>'horizontal',
+    'enableAjaxValidation' => true,
+));
+?>
+
+    <fieldset>
+    <?php echo $form->textFieldRow($model3, 'FreeGrpId', array('maxlength' => 50)); ?>
+    <?php echo $form->dropDownListRow($model3, 'ProductId', Product::model()->getOptions()); ?>
+    <?php echo $form->dropDownListRow($model3, 'FreePack', Product::model()->getPacks()); ?>
+    </fieldset>
+ 
+    <div class="form-actions">
+        <?php $this->widget('bootstrap.widgets.TbButton', array('buttonType'=>'submit', 'type'=>'primary', 'label'=>'Insert')); ?>
+   </div>
+<?php
+$this->endWidget();
+?>
+</div><!-- form -->

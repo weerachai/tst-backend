@@ -11,6 +11,7 @@ class DeliverDetail extends BaseDeliverDetail
 	public function relations() {
 		return array(
 			'product' => array(self::BELONGS_TO, 'Product', 'ProductId'),
+			'stockDeliver' => array(self::BELONGS_TO, 'StockDeliver', 'DeliverNo'),
 		);
 	}
 }
