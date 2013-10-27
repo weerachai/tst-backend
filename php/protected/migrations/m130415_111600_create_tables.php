@@ -12,7 +12,7 @@ class m130415_111600_create_tables extends CDbMigration
     // System User Management Tables
     $this->createTable('User', 
                        array(
-                             'id' => 'pk',
+                             'id' => 'pk comment "Primary Key"',
                              'username' => 'string not null unique',
                              'password' => 'string not null',
                              'name' => 'string',
@@ -114,6 +114,7 @@ if ($TESTING) {
                              'EmployeeId' => 'string not null',
                              'FirstName' => 'string not null',
                              'LastName' => 'string not null',
+                             'Phone' => 'string not null',
 //                             'Active' => 'char not null',
                              'primary key (EmployeeId)',
                              ), 'ENGINE=InnoDB');	
@@ -166,7 +167,7 @@ if ($TESTING) {
         $supervisor = sprintf("S%03d", $i);
         $this->execute("INSERT INTO User VALUES($area,'sup$i','$pass','Supervisor $i','user','$supervisor')");
         $this->execute("INSERT INTO AuthAssignment VALUES('user',$area,null,'N;')");
-        $this->execute("INSERT INTO Employee VALUES('$supervisor','นายซุป $i','นามสกุลซุป $i')");
+        $this->execute("INSERT INTO Employee VALUES('$supervisor','นายซุป $i','นามสกุลซุป $i','0812223344')");
         $this->execute("INSERT INTO SaleArea VALUES('N$i','พื้นที่เหนือ $i','$supervisor')");
         for ($j = 1; $j <= 5; $j++) {
             $k++;
@@ -174,7 +175,7 @@ if ($TESTING) {
             $device = sprintf("D%03d", $k);
             $employee = sprintf("E%03d", $k);
             $name = array('','ก','ข','ค','ม','ง','จ','ฉ','ช','ซ','ฌ','ญ','ฎ','ฏ','ฐ','ฑ','ฒ','ณ','ด','ต','ถ','ท','ธ','บ','ป','ผ','ฝ');
-            $this->execute("INSERT INTO Employee VALUES('$employee','นายสมมติ $name[$k]','นามสกุลสมมติ $k')");
+            $this->execute("INSERT INTO Employee VALUES('$employee','นายสมมติ $name[$k]','นามสกุลสมมติ $k','0812223344')");
             $this->execute("INSERT INTO Device VALUES('$device','','$sale','$device','$pass',now())");
             if ($k==1)
                 $this->execute("INSERT INTO SaleUnit VALUES('$sale','หน่วยขายเหนือ $k','เครดิต','$employee','N$i')");
@@ -206,9 +207,9 @@ if ($TESTING) {
     $this->addForeignKey('fk_DeviceSetting_SaleUnit','DeviceSetting','SaleId','SaleUnit','SaleId','CASCADE','CASCADE');
 
 if ($TESTING) {
-    $this->execute("INSERT INTO DeviceSetting VALUES('N001','เครดิต','A','M','B','AC','sku','Y',60,0,'',0,now())");
-    $this->execute("INSERT INTO DeviceSetting VALUES('N002','หน่วยรถ','A','M','B','AC','sku','Y',60,50,'bill',20000,now())");
-    $this->execute("INSERT INTO DeviceSetting VALUES('N003','หน่วยรถ','A','M','B','AC','sku','N',60,50,'cash',20000,now())");
+    $this->execute("INSERT INTO DeviceSetting VALUES('N001','เครดิต','S1','M1','B1','A1','sku','Y',60,0,'',0,now())");
+    $this->execute("INSERT INTO DeviceSetting VALUES('N002','หน่วยรถ','S2','M2','B2','A2','sku','Y',60,50,'bill',20000,now())");
+    $this->execute("INSERT INTO DeviceSetting VALUES('N003','หน่วยรถ','S3','M3','B3','A3','sku','N',60,50,'cash',20000,now())");
     for ($k = 4; $k <= 25; $k++) {
         $sale = sprintf("N%03d", $k);
         $this->execute("INSERT INTO DeviceSetting VALUES('$sale','หน่วยรถ',null,null,null,null,'sku','N',60,50,'cash',20000,now())");
@@ -458,6 +459,7 @@ if ($TESTING) {
     $this->execute("INSERT INTO GrpLevel1 VALUES('309','COOK',now())");
     $this->execute("INSERT INTO GrpLevel1 VALUES('312','NECTRA',now())");
     $this->execute("INSERT INTO GrpLevel1 VALUES('313','SEALECT',now())");
+    $this->execute("INSERT INTO GrpLevel1 VALUES('1','GLIGO',now())");
 }
 
     // sync option tables
@@ -472,11 +474,12 @@ if ($TESTING) {
     
 if ($TESTING) {
     $this->execute("INSERT INTO GrpLevel2 VALUES('306','190','ข้าวโพดอบกรอบฮิโรชิกันดั้ม',now())");
-    $this->execute("INSERT INTO GrpLevel2 VALUES('309','144','น้ำมันพืชกุ๊กขวด',now())");
+    $this->execute("INSERT INTO GrpLevel2 VALUES('309','144','น้ำมันพืชกุ๊กชิ้น',now())");
     $this->execute("INSERT INTO GrpLevel2 VALUES('309','145','น้ำมันพืชกุ๊กปี๊ป',now())");
     $this->execute("INSERT INTO GrpLevel2 VALUES('312','186','ผลิตภัณฑ์ตราเน็กตร้า',now())");
     $this->execute("INSERT INTO GrpLevel2 VALUES('313','167','ทูน่า-ซีเล็ก',now())");
     $this->execute("INSERT INTO GrpLevel2 VALUES('313','168','ซีเล็กในซอสมะเขือเทศ',now())");
+    $this->execute("INSERT INTO GrpLevel2 VALUES('1','1','กูลิโกะ',now())");
 }
     // sync option tables
     $this->createTable('GrpLevel3', 
@@ -487,6 +490,10 @@ if ($TESTING) {
                              'UpdateAt' => 'datetime',
                              'PRIMARY KEY (GrpLevel3Id)',
                              ), 'ENGINE=InnoDB');   
+
+if ($TESTING) {
+    $this->execute("INSERT INTO GrpLevel3 VALUES('1','1','กูลิโกะ',now())");
+}
 
     // sync option tables
     $this->createTable('Product', 
@@ -511,8 +518,8 @@ if ($TESTING) {
                              'FreeFlag' => 'char',
                              'VatFlag' => 'char',
                              'ShipFlag' => 'char',
-                             'MinShip' => 'decimal(10,2)',
-                             'ShipFee' => 'decimal(10,2)',
+                             'MinShip' => 'decimal(10,2) DEFAULT 0',
+                             'ShipFee' => 'decimal(10,2) DEFAULT 0',
                              'UpdateAt' => 'datetime',
                              'PRIMARY KEY (ProductId)',
                              ), 'ENGINE=InnoDB');	
@@ -522,23 +529,37 @@ if ($TESTING) {
 
 if ($TESTING) {
     $this->execute("INSERT INTO Product VALUES"
-                   . "('309','144','','0010100001','น้ำมันกุ๊กถั่วเหลือง 1/4 ลิตร','หีบ','ห่อ','','',614.37,0,0,0,100,0,0,0,'N','Y','N',5000,100,now())");
+                   . "('309','144','','0010100001','น้ำมันกุ๊กถั่วเหลือง 1/4 ลิตร','หีบ','','','ชิ้น',200,0,0,10,100,0,0,10,'N','Y','N',2000,100,now())");
     $this->execute("INSERT INTO Product VALUES"
-                   . "('309','144','','0010200001','น้ำมันกุ๊กถั่วเหลือง 1/2 ลิตร','หีบ','','ห่อ','',555.77,0,0,0,100,0,0,0,'N','Y','N',5000,100,now())");
+                   . "('309','144','','0010200001','น้ำมันกุ๊กถั่วเหลือง 1/2 ลิตร','หีบ','','','ชิ้น',200,0,0,20,100,0,0,10,'N','Y','N',2000,100,now())");
     $this->execute("INSERT INTO Product VALUES"
-                   . "('309','144','','0010300001','น้ำมันกุ๊กทานตะวัน 1/2 ลิตร','หีบ','','','ห่อ',913.89,0,0,0,100,0,0,0,'N','Y','N',5000,100,now())");
+                   . "('309','144','','0010300001','น้ำมันกุ๊กทานตะวัน 1/2 ลิตร','หีบ','','','ชิ้น',200,0,0,20,100,0,0,10,'N','Y','N',2000,100,now())");
     $this->execute("INSERT INTO Product VALUES"
-                   . "('309','144','','0010400001','น้ำมันกุ๊กถั่วเหลือง 1 ลิตร','หีบ','','','',525.39,0,0,0,100,0,0,0,'N','Y','N',5000,100,now())");
+                   . "('309','144','','0010400001','น้ำมันกุ๊กถั่วเหลือง 1 ลิตร','หีบ','','','ชิ้น',200,0,0,30,100,0,0,10,'N','Y','N',2000,100,now())");
     $this->execute("INSERT INTO Product VALUES"
-                   . "('313','167','','0050100001','ซีเล็กแซนวิชน้ำมัน 185 กรัม','หีบ','','','',1284,0,0,0,100,0,0,0,'N','Y','N',5000,100,now())");
+                   . "('313','167','','0050100001','ซีเล็กแซนวิชน้ำมัน 185 กรัม','หีบ','','','ชิ้น',100,0,0,10,100,0,0,10,'N','Y','N',2000,100,now())");
     $this->execute("INSERT INTO Product VALUES"
-                   . "('313','167','','0050100002','ซีเล็กแซนวิชน้ำเกลือ 185 กรัม','หีบ','','','',1284,0,0,0,100,0,0,0,'N','Y','N',5000,100,now())");
+                   . "('313','167','','0050100002','ซีเล็กแซนวิชน้ำเกลือ 185 กรัม','หีบ','','','ชิ้น',100,0,0,10,100,0,0,10,'N','Y','N',2000,100,now())");
     $this->execute("INSERT INTO Product VALUES"
-                   . "('313','167','','0050100003','ซีเล็กแซนวิชน้ำมัน 185 กรัม แพ็ค 4','หีบ','','','',1284,0,0,0,100,0,0,0,'N','Y','N',5000,100,now())");
+                   . "('313','167','','0050100003','ซีเล็กแซนวิชน้ำมัน 185 กรัม แพ็ค 4','หีบ','','','ชิ้น',100,0,0,10,100,0,0,10,'N','Y','N',2000,100,now())");
     $this->execute("INSERT INTO Product VALUES"
-                   . "('313','167','','0050100004','ซีเล็กแซนวิชน้ำเปล่า 185 กรัม','หีบ','','','',1284,0,0,0,100,0,0,0,'N','Y','N',5000,100,now())");
+                   . "('313','167','','0050100004','ซีเล็กแซนวิชน้ำเปล่า 185 กรัม','หีบ','','','ชิ้น',100,0,0,10,100,0,0,10,'N','Y','N',2000,100,now())");
     $this->execute("INSERT INTO Product VALUES"
-                   . "('313','167','','0050100005','ซีเล็กแซนวิชน้ำแร่ 185 กรัม','หีบ','','','',1284,0,0,0,100,0,0,0,'N','Y','N',5000,100,now())");
+                   . "('313','167','','0050100005','ซีเล็กแซนวิชน้ำแร่ 185 กรัม','หีบ','','','ชิ้น',100,0,0,10,100,0,0,10,'N','Y','N',2000,100,now())");
+    $this->execute("INSERT INTO Product VALUES"
+                   . "('1','1','1','1000000001','กูลิโกะ รสช็อคโกแลต','หีบ','','','ชิ้น',100,0,0,2.5,100,0,0,10,'N','Y','N',2000,100,now())");
+    $this->execute("INSERT INTO Product VALUES"
+                   . "('1','1','1','1000000002','กูลิโกะ รสสตรอว์เบอร์รี','หีบ','','','ชิ้น',100,0,0,2.5,100,0,0,10,'N','Y','N',2000,100,now())");
+    $this->execute("INSERT INTO Product VALUES"
+                   . "('1','1','1','1000000003','กูลิโกะ รสส้ม','หีบ','','','ชิ้น',100,0,0,2.5,100,0,0,10,'N','Y','N',2000,100,now())");
+    $this->execute("INSERT INTO Product VALUES"
+                   . "('1','1','1','1000000004','กูลิโกะ รสองุ่น','หีบ','','','ชิ้น',100,0,0,2.5,100,0,0,10,'N','Y','N',2000,100,now())");
+    $this->execute("INSERT INTO Product VALUES"
+                   . "('1','1','1','1000000005','กูลิโกะ รสมะนาว','หีบ','','','ชิ้น',100,0,0,2.5,100,0,0,10,'N','Y','N',2000,100,now())");
+    $this->execute("INSERT INTO Product VALUES"
+                   . "('1','1','1','1000000006','กูลิโกะ รสหวาน','หีบ','','','ชิ้น',100,0,0,2.5,100,0,0,10,'N','Y','N',2000,100,now())");
+    $this->execute("INSERT INTO Product VALUES"
+                   . "('309','144','','0010500001','น้ำมันพืชกุ๊ก 1 ลิตร','หีบ','','','ชิ้น',200,0,0,20,100,0,0,10,'N','Y','N',2000,100,now())");
 }
 
     $this->createTable('Stock', 
@@ -592,25 +613,39 @@ if ($TESTING) {
     //$this->addForeignKey('fk_Stock_Product','Stock','ProductId','Product','ProductId','RESTRICT','CASCADE');
 
 if ($TESTING) {
-    $this->execute("INSERT INTO Stock(SaleId,ProductId,StartQtyLevel1,StartQtyLevel2,StartQtyLevel3,StartQtyLevel4,CurrentQtyLevel1,CurrentQtyLevel2,CurrentQtyLevel3,CurrentQtyLevel4,UpdateAt) VALUES('N002','0010100001',10,0,0,0,10,0,0,0,now())");
-    $this->execute("INSERT INTO Stock(SaleId,ProductId,StartQtyLevel1,StartQtyLevel2,StartQtyLevel3,StartQtyLevel4,CurrentQtyLevel1,CurrentQtyLevel2,CurrentQtyLevel3,CurrentQtyLevel4,UpdateAt) VALUES('N002','0010200001',20,0,0,0,20,0,0,0,now())");
-    $this->execute("INSERT INTO Stock(SaleId,ProductId,StartQtyLevel1,StartQtyLevel2,StartQtyLevel3,StartQtyLevel4,CurrentQtyLevel1,CurrentQtyLevel2,CurrentQtyLevel3,CurrentQtyLevel4,UpdateAt) VALUES('N002','0010300001',10,0,0,0,10,0,0,0,now())");
-    $this->execute("INSERT INTO Stock(SaleId,ProductId,StartQtyLevel1,StartQtyLevel2,StartQtyLevel3,StartQtyLevel4,CurrentQtyLevel1,CurrentQtyLevel2,CurrentQtyLevel3,CurrentQtyLevel4,UpdateAt) VALUES('N002','0010400001',20,0,0,0,20,0,0,0,now())");
-    $this->execute("INSERT INTO Stock(SaleId,ProductId,StartQtyLevel1,StartQtyLevel2,StartQtyLevel3,StartQtyLevel4,CurrentQtyLevel1,CurrentQtyLevel2,CurrentQtyLevel3,CurrentQtyLevel4,UpdateAt) VALUES('N002','0050100001',10,0,0,0,10,0,0,0,now())");
-    $this->execute("INSERT INTO Stock(SaleId,ProductId,StartQtyLevel1,StartQtyLevel2,StartQtyLevel3,StartQtyLevel4,CurrentQtyLevel1,CurrentQtyLevel2,CurrentQtyLevel3,CurrentQtyLevel4,UpdateAt) VALUES('N002','0050100002',20,0,0,0,20,0,0,0,now())");
-    $this->execute("INSERT INTO Stock(SaleId,ProductId,StartQtyLevel1,StartQtyLevel2,StartQtyLevel3,StartQtyLevel4,CurrentQtyLevel1,CurrentQtyLevel2,CurrentQtyLevel3,CurrentQtyLevel4,UpdateAt) VALUES('N002','0050100003',10,0,0,0,10,0,0,0,now())");
-    $this->execute("INSERT INTO Stock(SaleId,ProductId,StartQtyLevel1,StartQtyLevel2,StartQtyLevel3,StartQtyLevel4,CurrentQtyLevel1,CurrentQtyLevel2,CurrentQtyLevel3,CurrentQtyLevel4,UpdateAt) VALUES('N002','0050100004',20,0,0,0,20,0,0,0,now())");
-    $this->execute("INSERT INTO Stock(SaleId,ProductId,StartQtyLevel1,StartQtyLevel2,StartQtyLevel3,StartQtyLevel4,CurrentQtyLevel1,CurrentQtyLevel2,CurrentQtyLevel3,CurrentQtyLevel4,UpdateAt) VALUES('N002','0050100005',10,0,0,0,10,0,0,0,now())");
+    $this->execute("INSERT INTO Stock(SaleId,ProductId,StartQtyLevel1,StartQtyLevel2,StartQtyLevel3,StartQtyLevel4,CurrentQtyLevel1,CurrentQtyLevel2,CurrentQtyLevel3,CurrentQtyLevel4,UpdateAt) VALUES('N002','0010100001',20,0,0,20,20,0,0,20,now())");
+    $this->execute("INSERT INTO Stock(SaleId,ProductId,StartQtyLevel1,StartQtyLevel2,StartQtyLevel3,StartQtyLevel4,CurrentQtyLevel1,CurrentQtyLevel2,CurrentQtyLevel3,CurrentQtyLevel4,UpdateAt) VALUES('N002','0010200001',20,0,0,20,20,0,0,20,now())");
+    $this->execute("INSERT INTO Stock(SaleId,ProductId,StartQtyLevel1,StartQtyLevel2,StartQtyLevel3,StartQtyLevel4,CurrentQtyLevel1,CurrentQtyLevel2,CurrentQtyLevel3,CurrentQtyLevel4,UpdateAt) VALUES('N002','0010300001',20,0,0,20,20,0,0,20,now())");
+    $this->execute("INSERT INTO Stock(SaleId,ProductId,StartQtyLevel1,StartQtyLevel2,StartQtyLevel3,StartQtyLevel4,CurrentQtyLevel1,CurrentQtyLevel2,CurrentQtyLevel3,CurrentQtyLevel4,UpdateAt) VALUES('N002','0010400001',20,0,0,20,20,0,0,20,now())");
+    $this->execute("INSERT INTO Stock(SaleId,ProductId,StartQtyLevel1,StartQtyLevel2,StartQtyLevel3,StartQtyLevel4,CurrentQtyLevel1,CurrentQtyLevel2,CurrentQtyLevel3,CurrentQtyLevel4,UpdateAt) VALUES('N002','0050100001',20,0,0,20,20,0,0,20,now())");
+    $this->execute("INSERT INTO Stock(SaleId,ProductId,StartQtyLevel1,StartQtyLevel2,StartQtyLevel3,StartQtyLevel4,CurrentQtyLevel1,CurrentQtyLevel2,CurrentQtyLevel3,CurrentQtyLevel4,UpdateAt) VALUES('N002','0050100002',20,0,0,20,20,0,0,20,now())");
+    $this->execute("INSERT INTO Stock(SaleId,ProductId,StartQtyLevel1,StartQtyLevel2,StartQtyLevel3,StartQtyLevel4,CurrentQtyLevel1,CurrentQtyLevel2,CurrentQtyLevel3,CurrentQtyLevel4,UpdateAt) VALUES('N002','0050100003',20,0,0,20,20,0,0,20,now())");
+    $this->execute("INSERT INTO Stock(SaleId,ProductId,StartQtyLevel1,StartQtyLevel2,StartQtyLevel3,StartQtyLevel4,CurrentQtyLevel1,CurrentQtyLevel2,CurrentQtyLevel3,CurrentQtyLevel4,UpdateAt) VALUES('N002','0050100004',20,0,0,20,20,0,0,20,now())");
+    $this->execute("INSERT INTO Stock(SaleId,ProductId,StartQtyLevel1,StartQtyLevel2,StartQtyLevel3,StartQtyLevel4,CurrentQtyLevel1,CurrentQtyLevel2,CurrentQtyLevel3,CurrentQtyLevel4,UpdateAt) VALUES('N002','0050100005',20,0,0,20,20,0,0,20,now())");
+    $this->execute("INSERT INTO Stock(SaleId,ProductId,StartQtyLevel1,StartQtyLevel2,StartQtyLevel3,StartQtyLevel4,CurrentQtyLevel1,CurrentQtyLevel2,CurrentQtyLevel3,CurrentQtyLevel4,UpdateAt) VALUES('N002','0010500001',20,0,0,20,20,0,0,20,now())");
+    $this->execute("INSERT INTO Stock(SaleId,ProductId,StartQtyLevel1,StartQtyLevel2,StartQtyLevel3,StartQtyLevel4,CurrentQtyLevel1,CurrentQtyLevel2,CurrentQtyLevel3,CurrentQtyLevel4,UpdateAt) VALUES('N002','1000000001',20,0,0,20,20,0,0,20,now())");
+    $this->execute("INSERT INTO Stock(SaleId,ProductId,StartQtyLevel1,StartQtyLevel2,StartQtyLevel3,StartQtyLevel4,CurrentQtyLevel1,CurrentQtyLevel2,CurrentQtyLevel3,CurrentQtyLevel4,UpdateAt) VALUES('N002','1000000002',20,0,0,20,20,0,0,20,now())");
+    $this->execute("INSERT INTO Stock(SaleId,ProductId,StartQtyLevel1,StartQtyLevel2,StartQtyLevel3,StartQtyLevel4,CurrentQtyLevel1,CurrentQtyLevel2,CurrentQtyLevel3,CurrentQtyLevel4,UpdateAt) VALUES('N002','1000000003',20,0,0,20,20,0,0,20,now())");
+    $this->execute("INSERT INTO Stock(SaleId,ProductId,StartQtyLevel1,StartQtyLevel2,StartQtyLevel3,StartQtyLevel4,CurrentQtyLevel1,CurrentQtyLevel2,CurrentQtyLevel3,CurrentQtyLevel4,UpdateAt) VALUES('N002','1000000004',20,0,0,20,20,0,0,20,now())");
+    $this->execute("INSERT INTO Stock(SaleId,ProductId,StartQtyLevel1,StartQtyLevel2,StartQtyLevel3,StartQtyLevel4,CurrentQtyLevel1,CurrentQtyLevel2,CurrentQtyLevel3,CurrentQtyLevel4,UpdateAt) VALUES('N002','1000000005',20,0,0,20,20,0,0,20,now())");
+    $this->execute("INSERT INTO Stock(SaleId,ProductId,StartQtyLevel1,StartQtyLevel2,StartQtyLevel3,StartQtyLevel4,CurrentQtyLevel1,CurrentQtyLevel2,CurrentQtyLevel3,CurrentQtyLevel4,UpdateAt) VALUES('N002','1000000006',20,0,0,20,20,0,0,20,now())");
 
-    $this->execute("INSERT INTO Stock(SaleId,ProductId,StartQtyLevel1,StartQtyLevel2,StartQtyLevel3,StartQtyLevel4,CurrentQtyLevel1,CurrentQtyLevel2,CurrentQtyLevel3,CurrentQtyLevel4,UpdateAt) VALUES('N003','0010100001',10,0,0,0,10,0,0,0,now())");
-    $this->execute("INSERT INTO Stock(SaleId,ProductId,StartQtyLevel1,StartQtyLevel2,StartQtyLevel3,StartQtyLevel4,CurrentQtyLevel1,CurrentQtyLevel2,CurrentQtyLevel3,CurrentQtyLevel4,UpdateAt) VALUES('N003','0010200001',20,0,0,0,20,0,0,0,now())");
-    $this->execute("INSERT INTO Stock(SaleId,ProductId,StartQtyLevel1,StartQtyLevel2,StartQtyLevel3,StartQtyLevel4,CurrentQtyLevel1,CurrentQtyLevel2,CurrentQtyLevel3,CurrentQtyLevel4,UpdateAt) VALUES('N003','0010300001',10,0,0,0,10,0,0,0,now())");
-    $this->execute("INSERT INTO Stock(SaleId,ProductId,StartQtyLevel1,StartQtyLevel2,StartQtyLevel3,StartQtyLevel4,CurrentQtyLevel1,CurrentQtyLevel2,CurrentQtyLevel3,CurrentQtyLevel4,UpdateAt) VALUES('N003','0010400001',20,0,0,0,20,0,0,0,now())");
-    $this->execute("INSERT INTO Stock(SaleId,ProductId,StartQtyLevel1,StartQtyLevel2,StartQtyLevel3,StartQtyLevel4,CurrentQtyLevel1,CurrentQtyLevel2,CurrentQtyLevel3,CurrentQtyLevel4,UpdateAt) VALUES('N003','0050100001',10,0,0,0,10,0,0,0,now())");
-    $this->execute("INSERT INTO Stock(SaleId,ProductId,StartQtyLevel1,StartQtyLevel2,StartQtyLevel3,StartQtyLevel4,CurrentQtyLevel1,CurrentQtyLevel2,CurrentQtyLevel3,CurrentQtyLevel4,UpdateAt) VALUES('N003','0050100002',20,0,0,0,20,0,0,0,now())");
-    $this->execute("INSERT INTO Stock(SaleId,ProductId,StartQtyLevel1,StartQtyLevel2,StartQtyLevel3,StartQtyLevel4,CurrentQtyLevel1,CurrentQtyLevel2,CurrentQtyLevel3,CurrentQtyLevel4,UpdateAt) VALUES('N003','0050100003',10,0,0,0,10,0,0,0,now())");
-    $this->execute("INSERT INTO Stock(SaleId,ProductId,StartQtyLevel1,StartQtyLevel2,StartQtyLevel3,StartQtyLevel4,CurrentQtyLevel1,CurrentQtyLevel2,CurrentQtyLevel3,CurrentQtyLevel4,UpdateAt) VALUES('N003','0050100004',20,0,0,0,20,0,0,0,now())");
-    $this->execute("INSERT INTO Stock(SaleId,ProductId,StartQtyLevel1,StartQtyLevel2,StartQtyLevel3,StartQtyLevel4,CurrentQtyLevel1,CurrentQtyLevel2,CurrentQtyLevel3,CurrentQtyLevel4,UpdateAt) VALUES('N003','0050100005',10,0,0,0,10,0,0,0,now())");
+    $this->execute("INSERT INTO Stock(SaleId,ProductId,StartQtyLevel1,StartQtyLevel2,StartQtyLevel3,StartQtyLevel4,CurrentQtyLevel1,CurrentQtyLevel2,CurrentQtyLevel3,CurrentQtyLevel4,UpdateAt) VALUES('N003','0010100001',20,0,0,20,20,0,0,20,now())");
+    $this->execute("INSERT INTO Stock(SaleId,ProductId,StartQtyLevel1,StartQtyLevel2,StartQtyLevel3,StartQtyLevel4,CurrentQtyLevel1,CurrentQtyLevel2,CurrentQtyLevel3,CurrentQtyLevel4,UpdateAt) VALUES('N003','0010200001',20,0,0,20,20,0,0,20,now())");
+    $this->execute("INSERT INTO Stock(SaleId,ProductId,StartQtyLevel1,StartQtyLevel2,StartQtyLevel3,StartQtyLevel4,CurrentQtyLevel1,CurrentQtyLevel2,CurrentQtyLevel3,CurrentQtyLevel4,UpdateAt) VALUES('N003','0010300001',20,0,0,20,20,0,0,20,now())");
+    $this->execute("INSERT INTO Stock(SaleId,ProductId,StartQtyLevel1,StartQtyLevel2,StartQtyLevel3,StartQtyLevel4,CurrentQtyLevel1,CurrentQtyLevel2,CurrentQtyLevel3,CurrentQtyLevel4,UpdateAt) VALUES('N003','0010400001',20,0,0,20,20,0,0,20,now())");
+    $this->execute("INSERT INTO Stock(SaleId,ProductId,StartQtyLevel1,StartQtyLevel2,StartQtyLevel3,StartQtyLevel4,CurrentQtyLevel1,CurrentQtyLevel2,CurrentQtyLevel3,CurrentQtyLevel4,UpdateAt) VALUES('N003','0050100001',20,0,0,20,20,0,0,20,now())");
+    $this->execute("INSERT INTO Stock(SaleId,ProductId,StartQtyLevel1,StartQtyLevel2,StartQtyLevel3,StartQtyLevel4,CurrentQtyLevel1,CurrentQtyLevel2,CurrentQtyLevel3,CurrentQtyLevel4,UpdateAt) VALUES('N003','0050100002',20,0,0,20,20,0,0,20,now())");
+    $this->execute("INSERT INTO Stock(SaleId,ProductId,StartQtyLevel1,StartQtyLevel2,StartQtyLevel3,StartQtyLevel4,CurrentQtyLevel1,CurrentQtyLevel2,CurrentQtyLevel3,CurrentQtyLevel4,UpdateAt) VALUES('N003','0050100003',20,0,0,20,20,0,0,20,now())");
+    $this->execute("INSERT INTO Stock(SaleId,ProductId,StartQtyLevel1,StartQtyLevel2,StartQtyLevel3,StartQtyLevel4,CurrentQtyLevel1,CurrentQtyLevel2,CurrentQtyLevel3,CurrentQtyLevel4,UpdateAt) VALUES('N003','0050100004',20,0,0,20,20,0,0,20,now())");
+    $this->execute("INSERT INTO Stock(SaleId,ProductId,StartQtyLevel1,StartQtyLevel2,StartQtyLevel3,StartQtyLevel4,CurrentQtyLevel1,CurrentQtyLevel2,CurrentQtyLevel3,CurrentQtyLevel4,UpdateAt) VALUES('N003','0050100005',20,0,0,20,20,0,0,20,now())");
+    $this->execute("INSERT INTO Stock(SaleId,ProductId,StartQtyLevel1,StartQtyLevel2,StartQtyLevel3,StartQtyLevel4,CurrentQtyLevel1,CurrentQtyLevel2,CurrentQtyLevel3,CurrentQtyLevel4,UpdateAt) VALUES('N003','0010500001',20,0,0,20,20,0,0,20,now())");
+    $this->execute("INSERT INTO Stock(SaleId,ProductId,StartQtyLevel1,StartQtyLevel2,StartQtyLevel3,StartQtyLevel4,CurrentQtyLevel1,CurrentQtyLevel2,CurrentQtyLevel3,CurrentQtyLevel4,UpdateAt) VALUES('N003','1000000001',20,0,0,20,20,0,0,20,now())");
+    $this->execute("INSERT INTO Stock(SaleId,ProductId,StartQtyLevel1,StartQtyLevel2,StartQtyLevel3,StartQtyLevel4,CurrentQtyLevel1,CurrentQtyLevel2,CurrentQtyLevel3,CurrentQtyLevel4,UpdateAt) VALUES('N003','1000000002',20,0,0,20,20,0,0,20,now())");
+    $this->execute("INSERT INTO Stock(SaleId,ProductId,StartQtyLevel1,StartQtyLevel2,StartQtyLevel3,StartQtyLevel4,CurrentQtyLevel1,CurrentQtyLevel2,CurrentQtyLevel3,CurrentQtyLevel4,UpdateAt) VALUES('N003','1000000003',20,0,0,20,20,0,0,20,now())");
+    $this->execute("INSERT INTO Stock(SaleId,ProductId,StartQtyLevel1,StartQtyLevel2,StartQtyLevel3,StartQtyLevel4,CurrentQtyLevel1,CurrentQtyLevel2,CurrentQtyLevel3,CurrentQtyLevel4,UpdateAt) VALUES('N003','1000000004',20,0,0,20,20,0,0,20,now())");
+    $this->execute("INSERT INTO Stock(SaleId,ProductId,StartQtyLevel1,StartQtyLevel2,StartQtyLevel3,StartQtyLevel4,CurrentQtyLevel1,CurrentQtyLevel2,CurrentQtyLevel3,CurrentQtyLevel4,UpdateAt) VALUES('N003','1000000005',20,0,0,20,20,0,0,20,now())");
+    $this->execute("INSERT INTO Stock(SaleId,ProductId,StartQtyLevel1,StartQtyLevel2,StartQtyLevel3,StartQtyLevel4,CurrentQtyLevel1,CurrentQtyLevel2,CurrentQtyLevel3,CurrentQtyLevel4,UpdateAt) VALUES('N003','1000000006',20,0,0,20,20,0,0,20,now())");
 }
 
     // upload options
@@ -1092,58 +1127,58 @@ if ($TESTING) {
                              'EndDate' => 'date not null',
                              'PromotionType' => 'string not null',
                              'ProductOrGrpId' => 'string',
-                             'MinAmount' => 'integer DEFAULT 0',
+                             'MinAmount' => 'decimal(20,2) DEFAULT 0',
                              'MinSku' => 'integer DEFAULT 0',
                              'MinQty' => 'integer DEFAULT 0',
                              'Pack' => 'string',
-                             'DiscBaht' => 'integer DEFAULT 0',
-                             'DiscPerAmount' => 'integer DEFAULT 0',
-                             'DiscPerQty' => 'integer DEFAULT 0',
-                             'DiscPer1' => 'integer DEFAULT 0',
-                             'DiscPer2' => 'integer DEFAULT 0',
-                             'DiscPer3' => 'integer DEFAULT 0',
+                             'DiscBaht' => 'decimal(20,2) DEFAULT 0',
+                             'DiscPerAmount' => 'decimal(20,2) DEFAULT 0',
+                             'DiscPerQty' => 'decimal(20,2) DEFAULT 0',
+                             'DiscPer1' => 'decimal(20,2) DEFAULT 0',
+                             'DiscPer2' => 'decimal(20,2) DEFAULT 0',
+                             'DiscPer3' => 'decimal(20,2) DEFAULT 0',
                              'FreeType' => 'string',
                              'FreeProductOrGrpId' => 'string',
                              'FreeQty' => 'integer DEFAULT 0',
                              'FreePack' => 'string',
-                             'FreePerAmount' => 'integer DEFAULT 0',
+                             'FreePerAmount' => 'decimal(20,2) DEFAULT 0',
                              'FreePerQty' => 'integer DEFAULT 0',
-                             'FreeBaht' => 'integer DEFAULT 0',
+                             'FreeBaht' => 'decimal(20,2) DEFAULT 0',
                              'Formula' => 'string not null',
                              'UpdateAt' => 'datetime',
                              'PRIMARY KEY (PromotionId)',
                              ), 'ENGINE=InnoDB');	
 
 if ($TESTING) {
-    $this->execute("INSERT INTO Promotion VALUES"
+/*    $this->execute("INSERT INTO Promotion VALUES"
                    . "('A','A1','2012-08-01','2013-12-30','sku','0050100003',0,0,1,'หีบ',5,0,1,0,0,0,'','',0,'',0,0,0,'F',now())");
     $this->execute("INSERT INTO Promotion VALUES"
-                   . "('A','A2','2012-08-01','2013-12-30','sku','0050100003',0,0,11,'หีบ',5,0,1,0,0,0,'S','0050100003',1,'กระป๋อง',0,1,0,'F',now())");
+                   . "('A','A2','2012-08-01','2013-12-30','sku','0050100003',0,0,11,'หีบ',5,0,1,0,0,0,'S','0050100003',1,'ชิ้น',0,1,0,'F',now())");
     $this->execute("INSERT INTO Promotion VALUES"
-                   . "('A','A3','2012-08-01','2013-12-30','sku','0050100003',0,0,21,'หีบ',5,0,1,0,0,0,'S','0050100003',1,'กระป๋อง',0,1,0,'F',now())");
+                   . "('A','A3','2012-08-01','2013-12-30','sku','0050100003',0,0,21,'หีบ',5,0,1,0,0,0,'S','0050100003',1,'ชิ้น',0,1,0,'F',now())");
     $this->execute("INSERT INTO Promotion VALUES"
-                   . "('A','A4','2012-08-01','2013-12-30','sku','0050100003',0,0,31,'หีบ',5,0,1,0,0,0,'S','0050100003',1,'กระป๋อง',0,1,0,'F',now())");
+                   . "('A','A4','2012-08-01','2013-12-30','sku','0050100003',0,0,31,'หีบ',5,0,1,0,0,0,'S','0050100003',1,'ชิ้น',0,1,0,'F',now())");
     $this->execute("INSERT INTO Promotion VALUES"
-                   . "('A','A5','2012-08-01','2013-12-30','sku','0050100003',0,0,41,'หีบ',5,0,1,0,0,0,'S','0050100003',1,'กระป๋อง',0,1,0,'F',now())");
+                   . "('A','A5','2012-08-01','2013-12-30','sku','0050100003',0,0,41,'หีบ',5,0,1,0,0,0,'S','0050100003',1,'ชิ้น',0,1,0,'F',now())");
     $this->execute("INSERT INTO Promotion VALUES"
-                   . "('A','A6','2012-08-01','2013-12-30','sku','0050100003',0,0,51,'หีบ',5,0,1,0,0,0,'S','0050100003',1,'กระป๋อง',0,1,0,'F',now())");
+                   . "('A','A6','2012-08-01','2013-12-30','sku','0050100003',0,0,51,'หีบ',5,0,1,0,0,0,'S','0050100003',1,'ชิ้น',0,1,0,'F',now())");
     $this->execute("INSERT INTO Promotion VALUES"
                    . "('A','A8','2012-08-01','2013-12-30','sku','0050100001',100,0,0,'',5,100,0,0,0,0,'','',0,'',0,0,0,'F',now())");
     $this->execute("INSERT INTO Promotion VALUES"
-                   . "('A','A9','2012-08-01','2013-12-30','sku','0050100001',1100,0,0,'',5,100,0,0,0,0,'G','A',1,'กระป๋อง',100,0,0,'F',now())");
+                   . "('A','A9','2012-08-01','2013-12-30','sku','0050100001',1100,0,0,'',5,100,0,0,0,0,'G','A',1,'ชิ้น',100,0,0,'F',now())");
     $this->execute("INSERT INTO Promotion VALUES"
                    . "('A','A10','2012-08-01','2013-12-30','sku','0050100002',100,0,0,'',5,100,0,0,0,0,'','',0,'',0,0,0,'F',now())");
     $this->execute("INSERT INTO Promotion VALUES"
-                   . "('A','A11','2012-08-01','2013-12-30','sku','0050100002',1100,0,0,'',5,100,0,0,0,0,'G','A',1,'กระป๋อง',100,0,0,'F',now())");
+                   . "('A','A11','2012-08-01','2013-12-30','sku','0050100002',1100,0,0,'',5,100,0,0,0,0,'G','A',1,'ชิ้น',100,0,0,'F',now())");
     
     $this->execute("INSERT INTO Promotion VALUES"
-                   . "('M','M1','2012-08-01','2013-12-30','group','A',100,0,0,'',3,100,0,0,0,0,'S','0050100003',1,'กระป๋อง',100,0,0,'F',now())");
+                   . "('M','M1','2012-08-01','2013-12-30','group','A',100,0,0,'',3,100,0,0,0,0,'S','0050100003',1,'ชิ้น',100,0,0,'F',now())");
     $this->execute("INSERT INTO Promotion VALUES"
-                   . "('M','M2','2012-08-01','2013-12-30','group','A',1100,0,0,'',5,100,0,0,0,0,'S','0050100003',1,'กระป๋อง',100,0,0,'F',now())");
+                   . "('M','M2','2012-08-01','2013-12-30','group','A',1000,0,0,'',5,100,0,0,0,0,'S','0050100003',1,'ชิ้น',100,0,0,'F',now())");
     $this->execute("INSERT INTO Promotion VALUES"
                    . "('M','M3','2012-08-01','2013-12-30','group','B',100,0,0,'',5,100,0,0,0,0,'','',0,'',0,0,0,'F',now())");
     $this->execute("INSERT INTO Promotion VALUES"
-                   . "('M','M4','2012-08-01','2013-12-30','group','B',1100,0,0,'',5,100,0,0,0,0,'G','A',1,'กระป๋อง',100,0,0,'F',now())");
+                   . "('M','M4','2012-08-01','2013-12-30','group','B',1000,0,0,'',5,100,0,0,0,0,'G','A',1,'ชิ้น',100,0,0,'F',now())");
     $this->execute("INSERT INTO Promotion VALUES"
                    . "('B','B1','2012-08-01','2013-12-30','bill','',1000,0,0,'',0,0,0,0,0,0,'G','A',0,'',0,0,50,'F',now())");
     $this->execute("INSERT INTO Promotion VALUES"
@@ -1184,6 +1219,266 @@ if ($TESTING) {
                    . "('AC','AC-B6','2012-08-01','2013-12-30','accu-l1','313',25000,0,0,'',1500,0,0,0,0,0,'','',0,'',0,0,0,'F',now())");
     $this->execute("INSERT INTO Promotion VALUES"
                    . "('AC','AC-B7','2012-08-01','2013-12-30','accu-l1','313',25000,0,0,'',1500,0,0,0,0,0,'','',0,'',0,0,0,'F',now())");
+*/
+
+    $this->execute("INSERT INTO Promotion VALUES"
+                   . "('S1','1A1','2012-08-01','2013-12-30','sku','1000000001',0,0,1,'หีบ',5,0,1,0,0,0,'','',0,'',0,0,0,'F',now())");
+    $this->execute("INSERT INTO Promotion VALUES"
+                   . "('S1','1A2','2012-08-01','2013-12-30','sku','1000000001',0,0,11,'หีบ',5,0,1,0,0,0,'S','1000000001',1,'ชิ้น',0,1,0,'F',now())");
+    $this->execute("INSERT INTO Promotion VALUES"
+                   . "('S1','1A3','2012-08-01','2013-12-30','sku','1000000001',0,0,21,'หีบ',10,0,1,0,0,0,'','',0,'',0,0,0,'F',now())");
+    $this->execute("INSERT INTO Promotion VALUES"
+                   . "('S1','1A4','2012-08-01','2013-12-30','sku','1000000001',0,0,31,'หีบ',10,0,1,0,0,0,'S','1000000001',1,'ชิ้น',0,1,0,'F',now())");
+
+    $this->execute("INSERT INTO Promotion VALUES"
+                   . "('S1','1A5','2012-08-01','2013-12-30','sku','1000000002',100,0,0,'',5,100,0,0,0,0,'','',0,'',0,0,0,'F',now())");
+    $this->execute("INSERT INTO Promotion VALUES"
+                   . "('S1','1A6','2012-08-01','2013-12-30','sku','1000000002',1100,0,0,'',5,100,0,0,0,0,'S','1000000002',1,'ชิ้น',100,0,0,'F',now())");
+    $this->execute("INSERT INTO Promotion VALUES"
+                   . "('S1','1A7','2012-08-01','2013-12-30','sku','1000000002',2100,0,0,'',10,100,0,0,0,0,'','',0,'',0,0,0,'F',now())");
+    $this->execute("INSERT INTO Promotion VALUES"
+                   . "('S1','1A8','2012-08-01','2013-12-30','sku','1000000002',3100,0,0,'',10,100,0,0,0,0,'S','1000000002',1,'ชิ้น',100,0,0,'F',now())");
+
+    $this->execute("INSERT INTO Promotion VALUES"
+                   . "('S1','1A9','2012-08-01','2013-12-30','sku','0010500001',0,0,1,'ชิ้น',0,0,0,1,0,0,'','',0,'',0,0,0,'F',now())");
+    $this->execute("INSERT INTO Promotion VALUES"
+                   . "('S1','1A10','2012-08-01','2013-12-30','sku','0010500001',0,0,1,'หีบ',0,0,0,5,0,0,'','',0,'',0,0,0,'F',now())");
+    $this->execute("INSERT INTO Promotion VALUES"
+                   . "('S1','1A11','2012-08-01','2013-12-30','sku','0010500001',0,0,11,'หีบ',0,0,0,5,4,3,'','',0,'',0,0,0,'F',now())");
+    $this->execute("INSERT INTO Promotion VALUES"
+                   . "('S1','1A12','2012-08-01','2013-12-30','sku','0010500001',0,0,21,'หีบ',0,0,0,5,0,0,'S','0010500001',1,'ชิ้น',0,1,0,'F',now())");
+    $this->execute("INSERT INTO Promotion VALUES"
+                   . "('S1','1A13','2012-08-01','2013-12-30','sku','0010500001',0,0,31,'หีบ',0,0,0,5,4,3,'S','0010500001',1,'ชิ้น',0,1,0,'F',now())");
+
+    $this->execute("INSERT INTO Promotion VALUES"
+                   . "('S2','2A1','2012-08-01','2013-12-30','sku','1000000001',0,0,1,'หีบ',2,0,1,0,0,0,'','',0,'',0,0,0,'M',now())");
+    $this->execute("INSERT INTO Promotion VALUES"
+                   . "('S2','2A2','2012-08-01','2013-12-30','sku','1000000001',0,0,3,'หีบ',5,0,1,0,0,0,'S','1000000001',1,'ชิ้น',0,1,0,'M',now())");
+    $this->execute("INSERT INTO Promotion VALUES"
+                   . "('S2','2A3','2012-08-01','2013-12-30','sku','1000000001',0,0,10,'หีบ',10,0,1,0,0,0,'S','1000000001',2,'ชิ้น',0,1,0,'M',now())");
+
+    $this->execute("INSERT INTO Promotion VALUES"
+                   . "('S2','2A4','2012-08-01','2013-12-30','sku','1000000002',0,0,2,'หีบ',2,0,2,0,0,0,'','',0,'',0,0,0,'M',now())");
+    $this->execute("INSERT INTO Promotion VALUES"
+                   . "('S2','2A5','2012-08-01','2013-12-30','sku','1000000002',0,0,5,'หีบ',5,0,2,0,0,0,'S','1000000002',1,'ชิ้น',0,2,0,'M',now())");
+    $this->execute("INSERT INTO Promotion VALUES"
+                   . "('S2','2A6','2012-08-01','2013-12-30','sku','1000000002',0,0,12,'หีบ',10,0,2,0,0,0,'S','1000000002',2,'ชิ้น',0,2,0,'M',now())");
+
+    $this->execute("INSERT INTO Promotion VALUES"
+                   . "('S2','2A7','2012-08-01','2013-12-30','sku','0010500001',0,0,1,'หีบ',0,0,0,1,0,0,'','',0,'',0,0,0,'M',now())");
+    $this->execute("INSERT INTO Promotion VALUES"
+                   . "('S2','2A8','2012-08-01','2013-12-30','sku','0010500001',0,0,3,'หีบ',0,0,0,5,0,0,'S','0010500001',1,'ชิ้น',0,1,0,'M',now())");
+    $this->execute("INSERT INTO Promotion VALUES"
+                   . "('S2','2A9','2012-08-01','2013-12-30','sku','0010500001',0,0,10,'หีบ',0,0,0,5,4,3,'S','0010500001',2,'ชิ้น',0,1,0,'M',now())");
+
+    $this->execute("INSERT INTO Promotion VALUES"
+                   . "('S3','3A1','2012-08-01','2013-12-30','sku','1000000001',0,0,1,'หีบ',2,0,1,0,0,0,'','',0,'',0,0,0,'C',now())");
+    $this->execute("INSERT INTO Promotion VALUES"
+                   . "('S3','3A2','2012-08-01','2013-12-30','sku','1000000001',0,0,3,'หีบ',5,0,1,0,0,0,'S','1000000001',1,'ชิ้น',0,1,0,'C',now())");
+    $this->execute("INSERT INTO Promotion VALUES"
+                   . "('S3','3A3','2012-08-01','2013-12-30','sku','1000000001',0,0,10,'หีบ',10,0,1,0,0,0,'S','1000000001',2,'ชิ้น',0,1,0,'C',now())");
+
+    $this->execute("INSERT INTO Promotion VALUES"
+                   . "('S3','3A4','2012-08-01','2013-12-30','sku','1000000002',0,0,2,'หีบ',2,0,2,0,0,0,'','',0,'',0,0,0,'C',now())");
+    $this->execute("INSERT INTO Promotion VALUES"
+                   . "('S3','3A5','2012-08-01','2013-12-30','sku','1000000002',0,0,5,'หีบ',5,0,2,0,0,0,'S','1000000002',1,'ชิ้น',0,2,0,'C',now())");
+    $this->execute("INSERT INTO Promotion VALUES"
+                   . "('S3','3A6','2012-08-01','2013-12-30','sku','1000000002',0,0,12,'หีบ',10,0,2,0,0,0,'S','1000000002',2,'ชิ้น',0,2,0,'C',now())");
+
+    $this->execute("INSERT INTO Promotion VALUES"
+                   . "('S3','3A7','2012-08-01','2013-12-30','sku','0010500001',0,0,1,'หีบ',0,0,0,1,0,0,'','',0,'',0,0,0,'C',now())");
+    $this->execute("INSERT INTO Promotion VALUES"
+                   . "('S3','3A8','2012-08-01','2013-12-30','sku','0010500001',0,0,3,'หีบ',0,0,0,5,0,0,'S','0010500001',1,'ชิ้น',0,1,0,'C',now())");
+    $this->execute("INSERT INTO Promotion VALUES"
+                   . "('S3','3A9','2012-08-01','2013-12-30','sku','0010500001',0,0,10,'หีบ',0,0,0,5,4,3,'S','0010500001',2,'ชิ้น',0,1,0,'C',now())");
+
+
+    $this->execute("INSERT INTO Promotion VALUES"
+                   . "('M1','1M1','2012-08-01','2013-12-30','group','A',100,0,0,'',5,100,0,0,0,0,'S','0050100003',1,'ชิ้น',100,0,0,'F',now())");
+    $this->execute("INSERT INTO Promotion VALUES"
+                   . "('M1','1M2','2012-08-01','2013-12-30','group','A',1000,0,0,'',10,100,0,0,0,0,'S','0050100003',1,'ชิ้น',100,0,0,'F',now())");
+    $this->execute("INSERT INTO Promotion VALUES"
+                   . "('M1','1M3','2012-08-01','2013-12-30','group','B',200,0,0,'',5,200,0,0,0,0,'','',0,'',0,0,0,'C',now())");
+    $this->execute("INSERT INTO Promotion VALUES"
+                   . "('M1','1M4','2012-08-01','2013-12-30','group','B',2000,0,0,'',10,200,0,0,0,0,'G','B',1,'ชิ้น',200,0,0,'C',now())");
+
+    $this->execute("INSERT INTO Promotion VALUES"
+                   . "('M2','2M1','2012-08-01','2013-12-30','group','A',0,0,1,'หีบ',5,0,1,0,0,0,'S','0050100003',1,'ชิ้น',0,1,0,'F',now())");
+    $this->execute("INSERT INTO Promotion VALUES"
+                   . "('M2','2M2','2012-08-01','2013-12-30','group','A',0,0,10,'หีบ',10,0,1,0,0,0,'S','0050100003',1,'ชิ้น',0,1,0,'F',now())");
+    $this->execute("INSERT INTO Promotion VALUES"
+                   . "('M2','2M3','2012-08-01','2013-12-30','group','B',0,0,1,'หีบ',0,0,0,5,0,0,'','',0,'',0,0,0,'C',now())");
+    $this->execute("INSERT INTO Promotion VALUES"
+                   . "('M2','2M4','2012-08-01','2013-12-30','group','B',0,0,10,'หีบ',0,0,0,5,4,3,'G','B',1,'ชิ้น',0,1,0,'C',now())");
+
+    $this->execute("INSERT INTO Promotion VALUES"
+                   . "('M3','3M1','2012-08-01','2013-12-30','group','A',0,2,0,'',0,0,0,0,0,0,'S','0050100003',1,'ชิ้น',100,0,0,'F',now())");
+    $this->execute("INSERT INTO Promotion VALUES"
+                   . "('M3','3M2','2012-08-01','2013-12-30','group','A',0,4,0,'',0,0,0,2,0,0,'S','0050100003',1,'ชิ้น',100,0,0,'F',now())");
+    $this->execute("INSERT INTO Promotion VALUES"
+                   . "('M3','3M3','2012-08-01','2013-12-30','group','B',0,2,0,'',0,0,0,5,0,0,'','',0,'',0,0,0,'F',now())");
+    $this->execute("INSERT INTO Promotion VALUES"
+                   . "('M3','3M4','2012-08-01','2013-12-30','group','B',0,3,0,'',0,0,0,5,4,3,'G','B',1,'ชิ้น',200,0,0,'F',now())");
+
+    $this->execute("INSERT INTO Promotion VALUES"
+                   . "('B1','1B1','2012-08-01','2013-12-30','bill','',1000,0,0,'',0,0,0,0,0,0,'G','A',0,'',0,0,50,'F',now())");
+    $this->execute("INSERT INTO Promotion VALUES"
+                   . "('B1','1B2','2012-08-01','2013-12-30','bill','',2000,0,0,'',0,0,0,2,0,0,'','',0,'',0,0,0,'F',now())");
+    $this->execute("INSERT INTO Promotion VALUES"
+                   . "('B1','1B3','2012-08-01','2013-12-30','bill','',5000,0,0,'',0,0,0,2,0,0,'G','A',0,'',0,0,150,'F',now())");
+
+    $this->execute("INSERT INTO Promotion VALUES"
+                   . "('B2','2B1','2012-08-01','2013-12-30','bill','',0,0,10,'หีบ',0,0,0,0,0,0,'G','A',0,'',0,0,50,'F',now())");
+    $this->execute("INSERT INTO Promotion VALUES"
+                   . "('B2','2B2','2012-08-01','2013-12-30','bill','',0,0,20,'หีบ',0,0,0,2,0,0,'','',0,'',0,0,0,'F',now())");
+    $this->execute("INSERT INTO Promotion VALUES"
+                   . "('B2','2B3','2012-08-01','2013-12-30','bill','',0,0,50,'หีบ',0,0,0,2,0,0,'G','A',0,'',0,0,150,'F',now())");
+
+    $this->execute("INSERT INTO Promotion VALUES"
+                   . "('B3','3B1','2012-08-01','2013-12-30','bill','',0,2,0,'',0,0,0,0,0,0,'G','A',0,'',0,0,50,'F',now())");
+    $this->execute("INSERT INTO Promotion VALUES"
+                   . "('B3','3B2','2012-08-01','2013-12-30','bill','',0,4,0,'',0,0,0,2,0,0,'','',0,'',0,0,0,'F',now())");
+    $this->execute("INSERT INTO Promotion VALUES"
+                   . "('B3','3B3','2012-08-01','2013-12-30','bill','',0,6,0,'',0,0,0,2,0,0,'G','A',0,'',0,0,150,'F',now())");
+
+    $this->execute("INSERT INTO Promotion VALUES"
+                   . "('A1','1A1a','2012-08-01','2013-12-30','accu-all','',1000,0,0,'',0,0,0,0,0,0,'G','A',0,'',0,0,50,'F',now())");
+    $this->execute("INSERT INTO Promotion VALUES"
+                   . "('A1','1A2a','2012-08-01','2013-12-30','accu-all','',2000,0,0,'',0,0,0,2,0,0,'','',0,'',0,0,0,'F',now())");
+    $this->execute("INSERT INTO Promotion VALUES"
+                   . "('A1','1A3a','2012-08-01','2013-12-30','accu-all','',5000,0,0,'',0,0,0,2,0,0,'G','A',0,'',0,0,150,'F',now())");
+
+    $this->execute("INSERT INTO Promotion VALUES"
+                   . "('A2','2A1a','2012-08-01','2013-12-30','accu-all','',0,0,10,'หีบ',0,0,0,0,0,0,'G','A',0,'',0,0,50,'F',now())");
+    $this->execute("INSERT INTO Promotion VALUES"
+                   . "('A2','2A2a','2012-08-01','2013-12-30','accu-all','',0,0,20,'หีบ',0,0,0,2,0,0,'','',0,'',0,0,0,'F',now())");
+    $this->execute("INSERT INTO Promotion VALUES"
+                   . "('A2','2A3a','2012-08-01','2013-12-30','accu-all','',0,0,50,'หีบ',0,0,0,2,0,0,'G','A',0,'',0,0,150,'F',now())");
+
+    $this->execute("INSERT INTO Promotion VALUES"
+                   . "('A3','3A1a','2012-08-01','2013-12-30','accu-all','',0,2,0,'',0,0,0,0,0,0,'G','A',0,'',0,0,50,'F',now())");
+    $this->execute("INSERT INTO Promotion VALUES"
+                   . "('A3','3A2a','2012-08-01','2013-12-30','accu-all','',0,4,0,'',0,0,0,2,0,0,'','',0,'',0,0,0,'F',now())");
+    $this->execute("INSERT INTO Promotion VALUES"
+                   . "('A3','3A3a','2012-08-01','2013-12-30','accu-all','',0,6,0,'',0,0,0,2,0,0,'G','A',0,'',0,0,150,'F',now())");
+
+    $this->execute("INSERT INTO Promotion VALUES"
+                   . "('A1','1A1l1','2012-08-01','2013-12-30','accu-l1','309',1000,0,0,'',0,0,0,0,0,0,'G','A',0,'',0,0,50,'F',now())");
+    $this->execute("INSERT INTO Promotion VALUES"
+                   . "('A1','1A2l1','2012-08-01','2013-12-30','accu-l1','309',2000,0,0,'',0,0,0,2,0,0,'','',0,'',0,0,0,'F',now())");
+    $this->execute("INSERT INTO Promotion VALUES"
+                   . "('A1','1A3l1','2012-08-01','2013-12-30','accu-l1','309',5000,0,0,'',0,0,0,2,0,0,'G','A',0,'',0,0,150,'F',now())");
+    $this->execute("INSERT INTO Promotion VALUES"
+                   . "('A1','1A4l1','2012-08-01','2013-12-30','accu-l1','313',1000,0,0,'',0,0,0,0,0,0,'G','A',0,'',0,0,50,'F',now())");
+    $this->execute("INSERT INTO Promotion VALUES"
+                   . "('A1','1A5l1','2012-08-01','2013-12-30','accu-l1','313',2000,0,0,'',0,0,0,2,0,0,'','',0,'',0,0,0,'F',now())");
+    $this->execute("INSERT INTO Promotion VALUES"
+                   . "('A1','1A6l1','2012-08-01','2013-12-30','accu-l1','313',5000,0,0,'',0,0,0,2,0,0,'G','A',0,'',0,0,150,'F',now())");
+
+    $this->execute("INSERT INTO Promotion VALUES"
+                   . "('A2','2A1l1','2012-08-01','2013-12-30','accu-l1','309',0,0,10,'หีบ',0,0,0,0,0,0,'G','A',0,'',0,0,50,'F',now())");
+    $this->execute("INSERT INTO Promotion VALUES"
+                   . "('A2','2A2l1','2012-08-01','2013-12-30','accu-l1','309',0,0,20,'หีบ',0,0,0,2,0,0,'','',0,'',0,0,0,'F',now())");
+    $this->execute("INSERT INTO Promotion VALUES"
+                   . "('A2','2A3l1','2012-08-01','2013-12-30','accu-l1','309',0,0,50,'หีบ',0,0,0,2,0,0,'G','A',0,'',0,0,150,'F',now())");
+    $this->execute("INSERT INTO Promotion VALUES"
+                   . "('A2','2A4l1','2012-08-01','2013-12-30','accu-l1','313',0,0,10,'หีบ',0,0,0,0,0,0,'G','A',0,'',0,0,50,'F',now())");
+    $this->execute("INSERT INTO Promotion VALUES"
+                   . "('A2','2A5l1','2012-08-01','2013-12-30','accu-l1','313',0,0,20,'หีบ',0,0,0,2,0,0,'','',0,'',0,0,0,'F',now())");
+    $this->execute("INSERT INTO Promotion VALUES"
+                   . "('A2','2A6l1','2012-08-01','2013-12-30','accu-l1','313',0,0,50,'หีบ',0,0,0,2,0,0,'G','A',0,'',0,0,150,'F',now())");
+
+    $this->execute("INSERT INTO Promotion VALUES"
+                   . "('A3','3A1l1','2012-08-01','2013-12-30','accu-l1','309',0,2,0,'',0,0,0,0,0,0,'G','A',0,'',0,0,50,'F',now())");
+    $this->execute("INSERT INTO Promotion VALUES"
+                   . "('A3','3A2l1','2012-08-01','2013-12-30','accu-l1','309',0,4,0,'',0,0,0,2,0,0,'','',0,'',0,0,0,'F',now())");
+    $this->execute("INSERT INTO Promotion VALUES"
+                   . "('A3','3A4l1','2012-08-01','2013-12-30','accu-l1','313',0,2,0,'',0,0,0,0,0,0,'G','A',0,'',0,0,50,'F',now())");
+    $this->execute("INSERT INTO Promotion VALUES"
+                   . "('A3','3A5l1','2012-08-01','2013-12-30','accu-l1','313',0,4,0,'',0,0,0,2,0,0,'','',0,'',0,0,0,'F',now())");
+
+    $this->execute("INSERT INTO Promotion VALUES"
+                   . "('A1','1A1l2','2012-08-01','2013-12-30','accu-l2','144',1000,0,0,'',0,0,0,0,0,0,'G','A',0,'',0,0,50,'F',now())");
+    $this->execute("INSERT INTO Promotion VALUES"
+                   . "('A1','1A2l2','2012-08-01','2013-12-30','accu-l2','144',2000,0,0,'',0,0,0,2,0,0,'','',0,'',0,0,0,'F',now())");
+    $this->execute("INSERT INTO Promotion VALUES"
+                   . "('A1','1A3l2','2012-08-01','2013-12-30','accu-l2','144',5000,0,0,'',0,0,0,2,0,0,'G','A',0,'',0,0,150,'F',now())");
+    $this->execute("INSERT INTO Promotion VALUES"
+                   . "('A1','1A4l2','2012-08-01','2013-12-30','accu-l2','167',1000,0,0,'',0,0,0,0,0,0,'G','A',0,'',0,0,50,'F',now())");
+    $this->execute("INSERT INTO Promotion VALUES"
+                   . "('A1','1A5l2','2012-08-01','2013-12-30','accu-l2','167',2000,0,0,'',0,0,0,2,0,0,'','',0,'',0,0,0,'F',now())");
+    $this->execute("INSERT INTO Promotion VALUES"
+                   . "('A1','1A6l2','2012-08-01','2013-12-30','accu-l2','167',5000,0,0,'',0,0,0,2,0,0,'G','A',0,'',0,0,150,'F',now())");
+
+    $this->execute("INSERT INTO Promotion VALUES"
+                   . "('A2','2A1l2','2012-08-01','2013-12-30','accu-l2','144',0,0,10,'หีบ',0,0,0,0,0,0,'G','A',0,'',0,0,50,'F',now())");
+    $this->execute("INSERT INTO Promotion VALUES"
+                   . "('A2','2A2l2','2012-08-01','2013-12-30','accu-l2','144',0,0,20,'หีบ',0,0,0,2,0,0,'','',0,'',0,0,0,'F',now())");
+    $this->execute("INSERT INTO Promotion VALUES"
+                   . "('A2','2A3l2','2012-08-01','2013-12-30','accu-l2','144',0,0,50,'หีบ',0,0,0,2,0,0,'G','A',0,'',0,0,150,'F',now())");
+    $this->execute("INSERT INTO Promotion VALUES"
+                   . "('A2','2A4l2','2012-08-01','2013-12-30','accu-l2','167',0,0,10,'หีบ',0,0,0,0,0,0,'G','A',0,'',0,0,50,'F',now())");
+    $this->execute("INSERT INTO Promotion VALUES"
+                   . "('A2','2A5l2','2012-08-01','2013-12-30','accu-l2','167',0,0,20,'หีบ',0,0,0,2,0,0,'','',0,'',0,0,0,'F',now())");
+    $this->execute("INSERT INTO Promotion VALUES"
+                   . "('A2','2A6l2','2012-08-01','2013-12-30','accu-l2','167',0,0,50,'หีบ',0,0,0,2,0,0,'G','A',0,'',0,0,150,'F',now())");
+ 
+    $this->execute("INSERT INTO Promotion VALUES"
+                   . "('A3','3A1l2','2012-08-01','2013-12-30','accu-l2','144',0,2,0,'',0,0,0,0,0,0,'G','A',0,'',0,0,50,'F',now())");
+    $this->execute("INSERT INTO Promotion VALUES"
+                   . "('A3','3A2l2','2012-08-01','2013-12-30','accu-l2','144',0,4,0,'',0,0,0,2,0,0,'','',0,'',0,0,0,'F',now())");
+    $this->execute("INSERT INTO Promotion VALUES"
+                   . "('A3','3A4l2','2012-08-01','2013-12-30','accu-l2','167',0,2,0,'',0,0,0,0,0,0,'G','A',0,'',0,0,50,'F',now())");
+    $this->execute("INSERT INTO Promotion VALUES"
+                   . "('A3','3A5l2','2012-08-01','2013-12-30','accu-l2','167',0,4,0,'',0,0,0,2,0,0,'','',0,'',0,0,0,'F',now())");
+
+    $this->execute("INSERT INTO Promotion VALUES"
+                   . "('A1','1A1l3','2012-08-01','2013-12-30','accu-l3','1',1000,0,0,'',0,0,0,0,0,0,'G','A',0,'',0,0,50,'F',now())");
+    $this->execute("INSERT INTO Promotion VALUES"
+                   . "('A1','1A2l3','2012-08-01','2013-12-30','accu-l3','1',2000,0,0,'',0,0,0,2,0,0,'','',0,'',0,0,0,'F',now())");
+    $this->execute("INSERT INTO Promotion VALUES"
+                   . "('A1','1A3l3','2012-08-01','2013-12-30','accu-l3','1',5000,0,0,'',0,0,0,2,0,0,'G','A',0,'',0,0,150,'F',now())");
+
+    $this->execute("INSERT INTO Promotion VALUES"
+                   . "('A2','2A1l3','2012-08-01','2013-12-30','accu-l3','1',0,0,10,'หีบ',0,0,0,0,0,0,'G','A',0,'',0,0,50,'F',now())");
+    $this->execute("INSERT INTO Promotion VALUES"
+                   . "('A2','2A2l3','2012-08-01','2013-12-30','accu-l3','1',0,0,20,'หีบ',0,0,0,2,0,0,'','',0,'',0,0,0,'F',now())");
+    $this->execute("INSERT INTO Promotion VALUES"
+                   . "('A2','2A3l3','2012-08-01','2013-12-30','accu-l3','1',0,0,50,'หีบ',0,0,0,2,0,0,'G','A',0,'',0,0,150,'F',now())");
+
+    $this->execute("INSERT INTO Promotion VALUES"
+                   . "('A3','3A1l3','2012-08-01','2013-12-30','accu-l3','1',0,2,0,'',0,0,0,0,0,0,'G','A',0,'',0,0,50,'F',now())");
+    $this->execute("INSERT INTO Promotion VALUES"
+                   . "('A3','3A2l3','2012-08-01','2013-12-30','accu-l3','1',0,4,0,'',0,0,0,2,0,0,'','',0,'',0,0,0,'F',now())");
+    $this->execute("INSERT INTO Promotion VALUES"
+                   . "('A3','3A3l3','2012-08-01','2013-12-30','accu-l3','1',0,6,0,'',0,0,0,2,0,0,'G','A',0,'',0,0,150,'F',now())");
+
+    $this->execute("INSERT INTO Promotion VALUES"
+                   . "('A1','1A1s','2012-08-01','2013-12-30','accu-sku','0010100001',1000,0,0,'',0,0,0,0,0,0,'G','A',0,'',0,0,50,'F',now())");
+    $this->execute("INSERT INTO Promotion VALUES"
+                   . "('A1','1A2s','2012-08-01','2013-12-30','accu-sku','0010100001',2000,0,0,'',0,0,0,2,0,0,'','',0,'',0,0,0,'F',now())");
+    $this->execute("INSERT INTO Promotion VALUES"
+                   . "('A1','1A3s','2012-08-01','2013-12-30','accu-sku','0010100001',5000,0,0,'',0,0,0,2,0,0,'G','A',0,'',0,0,150,'F',now())");
+    $this->execute("INSERT INTO Promotion VALUES"
+                   . "('A1','1A4s','2012-08-01','2013-12-30','accu-sku','0010200001',1000,0,0,'',0,0,0,0,0,0,'G','A',0,'',0,0,50,'F',now())");
+    $this->execute("INSERT INTO Promotion VALUES"
+                   . "('A1','1A5s','2012-08-01','2013-12-30','accu-sku','0010200001',2000,0,0,'',0,0,0,2,0,0,'','',0,'',0,0,0,'F',now())");
+    $this->execute("INSERT INTO Promotion VALUES"
+                   . "('A1','1A6s','2012-08-01','2013-12-30','accu-sku','0010200001',5000,0,0,'',0,0,0,2,0,0,'G','A',0,'',0,0,150,'F',now())");
+
+    $this->execute("INSERT INTO Promotion VALUES"
+                   . "('A2','2A1s','2012-08-01','2013-12-30','accu-sku','0010100001',0,0,10,'หีบ',0,0,0,0,0,0,'G','A',0,'',0,0,50,'F',now())");
+    $this->execute("INSERT INTO Promotion VALUES"
+                   . "('A2','2A2s','2012-08-01','2013-12-30','accu-sku','0010100001',0,0,20,'หีบ',0,0,0,2,0,0,'','',0,'',0,0,0,'F',now())");
+    $this->execute("INSERT INTO Promotion VALUES"
+                   . "('A2','2A3s','2012-08-01','2013-12-30','accu-sku','0010100001',0,0,50,'หีบ',0,0,0,2,0,0,'G','A',0,'',0,0,150,'F',now())");
+    $this->execute("INSERT INTO Promotion VALUES"
+                   . "('A2','2A4s','2012-08-01','2013-12-30','accu-sku','0010200001',0,0,10,'หีบ',0,0,0,0,0,0,'G','A',0,'',0,0,50,'F',now())");
+    $this->execute("INSERT INTO Promotion VALUES"
+                   . "('A2','2A5s','2012-08-01','2013-12-30','accu-sku','0010200001',0,0,20,'หีบ',0,0,0,2,0,0,'','',0,'',0,0,0,'F',now())");
+    $this->execute("INSERT INTO Promotion VALUES"
+                   . "('A2','2A6s','2012-08-01','2013-12-30','accu-sku','0010200001',0,0,50,'หีบ',0,0,0,2,0,0,'G','A',0,'',0,0,150,'F',now())");
+
 }
 
     // upload options
@@ -1198,11 +1493,16 @@ if ($TESTING) {
     //$this->addForeignKey('fk_FreeGrp_Product','FreeGrp','ProductId','Product','ProductId','RESTRICT','CASCADE');
 
 if ($TESTING) {    
-    $this->execute("INSERT INTO FreeGrp VALUES('A','0050100001','กระป๋อง',now())");
-    $this->execute("INSERT INTO FreeGrp VALUES('A','0050100002','กระป๋อง',now())");
-    $this->execute("INSERT INTO FreeGrp VALUES('A','0050100003','กระป๋อง',now())");
-    $this->execute("INSERT INTO FreeGrp VALUES('A','0050100004','กระป๋อง',now())");
-    $this->execute("INSERT INTO FreeGrp VALUES('A','0050100005','กระป๋อง',now())");
+    $this->execute("INSERT INTO FreeGrp VALUES('A','0050100001','ชิ้น',now())");
+    $this->execute("INSERT INTO FreeGrp VALUES('A','0050100002','ชิ้น',now())");
+    $this->execute("INSERT INTO FreeGrp VALUES('A','0050100003','ชิ้น',now())");
+    $this->execute("INSERT INTO FreeGrp VALUES('A','0050100004','ชิ้น',now())");
+    $this->execute("INSERT INTO FreeGrp VALUES('A','0050100005','ชิ้น',now())");
+
+    $this->execute("INSERT INTO FreeGrp VALUES('B','0010100001','ชิ้น',now())");
+    $this->execute("INSERT INTO FreeGrp VALUES('B','0010200001','ชิ้น',now())");
+    $this->execute("INSERT INTO FreeGrp VALUES('B','0010300001','ชิ้น',now())");
+    $this->execute("INSERT INTO FreeGrp VALUES('B','0010400001','ชิ้น',now())");
 }
 
     // upload options
@@ -1367,7 +1667,7 @@ if ($TESTING) {
     $this->execute("INSERT INTO Customer VALUES"
                 . "('CUD00113050003','N001','ร้าน','ใจดี 1','CR','วันอังคาร','วันพุธ','',"
                 . "'นนทบุรี','บางกรวย','บางกรวย','11130','33','5','สบายดี','4','ติวานนท์',"
-                . "'02-564-6666','คุณส้ม',30,20000,'N',0,0,0,'N','N',now());");
+                . "'02-564-6666','คุณส้ม',30,20000,'W',0,0,0,'N','N',now());");
 
     $this->execute("INSERT INTO Customer VALUES"
                 . "('CUD00113050004','N001','ร้าน','รวยดี 1','CR','วันอังคาร','วันศุกร์','',"
@@ -1428,19 +1728,19 @@ if ($TESTING) {
     $this->execute("INSERT INTO `DiscDetail` VALUES('SOD00113050002', 'M2', 70.00, 0, 0, 0, 70.00, '2013-06-08 10:05:35');");
     $this->execute("INSERT INTO `DiscDetail` VALUES('SOD00113050002', 'M4', 50.00, 0, 0, 0, 50.00, '2013-06-08 10:05:35');");
 
-    $this->execute("INSERT INTO `FreeDetail` VALUES('SOD00113050001', 'A11', '0050100001', 'กระป๋อง', 0.00, 12, '2013-06-08 10:04:11');");
-    $this->execute("INSERT INTO `FreeDetail` VALUES('SOD00113050001', 'A9', '0050100001', 'กระป๋อง', 0.00, 38, '2013-06-08 10:04:02');");
-    $this->execute("INSERT INTO `FreeDetail` VALUES('SOD00113050001', 'M4', '0050100001', 'กระป๋อง', 0.00, 1, '2013-06-08 10:04:28');");
-    $this->execute("INSERT INTO `FreeDetail` VALUES('SOD00113050001', 'M4', '0050100002', 'กระป๋อง', 0.00, 1, '2013-06-08 10:04:28');");
-    $this->execute("INSERT INTO `FreeDetail` VALUES('SOD00113050001', 'M4', '0050100003', 'กระป๋อง', 0.00, 1, '2013-06-08 10:04:28');");
-    $this->execute("INSERT INTO `FreeDetail` VALUES('SOD00113050001', 'M4', '0050100004', 'กระป๋อง', 0.00, 1, '2013-06-08 10:04:28');");
-    $this->execute("INSERT INTO `FreeDetail` VALUES('SOD00113050001', 'M4', '0050100005', 'กระป๋อง', 5.00, 1, '2013-06-08 10:04:28');");
-    $this->execute("INSERT INTO `FreeDetail` VALUES('SOD00113050002', 'M2', '0050100003', 'กระป๋อง', 0.00, 2, '2013-06-08 10:05:35');");
-    $this->execute("INSERT INTO `FreeDetail` VALUES('SOD00113050002', 'M4', '0050100001', 'กระป๋อง', 0.00, 2, '2013-06-08 10:05:35');");
-    $this->execute("INSERT INTO `FreeDetail` VALUES('SOD00113050002', 'M4', '0050100002', 'กระป๋อง', 0.00, 2, '2013-06-08 10:05:35');");
-    $this->execute("INSERT INTO `FreeDetail` VALUES('SOD00113050002', 'M4', '0050100003', 'กระป๋อง', 0.00, 2, '2013-06-08 10:05:35');");
-    $this->execute("INSERT INTO `FreeDetail` VALUES('SOD00113050002', 'M4', '0050100004', 'กระป๋อง', 0.00, 2, '2013-06-08 10:05:35');");
-    $this->execute("INSERT INTO `FreeDetail` VALUES('SOD00113050002', 'M4', '0050100005', 'กระป๋อง', 5.00, 2, '2013-06-08 10:05:35');");
+    $this->execute("INSERT INTO `FreeDetail` VALUES('SOD00113050001', 'A11', '0050100001', 'ชิ้น', 0.00, 12, '2013-06-08 10:04:11');");
+    $this->execute("INSERT INTO `FreeDetail` VALUES('SOD00113050001', 'A9', '0050100001', 'ชิ้น', 0.00, 38, '2013-06-08 10:04:02');");
+    $this->execute("INSERT INTO `FreeDetail` VALUES('SOD00113050001', 'M4', '0050100001', 'ชิ้น', 0.00, 1, '2013-06-08 10:04:28');");
+    $this->execute("INSERT INTO `FreeDetail` VALUES('SOD00113050001', 'M4', '0050100002', 'ชิ้น', 0.00, 1, '2013-06-08 10:04:28');");
+    $this->execute("INSERT INTO `FreeDetail` VALUES('SOD00113050001', 'M4', '0050100003', 'ชิ้น', 0.00, 1, '2013-06-08 10:04:28');");
+    $this->execute("INSERT INTO `FreeDetail` VALUES('SOD00113050001', 'M4', '0050100004', 'ชิ้น', 0.00, 1, '2013-06-08 10:04:28');");
+    $this->execute("INSERT INTO `FreeDetail` VALUES('SOD00113050001', 'M4', '0050100005', 'ชิ้น', 5.00, 1, '2013-06-08 10:04:28');");
+    $this->execute("INSERT INTO `FreeDetail` VALUES('SOD00113050002', 'M2', '0050100003', 'ชิ้น', 0.00, 2, '2013-06-08 10:05:35');");
+    $this->execute("INSERT INTO `FreeDetail` VALUES('SOD00113050002', 'M4', '0050100001', 'ชิ้น', 0.00, 2, '2013-06-08 10:05:35');");
+    $this->execute("INSERT INTO `FreeDetail` VALUES('SOD00113050002', 'M4', '0050100002', 'ชิ้น', 0.00, 2, '2013-06-08 10:05:35');");
+    $this->execute("INSERT INTO `FreeDetail` VALUES('SOD00113050002', 'M4', '0050100003', 'ชิ้น', 0.00, 2, '2013-06-08 10:05:35');");
+    $this->execute("INSERT INTO `FreeDetail` VALUES('SOD00113050002', 'M4', '0050100004', 'ชิ้น', 0.00, 2, '2013-06-08 10:05:35');");
+    $this->execute("INSERT INTO `FreeDetail` VALUES('SOD00113050002', 'M4', '0050100005', 'ชิ้น', 5.00, 2, '2013-06-08 10:05:35');");
 
     $this->execute("INSERT INTO `OrderDetail` VALUES('SOD00113050001', '0010400001', 4, 0, 0, 0, 525.39, 0.00, 0.00, 0.00, 'AC-B2', 'accu-l1', 'SOD00113050002', '2013-06-08 10:05:55');");
     $this->execute("INSERT INTO `OrderDetail` VALUES('SOD00113050001', '0050100001', 3, 0, 0, 0, 1284.00, 0.00, 0.00, 0.00, 'AC-B2', 'accu-l1', 'SOD00113050002', '2013-06-08 10:05:55');");

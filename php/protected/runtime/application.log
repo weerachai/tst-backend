@@ -881,3 +881,6 @@ Stack trace:
 	`UpdateAt` datetime,
 	primary key (SaleId)
 ) ENGINE=InnoDB.
+2013/10/26 16:11:31 [error] [system.db.CDbCommand] CDbCommand::execute() failed: SQLSTATE[23000]: Integrity constraint violation: 1062 Duplicate entry 'A4' for key 'PRIMARY'. The SQL statement executed was: INSERT INTO Promotion VALUES('S1','A4','2012-08-01','2013-12-30','sku','1000000001',0,0,1,'หีบ',5,0,1,0,0,0,'','',0,'',0,0,0,'F',now()).
+2013/10/26 16:28:06 [error] [system.db.CDbCommand] CDbCommand::execute() failed: SQLSTATE[23000]: Integrity constraint violation: 1062 Duplicate entry 'S1A11' for key 'PRIMARY'. The SQL statement executed was: INSERT INTO Promotion VALUES('S2','S1A11','2012-08-01','2013-12-30','sku','0010500001',0,0,1,'หีบ',0,0,0,1,0,0,'','',0,'',0,0,0,'M',now()).
+2013/10/27 18:40:10 [error] [system.db.CDbCommand] CDbCommand::execute() failed: SQLSTATE[21S01]: Insert value list does not match column list: 1136 Column count doesn't match value count at row 1. The SQL statement executed was: INSERT INTO Employee VALUES('S001','นายซุป 1','นามสกุลซุป 1').

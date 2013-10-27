@@ -18,6 +18,9 @@ class SyncController extends Controller
 		unset($rows);
 		$rows[] = $setting->attributes;
 		$jsonHelper->setDataRow("DeviceSetting",$rows);
+		unset($rows);
+		$rows[] = $device->saleUnit->employee->attributes;
+		$jsonHelper->setDataRow("Employee",$rows);
 		$jsonHelper->end("Logged-in successfully.");
 	}
 

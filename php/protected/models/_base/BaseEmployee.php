@@ -7,12 +7,15 @@
  * property or method in class "Employee".
  *
  * Columns in table "Employee" available as properties of the model,
- * and there are no model relations.
+ * followed by relations of table "Employee" available as properties of the model.
  *
  * @property string $EmployeeId
  * @property string $FirstName
  * @property string $LastName
+ * @property string $Phone
  *
+ * @property SaleArea[] $saleAreas
+ * @property SaleUnit[] $saleUnits
  */
 abstract class BaseEmployee extends GxActiveRecord {
 
@@ -34,14 +37,16 @@ abstract class BaseEmployee extends GxActiveRecord {
 
 	public function rules() {
 		return array(
-			array('EmployeeId, FirstName, LastName', 'required'),
-			array('EmployeeId, FirstName, LastName', 'length', 'max'=>255),
-			array('EmployeeId, FirstName, LastName', 'safe', 'on'=>'search'),
+			array('EmployeeId, FirstName, LastName, Phone', 'required'),
+			array('EmployeeId, FirstName, LastName, Phone', 'length', 'max'=>255),
+			array('EmployeeId, FirstName, LastName, Phone', 'safe', 'on'=>'search'),
 		);
 	}
 
 	public function relations() {
 		return array(
+			'saleAreas' => array(self::HAS_MANY, 'SaleArea', 'SupervisorId'),
+			'saleUnits' => array(self::HAS_MANY, 'SaleUnit', 'EmployeeId'),
 		);
 	}
 
@@ -55,6 +60,9 @@ abstract class BaseEmployee extends GxActiveRecord {
 			'EmployeeId' => Yii::t('app', 'Employee'),
 			'FirstName' => Yii::t('app', 'First Name'),
 			'LastName' => Yii::t('app', 'Last Name'),
+			'Phone' => Yii::t('app', 'Phone'),
+			'saleAreas' => null,
+			'saleUnits' => null,
 		);
 	}
 
@@ -64,6 +72,7 @@ abstract class BaseEmployee extends GxActiveRecord {
 		$criteria->compare('EmployeeId', $this->EmployeeId, true);
 		$criteria->compare('FirstName', $this->FirstName, true);
 		$criteria->compare('LastName', $this->LastName, true);
+		$criteria->compare('Phone', $this->Phone, true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria' => $criteria,
