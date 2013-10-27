@@ -1544,7 +1544,10 @@ if ($TESTING) {
 if ($TESTING) {
     $this->execute("INSERT INTO TargetSale VALUES('N001','all','',20000,0,'',now())");
     $this->execute("INSERT INTO TargetSale VALUES('N001','l1','313',10000,0,'',now())");
+    $this->execute("INSERT INTO TargetSale VALUES('N001','l1','309',10000,0,'',now())");
     $this->execute("INSERT INTO TargetSale VALUES('N001','l2','167',10000,0,'',now())");
+    $this->execute("INSERT INTO TargetSale VALUES('N001','l2','144',10000,0,'',now())");
+    $this->execute("INSERT INTO TargetSale VALUES('N001','l3','1',10000,0,'',now())");
     $this->execute("INSERT INTO TargetSale VALUES('N001','sku','0050100001',5000,0,'',now())");
     $this->execute("INSERT INTO TargetSale VALUES('N001','sku','0050100002',0,10,'หีบ',now())");
 
