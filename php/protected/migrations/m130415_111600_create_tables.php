@@ -560,6 +560,40 @@ if ($TESTING) {
                    . "('1','1','1','1000000006','กูลิโกะ รสหวาน','หีบ','','','ชิ้น',100,0,0,2.5,100,0,0,10,'N','Y','N',2000,100,now())");
     $this->execute("INSERT INTO Product VALUES"
                    . "('309','144','','0010500001','น้ำมันพืชกุ๊ก 1 ลิตร','หีบ','','','ชิ้น',200,0,0,20,100,0,0,10,'N','Y','N',2000,100,now())");
+/*
+    $this->execute("INSERT INTO Product VALUES"
+                   . "('1','1','1','1000000011','กูลิโกะ รส1','หีบ','','','ชิ้น',100,0,0,2.5,100,0,0,10,'N','Y','N',2000,100,now())");
+    $this->execute("INSERT INTO Product VALUES"
+                   . "('1','1','1','1000000012','กูลิโกะ รส2','หีบ','','','ชิ้น',100,0,0,2.5,100,0,0,10,'N','Y','N',2000,100,now())");
+    $this->execute("INSERT INTO Product VALUES"
+                   . "('1','1','1','1000000013','กูลิโกะ รส3','หีบ','','','ชิ้น',100,0,0,2.5,100,0,0,10,'N','Y','N',2000,100,now())");
+    $this->execute("INSERT INTO Product VALUES"
+                   . "('1','1','1','1000000014','กูลิโกะ รส4','หีบ','','','ชิ้น',100,0,0,2.5,100,0,0,10,'N','Y','N',2000,100,now())");
+    $this->execute("INSERT INTO Product VALUES"
+                   . "('1','1','1','1000000015','กูลิโกะ รส5','หีบ','','','ชิ้น',100,0,0,2.5,100,0,0,10,'N','Y','N',2000,100,now())");
+    $this->execute("INSERT INTO Product VALUES"
+                   . "('1','1','1','1000000016','กูลิโกะ รส6','หีบ','','','ชิ้น',100,0,0,2.5,100,0,0,10,'N','Y','N',2000,100,now())");
+    $this->execute("INSERT INTO Product VALUES"
+                   . "('1','1','1','1000000017','กูลิโกะ รส7','หีบ','','','ชิ้น',100,0,0,2.5,100,0,0,10,'N','Y','N',2000,100,now())");
+    $this->execute("INSERT INTO Product VALUES"
+                   . "('1','1','1','1000000018','กูลิโกะ รส8','หีบ','','','ชิ้น',100,0,0,2.5,100,0,0,10,'N','Y','N',2000,100,now())");
+    $this->execute("INSERT INTO Product VALUES"
+                   . "('1','1','1','1000000019','กูลิโกะ รส9','หีบ','','','ชิ้น',100,0,0,2.5,100,0,0,10,'N','Y','N',2000,100,now())");
+    $this->execute("INSERT INTO Product VALUES"
+                   . "('1','1','1','1000000020','กูลิโกะ รส10','หีบ','','','ชิ้น',100,0,0,2.5,100,0,0,10,'N','Y','N',2000,100,now())");
+    $this->execute("INSERT INTO Product VALUES"
+                   . "('1','1','1','1000000021','กูลิโกะ รส11','หีบ','','','ชิ้น',100,0,0,2.5,100,0,0,10,'N','Y','N',2000,100,now())");
+    $this->execute("INSERT INTO Product VALUES"
+                   . "('1','1','1','1000000022','กูลิโกะ รส12','หีบ','','','ชิ้น',100,0,0,2.5,100,0,0,10,'N','Y','N',2000,100,now())");
+    $this->execute("INSERT INTO Product VALUES"
+                   . "('1','1','1','1000000023','กูลิโกะ รส13','หีบ','','','ชิ้น',100,0,0,2.5,100,0,0,10,'N','Y','N',2000,100,now())");
+    $this->execute("INSERT INTO Product VALUES"
+                   . "('1','1','1','1000000024','กูลิโกะ รส14','หีบ','','','ชิ้น',100,0,0,2.5,100,0,0,10,'N','Y','N',2000,100,now())");
+    $this->execute("INSERT INTO Product VALUES"
+                   . "('1','1','1','1000000025','กูลิโกะ รส15','หีบ','','','ชิ้น',100,0,0,2.5,100,0,0,10,'N','Y','N',2000,100,now())");
+    $this->execute("INSERT INTO Product VALUES"
+                   . "('1','1','1','1000000026','กูลิโกะ รส16','หีบ','','','ชิ้น',100,0,0,2.5,100,0,0,10,'N','Y','N',2000,100,now())");
+*/
 }
 
     $this->createTable('Stock', 
@@ -629,7 +663,24 @@ if ($TESTING) {
     $this->execute("INSERT INTO Stock(SaleId,ProductId,StartQtyLevel1,StartQtyLevel2,StartQtyLevel3,StartQtyLevel4,CurrentQtyLevel1,CurrentQtyLevel2,CurrentQtyLevel3,CurrentQtyLevel4,UpdateAt) VALUES('N002','1000000004',20,0,0,20,20,0,0,20,now())");
     $this->execute("INSERT INTO Stock(SaleId,ProductId,StartQtyLevel1,StartQtyLevel2,StartQtyLevel3,StartQtyLevel4,CurrentQtyLevel1,CurrentQtyLevel2,CurrentQtyLevel3,CurrentQtyLevel4,UpdateAt) VALUES('N002','1000000005',20,0,0,20,20,0,0,20,now())");
     $this->execute("INSERT INTO Stock(SaleId,ProductId,StartQtyLevel1,StartQtyLevel2,StartQtyLevel3,StartQtyLevel4,CurrentQtyLevel1,CurrentQtyLevel2,CurrentQtyLevel3,CurrentQtyLevel4,UpdateAt) VALUES('N002','1000000006',20,0,0,20,20,0,0,20,now())");
-
+/*
+    $this->execute("INSERT INTO Stock(SaleId,ProductId,StartQtyLevel1,StartQtyLevel2,StartQtyLevel3,StartQtyLevel4,CurrentQtyLevel1,CurrentQtyLevel2,CurrentQtyLevel3,CurrentQtyLevel4,UpdateAt) VALUES('N002','1000000011',20,0,0,20,20,0,0,20,now())");
+    $this->execute("INSERT INTO Stock(SaleId,ProductId,StartQtyLevel1,StartQtyLevel2,StartQtyLevel3,StartQtyLevel4,CurrentQtyLevel1,CurrentQtyLevel2,CurrentQtyLevel3,CurrentQtyLevel4,UpdateAt) VALUES('N002','1000000012',20,0,0,20,20,0,0,20,now())");
+    $this->execute("INSERT INTO Stock(SaleId,ProductId,StartQtyLevel1,StartQtyLevel2,StartQtyLevel3,StartQtyLevel4,CurrentQtyLevel1,CurrentQtyLevel2,CurrentQtyLevel3,CurrentQtyLevel4,UpdateAt) VALUES('N002','1000000013',20,0,0,20,20,0,0,20,now())");
+    $this->execute("INSERT INTO Stock(SaleId,ProductId,StartQtyLevel1,StartQtyLevel2,StartQtyLevel3,StartQtyLevel4,CurrentQtyLevel1,CurrentQtyLevel2,CurrentQtyLevel3,CurrentQtyLevel4,UpdateAt) VALUES('N002','1000000014',20,0,0,20,20,0,0,20,now())");
+    $this->execute("INSERT INTO Stock(SaleId,ProductId,StartQtyLevel1,StartQtyLevel2,StartQtyLevel3,StartQtyLevel4,CurrentQtyLevel1,CurrentQtyLevel2,CurrentQtyLevel3,CurrentQtyLevel4,UpdateAt) VALUES('N002','1000000015',20,0,0,20,20,0,0,20,now())");
+    $this->execute("INSERT INTO Stock(SaleId,ProductId,StartQtyLevel1,StartQtyLevel2,StartQtyLevel3,StartQtyLevel4,CurrentQtyLevel1,CurrentQtyLevel2,CurrentQtyLevel3,CurrentQtyLevel4,UpdateAt) VALUES('N002','1000000016',20,0,0,20,20,0,0,20,now())");
+    $this->execute("INSERT INTO Stock(SaleId,ProductId,StartQtyLevel1,StartQtyLevel2,StartQtyLevel3,StartQtyLevel4,CurrentQtyLevel1,CurrentQtyLevel2,CurrentQtyLevel3,CurrentQtyLevel4,UpdateAt) VALUES('N002','1000000017',20,0,0,20,20,0,0,20,now())");
+    $this->execute("INSERT INTO Stock(SaleId,ProductId,StartQtyLevel1,StartQtyLevel2,StartQtyLevel3,StartQtyLevel4,CurrentQtyLevel1,CurrentQtyLevel2,CurrentQtyLevel3,CurrentQtyLevel4,UpdateAt) VALUES('N002','1000000018',20,0,0,20,20,0,0,20,now())");
+    $this->execute("INSERT INTO Stock(SaleId,ProductId,StartQtyLevel1,StartQtyLevel2,StartQtyLevel3,StartQtyLevel4,CurrentQtyLevel1,CurrentQtyLevel2,CurrentQtyLevel3,CurrentQtyLevel4,UpdateAt) VALUES('N002','1000000019',20,0,0,20,20,0,0,20,now())");
+    $this->execute("INSERT INTO Stock(SaleId,ProductId,StartQtyLevel1,StartQtyLevel2,StartQtyLevel3,StartQtyLevel4,CurrentQtyLevel1,CurrentQtyLevel2,CurrentQtyLevel3,CurrentQtyLevel4,UpdateAt) VALUES('N002','1000000020',20,0,0,20,20,0,0,20,now())");
+    $this->execute("INSERT INTO Stock(SaleId,ProductId,StartQtyLevel1,StartQtyLevel2,StartQtyLevel3,StartQtyLevel4,CurrentQtyLevel1,CurrentQtyLevel2,CurrentQtyLevel3,CurrentQtyLevel4,UpdateAt) VALUES('N002','1000000021',20,0,0,20,20,0,0,20,now())");
+    $this->execute("INSERT INTO Stock(SaleId,ProductId,StartQtyLevel1,StartQtyLevel2,StartQtyLevel3,StartQtyLevel4,CurrentQtyLevel1,CurrentQtyLevel2,CurrentQtyLevel3,CurrentQtyLevel4,UpdateAt) VALUES('N002','1000000022',20,0,0,20,20,0,0,20,now())");
+    $this->execute("INSERT INTO Stock(SaleId,ProductId,StartQtyLevel1,StartQtyLevel2,StartQtyLevel3,StartQtyLevel4,CurrentQtyLevel1,CurrentQtyLevel2,CurrentQtyLevel3,CurrentQtyLevel4,UpdateAt) VALUES('N002','1000000023',20,0,0,20,20,0,0,20,now())");
+    $this->execute("INSERT INTO Stock(SaleId,ProductId,StartQtyLevel1,StartQtyLevel2,StartQtyLevel3,StartQtyLevel4,CurrentQtyLevel1,CurrentQtyLevel2,CurrentQtyLevel3,CurrentQtyLevel4,UpdateAt) VALUES('N002','1000000024',20,0,0,20,20,0,0,20,now())");
+    $this->execute("INSERT INTO Stock(SaleId,ProductId,StartQtyLevel1,StartQtyLevel2,StartQtyLevel3,StartQtyLevel4,CurrentQtyLevel1,CurrentQtyLevel2,CurrentQtyLevel3,CurrentQtyLevel4,UpdateAt) VALUES('N002','1000000025',20,0,0,20,20,0,0,20,now())");
+    $this->execute("INSERT INTO Stock(SaleId,ProductId,StartQtyLevel1,StartQtyLevel2,StartQtyLevel3,StartQtyLevel4,CurrentQtyLevel1,CurrentQtyLevel2,CurrentQtyLevel3,CurrentQtyLevel4,UpdateAt) VALUES('N002','1000000026',20,0,0,20,20,0,0,20,now())");
+*/
     $this->execute("INSERT INTO Stock(SaleId,ProductId,StartQtyLevel1,StartQtyLevel2,StartQtyLevel3,StartQtyLevel4,CurrentQtyLevel1,CurrentQtyLevel2,CurrentQtyLevel3,CurrentQtyLevel4,UpdateAt) VALUES('N003','0010100001',20,0,0,20,20,0,0,20,now())");
     $this->execute("INSERT INTO Stock(SaleId,ProductId,StartQtyLevel1,StartQtyLevel2,StartQtyLevel3,StartQtyLevel4,CurrentQtyLevel1,CurrentQtyLevel2,CurrentQtyLevel3,CurrentQtyLevel4,UpdateAt) VALUES('N003','0010200001',20,0,0,20,20,0,0,20,now())");
     $this->execute("INSERT INTO Stock(SaleId,ProductId,StartQtyLevel1,StartQtyLevel2,StartQtyLevel3,StartQtyLevel4,CurrentQtyLevel1,CurrentQtyLevel2,CurrentQtyLevel3,CurrentQtyLevel4,UpdateAt) VALUES('N003','0010300001',20,0,0,20,20,0,0,20,now())");
