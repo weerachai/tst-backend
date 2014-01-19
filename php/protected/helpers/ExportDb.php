@@ -37,7 +37,8 @@ class ExportDb {
 		foreach ($data as $rec) {
 			$row++;
 			foreach ($fieldList as $i=>$field) {
-				$objPHPExcel->getActiveSheet()->setCellValue($this->col($i).$row, $rec[$field]);
+				$objPHPExcel->getActiveSheet()->getCell($this->col($i).$row)->setValueExplicit($rec[$field], PHPExcel_Cell_DataType::TYPE_STRING);
+//				$objPHPExcel->getActiveSheet()->setCellValue($this->col($i).$row, $rec[$field]);
 			}
 		}				
 		// Rename worksheet

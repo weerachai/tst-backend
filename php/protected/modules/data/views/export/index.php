@@ -24,6 +24,7 @@ $this->menu = array(
 						'dataType'=>'json',
  		                'data'=>array('Table'=>'js:this.value'),
  		                'success'=>'function(data) {
+                    		$("#FileName").val(data.fileName);
                     		$("#FieldList").html(data.fieldList);
                 		}',
 					))); ?>

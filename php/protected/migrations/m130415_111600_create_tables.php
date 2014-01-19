@@ -498,9 +498,9 @@ if ($TESTING) {
     // sync option tables
     $this->createTable('Product', 
                        array(
-                             'GrpLevel1Id' => 'string not null',
-                             'GrpLevel2Id' => 'string not null',
-                             'GrpLevel3Id' => 'string not null',
+                             'GrpLevel1Id' => 'string NOT NULL DEFAULT ""',
+                             'GrpLevel2Id' => 'string NOT NULL DEFAULT ""',
+                             'GrpLevel3Id' => 'string NOT NULL DEFAULT ""',
                              'ProductId' => 'string not null',
                              'ProductName' => 'string not null',
                              'PackLevel1' => 'string',

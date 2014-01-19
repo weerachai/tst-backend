@@ -44,11 +44,19 @@ class ImportController extends GxController
 					    // Get the current line that the file is reading
 					    $currentLine = trim(fgets($file));
 					    $data = array();
-					    foreach (explode(',',$currentLine) as $j=>$field) {
+					    $vals = explode(',',$currentLine);
+					    for ($j = 0; $j < count($vals); $j++) {
+					    	$field = $vals[$j];
 					    	if ($i == 1)
 						    	$options[$j] = $field;
-						    else
-						    	$data[$options[$j]] = $field;
+						    else if (is_string($field) && strlen($field) > 1 && $field[0] == '"') {
+						    	while ($vals[$j][strlen($vals[$j])-1] != '"') {
+						    		$j++;
+						    		$field .= $vals[$j];
+						    	}
+						    	$field = substr($field,1,strlen($field)-2);
+						    }
+						    $data[$options[$j]] = $field;
 						}
 						if ($i > 1) {
 						    $model = new $table;
@@ -57,7 +65,9 @@ class ImportController extends GxController
 						    		$model->$tableField = $data[$fileField];
 						    }
 						    try {
-						    	//$model->UpdateAt = date("Y-m-d H:i:s");
+						    	if (isset($model->UpdateAt) && ($model->UpdateAt == null || empty($model->UpdateAt) || $model->UpdateAt == '0000-00-00 00:00:00'))
+						    		$model->UpdateAt = date("Y-m-d H:i:s");
+	
 						    	if ($oldModel = $table::model()->findByPk($model->getPrimaryKey())) {
 						    		$oldModel->attributes = $model->attributes;
 						    		if ($oldModel->save())
@@ -93,7 +103,8 @@ class ImportController extends GxController
 					    		$model->$tableField = $data[$fileField];
 					    }
 					    try {
-					    	//$model->UpdateAt = date("Y-m-d H:i:s");
+					    	if (isset($model->UpdateAt) && ($model->UpdateAt == null || empty($model->UpdateAt) || $model->UpdateAt == '0000-00-00 00:00:00'))
+						    		$model->UpdateAt = date("Y-m-d H:i:s");
 						    if ($oldModel = $table::model()->findByPk($model->getPrimaryKey())) {
 					    		$oldModel->attributes = $model->attributes;
 					    		if ($oldModel->save())

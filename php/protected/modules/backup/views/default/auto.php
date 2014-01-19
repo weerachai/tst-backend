@@ -15,7 +15,8 @@ $this->breadcrumbs=array(
 ));
 ?>
 
-<?php echo $form->textFieldRow($model, 'min'); ?>
+<?php echo $form->textFieldRow($model, 'len'); ?>
+<?php echo $form->dropDownList($model, 'unit', array('minute'=>'นาที','hour'=>'ชั่วโมง','day'=>'วัน','month'=>'เดือน')); ?>
 
 <?php $this->widget('bootstrap.widgets.TbButton', array('buttonType'=>'submit', 'type'=>'primary', 'label'=>'Start')); ?>
 

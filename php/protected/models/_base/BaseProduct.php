@@ -54,13 +54,13 @@ abstract class BaseProduct extends GxActiveRecord {
 
 	public function rules() {
 		return array(
-			array('GrpLevel1Id, GrpLevel2Id, GrpLevel3Id, ProductId, ProductName', 'required'),
+			array('ProductId, ProductName', 'required'),
 			array('VolumeLevel1, VolumeLevel2, VolumeLevel3, VolumeLevel4', 'numerical', 'integerOnly'=>true),
 			array('GrpLevel1Id, GrpLevel2Id, GrpLevel3Id, ProductId, ProductName, PackLevel1, PackLevel2, PackLevel3, PackLevel4', 'length', 'max'=>255),
 			array('PriceLevel1, PriceLevel2, PriceLevel3, PriceLevel4, MinShip, ShipFee', 'length', 'max'=>10),
 			array('FreeFlag, VatFlag, ShipFlag', 'length', 'max'=>1),
 			array('UpdateAt', 'safe'),
-			array('PackLevel1, PackLevel2, PackLevel3, PackLevel4, PriceLevel1, PriceLevel2, PriceLevel3, PriceLevel4, VolumeLevel1, VolumeLevel2, VolumeLevel3, VolumeLevel4, FreeFlag, VatFlag, ShipFlag, MinShip, ShipFee, UpdateAt', 'default', 'setOnEmpty' => true, 'value' => null),
+			array('GrpLevel1Id, GrpLevel2Id, GrpLevel3Id, PackLevel1, PackLevel2, PackLevel3, PackLevel4, PriceLevel1, PriceLevel2, PriceLevel3, PriceLevel4, VolumeLevel1, VolumeLevel2, VolumeLevel3, VolumeLevel4, FreeFlag, VatFlag, ShipFlag, MinShip, ShipFee, UpdateAt', 'default', 'setOnEmpty' => true, 'value' => null),
 			array('GrpLevel1Id, GrpLevel2Id, GrpLevel3Id, ProductId, ProductName, PackLevel1, PackLevel2, PackLevel3, PackLevel4, PriceLevel1, PriceLevel2, PriceLevel3, PriceLevel4, VolumeLevel1, VolumeLevel2, VolumeLevel3, VolumeLevel4, FreeFlag, VatFlag, ShipFlag, MinShip, ShipFee, UpdateAt', 'safe', 'on'=>'search'),
 		);
 	}

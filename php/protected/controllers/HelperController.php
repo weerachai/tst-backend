@@ -472,6 +472,7 @@ class HelperController extends Controller
 			$fieldList .= CHtml::tag('option',array('value'=>$column->name),CHtml::encode($column->name),true);
         }
 		echo CJSON::encode(array(
+			'fileName' => "$table-".date("YmdHis"),
 			'fieldList' => $fieldList
 		));
 	}

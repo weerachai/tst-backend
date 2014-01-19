@@ -58,19 +58,25 @@ class ExportController extends GxController
 				//		$cron->eraseJobs();
 				$jobs_obj = $cron->getJobs();
 				$found = false;
-				$params = array($model->folder,$model->type);
+				$minute = $model->unit == 'minute'?'*/'.$model->len:'*';
+				$hour = $model->unit == 'hour'?'*/'.$model->len:'*';
+				$day = $model->unit == 'day'?'*/'.$model->len:'*';
+				$month = $model->unit == 'month'?'*/'.$model->len:'*';				$params = array($model->folder,$model->type);
 				foreach ($model->tables as $table)
 					$params[] = $table;
 				foreach($jobs_obj as $job) {
 					if ($job->getCommandName() == 'export') {
 						$job->setParams($params);
-						$job->setMinute('*/'.$model->min);
+						$job->setMinute($minute);
+						$job->setHour($hour);
+						$job->setDay($day);
+						$job->setMonth($month);
 						$found = true;
 						break;
 					}
 				}
 				if (!$found) {
-		    		$cron->addApplicationJob('yiicmd', 'export', $params, '*/'.$model->min);
+		    		$cron->addApplicationJob('yiicmd', 'export', $params, $minute, $hour, $day, $month);
 				}
 				$cron->saveCronFile();
 				$cron->saveToCrontab();

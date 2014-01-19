@@ -173,15 +173,22 @@ class DefaultController extends GxController
 				//		$cron->eraseJobs();
 				$jobs_obj = $cron->getJobs();
 				$found = false;
+				$minute = $model->unit == 'minute'?'*/'.$model->len:'*';
+				$hour = $model->unit == 'hour'?'*/'.$model->len:'*';
+				$day = $model->unit == 'day'?'*/'.$model->len:'*';
+				$month = $model->unit == 'month'?'*/'.$model->len:'*';
 				foreach($jobs_obj as $job) {
 					if ($job->getCommandName() == 'backup') {
-						$job->setMinute('*/'.$model->min);
+						$job->setMinute($minute);
+						$job->setHour($hour);
+						$job->setDay($day);
+						$job->setMonth($month);
 						$found = true;
 						break;
 					}
 				}
 				if (!$found) {
-		    		$cron->addApplicationJob('yiicmd', 'backup', array(), '*/'.$model->min);
+		    		$cron->addApplicationJob('yiicmd', 'backup', array(), $minute, $hour, $day, $month);
 				}
 				$cron->saveCronFile();
 				$cron->saveToCrontab();
