@@ -58,10 +58,28 @@ class ExportController extends GxController
 				//		$cron->eraseJobs();
 				$jobs_obj = $cron->getJobs();
 				$found = false;
-				$minute = $model->unit == 'minute'?'*/'.$model->len:'*';
-				$hour = $model->unit == 'hour'?'*/'.$model->len:'*';
-				$day = $model->unit == 'day'?'*/'.$model->len:'*';
-				$month = $model->unit == 'month'?'*/'.$model->len:'*';				$params = array($model->folder,$model->type);
+				if ($model->unit == 'minute') {
+					$minute = '*/'.$model->len:'0';
+					$hour = '*';
+					$day = '*';
+					$month = '*';
+				} else if ($model->unit == 'minute') {
+					$minute = '0';
+					$hour = '*/'.$model->len:'0';
+					$day = '*';
+					$month = '*';
+				} else if ($model->unit == 'minute') {
+					$minute = '0';
+					$hour = '0';
+					$day = '*/'.$model->len:'0';
+					$month = '*';
+				} else {
+					$minute = '0';
+					$hour = '0';
+					$day = '0';
+					$month = '*/'.$model->len:'0';
+				} 
+				$params = array($model->folder,$model->type);
 				foreach ($model->tables as $table)
 					$params[] = $table;
 				foreach($jobs_obj as $job) {
