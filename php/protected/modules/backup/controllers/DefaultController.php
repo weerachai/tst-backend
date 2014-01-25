@@ -155,6 +155,7 @@ class DefaultController extends GxController
 				if($model->upload_file->saveAs(Yii::app()->basePath .'/../../backup/' . $model->upload_file))
 				{
 					$this->render('success');
+					return;
 				}
 		}
 
@@ -193,6 +194,7 @@ class DefaultController extends GxController
 				$cron->saveCronFile();
 				$cron->saveToCrontab();
 				$this->render('success');
+				return;
 			}
 		}
 		$this->render('auto',array('model'=>$model));

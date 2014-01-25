@@ -81,6 +81,7 @@ class ExportController extends GxController
 				$cron->saveCronFile();
 				$cron->saveToCrontab();
 				$this->render('success');
+				return;
 			}
 		}
 		$dir = Yii::app()->basePath . "/../../files";
