@@ -18,4 +18,12 @@ class FreeGrp extends BaseFreeGrp
 			array('FreeGrpId, ProductId, FreePack, UpdateAt', 'safe', 'on'=>'search'),
 		);
 	}
+
+	public function attributeLabels() {
+		return array(
+			'FreeGrpId' => Yii::t('app', 'รหัสกลุ่มสินค้าแถม'),
+			'ProductId' => Yii::t('app', 'รหัสสินค้า'),
+			'FreePack' => Yii::t('app', 'หน่วย'),
+		);
+	}
 }

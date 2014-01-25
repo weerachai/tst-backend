@@ -197,7 +197,8 @@ SQL;
 
 		$model2 = new ProductGrp;
 
-		$this->performAjaxValidation($model2, 'insert-form2');
+		if (isset($_POST['ajax']))
+			$this->performAjaxValidation($model2, 'insert-form2');
 
 		if (isset($_POST['ProductGrp'])) {
 			$model2->setAttributes($_POST['ProductGrp']);
@@ -234,7 +235,8 @@ SQL;
 
 		$model3 = new FreeGrp;
 
-		$this->performAjaxValidation($model3, 'insert-form3');
+		if (isset($_POST['ajax']))
+			$this->performAjaxValidation($model3, 'insert-form3');
 
 		if (isset($_POST['FreeGrp'])) {
 			$model3->setAttributes($_POST['FreeGrp']);

@@ -2,8 +2,7 @@
 
 $this->breadcrumbs = array(
 	'Master & Formula' => array('/master/'),
-	'Area' => array('index'),
-	'จัดการ',
+	'Area',
 );
 
 $this->menu = array(
@@ -11,7 +10,7 @@ $this->menu = array(
 );
 ?>
 
-<h3>จัดการ Area</h3>
+<h3>Area</h3>
 
 <?php 
 $columns = array(
@@ -37,7 +36,7 @@ $columns = array(
     ),
 	array(
 		'class' => 'bootstrap.widgets.TbButtonColumn',
-		'template'=>'{view}{update}{delete}',
+		'template'=>'{view} {update} {delete}',
 		'buttons'=>array(
 			'view' => array(
 	    		'label'=>'รายละเอียด',

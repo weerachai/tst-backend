@@ -9,7 +9,6 @@ $this->breadcrumbs = array(
 
 $this->menu=array(
 	array('label'=>'จัดการหน่วยขาย และ Device', 'url'=>array('index')),
-	array('label'=>'เพิ่มหน่วยขาย และ Device', 'url'=>array('create')),
 	array('label'=>'รายละเอียดหน่วยขาย และ Device', 'url'=>array('view', 'id' => GxActiveRecord::extractPkValue($model, true))),
 );
 ?>

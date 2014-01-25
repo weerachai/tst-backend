@@ -17,7 +17,7 @@ if (empty($OPENSHIFT_MYSQL_DB_HOST)) {
 }
 
 return array(
-//	'theme'=>'abound',
+	'theme'=>'abound',
 	'basePath'=>dirname(__FILE__).DIRECTORY_SEPARATOR.'..',
 	'name'=>'Total Sales Tools - Backend',
 

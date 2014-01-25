@@ -44,7 +44,8 @@ class Promotion extends BasePromotion
 			array('PromotionId', 'unique'),
 			array('EndDate', 'compare', 'compareAttribute'=>'StartDate' , 'operator'=>'>='),
 			array('StartDate', 'compare', 'compareValue'=>date("Y-m-d") , 'operator'=>'>=', 'on'=>'insert'),
-			array('MinAmount, MinSku, MinQty, DiscBaht, DiscPerAmount, DiscPerQty, DiscPer1, DiscPer2, DiscPer3, FreeQty, FreePerAmount, FreePerQty, FreeBaht', 'numerical', 'integerOnly'=>true, 'min'=>0, 'tooSmall'=>'จำนวนต้องไม่ติดลบ'),
+			array('MinAmount, DiscBaht, DiscPerAmount, DiscPer1, DiscPer2, DiscPer3, FreePerAmount, FreeBaht', 'numerical', 'integerOnly'=>false, 'min'=>0, 'tooSmall'=>'จำนวนต้องไม่ติดลบ'),
+			array('MinSku, MinQty, DiscPerQty, FreeQty, FreePerQty', 'numerical', 'integerOnly'=>true, 'min'=>0, 'tooSmall'=>'จำนวนต้องไม่ติดลบ'),
 			array('PromotionGroup, PromotionId, PromotionType, ProductOrGrpId, Pack, FreeType, FreeProductOrGrpId, FreePack, Formula', 'length', 'max'=>255),
 			array('UpdateAt', 'safe'),
 			array('ProductOrGrpId, Pack, FreeType, FreeProductOrGrpId, FreePack', 'default', 'setOnEmpty' => true, 'value' => ''),
@@ -164,7 +165,7 @@ class Promotion extends BasePromotion
 			elseif ($model->FreePerQty > 0)
 				$str .= ' ทุกๆ ' . number_format($model->FreePerQty) . ' ' . $model->Pack;
 		} elseif ($model->FreeType == 'G') {
-			$str = 'สินค้าในกลุ่ม ' . $model->FreeProductOrGrpId;
+			$str = 'สินค้าในกลุ่ม ' . $model->FreeProductOrGrpId;
 			if ($model->FreeQty > 0) {
 				$str .= ' ' . number_format($model->FreeQty) . ' ' . $model->FreePack;
 				if ($model->FreePerAmount > 0)
@@ -206,7 +207,7 @@ class Promotion extends BasePromotion
 	public function getFreeTypes() {
 		return array(
 			'S' => 'รายสินค้า',
-			'G' => 'กลุ่มสินค้า',
+			'G' => 'กลุ่มสินค้า',
 		);
 	}
 

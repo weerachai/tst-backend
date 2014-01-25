@@ -8,7 +8,6 @@ $this->breadcrumbs = array(
 
 $this->menu=array(
 	array('label'=>'จัดการ Area', 'url'=>array('index')),
-	array('label'=>'เพิ่ม Area', 'url'=>array('create')),
 	array('label'=>'แก้ไข Area', 'url'=>array('update', 'id' => $model->AreaId)),
 	array('label'=>'ลบ Area', 'url'=>'#', 'linkOptions' => array('submit' => array('delete', 'id' => $model->AreaId), 'confirm'=>'Are you sure you want to delete this item?')),
 );

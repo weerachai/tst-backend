@@ -2,13 +2,12 @@
 
 $this->breadcrumbs = array(
 	'Master & Formula' => array('/master/'),
-	'Control Running' => array('index'),
-	'จัดการ',
+	'Control Running',
 );
 
 ?>
 
-<h3>จัดการ Control Running</h3>
+<h3>Control Running</h3>
 
 <?php 
 $columns = array(

@@ -12,6 +12,7 @@ class Config extends BaseConfig
 		return array(
 			'DayToClear' => Yii::t('app', 'จำนวนวันเก็บข้อมูลบน Device'),
 			'Vat' => Yii::t('app', 'การคิด vat'),
+			'OverStock' => Yii::t('app', 'ขายเกินจำนวนสต็อค'),
 			'ExchangeDiff' => Yii::t('app', 'ส่วนต่างแลกเปลี่ยนสินค้า'),
 			'ExchangePaymentMethod' => Yii::t('app', 'วิธีเก็บส่วนต่างแลกเปลี่ยนสินค้า'),
 		);

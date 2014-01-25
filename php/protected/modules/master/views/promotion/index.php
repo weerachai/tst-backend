@@ -2,19 +2,18 @@
 
 $this->breadcrumbs = array(
 	'Master & Formula' => array('/master/'),
-	'Promotion' => array('index'),
-	'จัดการ',
+	'Promotion',
 );
 
 $this->menu = array(
         array('label'=>'เพิ่มโปรโมชั่นรายสินค้า', 'url'=>array('create','type'=>'sku')),
-        array('label'=>'เพิ่มโปรโมชั่นกลุ่มสินค้า', 'url'=>array('create','type'=>'group')),
+        array('label'=>'เพิ่มโปรโมชั่นกลุ่มสินค้า', 'url'=>array('create','type'=>'group')),
         array('label'=>'เพิ่มโปรโมชั่นท้ายบิล', 'url'=>array('create','type'=>'bill')),
         array('label'=>'เพิ่มโปรโมชั่นสะสม', 'url'=>array('create','type'=>'accu')),
 );
 ?>
 
-<h3>จัดการโปรโมชั่น</h3>
+<h3>โปรโมชั่น</h3>
 
 <?php $form=$this->beginWidget('bootstrap.widgets.TbActiveForm', array(
     'id'=>'page-form',
@@ -111,7 +110,7 @@ $columns = array(
     ),
     array(
         'class' => 'bootstrap.widgets.TbButtonColumn',
-        'template'=>'{view}{update}{copy}{delete}',
+        'template'=>'{view} {update} {copy} {delete}',
         'buttons'=>array(
             'view' => array(
                 'label'=>'รายละเอียด',
@@ -131,7 +130,7 @@ $columns = array(
                 'url'=>'Yii::app()->createUrl("/master/promotion/delete", array("id"=>$data["id"]))',
             ),
         ),
-        'htmlOptions' => array('style'=>'white-space:nowrap'),
+        'htmlOptions' => array('style'=>'white-space:nowrap','width'=>'80px'),
     ),
 );
 

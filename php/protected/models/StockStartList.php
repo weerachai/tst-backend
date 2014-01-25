@@ -22,7 +22,7 @@ class StockStartList extends BaseStockStartList
 			'Qty' => Yii::t('app', 'จำนวน'),
 			'UpdateAt' => Yii::t('app', 'Update At'),
 			'GrpLevel1Id' => Yii::t('app', 'กลุ่มใหญ่'),
-			'GrpLevel2Id' => Yii::t('app', 'กลุ่มกลาง'),
+			'GrpLevel2Id' => Yii::t('app', 'กลุ่มกลาง'),
 			'GrpLevel3Id' => Yii::t('app', 'กลุ่มย่อย'),
 			'Type' => Yii::t('app', 'ประเภท'),
 			'Pack' => Yii::t('app', 'บรรจุ'),

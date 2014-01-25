@@ -2,6 +2,24 @@
 
 class ConfigController extends GxController
 {
+	public function filters() {
+		return array(
+				'accessControl', 
+				);
+	}
+
+	public function accessRules() {
+		return array(
+				array('allow', 
+					'actions'=>array('index','update'),
+					'users'=>array('admin'),
+					),
+				array('deny', 
+					'users'=>array('*'),
+					),
+				);
+	}
+
 	public function actionIndex()
 	{
 		$this->render('index', array(

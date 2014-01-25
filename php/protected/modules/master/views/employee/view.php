@@ -8,7 +8,6 @@ $this->breadcrumbs = array(
 
 $this->menu=array(
 	array('label'=>'จัดการพนักงาน', 'url'=>array('index')),
-	array('label'=>'เพิ่มพนักงาน', 'url'=>array('create')),
 	array('label'=>'แก้ไขพนักงาน', 'url'=>array('update', 'id' => $model->EmployeeId)),
 	array('label'=>'ลบพนักงาน', 'url'=>'#', 'linkOptions' => array('submit' => array('delete', 'id' => $model->EmployeeId), 'confirm'=>'Are you sure you want to delete this item?')),
 );

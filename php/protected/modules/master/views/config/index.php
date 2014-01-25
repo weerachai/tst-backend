@@ -1,14 +1,14 @@
 <?php
 $this->breadcrumbs = array(
 	'Master & Formula' => array('/master/'),
-	'ค่ากำหนด'
+	'Settings'
 );
 
 $this->menu=array(
-	array('label'=>'แก้ไขค่า', 'url'=>array('update')),
+	array('label'=>'แก้ไข', 'url'=>array('update')),
 );
 ?>
-<h3>กำหนดค่า</h3>
+<h3>ค่า Settings</h3>
 
 <?php $this->widget('zii.widgets.CDetailView', array(
 	'data' => $model,

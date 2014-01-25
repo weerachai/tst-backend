@@ -30,7 +30,7 @@ class RequestDetail extends BaseRequestDetail
 			'QtyLevel4' => Yii::t('app', 'จำนวน'),
 			'UpdateAt' => Yii::t('app', 'Update At'),
 			'GrpLevel1Id' => Yii::t('app', 'กลุ่มใหญ่'),
-			'GrpLevel2Id' => Yii::t('app', 'กลุ่มกลาง'),
+			'GrpLevel2Id' => Yii::t('app', 'กลุ่มกลาง'),
 			'GrpLevel3Id' => Yii::t('app', 'กลุ่มย่อย'),
 			'ProductIdName' => Yii::t('app', 'รหัส/ชื่อสิ้นค้า'),
 		);

@@ -9,7 +9,6 @@ $this->breadcrumbs = array(
 
 $this->menu=array(
 	array('label'=>'จัดการ Area', 'url'=>array('index')),
-	array('label'=>'เพิ่ม Area', 'url'=>array('create')),
 	array('label'=>'รายละเอียด Area', 'url'=>array('view', 'id' => GxActiveRecord::extractPkValue($model, true))),
 );
 ?>

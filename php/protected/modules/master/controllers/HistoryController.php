@@ -8,6 +8,7 @@ class HistoryController extends GxController
 			$helper = new CreateHistory;
 			$helper->generate();
 			$this->render('success');
+			return;
 		}
 		$this->render('index');
 	}
@@ -38,6 +39,7 @@ class HistoryController extends GxController
 				$cron->saveCronFile();
 				$cron->saveToCrontab();
 				$this->render('success');
+				return;
 			}
 		}
 		$this->render('auto',array('model'=>$model));

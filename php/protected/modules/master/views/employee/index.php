@@ -2,8 +2,7 @@
 
 $this->breadcrumbs = array(
 	'Master & Formula' => array('/master/'),
-	'พนักงาน' => array('index'),
-	'จัดการ',
+	'พนักงาน',
 );
 
 $this->menu = array(
@@ -11,13 +10,23 @@ $this->menu = array(
 );
 ?>
 
-<h3>จัดการพนักงาน</h3>
+<h3>พนักงาน</h3>
 
 <?php $this->widget('bootstrap.widgets.TbGridView', array(
 	'id' => 'data-grid',
 	'dataProvider' => $model->search(),
 	'filter' => $model,
-	'columns' => array(
+	'type'=>'striped bordered condensed',
+	'enablePagination' => true,
+    'pager' => array(
+        'cssFile' => false,
+        'header' => false,
+        'firstPageLabel' => 'หน้าแรก',
+        'prevPageLabel' => 'หน้าก่อน',
+        'nextPageLabel' => 'หน้าถัดไป',
+        'lastPageLabel' => 'หน้าสุดท้าย',
+    ),  
+   	'columns' => array(
 		'EmployeeId',
 		'FirstName',
 		'LastName',

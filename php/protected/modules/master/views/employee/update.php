@@ -9,7 +9,6 @@ $this->breadcrumbs = array(
 
 $this->menu=array(
 	array('label'=>'จัดการพนักงาน', 'url'=>array('index')),
-	array('label'=>'เพิ่มพนักงาน', 'url'=>array('create')),
 	array('label'=>'รายละเอียดพนักงาน', 'url'=>array('view', 'id' => GxActiveRecord::extractPkValue($model, true))),
 );
 ?>

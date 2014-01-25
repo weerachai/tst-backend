@@ -8,7 +8,6 @@ $this->breadcrumbs = array(
 
 $this->menu=array(
 	array('label'=>'จัดการหน่วยขาย และ Device', 'url'=>array('index')),
-	array('label'=>'เพิ่มหน่วยขาย และ Device', 'url'=>array('create')),
 	array('label'=>'แก้ไขหน่วยขาย และ Device', 'url'=>array('update', 'id' => $model->SaleId)),
 	array('label'=>'ลบหน่วยขาย และ Device', 'url'=>'#', 'linkOptions' => array('submit' => array('delete', 'id' => $model->SaleId), 'confirm'=>'Are you sure you want to delete this item?')),
 );

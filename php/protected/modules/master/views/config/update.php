@@ -2,16 +2,16 @@
 
 $this->breadcrumbs = array(
 	'Master & Formula' => array('/master/'),
-	'ค่ากำหนด' => array('index'),
+	'Settings' => array('index'),
 	'แก้ไข',
 );
 
 $this->menu=array(
-	array('label'=>'ค่ากำหนด', 'url'=>array('index')),
+	array('label'=>'กลับ', 'url'=>array('index')),
 );
 ?>
 
-<h3>แก้ไขค่ากำหนด</h3>
+<h3>แก้ไขค่า Settings</h3>
 
 <div class="form">
 

@@ -13,7 +13,7 @@ $gridDataProvider = new CArrayDataProvider(array(
     array('id'=>5, 'firstName'=>'Stu', 'lastName'=>'Dent', 'language'=>'HTML','usage'=>'<span class="inlinebar">1,3,4,5,3,5</span>'),
 ));
 ?>
-
+<? if (false) { ?>
 <div class="row-fluid">
   <div class="span3 ">
 	<div class="stat-block">
@@ -52,10 +52,10 @@ $gridDataProvider = new CArrayDataProvider(array(
 	</div>
   </div>
 </div>
+<?php  } ?>
 
+<?php if (false) { ?>
 <div class="row-fluid">
-
-    
 	<div class="span9">
       <?php
 		$this->beginWidget('zii.widgets.CPortlet', array(
@@ -112,8 +112,9 @@ $gridDataProvider = new CArrayDataProvider(array(
 
 	</div>
 </div>
+<?php } ?>
 
-
+<?php if (false) { ?>
 <div class="row-fluid">
 	<div class="span6">
 	  <?php $this->widget('zii.widgets.grid.CGridView', array(
@@ -149,7 +150,9 @@ $gridDataProvider = new CArrayDataProvider(array(
         	
 	</div><!--/span-->
 </div><!--/row-->
+<?php } ?>
 
+<?php if (false) { ?>
 <div class="row-fluid">
 	<div class="span6">
 	  <?php
@@ -185,7 +188,7 @@ $gridDataProvider = new CArrayDataProvider(array(
          <input class="knob" data-width="100" data-min="-100" data-fgColor="#F89406" data-displayPrevious=true value="44">     	
 	</div><!--/span-->
 </div><!--/row-->
-
+<?php } ?>
           
 
 

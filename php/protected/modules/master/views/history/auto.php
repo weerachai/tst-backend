@@ -1,7 +1,7 @@
 <?php
 $this->breadcrumbs=array(
 	'Master & Formula' => array('/master/'),
-	'ตรวจสต็อค/สร้างประวัติการขาย'  => array('index'),
+	'สร้างประวัติการขาย'  => array('index'),
 	'กำหนดเวลาสร้างประวัติการขาย',
 );
 $this->menu = array(

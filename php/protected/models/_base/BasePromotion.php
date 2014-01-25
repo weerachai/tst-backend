@@ -15,23 +15,23 @@
  * @property string $EndDate
  * @property string $PromotionType
  * @property string $ProductOrGrpId
- * @property integer $MinAmount
+ * @property string $MinAmount
  * @property integer $MinSku
  * @property integer $MinQty
  * @property string $Pack
- * @property integer $DiscBaht
- * @property integer $DiscPerAmount
- * @property integer $DiscPerQty
- * @property integer $DiscPer1
- * @property integer $DiscPer2
- * @property integer $DiscPer3
+ * @property string $DiscBaht
+ * @property string $DiscPerAmount
+ * @property string $DiscPerQty
+ * @property string $DiscPer1
+ * @property string $DiscPer2
+ * @property string $DiscPer3
  * @property string $FreeType
  * @property string $FreeProductOrGrpId
  * @property integer $FreeQty
  * @property string $FreePack
- * @property integer $FreePerAmount
+ * @property string $FreePerAmount
  * @property integer $FreePerQty
- * @property integer $FreeBaht
+ * @property string $FreeBaht
  * @property string $Formula
  * @property string $UpdateAt
  *
@@ -57,8 +57,9 @@ abstract class BasePromotion extends GxActiveRecord {
 	public function rules() {
 		return array(
 			array('PromotionGroup, PromotionId, StartDate, EndDate, PromotionType, Formula', 'required'),
-			array('MinAmount, MinSku, MinQty, DiscBaht, DiscPerAmount, DiscPerQty, DiscPer1, DiscPer2, DiscPer3, FreeQty, FreePerAmount, FreePerQty, FreeBaht', 'numerical', 'integerOnly'=>true),
+			array('MinSku, MinQty, FreeQty, FreePerQty', 'numerical', 'integerOnly'=>true),
 			array('PromotionGroup, PromotionId, PromotionType, ProductOrGrpId, Pack, FreeType, FreeProductOrGrpId, FreePack, Formula', 'length', 'max'=>255),
+			array('MinAmount, DiscBaht, DiscPerAmount, DiscPerQty, DiscPer1, DiscPer2, DiscPer3, FreePerAmount, FreeBaht', 'length', 'max'=>20),
 			array('UpdateAt', 'safe'),
 			array('ProductOrGrpId, MinAmount, MinSku, MinQty, Pack, DiscBaht, DiscPerAmount, DiscPerQty, DiscPer1, DiscPer2, DiscPer3, FreeType, FreeProductOrGrpId, FreeQty, FreePack, FreePerAmount, FreePerQty, FreeBaht, UpdateAt', 'default', 'setOnEmpty' => true, 'value' => null),
 			array('PromotionGroup, PromotionId, StartDate, EndDate, PromotionType, ProductOrGrpId, MinAmount, MinSku, MinQty, Pack, DiscBaht, DiscPerAmount, DiscPerQty, DiscPer1, DiscPer2, DiscPer3, FreeType, FreeProductOrGrpId, FreeQty, FreePack, FreePerAmount, FreePerQty, FreeBaht, Formula, UpdateAt', 'safe', 'on'=>'search'),
@@ -114,23 +115,23 @@ abstract class BasePromotion extends GxActiveRecord {
 		$criteria->compare('EndDate', $this->EndDate, true);
 		$criteria->compare('PromotionType', $this->PromotionType, true);
 		$criteria->compare('ProductOrGrpId', $this->ProductOrGrpId, true);
-		$criteria->compare('MinAmount', $this->MinAmount);
+		$criteria->compare('MinAmount', $this->MinAmount, true);
 		$criteria->compare('MinSku', $this->MinSku);
 		$criteria->compare('MinQty', $this->MinQty);
 		$criteria->compare('Pack', $this->Pack, true);
-		$criteria->compare('DiscBaht', $this->DiscBaht);
-		$criteria->compare('DiscPerAmount', $this->DiscPerAmount);
-		$criteria->compare('DiscPerQty', $this->DiscPerQty);
-		$criteria->compare('DiscPer1', $this->DiscPer1);
-		$criteria->compare('DiscPer2', $this->DiscPer2);
-		$criteria->compare('DiscPer3', $this->DiscPer3);
+		$criteria->compare('DiscBaht', $this->DiscBaht, true);
+		$criteria->compare('DiscPerAmount', $this->DiscPerAmount, true);
+		$criteria->compare('DiscPerQty', $this->DiscPerQty, true);
+		$criteria->compare('DiscPer1', $this->DiscPer1, true);
+		$criteria->compare('DiscPer2', $this->DiscPer2, true);
+		$criteria->compare('DiscPer3', $this->DiscPer3, true);
 		$criteria->compare('FreeType', $this->FreeType, true);
 		$criteria->compare('FreeProductOrGrpId', $this->FreeProductOrGrpId, true);
 		$criteria->compare('FreeQty', $this->FreeQty);
 		$criteria->compare('FreePack', $this->FreePack, true);
-		$criteria->compare('FreePerAmount', $this->FreePerAmount);
+		$criteria->compare('FreePerAmount', $this->FreePerAmount, true);
 		$criteria->compare('FreePerQty', $this->FreePerQty);
-		$criteria->compare('FreeBaht', $this->FreeBaht);
+		$criteria->compare('FreeBaht', $this->FreeBaht, true);
 		$criteria->compare('Formula', $this->Formula, true);
 		$criteria->compare('UpdateAt', $this->UpdateAt, true);
 

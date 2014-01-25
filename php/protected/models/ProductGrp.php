@@ -18,4 +18,11 @@ class ProductGrp extends BaseProductGrp
 			array('ProductGrpId, ProductId, UpdateAt', 'safe', 'on'=>'search'),
 		);
 	}
+
+	public function attributeLabels() {
+		return array(
+			'ProductGrpId' => Yii::t('app', 'รหัสกลุ่มสินค้า'),
+			'ProductId' => Yii::t('app', 'รหัสสินค้า'),
+		);
+	}
 }
