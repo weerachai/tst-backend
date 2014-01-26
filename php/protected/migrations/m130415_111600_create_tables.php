@@ -7,7 +7,7 @@ class m130415_111600_create_tables extends CDbMigration
 
     $this->reset();
     
-    $TESTING = true;
+    $TESTING = false;
     
     // System User Management Tables
     $this->createTable('User', 
@@ -352,7 +352,7 @@ if ($TESTING) {
 
     // fixed option table
     // check
-if (false) {
+if (true) {
     $this->createTable('Location', 
                        array(
                              'LocationId' => 'string',
@@ -527,7 +527,7 @@ if ($TESTING) {
     //$this->addForeignKey('fk_Product_GrpLevel2','Product','GrpLevel2Id','GrpLevel2','GrpLevel2Id','SET NULL','CASCADE');
     //$this->addForeignKey('fk_Product_GrpLevel3','Product','GrpLevel3Id','GrpLevel3','GrpLevel3Id','SET NULL','CASCADE');
 
-if ($TESTING) {
+if ($TESTING||true) {
     $this->execute("INSERT INTO Product VALUES"
                    . "('309','144','','0010100001','น้ำมันกุ๊กถั่วเหลือง 1/4 ลิตร','หีบ','','','ชิ้น',200,0,0,10,100,0,0,10,'N','Y','N',2000,100,now())");
     $this->execute("INSERT INTO Product VALUES"

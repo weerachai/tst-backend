@@ -13,6 +13,9 @@ $gridDataProvider = new CArrayDataProvider(array(
     array('id'=>5, 'firstName'=>'Stu', 'lastName'=>'Dent', 'language'=>'HTML','usage'=>'<span class="inlinebar">1,3,4,5,3,5</span>'),
 ));
 ?>
+<div class="row-fluid">
+<h1>Total Sales Tools Backend</h1>
+</div>
 <? if (false) { ?>
 <div class="row-fluid">
   <div class="span3 ">
