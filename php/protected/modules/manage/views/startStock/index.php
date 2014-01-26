@@ -17,18 +17,14 @@ $columns = array(
         'htmlOptions' => array('style'=>'white-space:nowrap'),
     ),
     array(
-        'header'=>CHtml::encode('สิ้นค้า'),
+        'header'=>CHtml::encode('ชื่อสินค้า'),
         'name'=>'ProductName',
         'htmlOptions' => array('style'=>'white-space:nowrap'),
     ),
     array(
         'header'=>CHtml::encode('จำนวน'),
-        'name'=>'Qty',
-        'htmlOptions' => array('style'=>'white-space:nowrap'),
-    ),
-    array(
-        'header'=>CHtml::encode('หน่วย'),
-        'name'=>'Pack',
+        'type'=>'raw',
+        'value'=>'Product::model()->formatQty($data,"QtyLevel");',
         'htmlOptions' => array('style'=>'white-space:nowrap'),
     ),
 	array(
@@ -37,7 +33,7 @@ $columns = array(
 		'buttons'=>array(
 			'delete' => array(
 	    		'label'=>'ยกเลิกความสัมพันธ์',
-	        	'url'=>'Yii::app()->createUrl("/manage/startStock/delete", array("saleId"=>$data["id"],"productId"=>$data["ProductId"],"level"=>$data["Level"]))',
+	        	'url'=>'Yii::app()->createUrl("/manage/startStock/delete", array("saleId"=>$data["id"],"productId"=>$data["ProductId"]))',
 		    ),
 		),
 		'htmlOptions' => array('style'=>'white-space:nowrap'),
@@ -75,7 +71,7 @@ $this->widget('bootstrap.widgets.TbGridView', array(
 
 <fieldset>
 
-<?php echo $form->dropDownListRow($model, 'SaleId', SaleUnit::model()->getAssigendOptions(), array(
+<?php echo $form->dropDownListRow($model, 'SaleId', SaleUnit::model()->getStockSaleOptions(), array(
 					'ajax' => array(
 						'type'=>'POST', //request type
 						'url'=>CController::createUrl('/helper/getStockStartOptions'),
@@ -87,7 +83,14 @@ $this->widget('bootstrap.widgets.TbGridView', array(
                     		$("#'.CHtml::activeId($model, "GrpLevel3Id").'").html(data.grp3);
                     		$("#'.CHtml::activeId($model, "Type").'").html(data.type);
                     		$("#'.CHtml::activeId($model, "ProductId").'").html(data.pro);
-                     		$("#'.CHtml::activeId($model, "Pack").'").html(data.pack);
+                            $("#'.CHtml::activeId($model, "QtyLevel1").'").attr("disabled",data.l1);
+                            $("#'.CHtml::activeId($model, "QtyLevel2").'").attr("disabled",data.l2);
+                            $("#'.CHtml::activeId($model, "QtyLevel3").'").attr("disabled",data.l3);
+                            $("#'.CHtml::activeId($model, "QtyLevel4").'").attr("disabled",data.l4);
+                            $("#PackLevel1").html(data.p1);
+                            $("#PackLevel2").html(data.p2);
+                            $("#PackLevel3").html(data.p3);
+                            $("#PackLevel4").html(data.p4);
                 		}',
 					))); ?>
 
@@ -103,7 +106,14 @@ $this->widget('bootstrap.widgets.TbGridView', array(
                     		$("#'.CHtml::activeId($model, "GrpLevel3Id").'").html(data.grp3);
                     		$("#'.CHtml::activeId($model, "Type").'").html(data.type);
                     		$("#'.CHtml::activeId($model, "ProductId").'").html(data.pro);
-                     		$("#'.CHtml::activeId($model, "Pack").'").html(data.pack);
+                     		$("#'.CHtml::activeId($model, "QtyLevel1").'").attr("disabled",data.l1);
+                            $("#'.CHtml::activeId($model, "QtyLevel2").'").attr("disabled",data.l2);
+                            $("#'.CHtml::activeId($model, "QtyLevel3").'").attr("disabled",data.l3);
+                            $("#'.CHtml::activeId($model, "QtyLevel4").'").attr("disabled",data.l4);
+                            $("#PackLevel1").html(data.p1);
+                            $("#PackLevel2").html(data.p2);
+                            $("#PackLevel3").html(data.p3);
+                            $("#PackLevel4").html(data.p4);
                		}',
 					))); ?>
 
@@ -119,7 +129,14 @@ $this->widget('bootstrap.widgets.TbGridView', array(
                     		$("#'.CHtml::activeId($model, "GrpLevel3Id").'").html(data.grp3);
                     		$("#'.CHtml::activeId($model, "Type").'").html(data.type);
                     		$("#'.CHtml::activeId($model, "ProductId").'").html(data.pro);
-                     		$("#'.CHtml::activeId($model, "Pack").'").html(data.pack);
+                     		$("#'.CHtml::activeId($model, "QtyLevel1").'").attr("disabled",data.l1);
+                            $("#'.CHtml::activeId($model, "QtyLevel2").'").attr("disabled",data.l2);
+                            $("#'.CHtml::activeId($model, "QtyLevel3").'").attr("disabled",data.l3);
+                            $("#'.CHtml::activeId($model, "QtyLevel4").'").attr("disabled",data.l4);
+                            $("#PackLevel1").html(data.p1);
+                            $("#PackLevel2").html(data.p2);
+                            $("#PackLevel3").html(data.p3);
+                            $("#PackLevel4").html(data.p4);
                		}',
 					))); ?>
 
@@ -135,7 +152,14 @@ $this->widget('bootstrap.widgets.TbGridView', array(
  		                'success'=>'function(data) {
                     		$("#'.CHtml::activeId($model, "Type").'").html(data.type);
                     		$("#'.CHtml::activeId($model, "ProductId").'").html(data.pro);
-                      		$("#'.CHtml::activeId($model, "Pack").'").html(data.pack);
+                      		$("#'.CHtml::activeId($model, "QtyLevel1").'").attr("disabled",data.l1);
+                            $("#'.CHtml::activeId($model, "QtyLevel2").'").attr("disabled",data.l2);
+                            $("#'.CHtml::activeId($model, "QtyLevel3").'").attr("disabled",data.l3);
+                            $("#'.CHtml::activeId($model, "QtyLevel4").'").attr("disabled",data.l4);
+                            $("#PackLevel1").html(data.p1);
+                            $("#PackLevel2").html(data.p2);
+                            $("#PackLevel3").html(data.p3);
+                            $("#PackLevel4").html(data.p4);
                		}',
 					))); ?>
 
@@ -151,7 +175,14 @@ $this->widget('bootstrap.widgets.TbGridView', array(
  		                	'Type'=>'js:this.value'),
  		                'success'=>'function(data) {
                     		$("#'.CHtml::activeId($model, "ProductId").'").html(data.pro);
-                     		$("#'.CHtml::activeId($model, "Pack").'").html(data.pack);
+                     		$("#'.CHtml::activeId($model, "QtyLevel1").'").attr("disabled",data.l1);
+                            $("#'.CHtml::activeId($model, "QtyLevel2").'").attr("disabled",data.l2);
+                            $("#'.CHtml::activeId($model, "QtyLevel3").'").attr("disabled",data.l3);
+                            $("#'.CHtml::activeId($model, "QtyLevel4").'").attr("disabled",data.l4);
+                            $("#PackLevel1").html(data.p1);
+                            $("#PackLevel2").html(data.p2);
+                            $("#PackLevel3").html(data.p3);
+                            $("#PackLevel4").html(data.p4);
                 		}',
 					))); ?>
 
@@ -167,13 +198,21 @@ $this->widget('bootstrap.widgets.TbGridView', array(
  		                	'Type'=>'js:'.CHtml::activeId($model,'Type').'.value',
  		                	'ProductId'=>'js:this.value'),
  		                'success'=>'function(data) {
-                     		$("#'.CHtml::activeId($model, "Pack").'").html(data.pack);
+                     		$("#'.CHtml::activeId($model, "QtyLevel1").'").attr("disabled",data.l1);
+                            $("#'.CHtml::activeId($model, "QtyLevel2").'").attr("disabled",data.l2);
+                            $("#'.CHtml::activeId($model, "QtyLevel3").'").attr("disabled",data.l3);
+                            $("#'.CHtml::activeId($model, "QtyLevel4").'").attr("disabled",data.l4);
+                            $("#PackLevel1").html(data.p1);
+                            $("#PackLevel2").html(data.p2);
+                            $("#PackLevel3").html(data.p3);
+                            $("#PackLevel4").html(data.p4);
                 		}',
 					))); ?>
 
-<?php echo $form->dropDownListRow($model, 'Pack', StockStartList::model()->getPack('')); ?>
-
-<?php echo $form->textFieldRow($model, 'Qty'); ?>
+<?php echo $form->textFieldRow($model, 'QtyLevel1', array('disabled'=>empty($model->product->PackLevel1),'append'=>' <div id="PackLevel1">'.$model->product->PackLevel1.'</div>')); ?>
+<?php echo $form->textFieldRow($model, 'QtyLevel2', array('disabled'=>empty($model->product->PackLevel2),'append'=>' <div id="PackLevel2">'.$model->product->PackLevel2.'</div>')); ?>
+<?php echo $form->textFieldRow($model, 'QtyLevel3', array('disabled'=>empty($model->product->PackLevel3),'append'=>' <div id="PackLevel3">'.$model->product->PackLevel3.'</div>')); ?>
+<?php echo $form->textFieldRow($model, 'QtyLevel4', array('disabled'=>empty($model->product->PackLevel4),'append'=>' <div id="PackLevel4">'.$model->product->PackLevel4.'</div>')); ?>
 
 </fieldset>
 

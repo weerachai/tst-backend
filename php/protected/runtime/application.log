@@ -893,3 +893,28 @@ Stack trace:
 	primary key (LocationId)
 ) ENGINE=InnoDB.
 2014/01/26 15:51:21 [error] [system.db.CDbCommand] CDbCommand::fetchAll() failed: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'backend.tbl_migration' doesn't exist. The SQL statement executed was: SHOW FULL COLUMNS FROM `tbl_migration`.
+2014/01/26 17:31:31 [error] [system.db.CDbCommand] CDbCommand::execute() failed: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'backend.DeviceSetting' doesn't exist. The SQL statement executed was: INSERT INTO DeviceSetting VALUES('N001','เครดิต',null,null,null,null,'bill','Y',60,50,'bill',0,now()).
+2014/01/26 17:33:01 [error] [php] Use of undefined constant TESTING - assumed 'TESTING' (/home/tu/www/backend/php/protected/migrations/m130415_111600_create_tables.php:219)
+Stack trace:
+#0 /home/tu/www/backend/php/framework/cli/commands/MigrateCommand.php(109): MigrateCommand->migrateUp()
+#1 unknown(0): MigrateCommand->actionUp()
+#2 /home/tu/www/backend/php/framework/console/CConsoleCommand.php(172): ReflectionMethod->invokeArgs()
+#3 /home/tu/www/backend/php/framework/console/CConsoleCommandRunner.php(67): MigrateCommand->run()
+#4 /home/tu/www/backend/php/framework/console/CConsoleApplication.php(91): CConsoleCommandRunner->run()
+#5 /home/tu/www/backend/php/framework/base/CApplication.php(169): CConsoleApplication->processRequest()
+#6 /home/tu/www/backend/php/framework/yiic.php(33): CConsoleApplication->run()
+#7 /home/tu/www/backend/php/protected/yiic.php(7): require_once()
+#8 /home/tu/www/backend/php/protected/yiic(4): require_once()
+
+2014/01/26 17:33:17 [error] [php] Use of undefined constant TESTING - assumed 'TESTING' (/home/tu/www/backend/php/protected/migrations/m130415_111600_create_tables.php:219)
+Stack trace:
+#0 /home/tu/www/backend/php/framework/cli/commands/MigrateCommand.php(109): MigrateCommand->migrateUp()
+#1 unknown(0): MigrateCommand->actionUp()
+#2 /home/tu/www/backend/php/framework/console/CConsoleCommand.php(172): ReflectionMethod->invokeArgs()
+#3 /home/tu/www/backend/php/framework/console/CConsoleCommandRunner.php(67): MigrateCommand->run()
+#4 /home/tu/www/backend/php/framework/console/CConsoleApplication.php(91): CConsoleCommandRunner->run()
+#5 /home/tu/www/backend/php/framework/base/CApplication.php(169): CConsoleApplication->processRequest()
+#6 /home/tu/www/backend/php/framework/yiic.php(33): CConsoleApplication->run()
+#7 /home/tu/www/backend/php/protected/yiic.php(7): require_once()
+#8 /home/tu/www/backend/php/protected/yiic(4): require_once()
+

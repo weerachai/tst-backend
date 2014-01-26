@@ -109,8 +109,8 @@ SQL;
 					$this->redirect(array('view', 'id'=>$model->RequestNo));
 			}
 		} else {
-			$model->SaleId = array_shift(array_keys(SaleUnit::model()->getAssigendOptions()));
-			$model->RequestNo = ControlNo::model()->getControlNo($model->SaleId,'ใบเบิกสินค้า');
+			$model->SaleId = array_shift(array_keys(SaleUnit::model()->getStockSaleOptions()));
+			$model->RequestNo = empty($model->SaleId)?'':ControlNo::model()->getControlNo($model->SaleId,'ใบเบิกสินค้า');
 			$model->RequestDate = date("Y-m-d");
 		}
 

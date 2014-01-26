@@ -15,31 +15,16 @@ class StartStockController extends GxController
 				$model = new StockStartList;
 		}
 
+		$model->SaleId = array_shift(array_keys(SaleUnit::model()->getStockSaleOptions()));
+		$model->ProductId = array_shift(array_keys(StockStartList::model()->getProduct($model->SaleId,'','','','')));
+
 		$sql = <<<SQL
-			SELECT SaleId AS id, SaleName, Product.ProductId, ProductName,
-			1 AS Level, Qty, PackLevel1 AS Pack
-			FROM (StockStartList JOIN SaleUnit USING(SaleId))
-			JOIN Product USING (ProductId)
-			WHERE PackLevel1 != ''
-		UNION
-			SELECT SaleId AS id, SaleName, Product.ProductId, ProductName,
-			2 AS Level, Qty, PackLevel2 AS Pack
-			FROM (StockStartList JOIN SaleUnit USING(SaleId))
-			JOIN Product USING (ProductId)
-			WHERE PackLevel2 != ''
-		UNION
-			SELECT SaleId AS id, SaleName, Product.ProductId, ProductName,
-			3 AS Level, Qty, PackLevel3 AS Pack
-			FROM (StockStartList JOIN SaleUnit USING(SaleId))
-			JOIN Product USING (ProductId)
-			WHERE PackLevel3 != ''
-		UNION
-			SELECT SaleId AS id, SaleName, Product.ProductId, ProductName,
-			4 AS Level, Qty, PackLevel4 AS Pack
-			FROM (StockStartList JOIN SaleUnit USING(SaleId))
-			JOIN Product USING (ProductId)
-			WHERE PackLevel4 != ''
-		ORDER BY SaleName, ProductName, Level
+		SELECT SaleId AS id, SaleName, T.ProductId, ProductName,
+		QtyLevel1, PackLevel1, QtyLevel2, PackLevel2,
+		QtyLevel3, PackLevel3, QtyLevel4, PackLevel4, T.UpdateAt
+		FROM (StockStartList JOIN SaleUnit USING(SaleId))
+			JOIN Product T USING (ProductId)
+		ORDER BY SaleName, ProductName
 SQL;
 
 		// Create filter model and set properties
@@ -69,14 +54,13 @@ SQL;
 		));
 	}
 
-	public function actionDelete($saleId, $productId, $level)
+	public function actionDelete($saleId, $productId)
 	{
 		if (Yii::app()->getRequest()->getIsPostRequest()) {
 			$sql = <<<SQL
 			DELETE FROM StockStartList
 			WHERE SaleId = '$saleId'
 			AND ProductId = '$productId'
-			AND Level = '$level'
 SQL;
 			Yii::app()->db->createCommand($sql)->execute();
 			$this->redirect(array('index'));

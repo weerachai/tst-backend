@@ -105,7 +105,7 @@ $this->widget('bootstrap.widgets.TbExtendedGridView', array(
 
 <div class="row">
 <?php echo CHtml::label('หน่วยขาย: ',  'SaleId'); ?>
-<?php echo CHtml::dropDownList('SaleId',  null, SaleUnit::model()->getAssigendOptions(), array(
+<?php echo CHtml::dropDownList('SaleId',  null, SaleUnit::model()->getOptions(), array(
 					'ajax' => array(
 						'type'=>'POST', //request type
 						'url'=>CController::createUrl('/helper/getCheckOptions'),

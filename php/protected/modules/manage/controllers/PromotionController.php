@@ -26,6 +26,11 @@ class PromotionController extends GxController
 				$sql = "UPDATE DeviceSetting SET PromotionAccu = '$accu' WHERE SaleId = '$saleId'";
 				Yii::app()->db->createCommand($sql)->execute();
 			}
+			if (!empty($sku)||!empty($group)||!empty($bill)||!empty($accu)) {
+				$sql = "UPDATE DeviceSetting SET UpdateAt = now() WHERE SaleId = '$saleId'";
+				Yii::app()->db->createCommand($sql)->execute();
+
+			}
 		}
 
 		$sql = <<<SQL

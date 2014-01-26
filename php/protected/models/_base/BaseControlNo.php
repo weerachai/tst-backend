@@ -7,7 +7,7 @@
  * property or method in class "ControlNo".
  *
  * Columns in table "ControlNo" available as properties of the model,
- * and there are no model relations.
+ * followed by relations of table "ControlNo" available as properties of the model.
  *
  * @property string $SaleId
  * @property string $ControlId
@@ -16,6 +16,7 @@
  * @property integer $No
  * @property string $UpdateAt
  *
+ * @property SaleUnit $sale
  */
 abstract class BaseControlNo extends GxActiveRecord {
 
@@ -32,7 +33,7 @@ abstract class BaseControlNo extends GxActiveRecord {
 	}
 
 	public static function representingColumn() {
-		return 'SaleId';
+		return 'ControlId';
 	}
 
 	public function rules() {
@@ -48,6 +49,7 @@ abstract class BaseControlNo extends GxActiveRecord {
 
 	public function relations() {
 		return array(
+			'sale' => array(self::BELONGS_TO, 'SaleUnit', 'SaleId'),
 		);
 	}
 
@@ -58,19 +60,20 @@ abstract class BaseControlNo extends GxActiveRecord {
 
 	public function attributeLabels() {
 		return array(
-			'SaleId' => Yii::t('app', 'Sale'),
+			'SaleId' => null,
 			'ControlId' => Yii::t('app', 'Control'),
 			'Year' => Yii::t('app', 'Year'),
 			'Month' => Yii::t('app', 'Month'),
 			'No' => Yii::t('app', 'No'),
 			'UpdateAt' => Yii::t('app', 'Update At'),
+			'sale' => null,
 		);
 	}
 
 	public function search() {
 		$criteria = new CDbCriteria;
 
-		$criteria->compare('SaleId', $this->SaleId, true);
+		$criteria->compare('SaleId', $this->SaleId);
 		$criteria->compare('ControlId', $this->ControlId, true);
 		$criteria->compare('Year', $this->Year);
 		$criteria->compare('Month', $this->Month);

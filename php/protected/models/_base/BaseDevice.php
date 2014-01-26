@@ -7,7 +7,7 @@
  * property or method in class "Device".
  *
  * Columns in table "Device" available as properties of the model,
- * and there are no model relations.
+ * followed by relations of table "Device" available as properties of the model.
  *
  * @property string $DeviceId
  * @property string $DeviceKey
@@ -16,6 +16,7 @@
  * @property string $Password
  * @property string $UpdateAt
  *
+ * @property SaleUnit $sale
  */
 abstract class BaseDevice extends GxActiveRecord {
 
@@ -47,6 +48,7 @@ abstract class BaseDevice extends GxActiveRecord {
 
 	public function relations() {
 		return array(
+			'sale' => array(self::BELONGS_TO, 'SaleUnit', 'SaleId'),
 		);
 	}
 
@@ -59,10 +61,11 @@ abstract class BaseDevice extends GxActiveRecord {
 		return array(
 			'DeviceId' => Yii::t('app', 'Device'),
 			'DeviceKey' => Yii::t('app', 'Device Key'),
-			'SaleId' => Yii::t('app', 'Sale'),
+			'SaleId' => null,
 			'Username' => Yii::t('app', 'Username'),
 			'Password' => Yii::t('app', 'Password'),
 			'UpdateAt' => Yii::t('app', 'Update At'),
+			'sale' => null,
 		);
 	}
 
@@ -71,7 +74,7 @@ abstract class BaseDevice extends GxActiveRecord {
 
 		$criteria->compare('DeviceId', $this->DeviceId, true);
 		$criteria->compare('DeviceKey', $this->DeviceKey, true);
-		$criteria->compare('SaleId', $this->SaleId, true);
+		$criteria->compare('SaleId', $this->SaleId);
 		$criteria->compare('Username', $this->Username, true);
 		$criteria->compare('Password', $this->Password, true);
 		$criteria->compare('UpdateAt', $this->UpdateAt, true);

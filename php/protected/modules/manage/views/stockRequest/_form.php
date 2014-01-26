@@ -28,7 +28,7 @@
 		</div><!-- row -->
 		<div class="row">
 		<?php echo $form->labelEx($model,'SaleId'); ?>
-		<?php echo $form->dropDownList($model, 'SaleId', SaleUnit::model()->getAssigendOptions(), array(
+		<?php echo $form->dropDownList($model, 'SaleId', SaleUnit::model()->getStockSaleOptions(), array(
 					'ajax' => array(
 						'type'=>'POST', //request type
 						'url'=>CController::createUrl('/helper/getRequestId'),

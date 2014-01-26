@@ -252,19 +252,33 @@ class HelperController extends Controller
 	        $productId = $_POST['ProductId'];
 	   	else
 	   		$productId = array_shift(array_keys($data));	
-	   	$pack = '';
+	  	$l1 = $l2 = $l3 = $l4 = true;
+	  	$p1 = $p2 = $p3 = $p4 = '';
 	   	if (!empty($productId)) {
-		    $data = StockStartList::model()->getPack($productId);		    
-    		foreach($data as $value=>$name)
-        		$pack .= CHtml::tag('option',array('value'=>$value),CHtml::encode($name),true);
-        }
+	   		$product = Product::model()->findByPk($productId);
+	   		$l1 = empty($product->PackLevel1);
+	   		$l2 = empty($product->PackLevel2);
+	   		$l3 = empty($product->PackLevel3);
+	   		$l4 = empty($product->PackLevel4);
+	   		$p1 = $product->PackLevel1;
+	   		$p2 = $product->PackLevel2;
+	   		$p3 = $product->PackLevel3;
+	   		$p4 = $product->PackLevel4;
+       	}
         echo CJSON::encode(array(
               'grp1'=>$grp1,
               'grp2'=>$grp2,
               'grp3'=>$grp3,
               'type'=>$type,
-              'pack'=>$pack,
               'pro'=>$pro,
+              'l1'=>$l1,
+              'l2'=>$l2,
+              'l3'=>$l3,
+              'l4'=>$l4,
+              'p1'=>$p1,
+              'p2'=>$p2,
+              'p3'=>$p3,
+              'p4'=>$p4,
             ));
 	}
 

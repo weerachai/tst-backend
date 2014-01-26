@@ -21,7 +21,7 @@
  * @property string $Pack
  * @property string $DiscBaht
  * @property string $DiscPerAmount
- * @property string $DiscPerQty
+ * @property integer $DiscPerQty
  * @property string $DiscPer1
  * @property string $DiscPer2
  * @property string $DiscPer3
@@ -57,9 +57,9 @@ abstract class BasePromotion extends GxActiveRecord {
 	public function rules() {
 		return array(
 			array('PromotionGroup, PromotionId, StartDate, EndDate, PromotionType, Formula', 'required'),
-			array('MinSku, MinQty, FreeQty, FreePerQty', 'numerical', 'integerOnly'=>true),
+			array('MinSku, MinQty, DiscPerQty, FreeQty, FreePerQty', 'numerical', 'integerOnly'=>true),
 			array('PromotionGroup, PromotionId, PromotionType, ProductOrGrpId, Pack, FreeType, FreeProductOrGrpId, FreePack, Formula', 'length', 'max'=>255),
-			array('MinAmount, DiscBaht, DiscPerAmount, DiscPerQty, DiscPer1, DiscPer2, DiscPer3, FreePerAmount, FreeBaht', 'length', 'max'=>20),
+			array('MinAmount, DiscBaht, DiscPerAmount, DiscPer1, DiscPer2, DiscPer3, FreePerAmount, FreeBaht', 'length', 'max'=>20),
 			array('UpdateAt', 'safe'),
 			array('ProductOrGrpId, MinAmount, MinSku, MinQty, Pack, DiscBaht, DiscPerAmount, DiscPerQty, DiscPer1, DiscPer2, DiscPer3, FreeType, FreeProductOrGrpId, FreeQty, FreePack, FreePerAmount, FreePerQty, FreeBaht, UpdateAt', 'default', 'setOnEmpty' => true, 'value' => null),
 			array('PromotionGroup, PromotionId, StartDate, EndDate, PromotionType, ProductOrGrpId, MinAmount, MinSku, MinQty, Pack, DiscBaht, DiscPerAmount, DiscPerQty, DiscPer1, DiscPer2, DiscPer3, FreeType, FreeProductOrGrpId, FreeQty, FreePack, FreePerAmount, FreePerQty, FreeBaht, Formula, UpdateAt', 'safe', 'on'=>'search'),
@@ -121,7 +121,7 @@ abstract class BasePromotion extends GxActiveRecord {
 		$criteria->compare('Pack', $this->Pack, true);
 		$criteria->compare('DiscBaht', $this->DiscBaht, true);
 		$criteria->compare('DiscPerAmount', $this->DiscPerAmount, true);
-		$criteria->compare('DiscPerQty', $this->DiscPerQty, true);
+		$criteria->compare('DiscPerQty', $this->DiscPerQty);
 		$criteria->compare('DiscPer1', $this->DiscPer1, true);
 		$criteria->compare('DiscPer2', $this->DiscPer2, true);
 		$criteria->compare('DiscPer3', $this->DiscPer3, true);

@@ -6,21 +6,29 @@ class SyncController extends Controller
 		$params = $_POST;
 		$jsonHelper = new JSONHelper($params);
 		$jsonHelper->assertRequiredParams(array());
+
 		$device = $jsonHelper->login();
 		$jsonHelper->assertTrue(empty($device->DeviceKey)||$device->DeviceKey==$params['DeviceKey'],"Account is not available.");
+
 		$setting = DeviceSetting::model()->findByPk($device->SaleId);
-		$jsonHelper->assertTrue($setting!=null,"No Device Setting.");
+		$jsonHelper->assertTrue(!is_null($setting),"No Device Setting.");
+
+		$jsonHelper->assertTrue(!empty($device->saleUnit->employee),"รหัสนี้ยังไม่ได้กำหนดพนักงานขาย");
 
 		$device->DeviceKey = $params['DeviceKey'];
 		$jsonHelper->assertTrue($device->save(),"Error saving data.");
+
 		$rows[] = $device->attributes;
 		$jsonHelper->setDataRow("Device",$rows);
 		unset($rows);
+
 		$rows[] = $setting->attributes;
 		$jsonHelper->setDataRow("DeviceSetting",$rows);
 		unset($rows);
+
 		$rows[] = $device->saleUnit->employee->attributes;
 		$jsonHelper->setDataRow("Employee",$rows);
+
 		$jsonHelper->end("Logged-in successfully.");
 	}
 

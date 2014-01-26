@@ -7,7 +7,7 @@
  * property or method in class "SaleUnit".
  *
  * Columns in table "SaleUnit" available as properties of the model,
- * and there are no model relations.
+ * followed by relations of table "SaleUnit" available as properties of the model.
  *
  * @property string $SaleId
  * @property string $SaleName
@@ -15,6 +15,11 @@
  * @property string $EmployeeId
  * @property string $AreaId
  *
+ * @property ControlNo[] $controlNos
+ * @property Device $device
+ * @property DeviceSetting $deviceSetting
+ * @property SaleArea $area
+ * @property Employee $employee
  */
 abstract class BaseSaleUnit extends GxActiveRecord {
 
@@ -45,6 +50,11 @@ abstract class BaseSaleUnit extends GxActiveRecord {
 
 	public function relations() {
 		return array(
+			'controlNos' => array(self::HAS_MANY, 'ControlNo', 'SaleId'),
+			'device' => array(self::HAS_ONE, 'Device', 'SaleId'),
+			'deviceSetting' => array(self::HAS_ONE, 'DeviceSetting', 'SaleId'),
+			'area' => array(self::BELONGS_TO, 'SaleArea', 'AreaId'),
+			'employee' => array(self::BELONGS_TO, 'Employee', 'EmployeeId'),
 		);
 	}
 
@@ -58,8 +68,13 @@ abstract class BaseSaleUnit extends GxActiveRecord {
 			'SaleId' => Yii::t('app', 'Sale'),
 			'SaleName' => Yii::t('app', 'Sale Name'),
 			'SaleType' => Yii::t('app', 'Sale Type'),
-			'EmployeeId' => Yii::t('app', 'Employee'),
-			'AreaId' => Yii::t('app', 'Area'),
+			'EmployeeId' => null,
+			'AreaId' => null,
+			'controlNos' => null,
+			'device' => null,
+			'deviceSetting' => null,
+			'area' => null,
+			'employee' => null,
 		);
 	}
 
@@ -69,8 +84,8 @@ abstract class BaseSaleUnit extends GxActiveRecord {
 		$criteria->compare('SaleId', $this->SaleId, true);
 		$criteria->compare('SaleName', $this->SaleName, true);
 		$criteria->compare('SaleType', $this->SaleType, true);
-		$criteria->compare('EmployeeId', $this->EmployeeId, true);
-		$criteria->compare('AreaId', $this->AreaId, true);
+		$criteria->compare('EmployeeId', $this->EmployeeId);
+		$criteria->compare('AreaId', $this->AreaId);
 
 		return new CActiveDataProvider($this, array(
 			'criteria' => $criteria,

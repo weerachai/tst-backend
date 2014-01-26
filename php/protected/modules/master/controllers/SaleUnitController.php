@@ -43,9 +43,16 @@ class SaleUnitController extends GxController {
  				$model->device->UpdateAt = date("Y-m-d h:i:s");
  				$model->device->save();
 
+ 				$config = Config::model()->findByPk(1);
 				$model->device = new DeviceSetting;
 				$model->device->SaleId = $model->SaleId;
 				$model->device->SaleType = $model->SaleType;
+				$model->device->Vat = $config->Vat;
+				$model->device->OverStock = $config->OverStock;
+				$model->device->DayToClear = $config->DayToClear;
+				$model->device->ExchangeDiff = $config->ExchangeDiff;
+				$model->device->ExchangePaymentMethod = $config->ExchangePaymentMethod;
+				
 				$model->device->UpdateAt = date("Y-m-d h:i:s");
  				$model->device->save();
 

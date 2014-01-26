@@ -45,12 +45,12 @@ abstract class BaseDeviceSetting extends GxActiveRecord {
 
 	public function rules() {
 		return array(
-			array('SaleId, SaleType', 'required'),
+			array('SaleId, SaleType, Vat, OverStock, DayToClear, ExchangeDiff, ExchangePaymentMethod', 'required'),
 			array('DayToClear, ExchangeDiff, Capacity', 'numerical', 'integerOnly'=>true),
 			array('SaleId, SaleType, PromotionSku, PromotionGroup, PromotionBill, PromotionAccu, Vat, ExchangePaymentMethod', 'length', 'max'=>255),
 			array('OverStock', 'length', 'max'=>1),
 			array('UpdateAt', 'safe'),
-			array('PromotionSku, PromotionGroup, PromotionBill, PromotionAccu, Vat, OverStock, DayToClear, ExchangeDiff, ExchangePaymentMethod, Capacity, UpdateAt', 'default', 'setOnEmpty' => true, 'value' => null),
+			array('PromotionSku, PromotionGroup, PromotionBill, PromotionAccu, Capacity, UpdateAt', 'default', 'setOnEmpty' => true, 'value' => null),
 			array('SaleId, SaleType, PromotionSku, PromotionGroup, PromotionBill, PromotionAccu, Vat, OverStock, DayToClear, ExchangeDiff, ExchangePaymentMethod, Capacity, UpdateAt', 'safe', 'on'=>'search'),
 		);
 	}

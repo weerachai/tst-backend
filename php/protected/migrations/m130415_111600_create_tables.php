@@ -195,11 +195,11 @@ if ($TESTING) {
                              'PromotionGroup' => 'string', 
                              'PromotionBill' => 'string',
                              'PromotionAccu' => 'string', 
-                             'Vat' => 'string DEFAULT "bill"', // vat calculation method - bill,sku
-                             'OverStock' => 'char DEFAULT "N"', // stock limit sale - Y, N
-                             'DayToClear' => 'integer DEFAULT 30', // day to clear data
-                             'ExchangeDiff' => 'integer DEFAULT 0', // product exchange diff value
-                             'ExchangePaymentMethod' => 'string DEFAULT "cash"', // bill collection or cash
+                             'Vat' => 'string NOT NULL', // vat calculation method - bill,sku
+                             'OverStock' => 'char NOT NULL', // stock limit sale - Y, N
+                             'DayToClear' => 'integer NOT NULL', // day to clear data
+                             'ExchangeDiff' => 'integer NOT NULL', // product exchange diff value
+                             'ExchangePaymentMethod' => 'string NOT NULL', // bill collection or cash
                              'Capacity' => 'integer DEFAULT 0', //truck capacity
                              'UpdateAt' => 'datetime',			
                              'primary key (SaleId)',
@@ -215,6 +215,15 @@ if ($TESTING) {
         $this->execute("INSERT INTO DeviceSetting VALUES('$sale','หน่วยรถ',null,null,null,null,'sku','N',60,50,'cash',20000,now())");
     }
 }
+
+if (!$TESTING) {
+        $this->execute("INSERT INTO Employee VALUES('S001','นายซุป','หัวหน้า','0812223344')");
+        $this->execute("INSERT INTO SaleArea VALUES('N1','พื้นที่เหนือ 1','S001')");
+        $this->execute("INSERT INTO Employee VALUES('E001','นายสัญญา','สายันต์','0812223344')");
+        $this->execute("INSERT INTO Device VALUES('D001',null,'N001','D001','$pass',now())");
+        $this->execute("INSERT INTO SaleUnit VALUES('N001','หน่วยขายเหนือ 1','หน่วยรถ','E001','N1')");
+        $this->execute("INSERT INTO DeviceSetting VALUES('N001','หน่วยรถ',null,null,null,null,'bill','Y',60,50,'bill',0,now())");
+}
     
     // fixed option tables
     // check
@@ -226,7 +235,6 @@ if ($TESTING) {
                              'primary key (ControlId)',
                              ), 'ENGINE=InnoDB');   
 
-if ($TESTING) {
     $this->execute("INSERT INTO ControlRunning VALUES('C01','Sale Order','SO')");
     $this->execute("INSERT INTO ControlRunning VALUES('C02','Invoice','IN')");
     $this->execute("INSERT INTO ControlRunning VALUES('C03','รับคืนสินค้า','RE')");
@@ -241,7 +249,6 @@ if ($TESTING) {
     $this->execute("INSERT INTO ControlRunning VALUES('C12','ใบเบิกสินค้า-backend','RQ')");
     $this->execute("INSERT INTO ControlRunning VALUES('C13','ใบส่งสินค้า-backend','SN')");
     $this->execute("INSERT INTO ControlRunning VALUES('C14','IR-backend','IR')");
-}
 
     // synch table
     // check
@@ -258,7 +265,7 @@ if ($TESTING) {
     $this->addForeignKey('fk_ControlNo_SaleUnit','ControlNo','SaleId','SaleUnit','SaleId','CASCADE','CASCADE');
     //$this->addForeignKey('fk_ControlNo_ControlRunning','ControlNo','ControlId','ControlRunning','ControlId','RESTRICT','CASCADE');
 
-if ($TESTING) {
+
     $year = date("y");
     $month = date("m");
     $this->execute("INSERT INTO ControlNo VALUES('N001','C01',$year,$month,1,now())");
@@ -275,7 +282,7 @@ if ($TESTING) {
     $this->execute("INSERT INTO ControlNo VALUES('N001','C12',$year,$month,1,now())");
     $this->execute("INSERT INTO ControlNo VALUES('N001','C13',$year,$month,1,now())");
     $this->execute("INSERT INTO ControlNo VALUES('N001','C14',$year,$month,1,now())");
-
+if ($TESTING) {
     $this->execute("INSERT INTO ControlNo VALUES('N002','C01',$year,$month,1,now())");
     $this->execute("INSERT INTO ControlNo VALUES('N002','C02',$year,$month,1,now())");
     $this->execute("INSERT INTO ControlNo VALUES('N002','C03',$year,$month,1,now())");
@@ -352,7 +359,7 @@ if ($TESTING) {
 
     // fixed option table
     // check
-if (true) {
+if (false) {
     $this->createTable('Location', 
                        array(
                              'LocationId' => 'string',
@@ -385,9 +392,12 @@ if (true) {
                        array(
                              'SaleId' => 'string',
                              'ProductId' => 'string',
-                             'Level' => 'integer default 1',
-                             'Qty' => 'integer default 0',
+                             'QtyLevel1' => 'integer default 0',
+                             'QtyLevel2' => 'integer default 0',
+                             'QtyLevel3' => 'integer default 0',
+                             'QtyLevel4' => 'integer default 0',
                              'UpdateAt' => 'datetime',
+                             'primary key (SaleId, ProductId)',
                              ), 'ENGINE=InnoDB');   
 
 
@@ -454,7 +464,7 @@ if ($TESTING) {
                              'UpdateAt' => 'datetime',
                              'PRIMARY KEY (GrpLevel1Id)',
                              ), 'ENGINE=InnoDB');   
-if ($TESTING) {
+if ($TESTING||true) {
     $this->execute("INSERT INTO GrpLevel1 VALUES('306','GUNDAM',now())");
     $this->execute("INSERT INTO GrpLevel1 VALUES('309','COOK',now())");
     $this->execute("INSERT INTO GrpLevel1 VALUES('312','NECTRA',now())");
@@ -472,7 +482,7 @@ if ($TESTING) {
                              'PRIMARY KEY (GrpLevel2Id)',
                              ), 'ENGINE=InnoDB');   
     
-if ($TESTING) {
+if ($TESTING||true) {
     $this->execute("INSERT INTO GrpLevel2 VALUES('306','190','ข้าวโพดอบกรอบฮิโรชิกันดั้ม',now())");
     $this->execute("INSERT INTO GrpLevel2 VALUES('309','144','น้ำมันพืชกุ๊กชิ้น',now())");
     $this->execute("INSERT INTO GrpLevel2 VALUES('309','145','น้ำมันพืชกุ๊กปี๊ป',now())");
@@ -491,7 +501,7 @@ if ($TESTING) {
                              'PRIMARY KEY (GrpLevel3Id)',
                              ), 'ENGINE=InnoDB');   
 
-if ($TESTING) {
+if ($TESTING||true) {
     $this->execute("INSERT INTO GrpLevel3 VALUES('1','1','กูลิโกะ',now())");
 }
 
@@ -709,7 +719,7 @@ if ($TESTING) {
                              'UpdateAt' => 'datetime',
                              'PRIMARY KEY (WarehouseId)',
                              ), 'ENGINE=InnoDB');   
-if ($TESTING) {
+if (true) {
     $this->execute("INSERT INTO Warehouse VALUES('W1','คลัง 1','คลังใหญ่',now())");
     $this->execute("INSERT INTO Warehouse VALUES('W2','คลัง 2','คลังใหญ่',now())");
     $this->execute("INSERT INTO Warehouse VALUES('W3','คลัง 3','คลังใหญ่',now())");
@@ -722,10 +732,10 @@ if ($TESTING) {
     // check
     $this->createTable('StockRequest', 
                        array(
-                             'RequestNo' => 'string',
+                             'RequestNo' => 'string NOT NULL',
                              'RequestType' => 'string DEFAULT "สร้างโดย Backend"',
                              'RequestFlag' => 'string DEFAULT "ต้นทริป"',
-                             'SaleId' => 'string',
+                             'SaleId' => 'string NOT NULL',
                              'WarehouseId' => 'string',
                              'WarehouseName' => 'string',
                              'WarehouseType' => 'string',
@@ -926,7 +936,7 @@ if ($TESTING) {
                              'UpdateAt' => 'datetime',
                              ), 'ENGINE=InnoDB');   
 
-if ($TESTING) {
+if (true) {
     $this->execute("INSERT INTO BankAccount VALUES(1,'กรุงเทพ','รังสิต','111-111111-1',now())");
     $this->execute("INSERT INTO BankAccount VALUES(2,'ไทยพาณิชย์','รังสิต','222-222222-2',now())");
     $this->execute("INSERT INTO BankAccount VALUES(3,'กสิกร','รังสิต','333-333333-3',now())");
@@ -1184,7 +1194,7 @@ if ($TESTING) {
                              'Pack' => 'string',
                              'DiscBaht' => 'decimal(20,2) DEFAULT 0',
                              'DiscPerAmount' => 'decimal(20,2) DEFAULT 0',
-                             'DiscPerQty' => 'decimal(20,2) DEFAULT 0',
+                             'DiscPerQty' => 'integer DEFAULT 0',
                              'DiscPer1' => 'decimal(20,2) DEFAULT 0',
                              'DiscPer2' => 'decimal(20,2) DEFAULT 0',
                              'DiscPer3' => 'decimal(20,2) DEFAULT 0',
@@ -1707,27 +1717,28 @@ if ($TESTING) {
                              'PRIMARY KEY (CustomerId)',
                              ), 'ENGINE=InnoDB');
     //$this->addForeignKey('fk_Customer_SaleUnit','Customer','SaleId','SaleUnit','SaleId','SET NULL','CASCADE');
-if ($TESTING) {
+if (true) {
     $this->execute("INSERT INTO Customer VALUES"
-                . "('CUD00113050001','N001','ร้าน','สุขใจ 1','CH','วันจันทร์','วันพุธ','',"
+                . "('CUD00113050001',null,'ร้าน','สุขใจ 1','CH','วันจันทร์','วันพุธ','',"
                 . "'ปทุมธานี','ธัญบุรี','บึงยี่โถ','12130','33','5','สบายดี','4','พหลโยธิน',"
                 . "'02-564-3333','คุณอ้อย',30,20000,'N',0,0,0,'N','N',now());");
 
     $this->execute("INSERT INTO Customer VALUES"
-                . "('CUD00113050002','N001','ร้าน','มีดี 1','CH','วันจันทร์','วันศุกร์','',"
+                . "('CUD00113050002',null,'ร้าน','มีดี 1','CH','วันจันทร์','วันศุกร์','',"
                 . "'ปทุมธานี','ธัญบุรี','บึงยี่โถ','12130','11','2','ชมฟ้า','1','รังสิต-นครนายก',"
                 . "'02-564-5555','คุณเอ',60,30000,'P',0,0,0,'N','N',now());");
 
     $this->execute("INSERT INTO Customer VALUES"
-                . "('CUD00113050003','N001','ร้าน','ใจดี 1','CR','วันอังคาร','วันพุธ','',"
+                . "('CUD00113050003',null,'ร้าน','ใจดี 1','CR','วันอังคาร','วันพุธ','',"
                 . "'นนทบุรี','บางกรวย','บางกรวย','11130','33','5','สบายดี','4','ติวานนท์',"
                 . "'02-564-6666','คุณส้ม',30,20000,'W',0,0,0,'N','N',now());");
 
     $this->execute("INSERT INTO Customer VALUES"
-                . "('CUD00113050004','N001','ร้าน','รวยดี 1','CR','วันอังคาร','วันศุกร์','',"
+                . "('CUD00113050004',null,'ร้าน','รวยดี 1','CR','วันอังคาร','วันศุกร์','',"
                 . "'นนทบุรี','บางกรวย','บางกรวย','11130','11','2','ชมฟ้า','1','ติวานนท์',"
                 . "'02-564-7777','คุณรวย',60,30000,'P',0,0,0,'N','N',now());");
-
+}
+if ($TESTING) {
     $this->execute("INSERT INTO Customer VALUES"
                 . "('CUD00213050001','N002','ร้าน','สุขใจ 2','CH','วันจันทร์','วันพุธ','',"
                 . "'ปทุมธานี','ธัญบุรี','บึงยี่โถ','12130','33','5','สบายดี','4','พหลโยธิน',"

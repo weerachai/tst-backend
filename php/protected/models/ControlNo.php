@@ -34,6 +34,7 @@ class ControlNo extends BaseControlNo
 			WHERE SaleId = '$saleId' 
 			AND ControlName = '$name-backend'
 SQL;
+
 		$rawData = Yii::app()->db->createCommand($sql)->queryAll();
 		foreach ($rawData as $row) {
 			if ($row['Year'] != date("y") || $row['Month'] != date("n")) {

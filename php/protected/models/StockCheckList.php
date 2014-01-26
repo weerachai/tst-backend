@@ -10,7 +10,7 @@ class StockCheckList extends BaseStockCheckList
 
 	public static function getCheckGrpLevel1($saleId) {
 		if (empty($saleId))
-			$saleId = array_shift(array_keys(SaleUnit::model()->getAssigendOptions()));
+			$saleId = array_shift(array_keys(SaleUnit::model()->getOptions()));
 		if (empty($saleId))
 			return array();
 		$sql = <<<SQL
@@ -48,7 +48,7 @@ SQL;
 
 	public static function getCheckGrpLevel2($saleId,$grpLevel1Id) {
 		if (empty($saleId))
-			$saleId = array_shift(array_keys(SaleUnit::model()->getAssigendOptions()));
+			$saleId = array_shift(array_keys(SaleUnit::model()->getOptions()));
 		if (empty($saleId))
 			return array();
 		if (empty($grpLevel1Id))
@@ -91,7 +91,7 @@ SQL;
 
 	public static function getCheckGrpLevel3($saleId,$grpLevel1Id,$grpLevel2Id) {
 		if (empty($saleId))
-			$saleId = array_shift(array_keys(SaleUnit::model()->getAssigendOptions()));
+			$saleId = array_shift(array_keys(SaleUnit::model()->getOptions()));
 		if (empty($saleId))
 			return array();
 		if (empty($grpLevel1Id))
@@ -135,7 +135,7 @@ SQL;
 
 	public static function getCheckProduct($saleId,$grpLevel1Id,$grpLevel2Id,$grpLevel3Id) {
 		if (empty($saleId))
-			$saleId = array_shift(array_keys(SaleUnit::model()->getAssigendOptions()));
+			$saleId = array_shift(array_keys(SaleUnit::model()->getOptions()));
 		if (empty($saleId))
 			return array();
 		if (empty($grpLevel1Id))

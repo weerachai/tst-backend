@@ -50,7 +50,7 @@ $this->widget('zii.widgets.jui.CJuiDatePicker', array(
 ?>
 <br />
 <b> เขตการขาย : </b>
-<?php echo CHtml::dropDownList('saleId', $saleId, SaleUnit::model()->getAssigendOptions(), array('empty'=>'(ทั้งหมด)')); ?>
+<?php echo CHtml::dropDownList('saleId', $saleId, SaleUnit::model()->getStockSaleOptions(), array('empty'=>'(ทั้งหมด)')); ?>
 
 <b> สถานะ : </b>
 <?php echo CHtml::dropDownList('flag', $flag, array('ต้นทริป'=>'ต้นทริป','ระหว่างทริป'=>'ระหว่างทริป'), array('empty'=>'(ทั้งหมด)')); ?>

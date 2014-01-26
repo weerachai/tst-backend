@@ -11,8 +11,10 @@
  *
  * @property string $SaleId
  * @property string $ProductId
- * @property integer $Level
- * @property integer $Qty
+ * @property integer $QtyLevel1
+ * @property integer $QtyLevel2
+ * @property integer $QtyLevel3
+ * @property integer $QtyLevel4
  * @property string $UpdateAt
  *
  */
@@ -36,11 +38,11 @@ abstract class BaseStockStartList extends GxActiveRecord {
 
 	public function rules() {
 		return array(
-			array('Level, Qty', 'numerical', 'integerOnly'=>true),
+			array('QtyLevel1, QtyLevel2, QtyLevel3, QtyLevel4', 'numerical', 'integerOnly'=>true),
 			array('SaleId, ProductId', 'length', 'max'=>255),
 			array('UpdateAt', 'safe'),
-			array('SaleId, ProductId, Level, Qty, UpdateAt', 'default', 'setOnEmpty' => true, 'value' => null),
-			array('SaleId, ProductId, Level, Qty, UpdateAt', 'safe', 'on'=>'search'),
+			array('SaleId, ProductId, QtyLevel1, QtyLevel2, QtyLevel3, QtyLevel4, UpdateAt', 'default', 'setOnEmpty' => true, 'value' => null),
+			array('SaleId, ProductId, QtyLevel1, QtyLevel2, QtyLevel3, QtyLevel4, UpdateAt', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -58,8 +60,10 @@ abstract class BaseStockStartList extends GxActiveRecord {
 		return array(
 			'SaleId' => Yii::t('app', 'Sale'),
 			'ProductId' => Yii::t('app', 'Product'),
-			'Level' => Yii::t('app', 'Level'),
-			'Qty' => Yii::t('app', 'Qty'),
+			'QtyLevel1' => Yii::t('app', 'Qty Level1'),
+			'QtyLevel2' => Yii::t('app', 'Qty Level2'),
+			'QtyLevel3' => Yii::t('app', 'Qty Level3'),
+			'QtyLevel4' => Yii::t('app', 'Qty Level4'),
 			'UpdateAt' => Yii::t('app', 'Update At'),
 		);
 	}
@@ -69,8 +73,10 @@ abstract class BaseStockStartList extends GxActiveRecord {
 
 		$criteria->compare('SaleId', $this->SaleId, true);
 		$criteria->compare('ProductId', $this->ProductId, true);
-		$criteria->compare('Level', $this->Level);
-		$criteria->compare('Qty', $this->Qty);
+		$criteria->compare('QtyLevel1', $this->QtyLevel1);
+		$criteria->compare('QtyLevel2', $this->QtyLevel2);
+		$criteria->compare('QtyLevel3', $this->QtyLevel3);
+		$criteria->compare('QtyLevel4', $this->QtyLevel4);
 		$criteria->compare('UpdateAt', $this->UpdateAt, true);
 
 		return new CActiveDataProvider($this, array(

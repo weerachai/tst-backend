@@ -134,6 +134,12 @@ class SaleUnit extends BaseSaleUnit
 			);
 	}
 
+	public static function getStockSaleOptions() {
+		return CHtml::listData(SaleUnit::model()->findAll('SaleType = "หน่วยรถ"'), 
+				'SaleId', 'SaleName'
+			);
+	}
+
 	public static function getNoPromotionOptions() {
 		return CHtml::listData(SaleUnit::model()->with('deviceSetting')->findAll('PromotionSku IS NULL && PromotionGroup IS NULL && PromotionBill IS NULL && PromotionAccu IS NULL '), 
 				'SaleId', 'SaleName'

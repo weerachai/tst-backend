@@ -38,15 +38,16 @@ abstract class BaseStockRequest extends GxActiveRecord {
 	}
 
 	public static function representingColumn() {
-		return 'RequestNo';
+		return 'SaleId';
 	}
 
 	public function rules() {
 		return array(
+			array('RequestNo, SaleId', 'required'),
 			array('RequestNo, RequestType, RequestFlag, SaleId, WarehouseId, WarehouseName, WarehouseType, Status', 'length', 'max'=>255),
 			array('Total', 'length', 'max'=>10),
 			array('RequestDate, UpdateAt', 'safe'),
-			array('RequestNo, RequestType, RequestFlag, SaleId, WarehouseId, WarehouseName, WarehouseType, RequestDate, Total, Status, UpdateAt', 'default', 'setOnEmpty' => true, 'value' => null),
+			array('RequestType, RequestFlag, WarehouseId, WarehouseName, WarehouseType, RequestDate, Total, Status, UpdateAt', 'default', 'setOnEmpty' => true, 'value' => null),
 			array('RequestNo, RequestType, RequestFlag, SaleId, WarehouseId, WarehouseName, WarehouseType, RequestDate, Total, Status, UpdateAt', 'safe', 'on'=>'search'),
 		);
 	}

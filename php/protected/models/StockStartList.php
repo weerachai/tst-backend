@@ -8,41 +8,47 @@ class StockStartList extends BaseStockStartList
 		return parent::model($className);
 	}
 
+	public function relations() {
+		return array(
+			'product' => array(self::BELONGS_TO, 'Product', 'ProductId'),
+		);
+	}
+
 	public $GrpLevel1Id;
 	public $GrpLevel2Id;
 	public $GrpLevel3Id;
 	public $Type;
-	public $Pack;
-
+	
 	public function attributeLabels() {
 		return array(
 			'SaleId' => Yii::t('app', 'หน่วยขาย'),
 			'ProductId' => Yii::t('app', 'สินค้า'),
-			'Level' => Yii::t('app', 'Level'),
-			'Qty' => Yii::t('app', 'จำนวน'),
+			'PackLevel1' => Yii::t('app', 'จำนวน'),
+			'PackLevel2' => Yii::t('app', 'จำนวน'),
+			'PackLevel3' => Yii::t('app', 'จำนวน'),
+			'PackLevel4' => Yii::t('app', 'จำนวน'),
 			'UpdateAt' => Yii::t('app', 'Update At'),
 			'GrpLevel1Id' => Yii::t('app', 'กลุ่มใหญ่'),
 			'GrpLevel2Id' => Yii::t('app', 'กลุ่มกลาง'),
 			'GrpLevel3Id' => Yii::t('app', 'กลุ่มย่อย'),
 			'Type' => Yii::t('app', 'ประเภท'),
-			'Pack' => Yii::t('app', 'บรรจุ'),
 		);
 	}
 
 	public function rules() {
 		return array(
-			array('SaleId, ProductId, Level, Qty, Type, Pack', 'required'),
-			array('Level, Qty', 'numerical', 'integerOnly'=>true, 'min'=>1),
+			array('SaleId, ProductId, Type', 'required'),
+			array('QtyLevel1, QtyLevel2, QtyLevel3, QtyLevel4', 'numerical', 'integerOnly'=>true, 'min'=>0),
 			array('SaleId, ProductId', 'length', 'max'=>255),
 			array('UpdateAt', 'safe'),
-			array('UpdateAt', 'default', 'setOnEmpty' => true, 'value' => null),
-			array('SaleId, ProductId, Level, Qty, UpdateAt', 'safe', 'on'=>'search'),
+			array('SaleId, ProductId, QtyLevel1, QtyLevel2, QtyLevel3, QtyLevel4, UpdateAt', 'default', 'setOnEmpty' => true, 'value' => null),
+			array('SaleId, ProductId, QtyLevel1, QtyLevel2, QtyLevel3, QtyLevel4, UpdateAt', 'safe', 'on'=>'search'),
 		);
 	}
 
 	public static function getGrpLevel1($saleId) {
 		if (empty($saleId))
-			$saleId = array_shift(array_keys(SaleUnit::model()->getAssigendOptions()));
+			$saleId = array_shift(array_keys(SaleUnit::model()->getStockSaleOptions()));
 		if (empty($saleId))
 			return array();
 		$sql = <<<SQL
@@ -62,7 +68,7 @@ SQL;
 
 	public static function getGrpLevel2($saleId,$grpLevel1Id) {
 		if (empty($saleId))
-			$saleId = array_shift(array_keys(SaleUnit::model()->getAssigendOptions()));
+			$saleId = array_shift(array_keys(SaleUnit::model()->getStockSaleOptions()));
 		if (empty($saleId))
 			return array();
 		// if (empty($grpLevel1Id))
@@ -87,7 +93,7 @@ SQL;
 
 	public static function getGrpLevel3($saleId,$grpLevel1Id,$grpLevel2Id) {
 		if (empty($saleId))
-			$saleId = array_shift(array_keys(SaleUnit::model()->getAssigendOptions()));
+			$saleId = array_shift(array_keys(SaleUnit::model()->getStockSaleOptions()));
 		if (empty($saleId))
 			return array();
 		// if (empty($grpLevel1Id))
@@ -120,7 +126,7 @@ SQL;
 
 	public static function getProduct($saleId,$grpLevel1Id,$grpLevel2Id,$grpLevel3Id,$type) {
 		if (empty($saleId))
-			$saleId = array_shift(array_keys(SaleUnit::model()->getAssigendOptions()));
+			$saleId = array_shift(array_keys(SaleUnit::model()->getStockSaleOptions()));
 		if (empty($saleId))
 			return array();
 		if (empty($grpLevel1Id))
