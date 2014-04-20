@@ -6,28 +6,33 @@ class PromotionController extends GxController
 	{
 		if (isset($_POST['SaleId'])) {
 			$saleId = $_POST['SaleId'];
+			$province = $_POST['Province'];
+			$district = $_POST['District'];
+			$subdistrict = $_POST['SubDistrict'];
 			$sku = $_POST['PromotionSku'];
 			$group = $_POST['PromotionGroup'];
 			$bill = $_POST['PromotionBill'];
 			$accu = $_POST['PromotionAccu'];
+			$where = "SaleId = '$saleId' AND Province LIKE '$province' AND District LIKE '$district' AND SubDistrict LIKE '$subdistrict'";
+
 			if (!empty($sku)) {
-				$sql = "UPDATE DeviceSetting SET PromotionSku = '$sku' WHERE SaleId = '$saleId'";
+				$sql = "UPDATE Customer SET PromotionSku = '$sku' WHERE $where";
 				Yii::app()->db->createCommand($sql)->execute();
 			}
 			if (!empty($group)) {
-				$sql = "UPDATE DeviceSetting SET PromotionGroup = '$group' WHERE SaleId = '$saleId'";
+				$sql = "UPDATE Customer SET PromotionGroup = '$group' WHERE $where";
 				Yii::app()->db->createCommand($sql)->execute();
 			}
 			if (!empty($bill)) {
-				$sql = "UPDATE DeviceSetting SET PromotionBill = '$bill' WHERE SaleId = '$saleId'";
+				$sql = "UPDATE Customer SET PromotionBill = '$bill' WHERE $where";
 				Yii::app()->db->createCommand($sql)->execute();
 			}
 			if (!empty($accu)) {
-				$sql = "UPDATE DeviceSetting SET PromotionAccu = '$accu' WHERE SaleId = '$saleId'";
+				$sql = "UPDATE Customer SET PromotionAccu = '$accu' WHERE $where";
 				Yii::app()->db->createCommand($sql)->execute();
 			}
 			if (!empty($sku)||!empty($group)||!empty($bill)||!empty($accu)) {
-				$sql = "UPDATE DeviceSetting SET UpdateAt = now() WHERE SaleId = '$saleId'";
+				$sql = "UPDATE Customer SET UpdateAt = now() WHERE $where";
 				Yii::app()->db->createCommand($sql)->execute();
 
 			}
@@ -35,13 +40,17 @@ class PromotionController extends GxController
 
 		$sql = <<<SQL
 		SELECT SaleId AS id, SaleId, SaleName, 
-		PromotionSku, PromotionGroup, PromotionBill, PromotionAccu 
-		FROM SaleUnit JOIN DeviceSetting USING(SaleId)
+		Province, District, SubDistrict,
+		PromotionSku, PromotionGroup, PromotionBill, PromotionAccu,
+		COUNT(CustomerId) AS Num
+		FROM SaleUnit JOIN Customer USING(SaleId)
 		WHERE PromotionSku IS NOT NULL 
 		OR PromotionGroup IS NOT NULL 
 		OR PromotionBill IS NOT NULL 
 		OR PromotionAccu IS NOT NULL 
-		ORDER BY SaleId
+		GROUP BY SaleId, Province, District, SubDistrict,
+		PromotionSku, PromotionGroup, PromotionBill, PromotionAccu 
+		ORDER BY SaleId, Province, District, SubDistrict
 SQL;
 
 		// Create filter model and set properties
@@ -55,7 +64,7 @@ SQL;
 		$dataProvider = new CArrayDataProvider($filteredData, array(
     		'sort'=>array(
         		'attributes'=>array(
-           	 	 'SaleId', 'SaleName', 'PromotionSku', 'PromotionGroup', 'PromotionBill', 'PromotionAccu'
+           	 	 'SaleId', 'SaleName', 'Province', 'District', 'SubDistrict', 'PromotionSku', 'PromotionGroup', 'PromotionBill', 'PromotionAccu'
         		),
     		),
     		'pagination'=>array(
@@ -70,13 +79,42 @@ SQL;
 		));
 	}
 
-	public function actionDelete($id)
+	public function actionView($id, $province, $district, $subdistrict)
+	{
+		$sql = <<<SQL
+		SELECT CustomerId AS id, CustomerId, CustomerName, 
+		SaleId, SaleName, Province, District, SubDistrict,
+		PromotionSku, PromotionGroup, PromotionBill, PromotionAccu 
+		FROM SaleUnit JOIN Customer USING(SaleId)
+		WHERE SaleId = '$id'
+		AND Province = '$province' 
+		AND District = '$district' 
+		AND SubDistrict = '$subdistrict'
+		ORDER BY CustomerName
+SQL;
+
+		// Get rawData and create dataProvider
+		$rawData = Yii::app()->db->createCommand($sql)->queryAll();
+		$dataProvider = new CArrayDataProvider($rawData, array(
+    		'pagination'=>array(
+        		'pageSize'=>10,
+    		),
+		));
+
+		// Render
+		$this->render('view', array(
+    		'dataProvider' => $dataProvider,
+    		'model' => Customer::model()->findByPk($rawData[0]['id']),
+		));
+	}
+
+	public function actionDelete($id,$province,$district,$subdistrict)
 	{
 		if (Yii::app()->getRequest()->getIsPostRequest()) {
 			$sql = <<<SQL
-			UPDATE DeviceSetting SET PromotionSku = NULL,
+			UPDATE Customer SET PromotionSku = NULL,
 			PromotionGroup = NULL, PromotionBill = NULL, PromotionAccu = NULL
-			WHERE SaleId = '$id'
+			WHERE SaleId = '$id' AND Province = '$province' AND District = '$district' AND SubDistrict = '$subdistrict'
 SQL;
 			Yii::app()->db->createCommand($sql)->execute();
 			$this->redirect(array('index'));

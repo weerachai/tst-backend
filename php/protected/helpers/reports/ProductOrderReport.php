@@ -5,10 +5,15 @@ class ProductOrderReport extends MyReport {
   		$title = 'รายการใบสั่งซื้อ';
 		$header = array('เลขที่ใบสั่งซื้อ',
         	'ชื่อร้านค้า', 
-        	'วันที่', 
-        	'มูลค่า');
-		$w = array(13, 20, 10, 10);
-		$align = array('L','L','L','R');
+        	'วันที่สั่งซื้อ', 
+        	'วีธีการชำระ', 
+        	"จำนวนเงิน\n(ก่อนหักส่วนลด)", 
+         	'ส่วนลด', 
+         	"จำนวนเงิน\n(หลังหักส่วนลด)", 
+         	'Vat 7%', 
+        	"จำนวนเงิน\n(รวม Vat)");
+		$w = array(13, 20, 10, 8, 11, 10, 11, 10, 10);
+		$align = array('L','L','L','L','R','R','R','R','R');
   		$models = ProductOrder::model()->findAll(array(
   			'order'=>'OrderNo', 
   			'condition'=>"OrderDate >= :from AND OrderDate <= :to AND SaleId IN ('".implode("','",$ids)."')",
@@ -21,12 +26,18 @@ class ProductOrderReport extends MyReport {
 				$model->OrderNo,
 				$model->customer->Title.$model->customer->CustomerName,
 				$this->thaidate->format("j M y",$datetime->getTimestamp()),
+				$model->PaymentType,
 				number_format($model->Total,2),
+				number_format($model->Discount,2),
+				number_format($model->Total - $model->Discount,2),
+				number_format($model->Vat,2),
+				number_format($model->Total - $model->Discount + $model->Vat,2),
 			);   
 		}
 
 		$objPHPExcel = $this->getPHPExcel();
 		$this->writeSheet($objPHPExcel, 0, $title, $title, $header, $w, $align, $data);
+		$objPHPExcel->getActiveSheet()->getPageSetup()->setOrientation(PHPExcel_Worksheet_PageSetup::ORIENTATION_LANDSCAPE);
 
 		$w = array(13, 20, 10, 10);
 		$align = array('L','L','R','R');

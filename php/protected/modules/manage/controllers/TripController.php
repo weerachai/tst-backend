@@ -54,28 +54,28 @@ SQL;
 
 		$sql = <<<SQL
 		SELECT DeviceId AS id, DeviceId, Name, 
-		Trip, TripId, Province, District, SubDistrict, SaleId,
+		Trip, TripId, Province, District, SubDistrict, SaleId, SaleName,
 		COUNT(CustomerId) AS Num
 		FROM (
 			SELECT DeviceId AS id, DeviceId, CONCAT(FirstName,' ',LastName) AS Name,
-			Trip1 AS Trip, TripId, Province, District, SubDistrict, CustomerId, SaleId
+			Trip1 AS Trip, TripId, Province, District, SubDistrict, CustomerId, SaleId, SaleName
 			FROM (((Customer JOIN SaleUnit USING(SaleId)) JOIN Device USING(SaleId))
 			JOIN Employee USING(EmployeeId)) JOIN Trip ON TripName = Trip1
 			WHERE Trip1 IS NOT NULL && Trip1 <> ''
 			UNION 
 			SELECT DeviceId AS id, DeviceId, CONCAT(FirstName,' ',LastName) AS Name,
-			Trip2 AS Trip, TripId, Province, District, SubDistrict, CustomerId, SaleId
+			Trip2 AS Trip, TripId, Province, District, SubDistrict, CustomerId, SaleId, SaleName
 			FROM (((Customer JOIN SaleUnit USING(SaleId)) JOIN Device USING(SaleId))
 			JOIN Employee USING(EmployeeId)) JOIN Trip ON TripName = Trip2
 			WHERE Trip2 IS NOT NULL && Trip2 <> ''
 			UNION 
 			SELECT DeviceId AS id, DeviceId, CONCAT(FirstName,' ',LastName) AS Name,
-			Trip3 AS Trip, TripId, Province, District, SubDistrict, CustomerId, SaleId
+			Trip3 AS Trip, TripId, Province, District, SubDistrict, CustomerId, SaleId, SaleName
 			FROM (((Customer JOIN SaleUnit USING(SaleId)) JOIN Device USING(SaleId))
 			JOIN Employee USING(EmployeeId)) JOIN Trip ON TripName = Trip3
 			WHERE Trip3 IS NOT NULL && Trip3 <> ''
 		) AS t
-		GROUP BY id, DeviceId, Name, Trip, TripId, Province, District, SubDistrict, SaleId
+		GROUP BY id, DeviceId, Name, Trip, TripId, Province, District, SubDistrict, SaleId, SaleName
 		ORDER BY DeviceId, Name, TripId, Province, District, SubDistrict
 SQL;
 

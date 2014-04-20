@@ -7,7 +7,7 @@ class m130415_111600_create_tables extends CDbMigration
 
     $this->reset();
     
-    $TESTING = false;
+    $TESTING = true;
     
     // System User Management Tables
     $this->createTable('User', 
@@ -191,10 +191,6 @@ if ($TESTING) {
                        array(
                              'SaleId' => 'string not null',
                              'SaleType' => 'string not null',
-                             'PromotionSku' => 'string', 
-                             'PromotionGroup' => 'string', 
-                             'PromotionBill' => 'string',
-                             'PromotionAccu' => 'string', 
                              'Vat' => 'string NOT NULL', // vat calculation method - bill,sku
                              'OverStock' => 'char NOT NULL', // stock limit sale - Y, N
                              'DayToClear' => 'integer NOT NULL', // day to clear data
@@ -207,12 +203,12 @@ if ($TESTING) {
     $this->addForeignKey('fk_DeviceSetting_SaleUnit','DeviceSetting','SaleId','SaleUnit','SaleId','CASCADE','CASCADE');
 
 if ($TESTING) {
-    $this->execute("INSERT INTO DeviceSetting VALUES('N001','เครดิต','S1','M1','B1','A1','sku','Y',60,0,'',0,now())");
-    $this->execute("INSERT INTO DeviceSetting VALUES('N002','หน่วยรถ','S2','M2','B2','A2','sku','Y',60,50,'bill',20000,now())");
-    $this->execute("INSERT INTO DeviceSetting VALUES('N003','หน่วยรถ','S3','M3','B3','A3','sku','N',60,50,'cash',20000,now())");
+    $this->execute("INSERT INTO DeviceSetting VALUES('N001','เครดิต','sku','Y',60,0,'',0,now())");
+    $this->execute("INSERT INTO DeviceSetting VALUES('N002','หน่วยรถ','sku','Y',60,50,'bill',20000,now())");
+    $this->execute("INSERT INTO DeviceSetting VALUES('N003','หน่วยรถ','sku','N',60,50,'cash',20000,now())");
     for ($k = 4; $k <= 25; $k++) {
         $sale = sprintf("N%03d", $k);
-        $this->execute("INSERT INTO DeviceSetting VALUES('$sale','หน่วยรถ',null,null,null,null,'sku','N',60,50,'cash',20000,now())");
+        $this->execute("INSERT INTO DeviceSetting VALUES('$sale','หน่วยรถ','sku','N',60,50,'cash',20000,now())");
     }
 }
 
@@ -222,7 +218,7 @@ if (!$TESTING) {
         $this->execute("INSERT INTO Employee VALUES('E001','นายสัญญา','สายันต์','0812223344')");
         $this->execute("INSERT INTO Device VALUES('D001',null,'N001','D001','$pass',now())");
         $this->execute("INSERT INTO SaleUnit VALUES('N001','หน่วยขายเหนือ 1','หน่วยรถ','E001','N1')");
-        $this->execute("INSERT INTO DeviceSetting VALUES('N001','หน่วยรถ',null,null,null,null,'bill','Y',60,50,'bill',0,now())");
+        $this->execute("INSERT INTO DeviceSetting VALUES('N001','หน่วยรถ','bill','Y',60,50,'bill',0,now())");
 }
     
     // fixed option tables
@@ -1713,6 +1709,10 @@ if ($TESTING) {
                              'ReturnCheck' => 'decimal(20,2) DEFAULT 0',
                              'NewFlag' => 'char',
                              'DeleteFlag' => 'char',
+                             'PromotionSku' => 'string', 
+                             'PromotionGroup' => 'string', 
+                             'PromotionBill' => 'string',
+                             'PromotionAccu' => 'string', 
                              'UpdateAt' => 'datetime',
                              'PRIMARY KEY (CustomerId)',
                              ), 'ENGINE=InnoDB');
@@ -1721,64 +1721,64 @@ if (true) {
     $this->execute("INSERT INTO Customer VALUES"
                 . "('CUD00113050001',null,'ร้าน','สุขใจ 1','CH','วันจันทร์','วันพุธ','',"
                 . "'ปทุมธานี','ธัญบุรี','บึงยี่โถ','12130','33','5','สบายดี','4','พหลโยธิน',"
-                . "'02-564-3333','คุณอ้อย',30,20000,'N',0,0,0,'N','N',now());");
+                . "'02-564-3333','คุณอ้อย',30,20000,'N',0,0,0,'N','N',null,null,null,null,now());");
 
     $this->execute("INSERT INTO Customer VALUES"
                 . "('CUD00113050002',null,'ร้าน','มีดี 1','CH','วันจันทร์','วันศุกร์','',"
                 . "'ปทุมธานี','ธัญบุรี','บึงยี่โถ','12130','11','2','ชมฟ้า','1','รังสิต-นครนายก',"
-                . "'02-564-5555','คุณเอ',60,30000,'P',0,0,0,'N','N',now());");
+                . "'02-564-5555','คุณเอ',60,30000,'P',0,0,0,'N','N',null,null,null,null,now());");
 
     $this->execute("INSERT INTO Customer VALUES"
                 . "('CUD00113050003',null,'ร้าน','ใจดี 1','CR','วันอังคาร','วันพุธ','',"
                 . "'นนทบุรี','บางกรวย','บางกรวย','11130','33','5','สบายดี','4','ติวานนท์',"
-                . "'02-564-6666','คุณส้ม',30,20000,'W',0,0,0,'N','N',now());");
+                . "'02-564-6666','คุณส้ม',30,20000,'W',0,0,0,'N','N',null,null,null,null,now());");
 
     $this->execute("INSERT INTO Customer VALUES"
                 . "('CUD00113050004',null,'ร้าน','รวยดี 1','CR','วันอังคาร','วันศุกร์','',"
                 . "'นนทบุรี','บางกรวย','บางกรวย','11130','11','2','ชมฟ้า','1','ติวานนท์',"
-                . "'02-564-7777','คุณรวย',60,30000,'P',0,0,0,'N','N',now());");
+                . "'02-564-7777','คุณรวย',60,30000,'P',0,0,0,'N','N',null,null,null,null,now());");
 }
 if ($TESTING) {
     $this->execute("INSERT INTO Customer VALUES"
                 . "('CUD00213050001','N002','ร้าน','สุขใจ 2','CH','วันจันทร์','วันพุธ','',"
                 . "'ปทุมธานี','ธัญบุรี','บึงยี่โถ','12130','33','5','สบายดี','4','พหลโยธิน',"
-                . "'02-564-3333','คุณอ้อย',0,0,'N',0,0,0,'N','N',now());");
+                . "'02-564-3333','คุณอ้อย',0,0,'N',0,0,0,'N','N',null,null,null,null,now());");
 
     $this->execute("INSERT INTO Customer VALUES"
                 . "('CUD00213050002','N002','ร้าน','มีดี 2','CH','วันจันทร์','วันศุกร์','',"
                 . "'ปทุมธานี','ธัญบุรี','บึงยี่โถ','12130','11','2','ชมฟ้า','1','รังสิต-นครนายก',"
-                . "'02-564-5555','คุณเอ',0,0,'P',0,0,0,'N','N',now());");
+                . "'02-564-5555','คุณเอ',0,0,'P',0,0,0,'N','N',null,null,null,null,now());");
 
     $this->execute("INSERT INTO Customer VALUES"
                 . "('CUD00213050003','N002','ร้าน','ใจดี 2','CH','วันอังคาร','วันพุธ','',"
                 . "'นนทบุรี','บางกรวย','บางกรวย','11130','33','5','สบายดี','4','ติวานนท์',"
-                . "'02-564-6666','คุณส้ม',0,0,'N',0,0,0,'N','N',now());");
+                . "'02-564-6666','คุณส้ม',0,0,'N',0,0,0,'N','N',null,null,null,null,now());");
 
     $this->execute("INSERT INTO Customer VALUES"
                 . "('CUD00213050004','N002','ร้าน','รวยดี 2','CH','วันอังคาร','วันศุกร์','',"
                 . "'นนทบุรี','บางกรวย','บางกรวย','11130','11','2','ชมฟ้า','1','ติวานนท์',"
-                . "'02-564-7777','คุณรวย',0,0,'P',0,0,0,'N','N',now());");
+                . "'02-564-7777','คุณรวย',0,0,'P',0,0,0,'N','N',null,null,null,null,now());");
 
 
     $this->execute("INSERT INTO Customer VALUES"
                 . "('CUD00313050001','N003','ร้าน','สุขใจ 3','CH','วันจันทร์','วันพุธ','',"
                 . "'ปทุมธานี','ธัญบุรี','บึงยี่โถ','12130','33','5','สบายดี','4','พหลโยธิน',"
-                . "'02-564-3333','คุณอ้อย',0,0,'N',0,0,0,'N','N',now());");
+                . "'02-564-3333','คุณอ้อย',0,0,'N',0,0,0,'N','N',null,null,null,null,now());");
 
     $this->execute("INSERT INTO Customer VALUES"
                 . "('CUD00313050002','N003','ร้าน','มีดี 3','CH','วันจันทร์','วันศุกร์','',"
                 . "'ปทุมธานี','ธัญบุรี','บึงยี่โถ','12130','11','2','ชมฟ้า','1','รังสิต-นครนายก',"
-                . "'02-564-5555','คุณเอ',0,0,'P',0,0,0,'N','N',now());");
+                . "'02-564-5555','คุณเอ',0,0,'P',0,0,0,'N','N',null,null,null,null,now());");
 
     $this->execute("INSERT INTO Customer VALUES"
                 . "('CUD00313050003','N003','ร้าน','ใจดี 3','CH','วันอังคาร','วันพุธ','',"
                 . "'นนทบุรี','บางกรวย','บางกรวย','11130','33','5','สบายดี','4','ติวานนท์',"
-                . "'02-564-6666','คุณส้ม',0,0,'N',0,0,0,'N','N',now());");
+                . "'02-564-6666','คุณส้ม',0,0,'N',0,0,0,'N','N',null,null,null,null,now());");
 
     $this->execute("INSERT INTO Customer VALUES"
                 . "('CUD00313050004','N003','ร้าน','รวยดี 3','CH','วันอังคาร','วันศุกร์','',"
                 . "'นนทบุรี','บางกรวย','บางกรวย','11130','11','2','ชมฟ้า','1','ติวานนท์',"
-                . "'02-564-7777','คุณรวย',0,0,'P',0,0,0,'N','N',now());");
+                . "'02-564-7777','คุณรวย',0,0,'P',0,0,0,'N','N',null,null,null,null,now());");
 
 /*    $this->execute("INSERT INTO `ProductOrder` VALUES('SOD00113050001', 'CREDIT', 'N001', 'CUD00113050001', '2013-05-08', 6730.93, 506.63, 639.50, '2013-05-08', '', 'เครดิต', 'ยืนยัน', '', '2013-06-08 10:04:39');");
     $this->execute("INSERT INTO `ProductOrder` VALUES('SOD00113050002', 'CREDIT', 'N001', 'CUD00113050001', '2013-05-10', 4802.09, 361.45, 663.82, '2013-05-10', '', 'เครดิต', 'ยืนยัน', '', '2013-06-08 10:06:05');");

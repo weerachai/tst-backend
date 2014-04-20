@@ -66,7 +66,7 @@ class PromotionController extends GxController {
 			}
 		}
 
-		$this->render('create', array( 'model' => $model));
+		$this->render('create', array( 'model' => $model, 'type' => $model->PromotionType));
 	}
 
 	public function actionUpdate($id) {

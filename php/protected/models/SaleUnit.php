@@ -141,7 +141,7 @@ class SaleUnit extends BaseSaleUnit
 	}
 
 	public static function getNoPromotionOptions() {
-		return CHtml::listData(SaleUnit::model()->with('deviceSetting')->findAll('PromotionSku IS NULL && PromotionGroup IS NULL && PromotionBill IS NULL && PromotionAccu IS NULL '), 
+		return CHtml::listData(SaleUnit::model()->with('customers')->findAll('PromotionSku IS NULL && PromotionGroup IS NULL && PromotionBill IS NULL && PromotionAccu IS NULL'), 
 				'SaleId', 'SaleName'
 			);
 	}

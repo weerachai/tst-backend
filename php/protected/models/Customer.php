@@ -136,4 +136,76 @@ class Customer extends BaseCustomer
 				));
 		return array_merge(array(''=>'(ทั้งหมด)'), CHtml::listData($data,'SubDistrict','SubDistrict'));
 	}
+
+	public static function getNoPromotionProvinces($saleId) {
+		if (empty($saleId)) {
+			$saleId = array_shift(array_keys(SaleUnit::model()->getNoPromotionOptions()));
+		}
+		if (empty($saleId))
+		 	return array(''=>'-');
+		$data = Customer::model()->findAll(array(
+				'select'=>'Province',
+				'distinct'=>true,
+				'condition'=>"SaleId=:SaleId AND PromotionSku IS NULL AND PromotionGroup IS NULL AND PromotionBill IS NULL AND PromotionAccu IS NULL",
+				'params'=>array(':SaleId'=>$saleId)
+				));
+		if (count($data) == 0)
+			return array(''=>'-');
+		return array('%'=>'(ทั้งหมด)')+CHtml::listData($data,'Province','Province');
+	}
+
+	public static function getNoPromotionDistricts($saleId, $province) {
+		if (empty($saleId)) {
+			$saleId = array_shift(array_keys(SaleUnit::model()->getNoPromotionOptions()));
+		}
+		if (empty($saleId))
+			return array('%'=>'-');
+		if (empty($province)) {
+			$lists = Customer::model()->getNoPromotionProvinces($saleId);
+			array_shift($lists);
+			$province = array_shift($lists);;
+		}
+		if (empty($province))
+			return array('%'=>'-');
+		$data = Customer::model()->findAll(array(
+				'select'=>'District',
+				'distinct'=>true,
+				'condition'=>'SaleId=:SaleId AND Province=:Province AND PromotionSku IS NULL AND PromotionGroup IS NULL AND PromotionBill IS NULL AND PromotionAccu IS NULL',
+				'params'=>array(':SaleId'=>$saleId,':Province'=>$province)
+				));
+		if (count($data) == 0)
+			return array('%'=>'-');
+		return array('%'=>'(ทั้งหมด)')+CHtml::listData($data,'District','District');
+	}
+
+	public static function getNoPromotionSubDistricts($saleId, $province, $district) {
+		if (empty($saleId)) {
+			$saleId = array_shift(array_keys(SaleUnit::model()->getNoPromotionOptions()));
+		}
+		if (empty($saleId))
+			return array('%'=>'-');
+		if (empty($province)) {
+			$lists = Customer::model()->getNoPromotionProvinces($saleId);
+			array_shift($lists);
+			$province = array_shift($lists);;
+		}
+		if (empty($province))
+			return array('%'=>'-');
+		if (empty($district)) {
+			$lists = Customer::model()->getNoPromotionDistricts($saleId);
+			array_shift($lists);
+			$district = array_shift($lists);;
+		}
+		if (empty($district))
+			return array('%'=>'-');
+		$data = Customer::model()->findAll(array(
+				'select'=>'SubDistrict',
+				'distinct'=>true,
+				'condition'=>'SaleId=:SaleId AND Province=:Province AND District=:District AND PromotionSku IS NULL AND PromotionGroup IS NULL AND PromotionBill IS NULL AND PromotionAccu IS NULL',
+				'params'=>array(':SaleId'=>$saleId,':Province'=>$province,':District'=>$district)
+				));
+		if (count($data) == 0)
+			return array('%'=>'-');
+		return array('%'=>'(ทั้งหมด)')+CHtml::listData($data,'SubDistrict','SubDistrict');
+	}
 }

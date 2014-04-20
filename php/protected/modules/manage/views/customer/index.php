@@ -114,7 +114,8 @@ $this->widget('bootstrap.widgets.TbExtendedGridView', array(
 
 <div class="row">
 <?php echo CHtml::label('หน่วยขาย: ',  'SaleId'); ?>
-<?php echo CHtml::dropDownList('SaleId',  null, SaleUnit::model()->getUnassigendOptions()); ?>
+<?php //echo CHtml::dropDownList('SaleId',  null, SaleUnit::model()->getUnassigendOptions()); ?>
+<?php echo CHtml::dropDownList('SaleId',  null, SaleUnit::model()->getOptions()); ?>
 
 <?php echo CHtml::label('จังหวัด: ',  'Province'); ?>
 <?php echo CHtml::dropDownList('Province',  null, Customer::model()->getAvailableProvinces(), array(

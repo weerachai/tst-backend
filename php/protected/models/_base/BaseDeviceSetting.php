@@ -11,10 +11,6 @@
  *
  * @property string $SaleId
  * @property string $SaleType
- * @property string $PromotionSku
- * @property string $PromotionGroup
- * @property string $PromotionBill
- * @property string $PromotionAccu
  * @property string $Vat
  * @property string $OverStock
  * @property integer $DayToClear
@@ -47,11 +43,11 @@ abstract class BaseDeviceSetting extends GxActiveRecord {
 		return array(
 			array('SaleId, SaleType, Vat, OverStock, DayToClear, ExchangeDiff, ExchangePaymentMethod', 'required'),
 			array('DayToClear, ExchangeDiff, Capacity', 'numerical', 'integerOnly'=>true),
-			array('SaleId, SaleType, PromotionSku, PromotionGroup, PromotionBill, PromotionAccu, Vat, ExchangePaymentMethod', 'length', 'max'=>255),
+			array('SaleId, SaleType, Vat, ExchangePaymentMethod', 'length', 'max'=>255),
 			array('OverStock', 'length', 'max'=>1),
 			array('UpdateAt', 'safe'),
-			array('PromotionSku, PromotionGroup, PromotionBill, PromotionAccu, Capacity, UpdateAt', 'default', 'setOnEmpty' => true, 'value' => null),
-			array('SaleId, SaleType, PromotionSku, PromotionGroup, PromotionBill, PromotionAccu, Vat, OverStock, DayToClear, ExchangeDiff, ExchangePaymentMethod, Capacity, UpdateAt', 'safe', 'on'=>'search'),
+			array('Capacity, UpdateAt', 'default', 'setOnEmpty' => true, 'value' => null),
+			array('SaleId, SaleType, Vat, OverStock, DayToClear, ExchangeDiff, ExchangePaymentMethod, Capacity, UpdateAt', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -70,10 +66,6 @@ abstract class BaseDeviceSetting extends GxActiveRecord {
 		return array(
 			'SaleId' => null,
 			'SaleType' => Yii::t('app', 'Sale Type'),
-			'PromotionSku' => Yii::t('app', 'Promotion Sku'),
-			'PromotionGroup' => Yii::t('app', 'Promotion Group'),
-			'PromotionBill' => Yii::t('app', 'Promotion Bill'),
-			'PromotionAccu' => Yii::t('app', 'Promotion Accu'),
 			'Vat' => Yii::t('app', 'Vat'),
 			'OverStock' => Yii::t('app', 'Over Stock'),
 			'DayToClear' => Yii::t('app', 'Day To Clear'),
@@ -90,10 +82,6 @@ abstract class BaseDeviceSetting extends GxActiveRecord {
 
 		$criteria->compare('SaleId', $this->SaleId);
 		$criteria->compare('SaleType', $this->SaleType, true);
-		$criteria->compare('PromotionSku', $this->PromotionSku, true);
-		$criteria->compare('PromotionGroup', $this->PromotionGroup, true);
-		$criteria->compare('PromotionBill', $this->PromotionBill, true);
-		$criteria->compare('PromotionAccu', $this->PromotionAccu, true);
 		$criteria->compare('Vat', $this->Vat, true);
 		$criteria->compare('OverStock', $this->OverStock, true);
 		$criteria->compare('DayToClear', $this->DayToClear);

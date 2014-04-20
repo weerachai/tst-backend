@@ -215,7 +215,7 @@ class Promotion extends BasePromotion
 		return array(
 			'F' => 'ตายตัว',
 			'M' => 'ทวีคูณ',
-			'C' => 'ทวีคูณตัดตอน',
+			'C' => 'ทวีคูณตัดทอน',
 		);
 	}
 

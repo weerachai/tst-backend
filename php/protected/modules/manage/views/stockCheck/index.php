@@ -5,6 +5,12 @@ $this->breadcrumbs=array(
     'กำหนดความสัมพันธ์' => array('/manage'),
 	'ตรวจสต็อค',
 );
+
+
+$this->menu = array(
+	array('label'=>Yii::t('app', 'เพิ่มรายการสินค้าตรวจสต็อค'), 'url' => array('stockCheck/add')),
+);
+
 ?>
 
 <h3>ข้อมูลรายการตรวจสต็อค</h3>
@@ -32,7 +38,7 @@ $columns = array(
         'htmlOptions' => array('style'=>'white-space:nowrap'),
     ),
     array(
-        'header'=>CHtml::encode('สิ้นค้า'),
+        'header'=>CHtml::encode('สินค้า'),
         'name'=>'ProductName',
         'htmlOptions' => array('style'=>'white-space:nowrap'),
     ),
@@ -171,3 +177,4 @@ $this->widget('bootstrap.widgets.TbExtendedGridView', array(
 </div><!-- row -->
 <?php $this->endWidget(); ?>
 </div>
+

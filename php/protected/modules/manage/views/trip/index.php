@@ -12,15 +12,25 @@ $this->breadcrumbs=array(
 <?php 
 $columns = array(
     array(
-        'header'=>CHtml::encode('รหัสอุปกรณ์'),
-        'name'=>'DeviceId',
+        'header'=>CHtml::encode('รหัสหน่วยขาย'),
+        'name'=>'SaleId',
         'htmlOptions' => array('style'=>'white-space:nowrap'),
     ),
     array(
-        'header'=>CHtml::encode('ชื่อพนักงานขาย'),
-        'name'=>'Name',
+        'header'=>CHtml::encode('ชื่อหน่วยขาย'),
+        'name'=>'SaleName',
         'htmlOptions' => array('style'=>'white-space:nowrap'),
     ),
+	// array(
+	//     'header'=>CHtml::encode('รหัสอุปกรณ์'),
+	//     'name'=>'DeviceId',
+	//     'htmlOptions' => array('style'=>'white-space:nowrap'),
+	// ),
+	// array(
+	//     'header'=>CHtml::encode('ชื่อพนักงานขาย'),
+	//     'name'=>'Name',
+	//     'htmlOptions' => array('style'=>'white-space:nowrap'),
+	// ),
     array(
         'header'=>CHtml::encode('วันออกทริป'),
         'name'=>'Trip',
@@ -118,8 +128,23 @@ $this->widget('bootstrap.widgets.TbExtendedGridView', array(
 <?php $form = $this->beginWidget('CActiveForm'); ?>
 
 <div class="row">
-<?php echo CHtml::label('พนักกงานขาย: ',  'SaleId'); ?>
-<?php echo CHtml::dropDownList('SaleId',  null, Employee::model()->getAssignedOptions(), array(
+<?php // echo CHtml::label('พนักกงานขาย: ',  'SaleId'); ?>
+<?php /* echo CHtml::dropDownList('SaleId',  null, Employee::model()->getAssignedOptions(), array(
+					'ajax' => array(
+						'type'=>'POST', //request type
+						'url'=>CController::createUrl('/helper/getSaleLocations'),
+						'dataType'=>'json',
+ 		                'data'=>array('SaleId'=>'js:this.value',
+ 		                	'Trip'=>'js:Trip.value'),
+  		                'success'=>'function(data) {
+                    		$("#Province").html(data.provinces);
+                    		$("#District").html(data.districts);
+							$("#SubDistrict").html(data.subdistricts);
+                		}',
+					))); */ ?>
+<?php echo CHtml::label('หน่วยขาย: ',  'SaleId'); ?>
+<?php //echo CHtml::dropDownList('SaleId',  null, SaleUnit::model()->getUnassigendOptions()); ?>
+<?php echo CHtml::dropDownList('SaleId',  null, SaleUnit::model()->getOptions(), array(
 					'ajax' => array(
 						'type'=>'POST', //request type
 						'url'=>CController::createUrl('/helper/getSaleLocations'),

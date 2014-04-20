@@ -23,9 +23,11 @@ class ControlNoController extends GxController
 	public function actionIndex() {
 		$sql = <<<SQL
 		SELECT SaleId AS id, SaleId, SaleName, 
-		ControlId, ControlName, Year, Month, No
-		FROM (ControlNo JOIN SaleUnit USING(SaleId))
-		JOIN ControlRunning USING(ControlId)
+		ControlId, ControlName, Prefix, DeviceId, 
+		Year, Month, No
+		FROM ((ControlNo JOIN SaleUnit USING(SaleId))
+		JOIN ControlRunning USING(ControlId))
+		JOIN Device USING(SaleId)
 		ORDER BY SaleId, ControlId
 SQL;
 

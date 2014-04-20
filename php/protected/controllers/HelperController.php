@@ -490,6 +490,39 @@ class HelperController extends Controller
 			'fieldList' => $fieldList
 		));
 	}
+
+	public function actionGetNoPromotionLocations() {
+		$saleId = $_POST['SaleId'];
+
+		$data = Customer::model()->getNoPromotionProvinces($saleId);
+		$provinces = '';
+		foreach($data as $value=>$name)
+        	$provinces .= CHtml::tag('option',array('value'=>$value),CHtml::encode($name),true);
+
+        if (isset($_POST['Province']))
+	        $province = $_POST['Province'];
+	   	else
+	   		$province = array_shift(array_values($data));
+	    $data = Customer::model()->getNoPromotionDistricts($saleId,$province);
+	    $districts = '';
+    	foreach($data as $value=>$name)
+        	$districts .= CHtml::tag('option',array('value'=>$value),CHtml::encode($name),true);
+
+        if (isset($_POST['District']))
+	        $district = $_POST['District'];
+	   	else
+	   		$district = array_shift(array_values($data));
+	    $data = Customer::model()->getNoPromotionSubDistricts($saleId,$province,$district);
+	    $subdistricts = '';
+    	foreach($data as $value=>$name)
+        	$subdistricts .= CHtml::tag('option',array('value'=>$value),CHtml::encode($name),true);
+
+        echo CJSON::encode(array(
+              'provinces'=>$provinces,
+              'districts'=>$districts,
+              'subdistricts'=>$subdistricts,
+            ));
+	}
 	// Uncomment the following methods and override them if needed
 	/*
 	public function filters()

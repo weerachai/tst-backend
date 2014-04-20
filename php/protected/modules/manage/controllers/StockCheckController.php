@@ -57,6 +57,100 @@ SQL;
 		));
 	}
 
+	public function actionAdd() {
+		$SaleId = isset($_POST['SaleId'])? $_POST['SaleId'] : array_shift(array_keys(SaleUnit::model()->getOptions()));;
+		if (isset($_POST['ids'])) {
+			$this->batchAdd($SaleId, $_POST['ids']);
+			return;
+		}
+		$GrpLevel1Id = isset($_POST['GrpLevel1Id'])? $_POST['GrpLevel1Id'] : '%';
+		$GrpLevel2Id = isset($_POST['GrpLevel2Id'])? $_POST['GrpLevel2Id'] : '%';
+		$GrpLevel3Id = isset($_POST['GrpLevel3Id'])? $_POST['GrpLevel3Id'] : '%';		
+		if (empty($GrpLevel1Id))
+			$GrpLevel1Id = '%';
+		if (empty($GrpLevel2Id))
+			$GrpLevel2Id = '%';
+		if (empty($GrpLevel3Id))
+			$GrpLevel3Id = '%';
+		$sql = <<<SQL
+			SELECT ProductId AS id, ProductId, ProductName
+			FROM Product
+			WHERE Product.GrpLevel1Id LIKE '$GrpLevel1Id' AND
+			Product.GrpLevel2Id LIKE '$GrpLevel2Id' AND
+			Product.GrpLevel3Id LIKE '$GrpLevel3Id' AND
+			ProductId NOT IN (
+				SELECT P.ProductId 
+				FROM Product P JOIN StockCheckList S 
+				USING(GrpLevel1Id, GrpLevel2Id, GrpLevel3Id, ProductId)
+				WHERE SaleId='$SaleId'
+				UNION
+				SELECT P.ProductId 
+				FROM Product P JOIN StockCheckList S 
+				USING(GrpLevel1Id, GrpLevel2Id, GrpLevel3Id) 
+				WHERE SaleId='$SaleId' AND S.ProductId = ''
+				UNION
+				SELECT P.ProductId 
+				FROM Product P JOIN StockCheckList S 
+				USING(GrpLevel1Id, GrpLevel2Id) 
+				WHERE SaleId='$SaleId' AND S.GrpLevel3Id = '' 
+				AND S.ProductId = ''
+				UNION
+				SELECT P.ProductId 
+				FROM Product P JOIN StockCheckList S 
+				USING(GrpLevel1Id) 
+				WHERE SaleId='$SaleId' AND S.GrpLevel2Id = '' 
+				AND S.GrpLevel3Id = '' AND S.ProductId = ''
+			)
+SQL;
+
+
+		// Create filter model and set properties
+		$filtersForm = new FiltersForm;
+		if (isset($_GET['FiltersForm']))
+		    $filtersForm->filters=$_GET['FiltersForm'];
+		 
+		// Get rawData and create dataProvider
+		$rawData = Yii::app()->db->createCommand($sql)->queryAll();
+		$filteredData = $filtersForm->filter($rawData);
+		$dataProvider = new CArrayDataProvider($filteredData, array(
+    		'sort'=>array(
+        		'attributes'=>array(
+           	 	 'ProductId', 'ProductName'
+        		),
+    		),
+    		'pagination'=>array(
+        		'pageSize'=>count($rawData),
+    		),
+		));
+
+		// Render
+		$this->render('add', array(
+    		'filtersForm' => $filtersForm,
+    		'dataProvider' => $dataProvider,
+    		'SaleId' => $SaleId,
+    		'GrpLevel1Id' => (isset($_POST['GrpLevel1Id'])? $_POST['GrpLevel1Id'] : ''),
+    		'GrpLevel2Id' => (isset($_POST['GrpLevel2Id'])? $_POST['GrpLevel2Id'] : ''),
+    		'GrpLevel3Id' => (isset($_POST['GrpLevel3Id'])? $_POST['GrpLevel3Id'] : ''),
+		));
+	}
+
+ 	private function batchAdd($saleId, $ids) {
+ 		foreach ($ids as $id) {
+ 			$model = Product::model()->findByPk($id);
+ 			if ($model) {
+ 				$grp1 = $model->GrpLevel1Id;
+ 				$grp2 = $model->GrpLevel2Id;
+ 				$grp3 = $model->GrpLevel3Id;
+ 				$sql = <<<SQL
+					INSERT INTO StockCheckList 
+					VALUES('$saleId','$grp1','$grp2','$grp3','$id',now())
+SQL;
+				Yii::app()->db->createCommand($sql)->execute();
+			}
+		}
+ 		$this->redirect(array('index'));
+    }
+
 	public function actionDelete($saleId, $grpLevel1Id, $grpLevel2Id, $grpLevel3Id, $productId)
 	{
 		if (Yii::app()->getRequest()->getIsPostRequest()) {

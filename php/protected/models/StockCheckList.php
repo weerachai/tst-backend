@@ -12,7 +12,7 @@ class StockCheckList extends BaseStockCheckList
 		if (empty($saleId))
 			$saleId = array_shift(array_keys(SaleUnit::model()->getOptions()));
 		if (empty($saleId))
-			return array();
+			return array(''=>'(ทั้งหมด)');
 		$sql = <<<SQL
 			SELECT GrpLevel1Id, GrpLevel1Name
 			FROM Product JOIN GrpLevel1 USING(GrpLevel1Id)
@@ -43,7 +43,7 @@ class StockCheckList extends BaseStockCheckList
 SQL;
 
 		$data = Yii::app()->db->createCommand($sql)->queryAll();
-		return CHtml::listData($data,'GrpLevel1Id','GrpLevel1Name');
+		return array(''=>'(ทั้งหมด)') + CHtml::listData($data,'GrpLevel1Id','GrpLevel1Name');
 	}
 
 	public static function getCheckGrpLevel2($saleId,$grpLevel1Id) {
@@ -54,7 +54,7 @@ SQL;
 		if (empty($grpLevel1Id))
 			$grpLevel1Id = array_shift(array_keys(StockCheckList::model()->getCheckGrpLevel1($saleId)));
 		if (empty($grpLevel1Id))
-			return array();
+			return array(''=>'(ทั้งหมด)');
 
 		$sql = <<<SQL
 			SELECT GrpLevel2Id, GrpLevel2Name
@@ -97,7 +97,7 @@ SQL;
 		if (empty($grpLevel1Id))
 			$grpLevel1Id = array_shift(array_keys(StockCheckList::model()->getCheckGrpLevel1($saleId)));
 		if (empty($grpLevel1Id))
-			return array();
+			return array(''=>'(ทั้งหมด)');
 		
 		$sql = <<<SQL
 			SELECT GrpLevel3Id, GrpLevel3Name
@@ -141,7 +141,7 @@ SQL;
 		if (empty($grpLevel1Id))
 			$grpLevel1Id = array_shift(array_keys(StockCheckList::model()->getCheckGrpLevel1($saleId)));
 		if (empty($grpLevel1Id))
-			return array();
+			return array(''=>'(ทั้งหมด)');
 		
 		$sql = <<<SQL
 			SELECT ProductId, ProductName

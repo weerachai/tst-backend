@@ -36,6 +36,10 @@
  * @property string $ReturnCheck
  * @property string $NewFlag
  * @property string $DeleteFlag
+ * @property string $PromotionSku
+ * @property string $PromotionGroup
+ * @property string $PromotionBill
+ * @property string $PromotionAccu
  * @property string $UpdateAt
  *
  */
@@ -61,12 +65,12 @@ abstract class BaseCustomer extends GxActiveRecord {
 		return array(
 			array('CustomerName', 'required'),
 			array('CreditTerm', 'numerical', 'integerOnly'=>true),
-			array('CustomerId, SaleId, Title, CustomerName, Type, Trip1, Trip2, Trip3, Province, District, SubDistrict, ZipCode, AddrNo, Moo, Village, Soi, Road, Phone, ContactPerson, OverCreditType', 'length', 'max'=>255),
+			array('CustomerId, SaleId, Title, CustomerName, Type, Trip1, Trip2, Trip3, Province, District, SubDistrict, ZipCode, AddrNo, Moo, Village, Soi, Road, Phone, ContactPerson, OverCreditType, PromotionSku, PromotionGroup, PromotionBill, PromotionAccu', 'length', 'max'=>255),
 			array('CreditLimit, Due, PoseCheck, ReturnCheck', 'length', 'max'=>20),
 			array('NewFlag, DeleteFlag', 'length', 'max'=>1),
 			array('UpdateAt', 'safe'),
-			array('CustomerId, SaleId, Title, Type, Trip1, Trip2, Trip3, Province, District, SubDistrict, ZipCode, AddrNo, Moo, Village, Soi, Road, Phone, ContactPerson, CreditTerm, CreditLimit, OverCreditType, Due, PoseCheck, ReturnCheck, NewFlag, DeleteFlag, UpdateAt', 'default', 'setOnEmpty' => true, 'value' => null),
-			array('CustomerId, SaleId, Title, CustomerName, Type, Trip1, Trip2, Trip3, Province, District, SubDistrict, ZipCode, AddrNo, Moo, Village, Soi, Road, Phone, ContactPerson, CreditTerm, CreditLimit, OverCreditType, Due, PoseCheck, ReturnCheck, NewFlag, DeleteFlag, UpdateAt', 'safe', 'on'=>'search'),
+			array('CustomerId, SaleId, Title, Type, Trip1, Trip2, Trip3, Province, District, SubDistrict, ZipCode, AddrNo, Moo, Village, Soi, Road, Phone, ContactPerson, CreditTerm, CreditLimit, OverCreditType, Due, PoseCheck, ReturnCheck, NewFlag, DeleteFlag, PromotionSku, PromotionGroup, PromotionBill, PromotionAccu, UpdateAt', 'default', 'setOnEmpty' => true, 'value' => null),
+			array('CustomerId, SaleId, Title, CustomerName, Type, Trip1, Trip2, Trip3, Province, District, SubDistrict, ZipCode, AddrNo, Moo, Village, Soi, Road, Phone, ContactPerson, CreditTerm, CreditLimit, OverCreditType, Due, PoseCheck, ReturnCheck, NewFlag, DeleteFlag, PromotionSku, PromotionGroup, PromotionBill, PromotionAccu, UpdateAt', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -109,6 +113,10 @@ abstract class BaseCustomer extends GxActiveRecord {
 			'ReturnCheck' => Yii::t('app', 'Return Check'),
 			'NewFlag' => Yii::t('app', 'New Flag'),
 			'DeleteFlag' => Yii::t('app', 'Delete Flag'),
+			'PromotionSku' => Yii::t('app', 'Promotion Sku'),
+			'PromotionGroup' => Yii::t('app', 'Promotion Group'),
+			'PromotionBill' => Yii::t('app', 'Promotion Bill'),
+			'PromotionAccu' => Yii::t('app', 'Promotion Accu'),
 			'UpdateAt' => Yii::t('app', 'Update At'),
 		);
 	}
@@ -143,6 +151,10 @@ abstract class BaseCustomer extends GxActiveRecord {
 		$criteria->compare('ReturnCheck', $this->ReturnCheck, true);
 		$criteria->compare('NewFlag', $this->NewFlag, true);
 		$criteria->compare('DeleteFlag', $this->DeleteFlag, true);
+		$criteria->compare('PromotionSku', $this->PromotionSku, true);
+		$criteria->compare('PromotionGroup', $this->PromotionGroup, true);
+		$criteria->compare('PromotionBill', $this->PromotionBill, true);
+		$criteria->compare('PromotionAccu', $this->PromotionAccu, true);
 		$criteria->compare('UpdateAt', $this->UpdateAt, true);
 
 		return new CActiveDataProvider($this, array(

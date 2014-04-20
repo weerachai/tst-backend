@@ -7,7 +7,7 @@ class RunningController extends GxController
 		$sql = <<<SQL
 		SELECT DeviceId AS id, DeviceId, 
 		CONCAT(FirstName,' ',LastName) AS Name, SaleId,
-		ControlId, ControlName, Year, Month, No 
+		ControlId, ControlName, Prefix, Year, Month, No 
 		FROM (((SaleUnit JOIN Device USING(SaleId))
 		JOIN Employee USING(EmployeeId)) 
 		JOIN ControlNo USING(SaleId))
