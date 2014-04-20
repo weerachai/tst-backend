@@ -58,7 +58,7 @@ $columns = array(
     ),
 	array(
 		'class' => 'bootstrap.widgets.TbButtonColumn',
-		'template'=>'{view}{delete}',
+		'template'=>'{view} {delete}',
 		'buttons'=>array(
 			'view' => array(
 	    		'label'=>'แสดงรายชื่อร้านค้า',
