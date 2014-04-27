@@ -3,21 +3,19 @@
 class PromotionController extends GxController {
 
 	public function filters() {
-		return array(
-			'accessControl', 
-			);
+		return array('accessControl');
 	}
 
 	public function accessRules() {
 		return array(
-				array('allow', 
-					'actions'=>array('index','view','create','update','copy','delete','deleteProductGroup','deleteFreeGroup'),
-					'users'=>array('admin'),
-					),
-				array('deny', 
-					'users'=>array('*'),
-					),
-				);
+			array('allow', 
+				'actions'=>array('index','view','create','update','copy','delete','deleteProductGroup','deleteFreeGroup'),
+				'expression' => '$user->checkAccess("operator")', 
+			),
+			array('deny', 
+				'users'=>array('*'),
+			),
+		);
 	}
 
 	public function actionView($id) {

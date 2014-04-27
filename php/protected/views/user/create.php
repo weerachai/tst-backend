@@ -1,17 +1,19 @@
 <?php
-/* @var $this UserController */
-/* @var $model User */
 
-$this->breadcrumbs=array(
-	'Users'=>array('index'),
-	'Create',
+$this->breadcrumbs = array(
+	$model->label(2) => array('index'),
+	Yii::t('app', 'Create'),
 );
 
-$this->menu=array(
-	array('label'=>'Manage User', 'url'=>array('admin')),
+$this->menu = array(
+	array('label'=>Yii::t('app', 'Manage') . ' ' . $model->label(2), 'url' => array('admin')),
 );
 ?>
 
-<h1>Create User</h1>
+<h1><?php echo Yii::t('app', 'Create') . ' ' . GxHtml::encode($model->label()); ?></h1>
 
-<?php echo $this->renderPartial('_form', array('model'=>$model)); ?>
+<?php
+$this->renderPartial('_form', array(
+		'model' => $model,
+		'buttons' => 'create'));
+?>

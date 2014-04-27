@@ -1,49 +1,70 @@
-<?php
-/* @var $this UserController */
-/* @var $model User */
-/* @var $form CActiveForm */
-?>
-
 <div class="form">
 
-<?php $form=$this->beginWidget('CActiveForm', array(
-	'id'=>'user-form',
-	'enableAjaxValidation'=>false,
-)); ?>
 
-	<p class="note">Fields with <span class="required">*</span> are required.</p>
+<?php $form = $this->beginWidget('GxActiveForm', array(
+	'id' => 'user-form',
+	'enableAjaxValidation' => false,
+));
+?>
+
+<?php
+	if (Yii::app()->user->checkAccess('admin')) {
+		if (Yii::app()->user->getId() == $model->id)
+			$roles = array('admin'=>'Admin');
+		else
+			$roles = array('user'=>'User','manager'=>'Manager','admin'=>'Admin');
+	} else {
+		if (Yii::app()->user->getId() == $model->id)
+			$roles = array('manager'=>'Manager');
+		else
+			$roles = array('user'=>'User');
+	}
+?>
+	<p class="note">
+		<?php echo Yii::t('app', 'Fields with'); ?> <span class="required">*</span> <?php echo Yii::t('app', 'are required'); ?>.
+	</p>
 
 	<?php echo $form->errorSummary($model); ?>
 
-	<div class="row">
+		<div class="row">
 		<?php echo $form->labelEx($model,'username'); ?>
-		<?php echo $form->textField($model,'username',array('size'=>60,'maxlength'=>255)); ?>
+		<?php echo $form->textField($model, 'username', array('maxlength' => 255)); ?>
 		<?php echo $form->error($model,'username'); ?>
-	</div>
-
-	<div class="row">
+		</div><!-- row -->
+		<div class="row">
 		<?php echo $form->labelEx($model,'password'); ?>
-		<?php echo $form->passwordField($model,'password',array('size'=>60,'maxlength'=>255)); ?>
+		<?php echo $form->passwordField($model, 'password', array('maxlength' => 255)); ?>
 		<?php echo $form->error($model,'password'); ?>
-	</div>
-
-	<div class="row">
+		</div><!-- row -->
+		<div class="row">
+		<?php echo $form->labelEx($model,'repeat_password'); ?>
+		<?php echo $form->passwordField($model, 'repeat_password', array('maxlength' => 255)); ?>
+		<?php echo $form->error($model,'repeat_password'); ?>
+		</div><!-- row -->
+		<div class="row">
 		<?php echo $form->labelEx($model,'name'); ?>
-		<?php echo $form->textField($model,'name',array('size'=>60,'maxlength'=>255)); ?>
+		<?php echo $form->textField($model, 'name', array('maxlength' => 255)); ?>
 		<?php echo $form->error($model,'name'); ?>
-	</div>
-
-	<div class="row">
+		</div><!-- row -->
+		<div class="row">
 		<?php echo $form->labelEx($model,'role'); ?>
-		<?php echo $form->dropdownList($model,'role',array('user'=>'User','admin'=>'Admin','manager'=>'Manager')); ?>
+		<?php echo $form->dropdownList($model,'role',$roles, array(
+          	'ajax' => array(
+            'type'=>'POST', //request type
+            'url'=>CController::createUrl('/helper/getNoAccountUsers'),
+            'dataType'=>'json',
+                    'data'=>array('role'=>'js:this.value','id'=>$model->employee),
+                    'success'=>'function(data) {
+                        $("#User_employee").html(data.employee);
+                    }',
+          ))); ?>
 		<?php echo $form->error($model,'role'); ?>
-	</div>
-
-	<div class="row">
+		</div><!-- row -->
+		<div class="row">
 		<?php echo $form->labelEx($model,'employee'); ?>
-		<?php echo $form->textField($model,'employee',array('size'=>60,'maxlength'=>255)); ?>
+		<?php echo $form->dropdownList($model,'employee',$model->role=='user'||empty($model->role)?Employee::model()->getNoAccountOptions($model->employee):array(''=>'-')); ?>
 		<?php echo $form->error($model,'employee'); ?>
-	</div>
+		</div><!-- row -->
 
 	<div class="row buttons">
 		<?php echo CHtml::submitButton($model->isNewRecord ? 'Create' : 'Save'); ?>

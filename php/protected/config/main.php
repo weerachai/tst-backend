@@ -92,6 +92,7 @@ return array(
 
                 'authManager'=>array(
                         'class'=>'CDbAuthManager',
+                        'defaultRoles'=>array('authenticated', 'guest'),
                         'connectionID' => 'db',
                 ),
 

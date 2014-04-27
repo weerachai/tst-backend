@@ -2,27 +2,21 @@
 
 class OrderController extends GxController {
 
-public function filters() {
-	return array(
-			'accessControl', 
-			);
-}
+	public function filters() {
+		return array('accessControl');
+	}
 
-public function accessRules() {
-	return array(
+	public function accessRules() {
+		return array(
 			array('allow', 
-				'actions'=>array('index', 'view'),
-				'users'=>array('@'),
-				),
-			array('allow', 
-				'actions'=>array('minicreate', 'create', 'update', 'admin', 'delete'),
-				'users'=>array('admin'),
-				),
+				'actions'=>array('index'),
+				'expression'=>'$user->checkAccess("operator")', 
+			),
 			array('deny', 
 				'users'=>array('*'),
-				),
-			);
-}
+			),
+		);
+	}
 
 	public function actionIndex() {
 		unset(Yii::app()->request->cookies['from_date']);  // first unset cookie for dates

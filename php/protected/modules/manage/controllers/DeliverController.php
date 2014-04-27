@@ -2,6 +2,21 @@
 
 class DeliverController extends GxController
 {
+	public function filters() {
+		return array('accessControl');
+	}
+
+	public function accessRules() {
+		return array(
+			array('allow', 
+				'actions'=>array('index','view'),
+				'expression'=>'$user->checkAccess("operator")', 
+			),
+			array('deny', 
+				'users'=>array('*'),
+			),
+		);
+	}
 	public function actionIndex() { 
 		$from_date = isset($_POST['from_date'])? $_POST['from_date'] : '';
 		$to_date = isset($_POST['to_date']) ? $_POST['to_date'] : '';

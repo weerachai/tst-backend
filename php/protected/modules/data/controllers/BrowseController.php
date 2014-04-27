@@ -2,6 +2,21 @@
 
 class BrowseController extends GxController
 {
+	public function filters() {
+		return array('accessControl');
+	}
+
+	public function accessRules() {
+		return array(
+			array('allow', 
+				'actions'=>array('index','download','delete','upload'),
+				'expression'=>'$user->checkAccess("operator")', 
+			),
+			array('deny', 
+				'users'=>array('*'),
+			),
+		);
+	}
 	public function actionIndex($folder=null,$type='txt')
 	{
 		$dir = Yii::app()->basePath . "/../../files";

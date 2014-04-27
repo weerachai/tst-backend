@@ -2,28 +2,21 @@
 
 class StockIRController extends GxController {
 
-public function filters() {
-	return array(
-			'accessControl', 
-			);
-}
+	public function filters() {
+		return array('accessControl');
+	}
 
-public function accessRules() {
-	return array(
+	public function accessRules() {
+		return array(
 			array('allow', 
-				'actions'=>array('index', 'view'),
-				'users'=>array('@'),
-				),
-			array('allow', 
-				'actions'=>array('minicreate', 'create', 'update', 'admin', 'delete', 'deliver', 'ajaxupdate',
-					'confirm'),
-				'users'=>array('admin'),
-				),
+				'actions'=>array('admin','create','view','update','delete','Ajaxupdate','confirm','deliver'),
+				'expression'=>'$user->checkAccess("operator")', 
+			),
 			array('deny', 
 				'users'=>array('*'),
-				),
-			);
-}
+			),
+		);
+	}
 
 	public function actionView($id) {
 		$sql = <<<SQL

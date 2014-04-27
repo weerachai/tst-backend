@@ -2,27 +2,21 @@
 
 class StockDeliverController extends GxController {
 
-public function filters() {
-	return array(
-			'accessControl', 
-			);
-}
+	public function filters() {
+		return array('accessControl');
+	}
 
-public function accessRules() {
-	return array(
+	public function accessRules() {
+		return array(
 			array('allow', 
-				'actions'=>array('index', 'view'),
-				'users'=>array('@'),
-				),
-			array('allow', 
-				'actions'=>array('minicreate', 'create', 'update', 'admin', 'delete', 'ajaxupdate'),
-				'users'=>array('admin'),
-				),
+				'actions'=>array('update','view','create','update','delete','admin','ajaxUpdate'),
+				'expression'=>'$user->checkAccess("operator")', 
+			),
 			array('deny', 
 				'users'=>array('*'),
-				),
-			);
-}
+			),
+		);
+	}
 
 	public function actionView($id) {
 		$sql = <<<SQL

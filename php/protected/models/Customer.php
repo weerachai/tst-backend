@@ -192,7 +192,7 @@ class Customer extends BaseCustomer
 		if (empty($province))
 			return array('%'=>'-');
 		if (empty($district)) {
-			$lists = Customer::model()->getNoPromotionDistricts($saleId);
+			$lists = Customer::model()->getNoPromotionDistricts($saleId,$province);
 			array_shift($lists);
 			$district = array_shift($lists);;
 		}

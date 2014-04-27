@@ -2,27 +2,21 @@
 
 class StockRequestController extends GxController {
 
-public function filters() {
-	return array(
-			'accessControl', 
-			);
-}
+	public function filters() {
+		return array('accessControl');
+	}
 
-public function accessRules() {
-	return array(
+	public function accessRules() {
+		return array(
 			array('allow', 
-				'actions'=>array(),
-				'users'=>array('@'),
-				),
-			array('allow', 
-				'actions'=>array('minicreate', 'create', 'update', 'admin', 'delete', 'copy', 'view'),
-				'users'=>array('admin'),
-				),
+				'actions'=>array('admin','create','view','update','delete','deleteDetail','copy','confirm'),
+				'expression'=>'$user->checkAccess("operator")', 
+			),
 			array('deny', 
 				'users'=>array('*'),
-				),
-			);
-}
+			),
+		);
+	}
 
 	public function actionView($id) {
 		$model = new RequestDetail;

@@ -2,6 +2,21 @@
 
 class ImportController extends GxController
 {
+	public function filters() {
+		return array('accessControl');
+	}
+
+	public function accessRules() {
+		return array(
+			array('allow', 
+				'actions'=>array('index'),
+				'expression'=>'$user->checkAccess("operator")', 
+			),
+			array('deny', 
+				'users'=>array('*'),
+			),
+		);
+	}
 	private function col($index) {
 		if ($index < 26)
 			return chr(ord('A')+$index);

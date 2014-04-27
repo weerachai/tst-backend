@@ -8,7 +8,7 @@
           </a>
      
           <!-- Be sure to leave the brand out there if you want it shown -->
-          <a class="brand" href="#">Total Sales Tools <small>backend v1.0</small></a>
+          <a class="brand" href="index.php">Total Sales Tools <small>backend v1.0</small></a>
           
           <div class="nav-collapse">
 			<?php $this->widget('zii.widgets.CMenu',array(
@@ -18,11 +18,12 @@
                     'encodeLabel'=>false,
                     'items'=>array(
                         array('label'=>'Dashboard', 'url'=>array('/site/index')),
-                        array('label'=>'Setting', 'url'=>array('/master/config')),
-                        array('label'=>'Master & Formula', 'url'=>array('/master')),
-                        array('label'=>'กำหนดความสัมพันธ์', 'url'=>array('/manage')),
-                        array('label'=>'รายงาน', 'url'=>array('/report')),
-                        array('label'=>'Data', 'url'=>array('/data')),
+                        array('label'=>'Setting', 'url'=>array('/master/config'), 'visible'=>Yii::app()->user->checkAccess('admin')),
+                        array('label'=>'Master & Formula', 'url'=>array('/master'), 'visible'=>Yii::app()->user->checkAccess('operator')),
+                        array('label'=>'กำหนดความสัมพันธ์', 'url'=>array('/manage'), 'visible'=>Yii::app()->user->checkAccess('user')),
+                        array('label'=>'รายงาน', 'url'=>array('/report'), 'visible'=>Yii::app()->user->checkAccess('user')),
+                        array('label'=>'Data', 'url'=>array('/data'), 'visible'=>Yii::app()->user->checkAccess('operator')),
+                        array('label'=>'User', 'url'=>array('/user'), 'visible'=>!Yii::app()->user->isGuest),
                         array('label'=>'Login', 'url'=>array('/site/login'), 'visible'=>Yii::app()->user->isGuest),
                         array('label'=>'Logout ('.Yii::app()->user->name.')', 'url'=>array('/site/logout'), 'visible'=>!Yii::app()->user->isGuest),
                     ),

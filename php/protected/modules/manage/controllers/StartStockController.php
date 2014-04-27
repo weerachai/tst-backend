@@ -2,6 +2,21 @@
 
 class StartStockController extends GxController
 {
+	public function filters() {
+		return array('accessControl');
+	}
+
+	public function accessRules() {
+		return array(
+			array('allow', 
+				'actions'=>array('index','delete'),
+				'expression'=>'$user->checkAccess("operator")', 
+			),
+			array('deny', 
+				'users'=>array('*'),
+			),
+		);
+	}
 	public function actionIndex()
 	{
 		$model = new StockStartList;
@@ -11,8 +26,28 @@ class StartStockController extends GxController
 		if (isset($_POST['StockStartList'])) {
 			$model->setAttributes($_POST['StockStartList']);
 			$model->UpdateAt = date("Y-m-d H:i:s");
-			if ($model->save())
+			if ($model->save()) {
+				$sid = $model->SaleId;
+				$pid = $model->ProductId;
+				$stock = Stock::model()->find("SaleId=? AND ProductId=?", array($sid,$pid));
+				if ($stock) {
+					$stock->delete();
+				}
+				$stock = new Stock();	
+				$stock->SaleId = $sid;
+				$stock->ProductId = $pid;
+				$stock->StartQtyLevel1 = $model->QtyLevel1;
+				$stock->StartQtyLevel2 = $model->QtyLevel2;
+				$stock->StartQtyLevel3 = $model->QtyLevel3;
+				$stock->StartQtyLevel4 = $model->QtyLevel4;
+				$stock->CurrentQtyLevel1 = $model->QtyLevel1;
+				$stock->CurrentQtyLevel2 = $model->QtyLevel2;
+				$stock->CurrentQtyLevel3 = $model->QtyLevel3;
+				$stock->CurrentQtyLevel4 = $model->QtyLevel4;
+				$stock->UpdateAt = date("Y-m-d H:i:s");
+				$stock->save();
 				$model = new StockStartList;
+			}
 		}
 
 		$model->SaleId = array_shift(array_keys(SaleUnit::model()->getStockSaleOptions()));

@@ -523,6 +523,21 @@ class HelperController extends Controller
               'subdistricts'=>$subdistricts,
             ));
 	}
+	public function actionGetNoAccountUsers() {
+		$role = $_POST['role'];
+		$id = $_POST['id'];
+		if ($role == 'user')
+			$data = Employee::model()->getNoAccountOptions($id);
+		else
+			$data = array(''=>'-');
+		$employee = '';
+    	foreach($data as $value=>$name)
+        	$employee .= CHtml::tag('option',array('value'=>$value),CHtml::encode($name),true);
+
+        echo CJSON::encode(array(
+              'employee'=>$employee,
+        ));
+	}
 	// Uncomment the following methods and override them if needed
 	/*
 	public function filters()

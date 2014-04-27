@@ -1,33 +1,23 @@
-<?php
-/* @var $this UserController */
-/* @var $data User */
-?>
-
 <div class="view">
 
-	<b><?php echo CHtml::encode($data->getAttributeLabel('id')); ?>:</b>
-	<?php echo CHtml::link(CHtml::encode($data->id), array('view', 'id'=>$data->id)); ?>
+	<?php echo GxHtml::encode($data->getAttributeLabel('id')); ?>:
+	<?php echo GxHtml::link(GxHtml::encode($data->id), array('view', 'id' => $data->id)); ?>
 	<br />
 
-	<b><?php echo CHtml::encode($data->getAttributeLabel('username')); ?>:</b>
-	<?php echo CHtml::encode($data->username); ?>
+	<?php echo GxHtml::encode($data->getAttributeLabel('username')); ?>:
+	<?php echo GxHtml::encode($data->username); ?>
 	<br />
-
-	<b><?php echo CHtml::encode($data->getAttributeLabel('password')); ?>:</b>
-	<?php echo CHtml::encode($data->password); ?>
+	<?php echo GxHtml::encode($data->getAttributeLabel('password')); ?>:
+	<?php echo GxHtml::encode($data->password); ?>
 	<br />
-
-	<b><?php echo CHtml::encode($data->getAttributeLabel('name')); ?>:</b>
-	<?php echo CHtml::encode($data->name); ?>
+	<?php echo GxHtml::encode($data->getAttributeLabel('name')); ?>:
+	<?php echo GxHtml::encode($data->name); ?>
 	<br />
-
-	<b><?php echo CHtml::encode($data->getAttributeLabel('role')); ?>:</b>
-	<?php echo CHtml::encode($data->role); ?>
+	<?php echo GxHtml::encode($data->getAttributeLabel('role')); ?>:
+	<?php echo GxHtml::encode($data->role); ?>
 	<br />
-
-	<b><?php echo CHtml::encode($data->getAttributeLabel('employee')); ?>:</b>
-	<?php echo CHtml::encode($data->employee); ?>
+	<?php echo GxHtml::encode($data->getAttributeLabel('employee')); ?>:
+	<?php echo GxHtml::encode($data->employee); ?>
 	<br />
-
 
 </div>

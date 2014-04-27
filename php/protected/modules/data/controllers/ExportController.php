@@ -2,7 +2,21 @@
 
 class ExportController extends GxController
 {
-			
+	public function filters() {
+		return array('accessControl');
+	}
+
+	public function accessRules() {
+		return array(
+			array('allow', 
+				'actions'=>array('index','auto','stop'),
+				'expression'=>'$user->checkAccess("operator")', 
+			),
+			array('deny', 
+				'users'=>array('*'),
+			),
+		);
+	}	
 	private $tableList = array(
 			"Customer" => "Customer",
 			"Product" => "Product",

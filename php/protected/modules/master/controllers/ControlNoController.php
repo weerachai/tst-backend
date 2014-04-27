@@ -3,21 +3,19 @@
 class ControlNoController extends GxController
 {
 	public function filters() {
-		return array(
-				'accessControl', 
-				);
+		return array('accessControl');
 	}
 
 	public function accessRules() {
 		return array(
-				array('allow', 
-					'actions'=>array('index','update'),
-					'users'=>array('admin'),
-					),
-				array('deny', 
-					'users'=>array('*'),
-					),
-				);
+			array('allow', 
+				'actions'=>array('index','update'),
+				'expression' => '$user->checkAccess("operator")', 
+			),
+			array('deny', 
+				'users'=>array('*'),
+			),
+		);
 	}
 
 	public function actionIndex() {

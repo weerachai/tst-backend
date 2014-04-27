@@ -16,6 +16,7 @@ class Employee extends BaseEmployee
 		return array(
 			'saleArea' => array(self::BELONGS_TO, 'SaleArea', 'SupervisorId'),
 			'saleUnit' => array(self::HAS_ONE, 'SaleUnit', 'EmployeeId'),
+			'user' => array(self::HAS_ONE, 'User', 'employee'),
 		);
 	}
 
@@ -64,4 +65,15 @@ class Employee extends BaseEmployee
 				}
 			);
 	}	
+
+	public static function getNoAccountOptions($id) {
+		if (empty($id))
+			$id = -1;
+		return array(''=>'-')+CHtml::listData(Employee::model()->with('user')->findAll('username IS NULL OR EmployeeId = ?', array($id)), 
+				'EmployeeId', 
+				function($row) {
+					return CHtml::encode($row->FirstName.' '.$row->LastName);
+				}
+			);
+	}
 }

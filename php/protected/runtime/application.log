@@ -919,3 +919,4 @@ Stack trace:
 #8 /home/tu/www/backend/php/protected/yiic(4): require_once()
 
 2014/04/20 17:54:47 [error] [system.db.CDbCommand] CDbCommand::execute() failed: SQLSTATE[21S01]: Insert value list does not match column list: 1136 Column count doesn't match value count at row 1. The SQL statement executed was: INSERT INTO DeviceSetting VALUES('N004','หน่วยรถ',null,null,null,null,'sku','N',60,50,'cash',20000,now()).
+2014/04/27 17:23:06 [error] [system.db.CDbCommand] CDbCommand::execute() failed: SQLSTATE[23000]: Integrity constraint violation: 1062 Duplicate entry 'updateSelf' for key 'PRIMARY'. The SQL statement executed was: INSERT INTO AuthItem VALUES('updateSelf',1,'Update own information','return Yii::app()->user->getId()==$params["id"];','N;').
