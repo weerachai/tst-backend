@@ -34,9 +34,54 @@
                     		$("#'.CHtml::activeId($model,'ProductOrGrpId').'").html(data.ProductOrGrpId);
                 		}',
 					))); ?>
+	<?php if ($type == 'sku'): ?>
+	    <?php echo $form->dropDownListRow($model, 'GrpLevel1Id', Product::model()->getGroupLevel1(), array(
+                    'ajax' => array(
+                        'type'=>'POST', //request type
+                        'url'=>CController::createUrl('/helper/getProductOptions'),
+                        'dataType'=>'json',
+                        'data'=>array('GrpLevel1Id'=>'js:this.value'),
+                        'success'=>'function(data) {
+                            $("#'.CHtml::activeId($model, "GrpLevel2Id").'").html(data.grp2);
+                            $("#'.CHtml::activeId($model, "GrpLevel3Id").'").html(data.grp3);
+                            $("#'.CHtml::activeId($model, "ProductOrGrpId").'").html(data.pro);
+                        }',
+                    ),
+                    'empty' => 'ทั้งหมด',
+                    )); ?>
+
+<?php echo $form->dropDownListRow($model, 'GrpLevel2Id', Product::model()->getGroupLevel2(''), array(
+                    'ajax' => array(
+                        'type'=>'POST', //request type
+                        'url'=>CController::createUrl('/helper/getProductOptions'),
+                        'dataType'=>'json',
+                        'data'=>array('GrpLevel1Id'=>'js:'.CHtml::activeId($model,'GrpLevel1Id').'.value',
+                            'GrpLevel2Id'=>'js:this.value'),
+                        'success'=>'function(data) {
+                            $("#'.CHtml::activeId($model, "GrpLevel3Id").'").html(data.grp3);
+                            $("#'.CHtml::activeId($model, "ProductOrGrpId").'").html(data.pro);
+                        }',
+                    ),
+                    'empty' => 'ทั้งหมด',
+                    )); ?>
+
+<?php echo $form->dropDownListRow($model, 'GrpLevel3Id', Product::model()->getGroupLevel3(''), array(
+                    'ajax' => array(
+                        'type'=>'POST', //request type
+                        'url'=>CController::createUrl('/helper/getProductOptions'),
+                        'dataType'=>'json',
+                        'data'=>array('GrpLevel1Id'=>'js:'.CHtml::activeId($model,'GrpLevel1Id').'.value',
+                            'GrpLevel2Id'=>'js:'.CHtml::activeId($model,'GrpLevel2Id').'.value',
+                            'GrpLevel3Id'=>'js:this.value'),
+                        'success'=>'function(data) {
+                            $("#'.CHtml::activeId($model, "ProductOrGrpId").'").html(data.pro);
+                        }',
+                    ),
+                    'empty' => 'ทั้งหมด',
+                    )); ?>
+    <?php endif ?>
 	<?php if ($type != 'bill')
-			echo $form->dropDownListRow($model, 'ProductOrGrpId', $model->getProductsOrGroups()); ?>
-	
+			echo $form->dropDownListRow($model, 'ProductOrGrpId', $model->getProductsOrGroups()); ?>	
 	<div class="well well-small">ซื้อขั้นต่ำ:</div>
 	<?php echo $form->textFieldRow($model, 'MinAmount', array('append'=>' บาท',
 					'disabled'=>($model->MinSku > 0 || $model->MinQty > 0),

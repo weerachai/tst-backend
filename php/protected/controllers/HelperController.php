@@ -282,6 +282,51 @@ class HelperController extends Controller
             ));
 	}
 
+	public function actionGetProductOptions() {
+        if (isset($_POST['GrpLevel1Id']))
+	        $grpLevel1Id = $_POST['GrpLevel1Id'];
+	   	else
+	   		$grpLevel1Id = '%';
+	    $data = Product::model()->getGroupLevel2($grpLevel1Id);
+	    $grp2 = '<option>ทั้งหมด</option>';
+    	foreach($data as $value=>$name)
+        	$grp2 .= CHtml::tag('option',array('value'=>$value),CHtml::encode($name),true);
+
+        if (isset($_POST['GrpLevel2Id']))
+	        $grpLevel2Id = $_POST['GrpLevel2Id'];
+	   	else
+	   		$grpLevel2Id = '%';
+	    $data = Product::model()->getGroupLevel3($grpLevel2Id);
+	    $grp3 = '<option>ทั้งหมด</option>';
+    	foreach($data as $value=>$name)
+        	$grp3 .= CHtml::tag('option',array('value'=>$value),CHtml::encode($name),true);
+
+        if (isset($_POST['GrpLevel3Id']))
+	        $grpLevel3Id = $_POST['GrpLevel3Id'];
+	   	else
+	   		$grpLevel3Id = '%';
+	    $data = Product::model()->getOptions($grpLevel1Id,$grpLevel2Id,$grpLevel3Id);
+	    $pro = '';
+    	foreach($data as $value=>$name)
+        	$pro .= CHtml::tag('option',array('value'=>$value),CHtml::encode($name),true);
+
+        if (isset($_POST['ProductId']))
+	        $productId = $_POST['ProductId'];
+	   	else
+	   		$productId = array_shift(array_keys($data));
+	   	$data = Product::model()->getPacks($productId);
+	    $pack = '';
+    	foreach($data as $value=>$name)
+        	$pack .= CHtml::tag('option',array('value'=>$value),CHtml::encode($name),true);
+
+        echo CJSON::encode(array(
+              'grp2'=>$grp2,
+              'grp3'=>$grp3,
+              'pro'=>$pro,
+              'pack'=>$pack,
+            ));
+	}
+
 	public function actionGetRequestId() {
 		$saleId = $_POST['SaleId'];
  		echo ControlNo::model()->getControlNo($saleId,'ใบเบิกสินค้า');

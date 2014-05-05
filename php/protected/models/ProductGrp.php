@@ -4,6 +4,9 @@ Yii::import('application.models._base.BaseProductGrp');
 
 class ProductGrp extends BaseProductGrp
 {
+	public $GrpLevel1Id;
+	public $GrpLevel2Id;
+	public $GrpLevel3Id;
 	public static function model($className=__CLASS__) {
 		return parent::model($className);
 	}
@@ -22,7 +25,10 @@ class ProductGrp extends BaseProductGrp
 	public function attributeLabels() {
 		return array(
 			'ProductGrpId' => Yii::t('app', 'รหัสกลุ่มสินค้า'),
-			'ProductId' => Yii::t('app', 'รหัสสินค้า'),
+			'GrpLevel1Id' => Yii::t('app', 'กลุ่มใหญ่'),
+			'GrpLevel2Id' => Yii::t('app', 'กลุ่มกลาง'),
+			'GrpLevel3Id' => Yii::t('app', 'กลุ่มย่อย'),
+			'ProductId' => Yii::t('app', 'ชื่อสินค้า'),
 		);
 	}
 }

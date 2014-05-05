@@ -20,8 +20,8 @@ class Product extends BaseProduct
 		);
 	}
 
-	public static function getOptions() {
-		return CHtml::listData(Product::model()->findAll(), 
+	public static function getOptions($grp1='%',$grp2='%',$grp3='%') {
+		return CHtml::listData(Product::model()->findAll('GrpLevel1Id LIKE ? AND GrpLevel2Id LIKE ? AND GrpLevel3Id LIKE ?',array($grp1,$grp2,$grp3)), 
 				'ProductId', 'ProductName'
 			);
 	}
@@ -34,24 +34,27 @@ class Product extends BaseProduct
 		return CHtml::listData($data,'GrpLevel1Id','GrpLevel1Name');
 	}
 
-	public static function getGroupLevel2() {
+	public static function getGroupLevel2($grp1='%') {
 		$data = GrpLevel2::model()->findAll(array(
+				'condition'=>"GrpLevel1Id LIKE '$grp1'",
 				'select'=>'GrpLevel2Id, GrpLevel2Name',
 				'distinct'=>true
 				));
 		return CHtml::listData($data,'GrpLevel2Id','GrpLevel2Name');
 	}
 
-	public static function getGroupLevel3() {
+	public static function getGroupLevel3($grp2='%') {
 		$data = GrpLevel3::model()->findAll(array(
+				'condition'=>"GrpLevel2Id LIKE '$grp2'",
 				'select'=>'GrpLevel3Id, GrpLevel3Name',
 				'distinct'=>true
 				));
 		return CHtml::listData($data,'GrpLevel3Id','GrpLevel3Name');
 	}
 
-	public static function getPacks() {
+	public static function getPacks($proId='%') {
 		$data = Product::model()->findAll(array(
+				'condition'=>"ProductId LIKE '$proId'",
 				'select'=>'PackLevel1',
 				'distinct'=>true,
 				'condition'=>'PackLevel1 IS NOT NULL AND length(trim(PackLevel1)) > 0'
@@ -59,6 +62,7 @@ class Product extends BaseProduct
 		$list = CHtml::listData($data,'PackLevel1','PackLevel1');
 
 		$data = Product::model()->findAll(array(
+				'condition'=>"ProductId LIKE '$proId'",
 				'select'=>'PackLevel2',
 				'distinct'=>true,
 				'condition'=>'PackLevel2 IS NOT NULL AND length(trim(PackLevel2)) > 0'
@@ -66,6 +70,7 @@ class Product extends BaseProduct
 		$list = array_merge($list,CHtml::listData($data,'PackLevel2','PackLevel2'));
 
 		$data = Product::model()->findAll(array(
+				'condition'=>"ProductId LIKE '$proId'",
 				'select'=>'PackLevel3',
 				'distinct'=>true,
 				'condition'=>'PackLevel3 IS NOT NULL AND length(trim(PackLevel3)) > 0'
@@ -73,6 +78,7 @@ class Product extends BaseProduct
 		$list = array_merge($list,CHtml::listData($data,'PackLevel3','PackLevel3'));
 
 		$data = Product::model()->findAll(array(
+				'condition'=>"ProductId LIKE '$proId'",
 				'select'=>'PackLevel4',
 				'distinct'=>true,
 				'condition'=>'PackLevel4 IS NOT NULL AND length(trim(PackLevel4)) > 0'

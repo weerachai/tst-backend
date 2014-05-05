@@ -7,7 +7,7 @@ class m130415_111600_create_tables extends CDbMigration
 
     $this->reset();
     
-    $TESTING = true;
+    $TESTING = false;
     
     // System User Management Tables
     $this->createTable('User', 

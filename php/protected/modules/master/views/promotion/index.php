@@ -214,6 +214,50 @@ $this->widget('bootstrap.widgets.TbGridView', array(
 
     <fieldset>
     <?php echo $form->textFieldRow($model2, 'ProductGrpId', array('maxlength' => 50)); ?>
+    <?php echo $form->dropDownListRow($model2, 'GrpLevel1Id', Product::model()->getGroupLevel1(), array(
+                    'ajax' => array(
+                        'type'=>'POST', //request type
+                        'url'=>CController::createUrl('/helper/getProductOptions'),
+                        'dataType'=>'json',
+                        'data'=>array('GrpLevel1Id'=>'js:this.value'),
+                        'success'=>'function(data) {
+                            $("#'.CHtml::activeId($model2, "GrpLevel2Id").'").html(data.grp2);
+                            $("#'.CHtml::activeId($model2, "GrpLevel3Id").'").html(data.grp3);
+                            $("#'.CHtml::activeId($model2, "ProductId").'").html(data.pro);
+                        }',
+                    ),
+                    'empty' => 'ทั้งหมด',
+                    )); ?>
+
+<?php echo $form->dropDownListRow($model2, 'GrpLevel2Id', Product::model()->getGroupLevel2(''), array(
+                    'ajax' => array(
+                        'type'=>'POST', //request type
+                        'url'=>CController::createUrl('/helper/getProductOptions'),
+                        'dataType'=>'json',
+                        'data'=>array('GrpLevel1Id'=>'js:'.CHtml::activeId($model2,'GrpLevel1Id').'.value',
+                            'GrpLevel2Id'=>'js:this.value'),
+                        'success'=>'function(data) {
+                            $("#'.CHtml::activeId($model2, "GrpLevel3Id").'").html(data.grp3);
+                            $("#'.CHtml::activeId($model2, "ProductId").'").html(data.pro);
+                        }',
+                    ),
+                    'empty' => 'ทั้งหมด',
+                    )); ?>
+
+<?php echo $form->dropDownListRow($model2, 'GrpLevel3Id', Product::model()->getGroupLevel3(''), array(
+                    'ajax' => array(
+                        'type'=>'POST', //request type
+                        'url'=>CController::createUrl('/helper/getProductOptions'),
+                        'dataType'=>'json',
+                        'data'=>array('GrpLevel1Id'=>'js:'.CHtml::activeId($model2,'GrpLevel1Id').'.value',
+                            'GrpLevel2Id'=>'js:'.CHtml::activeId($model2,'GrpLevel2Id').'.value',
+                            'GrpLevel3Id'=>'js:this.value'),
+                        'success'=>'function(data) {
+                            $("#'.CHtml::activeId($model2, "ProductId").'").html(data.pro);
+                        }',
+                    ),
+                    'empty' => 'ทั้งหมด',
+                    )); ?>
     <?php echo $form->dropDownListRow($model2, 'ProductId', Product::model()->getOptions()); ?>
     </fieldset>
  
@@ -291,7 +335,66 @@ $this->widget('bootstrap.widgets.TbGridView', array(
 
     <fieldset>
     <?php echo $form->textFieldRow($model3, 'FreeGrpId', array('maxlength' => 50)); ?>
-    <?php echo $form->dropDownListRow($model3, 'ProductId', Product::model()->getOptions()); ?>
+    <?php echo $form->dropDownListRow($model3, 'GrpLevel1Id', Product::model()->getGroupLevel1(), array(
+                    'ajax' => array(
+                        'type'=>'POST', //request type
+                        'url'=>CController::createUrl('/helper/getProductOptions'),
+                        'dataType'=>'json',
+                        'data'=>array('GrpLevel1Id'=>'js:this.value'),
+                        'success'=>'function(data) {
+                            $("#'.CHtml::activeId($model3, "GrpLevel2Id").'").html(data.grp2);
+                            $("#'.CHtml::activeId($model3, "GrpLevel3Id").'").html(data.grp3);
+                            $("#'.CHtml::activeId($model3, "ProductId").'").html(data.pro);
+                            $("#'.CHtml::activeId($model3, "FreePack").'").html(data.pack);
+                        }',
+                    ),
+                    'empty' => 'ทั้งหมด',
+                    )); ?>
+
+<?php echo $form->dropDownListRow($model3, 'GrpLevel2Id', Product::model()->getGroupLevel2(''), array(
+                    'ajax' => array(
+                        'type'=>'POST', //request type
+                        'url'=>CController::createUrl('/helper/getProductOptions'),
+                        'dataType'=>'json',
+                        'data'=>array('GrpLevel1Id'=>'js:'.CHtml::activeId($model3,'GrpLevel1Id').'.value',
+                            'GrpLevel2Id'=>'js:this.value'),
+                        'success'=>'function(data) {
+                            $("#'.CHtml::activeId($model3, "GrpLevel3Id").'").html(data.grp3);
+                            $("#'.CHtml::activeId($model3, "ProductId").'").html(data.pro);
+                            $("#'.CHtml::activeId($model3, "FreePack").'").html(data.pack);
+                        }',
+                    ),
+                    'empty' => 'ทั้งหมด',
+                    )); ?>
+
+<?php echo $form->dropDownListRow($model3, 'GrpLevel3Id', Product::model()->getGroupLevel3(''), array(
+                    'ajax' => array(
+                        'type'=>'POST', //request type
+                        'url'=>CController::createUrl('/helper/getProductOptions'),
+                        'dataType'=>'json',
+                        'data'=>array('GrpLevel1Id'=>'js:'.CHtml::activeId($model3,'GrpLevel1Id').'.value',
+                            'GrpLevel2Id'=>'js:'.CHtml::activeId($model3,'GrpLevel2Id').'.value',
+                            'GrpLevel3Id'=>'js:this.value'),
+                        'success'=>'function(data) {
+                            $("#'.CHtml::activeId($model3, "ProductId").'").html(data.pro);
+                            $("#'.CHtml::activeId($model3, "FreePack").'").html(data.pack);
+                        }',
+                    ),
+                    'empty' => 'ทั้งหมด',
+                    )); ?>
+    <?php echo $form->dropDownListRow($model3, 'ProductId', Product::model()->getOptions(), array(
+                    'ajax' => array(
+                        'type'=>'POST', //request type
+                        'url'=>CController::createUrl('/helper/getProductOptions'),
+                        'dataType'=>'json',
+                        'data'=>array('GrpLevel1Id'=>'js:'.CHtml::activeId($model3,'GrpLevel1Id').'.value',
+                            'GrpLevel2Id'=>'js:'.CHtml::activeId($model3,'GrpLevel2Id').'.value',
+                            'GrpLevel3Id'=>'js:'.CHtml::activeId($model3,'GrpLevel3Id').'.value',
+                            'ProductId'=>'js:this.value'),
+                        'success'=>'function(data) {
+                            $("#'.CHtml::activeId($model3, "FreePack").'").html(data.pack);
+                        }',
+                    ))); ?>    
     <?php echo $form->dropDownListRow($model3, 'FreePack', Product::model()->getPacks()); ?>
     </fieldset>
  
