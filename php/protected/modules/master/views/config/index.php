@@ -14,6 +14,7 @@ $this->menu=array(
 	'data' => $model,
     'attributes'=>array(
 	    array('name'=>'DayToClear', 'type'=>'raw', 'value'=>$model->DayToClear.' วัน'),
+	    array('name'=>'VatPercent', 'type'=>'raw', 'value'=>$model->VatPercent.'%'),
 	    array('name'=>'Vat', 'type'=>'raw', 'value'=>($model->Vat == 'bill' ? 'ท้ายบิล' : 'รายสินค้า')),
 	    array('name'=>'OverStock', 'type'=>'raw', 'value'=>($model->OverStock == 'Y' ? 'ได้' : 'ไม่ได้')),
  	    array('name'=>'ExchangeDiff', 'type'=>'raw', 'value'=>$model->ExchangeDiff.' บาท'),

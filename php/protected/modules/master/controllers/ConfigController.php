@@ -38,6 +38,7 @@ class ConfigController extends GxController
 				$now = date("Y-m-d H:i:s");
 				$sql = "UPDATE DeviceSetting SET ";
 				$sql .= "DayToClear = " . $_POST['Config']['DayToClear'];
+				$sql .= ", VatPercent = '" . $_POST['Config']['VatPercent'] . "'";
 				$sql .= ", Vat = '" . $_POST['Config']['Vat'] . "'";
 				$sql .= ", OverStock = '" . $_POST['Config']['OverStock'] . "'";
 				$sql .= ", ExchangeDiff = " . $_POST['Config']['ExchangeDiff'];

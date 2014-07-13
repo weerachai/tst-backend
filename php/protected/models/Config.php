@@ -11,6 +11,7 @@ class Config extends BaseConfig
 	public function attributeLabels() {
 		return array(
 			'DayToClear' => Yii::t('app', 'จำนวนวันเก็บข้อมูลบน Device'),
+			'VatPercent' => Yii::t('app', 'ค่า vat'),
 			'Vat' => Yii::t('app', 'การคิด vat'),
 			'OverStock' => Yii::t('app', 'ขายเกินจำนวนสต็อค'),
 			'ExchangeDiff' => Yii::t('app', 'ส่วนต่างแลกเปลี่ยนสินค้า'),
@@ -20,8 +21,9 @@ class Config extends BaseConfig
 
 	public function rules() {
 		return array(
-			array('DayToClear, Vat, OverStock, ExchangeDiff, ExchangePaymentMethod', 'required'),
+			array('DayToClear, VatPercent, Vat, OverStock, ExchangeDiff, ExchangePaymentMethod', 'required'),
 			array('DayToClear', 'numerical', 'integerOnly'=>true, 'min'=>60),
+			array('VatPercent', 'numerical', 'min'=>0),
 			array('ExchangeDiff', 'numerical', 'integerOnly'=>true, 'min'=>0),
 		);
 	}

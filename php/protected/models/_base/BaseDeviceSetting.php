@@ -11,6 +11,7 @@
  *
  * @property string $SaleId
  * @property string $SaleType
+ * @property string $VatPercent
  * @property string $Vat
  * @property string $OverStock
  * @property integer $DayToClear
@@ -41,13 +42,14 @@ abstract class BaseDeviceSetting extends GxActiveRecord {
 
 	public function rules() {
 		return array(
-			array('SaleId, SaleType, Vat, OverStock, DayToClear, ExchangeDiff, ExchangePaymentMethod', 'required'),
+			array('SaleId, SaleType, VatPercent, Vat, OverStock, DayToClear, ExchangeDiff, ExchangePaymentMethod', 'required'),
 			array('DayToClear, ExchangeDiff, Capacity', 'numerical', 'integerOnly'=>true),
 			array('SaleId, SaleType, Vat, ExchangePaymentMethod', 'length', 'max'=>255),
+			array('VatPercent', 'length', 'max'=>10),
 			array('OverStock', 'length', 'max'=>1),
 			array('UpdateAt', 'safe'),
 			array('Capacity, UpdateAt', 'default', 'setOnEmpty' => true, 'value' => null),
-			array('SaleId, SaleType, Vat, OverStock, DayToClear, ExchangeDiff, ExchangePaymentMethod, Capacity, UpdateAt', 'safe', 'on'=>'search'),
+			array('SaleId, SaleType, VatPercent, Vat, OverStock, DayToClear, ExchangeDiff, ExchangePaymentMethod, Capacity, UpdateAt', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -66,6 +68,7 @@ abstract class BaseDeviceSetting extends GxActiveRecord {
 		return array(
 			'SaleId' => null,
 			'SaleType' => Yii::t('app', 'Sale Type'),
+			'VatPercent' => Yii::t('app', 'Vat Percent'),
 			'Vat' => Yii::t('app', 'Vat'),
 			'OverStock' => Yii::t('app', 'Over Stock'),
 			'DayToClear' => Yii::t('app', 'Day To Clear'),
@@ -82,6 +85,7 @@ abstract class BaseDeviceSetting extends GxActiveRecord {
 
 		$criteria->compare('SaleId', $this->SaleId);
 		$criteria->compare('SaleType', $this->SaleType, true);
+		$criteria->compare('VatPercent', $this->VatPercent, true);
 		$criteria->compare('Vat', $this->Vat, true);
 		$criteria->compare('OverStock', $this->OverStock, true);
 		$criteria->compare('DayToClear', $this->DayToClear);

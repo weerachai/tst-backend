@@ -54,7 +54,7 @@ class OrderController extends GxController {
 		ORDER BY id
 SQL;
 
-		echo $sql;
+//		echo $sql;
 		// Create filter model and set properties
 		$filtersForm = new FiltersForm;
 		if (isset($_GET['FiltersForm']))

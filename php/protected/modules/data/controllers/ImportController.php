@@ -39,7 +39,9 @@ class ImportController extends GxController
 	public function actionIndex()
 	{
 
-		if (isset($_POST['Table'])) {
+		$message = '';
+		$error = '';
+		if (isset($_POST['Table']) && isset($_POST['Folder']) && isset($_POST['FileName'])) {
 			$table = $_POST['Table'];
 			$folder = $_POST['Folder'];
 			$fileName = $_POST['FileName'];
@@ -183,7 +185,10 @@ SQL;
 				return;
 			}
 		} else {
-			$message = '';
+			if (!isset($_POST['Folder']))
+				$error = 'ท่านไม่ได้เลือก folder';
+			elseif (!isset($_POST['FileName']))
+				$error = 'ท่านไม่ได้เลือกไฟล์';
 		}
 
 		$tableList = array(
@@ -218,6 +223,7 @@ SQL;
     		'fileList' => $fileList,
     		'fieldList' => $fieldList,
     		'message' => $message,
+    		'error' => $error,
 		));
 	}
 

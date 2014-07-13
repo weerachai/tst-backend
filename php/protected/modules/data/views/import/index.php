@@ -9,6 +9,7 @@ $this->breadcrumbs=array(
 <h3>นำข้อมูลเข้า</h3>
 
 <h5 style="color:green"><?php echo $message; ?></h5>
+<h5 style="color:red"><?php echo $error; ?></h5>
 
 <div>
 <?php $form = $this->beginWidget('bootstrap.widgets.TbActiveForm'); ?>

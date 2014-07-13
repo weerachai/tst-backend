@@ -11,6 +11,7 @@
  *
  * @property integer $id
  * @property integer $DayToClear
+ * @property string $VatPercent
  * @property string $Vat
  * @property string $OverStock
  * @property integer $ExchangeDiff
@@ -33,18 +34,19 @@ abstract class BaseConfig extends GxActiveRecord {
 	}
 
 	public static function representingColumn() {
-		return 'Vat';
+		return 'VatPercent';
 	}
 
 	public function rules() {
 		return array(
-			array('DayToClear, Vat, OverStock, ExchangeDiff', 'required'),
+			array('DayToClear, VatPercent, Vat, OverStock, ExchangeDiff', 'required'),
 			array('DayToClear, ExchangeDiff', 'numerical', 'integerOnly'=>true),
+			array('VatPercent', 'length', 'max'=>10),
 			array('Vat, ExchangePaymentMethod', 'length', 'max'=>255),
 			array('OverStock', 'length', 'max'=>1),
 			array('UpdateAt', 'safe'),
 			array('ExchangePaymentMethod, UpdateAt', 'default', 'setOnEmpty' => true, 'value' => null),
-			array('id, DayToClear, Vat, OverStock, ExchangeDiff, ExchangePaymentMethod, UpdateAt', 'safe', 'on'=>'search'),
+			array('id, DayToClear, VatPercent, Vat, OverStock, ExchangeDiff, ExchangePaymentMethod, UpdateAt', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -62,6 +64,7 @@ abstract class BaseConfig extends GxActiveRecord {
 		return array(
 			'id' => Yii::t('app', 'ID'),
 			'DayToClear' => Yii::t('app', 'Day To Clear'),
+			'VatPercent' => Yii::t('app', 'Vat Percent'),
 			'Vat' => Yii::t('app', 'Vat'),
 			'OverStock' => Yii::t('app', 'Over Stock'),
 			'ExchangeDiff' => Yii::t('app', 'Exchange Diff'),
@@ -75,6 +78,7 @@ abstract class BaseConfig extends GxActiveRecord {
 
 		$criteria->compare('id', $this->id);
 		$criteria->compare('DayToClear', $this->DayToClear);
+		$criteria->compare('VatPercent', $this->VatPercent, true);
 		$criteria->compare('Vat', $this->Vat, true);
 		$criteria->compare('OverStock', $this->OverStock, true);
 		$criteria->compare('ExchangeDiff', $this->ExchangeDiff);
